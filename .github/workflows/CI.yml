@@ -27,3 +27,5 @@ jobs:
     # Ensure the site succeeds Hugo builds.
     - name: Build Hugo
       uses: lowply/build-hugo@v0.69.0
+    - name: Copy to Public
+      run: cp -R public/* "$GITHUB_WORKSPACE"/public
