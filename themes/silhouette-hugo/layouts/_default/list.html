@@ -1,0 +1,55 @@
+{{ define "header" }}
+{{ if .IsHome }}
+<header class="feature-image">
+  <div class="feature-image-text white-shadow-text">
+  </div>
+</header>
+{{ end }}
+
+{{- end }}
+{{- define "main" }}
+<div class="container mt-4 mb-4 recent-posts internal">
+  {{- if not .IsHome }}
+  <header class="internal">
+    <div class="post mb-0">
+      {{- $count := 1 }}
+      {{- if or (eq .Type "categories") (eq .Type "tags") }}
+      {{- $title := urlize .Title }}
+      {{- $taxonomies := .Site.Taxonomies.categories }}
+      {{- if eq .Type "tags" }}
+        {{- $taxonomies = .Site.Taxonomies.tags }}
+      {{- end }}
+      {{- range $name, $taxonomy := $taxonomies }}
+      {{- $term := urlize $name }}
+      {{- if eq $term $title }}
+      {{ $count = $taxonomy.Count }}
+      {{- end }}
+      {{- end }}
+      {{- end }}
+      <h1 class="tag-title" data-count="{{ $count }}">{{- upper .Title}}</h1>
+    </div>
+  </header>
+  {{- end }}
+  {{- $pages := .Pages }}
+  {{- if .IsHome }}
+  {{- $pages = where site.RegularPages "Type" "in" site.Params.mainSections }}
+  {{ end }}
+  {{- $paginator := .Paginate (where $pages "Params.hidden" "ne" true) 10 }}
+  {{- range $paginator.Pages }}
+  <article class="post">
+    <a class="title" href="{{ .RelPermalink }}"><h2>{{ .Title }}</h2></a>
+    {{- partial "post-meta" . }}
+    <div>
+      {{- .Summary }}
+    </div>
+    <div>
+      <a href="{{ .RelPermalink }}" class="btn btn-outline-secondary" role="button">Continue Reading...</a>
+    </div>
+  </article>
+  {{- end }}
+  <div class="d-flex justify-content-center">
+    {{- template "_internal/pagination.html" . }}
+  </div>
+</div>
+{{- partial "sidebar" . }}
+{{- end }}

@@ -1,0 +1,29 @@
+baseurl = "https://neonmirrors.net/"
+title = "Neon Mirrors"
+author = "Chip Zoller"
+copyright = "Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved."
+# canonifyurls = true
+paginate = 3
+theme = "silhouette-hugo"
+
+[markup]
+  [markup.highlight]
+    codeFences = true
+    guessSyntax = true
+    hl_Lines = ""
+    lineNoStart = 1
+    lineNos = false
+    lineNumbersInTable = true
+    noClasses = false
+    # style = "monokai"
+    tabWidth = 2
+
+[params]
+author = "Chip Zoller"
+introDescription = "Technologist, perpetual student, teacher, continual incremental improvement."
+contentSharing = "I'm happy for you to share content on this site, but please provide attribution."
+
+[social]
+github = "chipzoller"
+linkedin = "chipzoller"
+twitter = "chipzoller"

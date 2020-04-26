@@ -1,0 +1,32 @@
+<div class="sidebar d-print-none d-xl-block internal">
+  {{ if .IsHome }}
+  <h2>Featured Posts</h2>
+  {{ else }}
+  <h2>{{ .Site.Params.Author }}</h2>
+  <div>
+    {{ .Site.Params.IntroDescription }}
+  </div>
+  <a href="/about/" class="btn btn-outline-secondary mt-3" role="button">Read More...</a>
+  <h2 class="mt-4">Featured Posts</h2>
+  {{ end }}
+  {{ range .Site.Taxonomies.tags.featured }}
+  <a href="{{ .RelPermalink }}" class="nav-link">{{ .Title }}</a>
+  {{ end }}
+  <h2 class="mt-4">Recent Posts</h2>
+  <nav class="nav flex-column">
+    {{ range first 8 (where (where .Site.RegularPages "Type" "in" site.Params.mainSections) ".Params.hidden" "!=" true) }}
+    <a href="{{ .RelPermalink }}" class="nav-link">{{ .Title }}</a>
+    {{ end }}
+  </nav>
+  {{ range $key, $value := .Site.Taxonomies }}
+  <h2 class="mt-4 text-capitalize" id="{{ $key }}-section">{{ $key }}</h2>
+  <nav class="nav">
+    {{ range $value.ByCount }}
+    <a href='/{{ $key }}/{{ (replace .Name "#" "%23") | urlize }}/' class="nav-link">
+      {{ .Name }}
+      <span class="badge badge-pill badge-secondary">{{ .Count }}</span>
+    </a>
+    {{ end }}
+  </nav>
+  {{ end }}
+</div>
