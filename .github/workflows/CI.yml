@@ -29,6 +29,7 @@ jobs:
       uses: lowply/build-hugo@v0.69.0
   publish:
     runs-on: ubuntu-18.04
+    needs: build
     steps:
     - uses: actions/checkout@v2
       with:
@@ -38,6 +39,9 @@ jobs:
       run: echo "Pushing to S3"
   invalidate:
     runs-on: ubuntu-18.04
+    needs:
+      - build
+      - publish
     steps:
       - uses: actions/checkout@v2
         with:
