@@ -1,3 +1,5 @@
+![CI](https://github.com/chipzoller/devtest/workflows/CI/badge.svg)
+
 # Files for "neonmirrors" blog based on Hugo and Silhouette theme.
 
 ## Create a new article
