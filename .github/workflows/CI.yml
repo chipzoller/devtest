@@ -27,5 +27,21 @@ jobs:
     # Ensure the site succeeds Hugo builds.
     - name: Build Hugo
       uses: lowply/build-hugo@v0.69.0
-    - name: Copy to Public
-      run: cp -R public/* "$GITHUB_REPOSITORY"/public
+  publish:
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: true
+        fetch-depth: 0
+    - name: publish to S3 bucket
+      run: echo "Pushing to S3"
+  invalidate:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+          fetch-depth: 0
+      - name: invalidate cache on CloudFront
+        run: echo "Invalidating cache"
