@@ -22,9 +22,9 @@ jobs:
     # Ensure the site succeeds Hugo builds.
     - name: Build site with Hugo
       uses: lowply/build-hugo@v0.69.0
-    - name: List files
+    - name: List files in "public"
       run: |
-        ls -lah
+        ls -lah public/
     - name: Commit files
       run: |
         git config --local user.email "action@github.com"
