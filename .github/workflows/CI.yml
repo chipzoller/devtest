@@ -5,17 +5,12 @@ on:
   pull_request:
     branches: [ master ]
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
     runs-on: ubuntu-18.04
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
       with:
         submodules: true  # Fetch Hugo themes
         fetch-depth: 0    # Fetch all history for .GitInfo and .Lastmod
@@ -25,8 +20,13 @@ jobs:
     #     hugo-version: '0.68.3'
     #     extended: true
     # Ensure the site succeeds Hugo builds.
-    - name: Build Hugo
+    - name: Build site with Hugo
       uses: lowply/build-hugo@v0.69.0
+    - name: Push to branch
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: site
   publish:
     runs-on: ubuntu-18.04
     needs: build
