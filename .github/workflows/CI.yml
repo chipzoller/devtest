@@ -22,7 +22,12 @@ jobs:
     # Ensure the site succeeds Hugo builds.
     - name: Build site with Hugo
       uses: lowply/build-hugo@v0.69.0
-    - name: Push to branch
+    - name: Commit files
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git commit -m "Publish neonmirrors to site" -a
+    - name: Push to site
       uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
