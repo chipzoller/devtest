@@ -75,7 +75,7 @@ jobs:
         echo "****Showing working dir and listing files.****"
         pwd && ls -lah
         echo "****Running delta sync against S3.****"
-        s5cmd cp -s public/ s3://czdevtest
+        s5cmd cp -s public/ s3://${{ secrets.AWS_S3_BUCKET_NAME }}
   invalidate:
   # In the invalidate phase, now the site has been uploaded to S3, we need to invalidate the CloudFront cache so the new site gets picked up and available to users.
     runs-on: ubuntu-18.04
