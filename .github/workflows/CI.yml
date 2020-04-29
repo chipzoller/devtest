@@ -59,9 +59,7 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-2
-    - name: Test s5cmd
-      env:
-        AWS-DEFAULT-REGION: "us-east-2"
+    - name: Sync public to S3 bucket
       run: |
         curl -sLO https://github.com/peak/s5cmd/releases/download/v1.0.0/s5cmd_1.0.0_Linux-64bit.tar.gz
         tar -xzf s5cmd_1.0.0_Linux-64bit.tar.gz
@@ -70,7 +68,7 @@ jobs:
         echo "Showing working dir and listing files."
         pwd && ls -lah
         echo "Running delta sync against S3."
-        s5cmd ls
+        s5cmd cp -s public/ s3://czdevtest
     # - name: publish to S3 bucket
     #   run: aws s3 ls
   invalidate:
