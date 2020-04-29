@@ -46,9 +46,9 @@ jobs:
         fetch-depth: 0
         ref: site
     - name: Download newly generated site in public
-        uses: actions/download-artifact@v1
-        with:
-          name: public
+      uses: actions/download-artifact@v1
+      with:
+        name: public
     - name: List files
       run: |
         ls -lah
