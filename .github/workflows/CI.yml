@@ -25,16 +25,6 @@ jobs:
       with:
         name: public
         path: public/
-    # - name: Commit files
-    #   run: |
-    #     git config --local user.email "action@github.com"
-    #     git config --local user.name "GitHub Action"
-    #     git commit -m "Publish neonmirrors to site" -a
-    # - name: Push to site
-    #   uses: ad-m/github-push-action@master
-    #   with:
-    #     github_token: ${{ secrets.GITHUB_TOKEN }}
-    #     branch: site
   publish:
     runs-on: ubuntu-18.04
     needs: build
@@ -51,7 +41,17 @@ jobs:
         name: public
     - name: List files
       run: |
-        ls -lah
+        ls -lah public/
+    - name: Commit files
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git commit -m "Publish neonmirrors to site" -a
+    - name: Push to site
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: site
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
