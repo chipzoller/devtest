@@ -9,7 +9,7 @@ jobs:
   build:
     runs-on: ubuntu-18.04
     steps:
-    - name: Checkout code
+    - name: Checkout master branch
       uses: actions/checkout@v2
       with:
         submodules: true  # Fetch Hugo themes
@@ -21,7 +21,7 @@ jobs:
     - name: List files in "public"
       run: |
         ls -lah public/post/2020-04/
-    - name: Upload public dir as artifact
+    - name: Upload output public dir as artifact
       uses: actions/upload-artifact@v1
       with:
         name: public
@@ -30,27 +30,27 @@ jobs:
     runs-on: ubuntu-18.04
     needs: build
     steps:
-    - name: checkout code
+    - name: Checkout site branch
       uses: actions/checkout@v2
       with:
         submodules: true
         fetch-depth: 0
         ref: site
-    - name: Download newly generated site in public
+    - name: Download artifact from build stage
       uses: actions/download-artifact@v1
       with:
         name: public
-    - name: List files
+    - name: List files (test)
       run: |
         sudo apt-get install tree -y
         tree public/
-    - name: Commit files
+    - name: Commit all files in public
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add -A public/
         git commit -m "Publish neonmirrors to site" -a
-    - name: Push to site
+    - name: Push to site branch
       uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -61,7 +61,7 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-2
-    - name: Sync public to S3 bucket
+    - name: Delta sync site to S3 bucket
       run: |
         curl -sLO https://github.com/peak/s5cmd/releases/download/v1.0.0/s5cmd_1.0.0_Linux-64bit.tar.gz
         tar -xzf s5cmd_1.0.0_Linux-64bit.tar.gz
@@ -71,8 +71,6 @@ jobs:
         pwd && ls -lah
         echo "Running delta sync against S3."
         s5cmd cp -s public/ s3://czdevtest
-    # - name: publish to S3 bucket
-    #   run: aws s3 ls
   invalidate:
     runs-on: ubuntu-18.04
     needs:
@@ -85,5 +83,5 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-2
-      # - name: Invalidate cache on CloudFront for root
+      # - name: Invalidate cache on CloudFront
       #   run: aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_CLOUDFRONT_DISTRO_ID }} --paths "/*"
