@@ -6,10 +6,19 @@
     <description>Recent content in Posts on Neon Mirrors</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved.</copyright>
-    <lastBuildDate>Sat, 11 Apr 2020 08:24:25 -0400</lastBuildDate>
+    <lastBuildDate>Wed, 29 Apr 2020 08:22:54 -0400</lastBuildDate>
     
 	<atom:link href="https://neonmirrors.net/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Test_post_00</title>
+      <link>https://neonmirrors.net/post/2020-04/test_post_00/</link>
+      <pubDate>Wed, 29 Apr 2020 08:22:54 -0400</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2020-04/test_post_00/</guid>
+      <description>Testing This is a test post for working with GitHub Actions.</description>
+    </item>
     
     <item>
       <title>Getting Started with Tanzu Kubernetes Grid</title>

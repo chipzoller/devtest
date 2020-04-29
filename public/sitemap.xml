@@ -4,7 +4,37 @@
   
   <url>
     <loc>https://neonmirrors.net/categories/</loc>
-    <lastmod>2020-04-11T08:24:25-04:00</lastmod>
+    <lastmod>2020-04-29T08:22:54-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/</loc>
+    <lastmod>2020-04-29T08:22:54-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/tags/tag_name1/</loc>
+    <lastmod>2020-04-29T08:22:54-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/tags/tag_name2/</loc>
+    <lastmod>2020-04-29T08:22:54-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/tags/</loc>
+    <lastmod>2020-04-29T08:22:54-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/categories/technology/</loc>
+    <lastmod>2020-04-29T08:22:54-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2020-04/test_post_00/</loc>
+    <lastmod>2020-04-29T08:22:54-04:00</lastmod>
   </url>
   
   <url>
@@ -14,21 +44,6 @@
   
   <url>
     <loc>https://neonmirrors.net/tags/k8s/</loc>
-    <lastmod>2020-04-11T08:24:25-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://neonmirrors.net/post/</loc>
-    <lastmod>2020-04-11T08:24:25-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://neonmirrors.net/tags/</loc>
-    <lastmod>2020-04-11T08:24:25-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://neonmirrors.net/categories/technology/</loc>
     <lastmod>2020-04-11T08:24:25-04:00</lastmod>
   </url>
   
