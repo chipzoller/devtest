@@ -49,7 +49,7 @@ jobs:
       env:
         AWS-DEFAULT-REGION: "us-east-2"
       run: |
-        curl -sfLo https://github.com/peak/s5cmd/releases/download/v1.0.0/s5cmd_1.0.0_Linux-64bit.tar.gz
+        curl -sLO https://github.com/peak/s5cmd/releases/download/v1.0.0/s5cmd_1.0.0_Linux-64bit.tar.gz
         tar xzvf s5cmd_1.0.0_Linux-64bit.tar.gz
         chmod +x s5cmd
         sudo mv s5cmd /usr/local/bin/
