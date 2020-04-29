@@ -41,6 +41,7 @@ jobs:
         name: public
     - name: List files
       run: |
+        sudo apt-get install tree -y
         tree public/
     - name: Commit files
       run: |
