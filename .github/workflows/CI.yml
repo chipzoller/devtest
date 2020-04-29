@@ -41,12 +41,12 @@ jobs:
         name: public
     - name: List files
       run: |
-        ls -lah public/
+        tree public/
     - name: Commit files
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add .
+        git add -A public/
         git commit -m "Publish neonmirrors to site" -a
     - name: Push to site
       uses: ad-m/github-push-action@master
