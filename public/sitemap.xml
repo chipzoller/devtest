@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>https://neonmirrors.net/categories/</loc>
+    <lastmod>2020-04-11T08:24:25-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2020-04/getting-started-with-tkg/</loc>
+    <lastmod>2020-04-11T08:24:25-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/tags/k8s/</loc>
+    <lastmod>2020-04-11T08:24:25-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/</loc>
+    <lastmod>2020-04-11T08:24:25-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/tags/</loc>
+    <lastmod>2020-04-11T08:24:25-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/categories/technology/</loc>
+    <lastmod>2020-04-11T08:24:25-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/tags/vsphere/</loc>
+    <lastmod>2020-04-11T08:24:25-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2020-04/capv-overview/</loc>
+    <lastmod>2020-04-08T10:41:47-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2020-01/buy-dont-build/</loc>
+    <lastmod>2020-01-25T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/tags/thoughts/</loc>
+    <lastmod>2020-01-25T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2020-01/why-k8s-on-vms/</loc>
+    <lastmod>2020-01-17T18:35:21-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2020-01/2020-public-domain-day/</loc>
+    <lastmod>2020-01-04T10:23:20-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/categories/music/</loc>
+    <lastmod>2020-01-04T10:23:20-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/about/</loc>
+    <lastmod>2019-12-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/</loc>
+    <lastmod>2019-12-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/tags/authentication/</loc>
+    <lastmod>2019-10-30T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2019-10/authentication-and-authorization-in-k8s/</loc>
+    <lastmod>2019-10-30T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/tags/featured/</loc>
+    <lastmod>2019-10-30T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/tags/security/</loc>
+    <lastmod>2019-10-30T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/tags/pks/</loc>
+    <lastmod>2019-10-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2019-10/pks-rancher-reg/</loc>
+    <lastmod>2019-10-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/tags/rancher/</loc>
+    <lastmod>2019-10-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/tags/nsx-t/</loc>
+    <lastmod>2019-09-25T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2019-09/rancher-ha-on-pks/</loc>
+    <lastmod>2019-09-25T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2019-09/https-ingress-with-pks/</loc>
+    <lastmod>2019-09-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/tags/networking/</loc>
+    <lastmod>2019-09-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/tags/docker/</loc>
+    <lastmod>2019-08-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2019-08/pks-dns/</loc>
+    <lastmod>2019-08-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2019-04/optimize-vmwarepks/</loc>
+    <lastmod>2019-04-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/tags/powershell/</loc>
+    <lastmod>2019-04-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2019-03/installing-vra-software-components-as-specific-user/</loc>
+    <lastmod>2019-03-20T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/tags/vra/</loc>
+    <lastmod>2019-03-20T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/tags/vrealize/</loc>
+    <lastmod>2019-03-20T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/tags/ansible/</loc>
+    <lastmod>2019-01-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2019-01/deploying-vmware-agents-with-ansible/</loc>
+    <lastmod>2019-01-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/tags/log-insight/</loc>
+    <lastmod>2019-01-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/tags/vro/</loc>
+    <lastmod>2019-01-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/tags/vrops/</loc>
+    <lastmod>2019-01-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/tags/forums/</loc>
+    <lastmod>2018-12-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2018-12/how-to-ask-for-help-on-tech-forums/</loc>
+    <lastmod>2018-12-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/tags/vmtn/</loc>
+    <lastmod>2018-12-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2018-12/new-features-in-sovlabs-property-toolkit/</loc>
+    <lastmod>2018-12-05T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/tags/sovlabs/</loc>
+    <lastmod>2018-12-05T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/tags/veeam/</loc>
+    <lastmod>2018-08-02T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2018-08/veeam-baas-part-1/</loc>
+    <lastmod>2018-08-02T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2018-05/drop-down-lists-in-vra/</loc>
+    <lastmod>2018-05-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2018-04/using-vra-software-components-and-binding/</loc>
+    <lastmod>2018-04-29T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2018-03/making-vra-email-easy-with-custom-notifications/</loc>
+    <lastmod>2018-03-21T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2018-03/sovlabs-property-toolkit-part-2/</loc>
+    <lastmod>2018-03-21T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2018-03/what-is-sovlabs/</loc>
+    <lastmod>2018-03-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2018-02/getting-users-in-ad-group-through-vra/</loc>
+    <lastmod>2018-02-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2018-01/how-to-cleanly-remove-vsphere-datastores/</loc>
+    <lastmod>2018-01-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2018-01/deploying-epops-agents-through-vra/</loc>
+    <lastmod>2018-01-02T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2017-12/automating-vsphere-tagging-in-vra-with-sovlabs/</loc>
+    <lastmod>2017-12-31T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2017-12/vcsa-file-backup-fails/</loc>
+    <lastmod>2017-12-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2017-11/detecting-psc-repl-failure-with-vrli/</loc>
+    <lastmod>2017-11-29T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2017-11/upgrading-vsphere-through-migration/</loc>
+    <lastmod>2017-11-27T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2017-11/new-orchestrated-restarts-in-vsphere65/</loc>
+    <lastmod>2017-11-13T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2017-11/replicating-vra-templates-easily-with-veeam/</loc>
+    <lastmod>2017-11-02T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2017-10/monitoring-windows-disk-space-with-vrops-sm/</loc>
+    <lastmod>2017-10-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2017-10/custom-naming-in-vra-with-zero-custom-coding/</loc>
+    <lastmod>2017-10-02T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2017-09/monitoring-veeam-with-vrops/</loc>
+    <lastmod>2017-09-25T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2017-09/vra-and-the-problem-of-the-vcenter-folder/</loc>
+    <lastmod>2017-09-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/tags/vmworld/</loc>
+    <lastmod>2017-09-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2017-09/vmworld-2017-and-final-thoughts/</loc>
+    <lastmod>2017-09-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2017-08/vmworld-2017-day-2/</loc>
+    <lastmod>2017-08-30T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2017-08/vmworld-2017-day-1/</loc>
+    <lastmod>2017-08-29T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2017-08/automate-log-insight-agent-installation-from-vra/</loc>
+    <lastmod>2017-08-25T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2017-07/log-insight-and-alerting/</loc>
+    <lastmod>2017-07-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2017-06/four-free-veeam-tools/</loc>
+    <lastmod>2017-06-21T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2017-06/veeamon-2017/</loc>
+    <lastmod>2017-06-02T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2017-01/photon-docker-container-hosts-vra72/</loc>
+    <lastmod>2017-01-10T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2016-12/running-bash-in-linux-guest-agent-vra-ga-3/</loc>
+    <lastmod>2016-12-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2016-12/running-in-guest-scripts-vra-ga-2/</loc>
+    <lastmod>2016-12-12T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2016-12/docker-engine-blueprints-for-vra/</loc>
+    <lastmod>2016-12-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2016-12/adding-machine-requestor-to-local-admins-vra-ga-1/</loc>
+    <lastmod>2016-12-05T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/tags/powercli/</loc>
+    <lastmod>2016-10-26T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2016-10/powercli-core-with-help/</loc>
+    <lastmod>2016-10-26T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2016-07/real-world-troubleshooting-with-vrli/</loc>
+    <lastmod>2016-07-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/tags/homelab/</loc>
+    <lastmod>2016-07-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2016-07/synology-and-the-magical-crash/</loc>
+    <lastmod>2016-07-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2016-01/new-disk-features-vsphere6/</loc>
+    <lastmod>2016-01-12T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2015-12/fast-backup-of-vsphere-templates-with-veeam/</loc>
+    <lastmod>2015-12-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2015-11/using-vrealize-cert-generation-tool/</loc>
+    <lastmod>2015-11-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2015-11/critical-cbt-bug-vsphere6-veeam-workaround/</loc>
+    <lastmod>2015-11-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://neonmirrors.net/post/2015-10/vco-55-dns-reverts/</loc>
+    <lastmod>2015-10-08T00:00:00+00:00</lastmod>
+  </url>
+  
+</urlset>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>powercli on Neon Mirrors</title>
+    <link>https://neonmirrors.net/tags/powercli/</link>
+    <description>Recent content in powercli on Neon Mirrors</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <copyright>Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved.</copyright>
+    <lastBuildDate>Wed, 26 Oct 2016 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://neonmirrors.net/tags/powercli/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>PowerCLI Core on Mac or Linux made easy, with help!</title>
+      <link>https://neonmirrors.net/post/2016-10/powercli-core-with-help/</link>
+      <pubDate>Wed, 26 Oct 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2016-10/powercli-core-with-help/</guid>
+      <description>With the much-heralded release of Microsoft’s PowerShell, VMware’s PowerCLI Core in fling format was released on October 17th. This allows users of Mac and Linux to run PowerShell just like on Windows. While PowerCLI can be installed with instructions on the fling website, VMware also released a Docker container with the same. Containers are all the rage right now, and we at Sovereign are all over this technology to determine how to best leverage it for our customers, so in this blog post I’m going to illustrate how to get started with both Docker and PowerCLI Core.</description>
+    </item>
+    
+    <item>
+      <title>Fast Backup of vSphere Templates with Veeam</title>
+      <link>https://neonmirrors.net/post/2015-12/fast-backup-of-vsphere-templates-with-veeam/</link>
+      <pubDate>Thu, 17 Dec 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2015-12/fast-backup-of-vsphere-templates-with-veeam/</guid>
+      <description>Most organizations use vSphere templates for a quick way to roll out VMs manually through vCenter, via a clone workflow in vRealize Automation, or something else. Sometimes they’re just base OS with configuration, and sometimes they have complicated applications installed in the case of VDI. Very often, these would be time consuming to reproduce and are changing on a regular basis due to things like patching and updates. So, naturally, you probably want to back those templates up.</description>
+    </item>
+    
+  </channel>
+</rss>

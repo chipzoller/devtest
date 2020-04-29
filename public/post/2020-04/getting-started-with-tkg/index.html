@@ -1,0 +1,614 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  <meta property="og:title" content="Getting Started with Tanzu Kubernetes Grid" />
+<meta property="og:description" content="Understanding and beginning to work with Tanzu Kubernetes Grid (TKG)." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://neonmirrors.net/post/2020-04/getting-started-with-tkg/" />
+<meta property="article:published_time" content="2020-04-11T08:24:25-04:00" />
+<meta property="article:modified_time" content="2020-04-11T08:24:25-04:00" />
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Getting Started with Tanzu Kubernetes Grid"/>
+<meta name="twitter:description" content="Understanding and beginning to work with Tanzu Kubernetes Grid (TKG)."/>
+<meta name="twitter:site" content="@chipzoller"/>
+
+  
+  <title>
+Getting Started with Tanzu Kubernetes Grid | Neon Mirrors
+</title>
+  
+  <link rel="icon" type="image/png" href='https://neonmirrors.net/images/favicon-16x16.png' sizes="16x16">
+  <link rel="icon" type="image/png" href='https://neonmirrors.net/images/favicon-32x32.png' sizes="32x32">  
+  
+  <link href="https://fonts.googleapis.com/css?family=Oswald:400" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">      
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel = 'stylesheet' href = 'https://neonmirrors.net/css/main.703162b863e7e1a93ee98f24b75e329848a814522f2d9f5735d41fbc7f023b3772f177c6ef8dbafccee65cfa8c1b8bb57e73d49284b5a0fdbbe772b8b29b07cb.css' integrity = 'sha512-cDFiuGPn4ak&#43;6Y8kt14ymEioFFIvLZ9XNdQfvH8COzdy8XfG7426/M7mXPqMG4u1fnPUkoS1oP2753K4spsHyw=='>
+  
+  
+<link rel="me" type="text/html" href="https://twitter.com/chipzoller"/> 
+<link rel="me" type="text/html" href="https://www.linkedin.com/in/chipzoller/"/> 
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+
+<link rel="alternate" type="application/rss+xml" href='https://neonmirrors.net/index.xml' />
+
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<meta name="author" content="Chip Zoller" />
+<meta name="copyright" content="Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved." />
+
+
+<meta name="description" content="Understanding and beginning to work with Tanzu Kubernetes Grid (TKG).">
+
+
+
+
+<style type="text/css">
+  .feature-image {
+    background-image: url("https://neonmirrors.net/images/2020-04/getting-started-with-tkg/featured.jpg");
+    height: 500px;
+  }
+  
+  @media (max-width: 992px) {
+    .feature-image {
+      height: 350px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .feature-image {
+      height: 250px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .feature-image {
+      height: 200px;
+    }
+  }
+</style>
+
+        
+</head>
+<body >
+  <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark py-1 top-nav">
+    <div class="container">
+      <span class="internal">
+  <a class="navbar-brand pr-2" href="/">NEON MIRRORS</a>
+</span>
+
+      <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="navbar-collapse collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/categories/technology/">Technology</a>
+  
+</li>
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/categories/music/">Music</a>
+  
+</li>
+<li class="nav-item internal">
+  
+  <div class="nav-link nav-hassubmenu">Links
+    <div class="nav-submenu" >
+    
+      <a class="nav-link" href="https://chipzoller.gitbook.io/vspheremigration/">Ultimate vSphere VM Migration Guide</a>
+    
+    </div>
+    </div>
+  
+</li>
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/about/">About</a>
+  
+</li>
+
+        </ul>
+        <div class="social-icons d-none d-lg-block">
+          <a class="py-2 px-2" href="https://github.com/chipzoller"><i class="fab fa-github"></i></a>
+<a class="py-2 px-2" href="https://twitter.com/chipzoller"><i class="fab fa-twitter"></i></a>
+<a class="py-2 px-2" href="https://www.linkedin.com/in/chipzoller/"><i class="fab fa-linkedin"></i></a>
+<a class="py-2 px-2" href='https://neonmirrors.net/index.xml'><i class="fas fa-rss"></i></a>
+
+        </div>
+      </div>
+    </div>
+  </nav>
+  
+  
+<header class="feature-image d-print-none">
+</header>
+
+  
+  <div class="main">
+    
+<div class="container mt-4 post">
+  <h1>Getting Started with Tanzu Kubernetes Grid</h1>
+  <div class="mb-3 internal">
+  <small>
+    <strong>By Chip Zoller</strong>
+    | <i class="far fa-calendar-alt"></i>&nbsp;Apr 11, 2020&nbsp;
+    | <i class="fa fa-tags" title="Tags" aria-hidden="true"></i> <a href='/tags/k8s/'>k8s</a>, <a href='/tags/vsphere/'>vsphere</a><span class="d-lg-none">, <a href='#tags-section'>all tags</a></span>
+  </small>
+</div>
+
+  <div class="share-icons d-flex d-print-none">
+    <a href="https://twitter.com/intent/tweet?text=Getting%20Started%20with%20Tanzu%20Kubernetes%20Grid&url=https%3a%2f%2fneonmirrors.net%2fpost%2f2020-04%2fgetting-started-with-tkg%2f&tw_p=tweetbutton" class="p-2" title="Share on Twitter" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Tweet</small></div>
+</a>
+
+<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fneonmirrors.net%2fpost%2f2020-04%2fgetting-started-with-tkg%2f&t=Getting%20Started%20with%20Tanzu%20Kubernetes%20Grid" class="p-2" title="Share on Facebook" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+<script>
+  function shareViaLinkedin() {
+    window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent("https://neonmirrors.net/post/2020-04/getting-started-with-tkg/"), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+  }
+</script>
+<a href="#linkedinshare" id = "linkedinshare" class="p-2" title="Share on LinkedIn" rel="nofollow" onclick="shareViaLinkedin()">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+
+<a href="javascript:window.print()" title="Print this article" class="p-2" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fa fa-print fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Print</small></div>
+</a>
+
+  </div>
+  
+  <div class="mt-4 mb-4 main-content">
+    <p>After VMworld US 2019 when the Tanzu portfolio was announced, there was naturally a lot of excitement for what VMware was doing around modern application development. Fast forward a couple months when more things were announced, names were changed, and Pivotal became part of VMware, and what Tanzu actually is and what the product sets are has been wildly confusing to most. One of those offerings called Tanzu Kubernetes Grid (TKG) has now been released, and so in this article I want to explain what this offering is, what it promises, and, lastly, how to get started with the CLI tool by putting rubber to the road.</p>
+<h2 id="what-is-tanzu-kubernetes-grid-tkg">What is Tanzu Kubernetes Grid (TKG)</h2>
+<p>First, let&rsquo;s step back and discuss the name and what it means. Tanzu is a portfolio of products; it&rsquo;s not one single product. Referring to any product as &ldquo;Tanzu&rdquo; is therefore not accurate and only adds to the existing confusion. Tanzu Kubernetes is the name referring to VMware&rsquo;s common &ldquo;distribution&rdquo; of Kubernetes across all its products that are capable of deploying a Kubernetes cluster (this is the &ldquo;Run&rdquo; category within Tanzu). It is a collection of pieces which has the upstream Kubernetes binaries at its core and is specifically designed to integrate with and run best on VMware&rsquo;s platforms. A Tanzu Kubernetes cluster is what you get when you deploy a cluster using vSphere 7 with Kubernetes (specifically the &ldquo;guest&rdquo; cluster running as VMs) or Tanzu Mission Control. However, with the Tanzu Kubernetes Grid offering, you get that same flavor of Kubernetes in a standalone form factor delivered through a single CLI tool along with production support. Given the collection of pieces, TKG also gives you the freedom and flexibility to run in the core, in the public cloud, or at the edge. While all these offerings provision Tanzu Kubernetes clusters, TKG is designed for more of a DIY experience where you already have Kubernetes experience in-house and want more hands-on and control. If you want that control but also want access to professional guidance, there is a TKG+ (TKG Plus) offering that additionally gives you access to VMware&rsquo;s Customer Reliability Engineering (CRE) group. Regardless of whether it&rsquo;s TKG or TKG+, neither is a replacement for the other offerings, but merely one possible option for the right customer base.</p>
+<p>I just said Tanzu Kubernetes is a common distribution with a collection of different pieces. But you might be asking, &ldquo;what are those pieces and why do I want them over Kubernetes itself?&rdquo; Let&rsquo;s take a look at what you get with plain Kubernetes either directly or when using something like <code>kubeadm</code> to provision a cluster.</p>
+<ul>
+<li><a href="https://github.com/kubernetes/kubernetes/releases">Upstream Kubernetes</a></li>
+<li>(Really, that&rsquo;s it. The rest is up to you.)</li>
+</ul>
+<p>Now let&rsquo;s look at what you get with TKG.</p>
+<ul>
+<li><a href="https://github.com/kubernetes/kubernetes/releases">Upstream Kubernetes</a> (the same ones you&rsquo;d get from GitHub)</li>
+<li><a href="https://github.com/kubernetes-sigs/cluster-api/releases">Cluster API</a>, <a href="https://github.com/kubernetes-sigs/cluster-api-provider-vsphere/releases">Cluster API Provider vSphere</a>, <a href="https://github.com/kubernetes-sigs/cluster-api-provider-aws/releases">Cluster API Provider AWS</a> (the bits necessary to declaratively deploy Kubernetes clusters on vSphere or AWS)</li>
+<li><a href="https://www.projectcalico.org/">Calico</a> (for networking)</li>
+<li><a href="https://github.com/jetstack/cert-manager/releases">Cert-manager</a> (for certificates)</li>
+<li><a href="https://github.com/kubernetes-sigs/vsphere-csi-driver/releases">CSI</a> and <a href="https://github.com/kubernetes/cloud-provider-vsphere/releases">CPI</a> for vSphere (for integrating with vSphere storage and topology)</li>
+<li><a href="https://github.com/projectcontour/contour/releases">Contour</a> (for ingress)</li>
+<li><a href="https://github.com/fluent/fluent-bit/releases">Fluent Bit</a> (for logging)</li>
+<li><a href="https://github.com/dexidp/dex/releases">Dex</a> and <a href="https://github.com/heptiolabs/gangway/releases">Gangway</a> (for authentication)</li>
+<li><a href="https://github.com/vmware-tanzu/crash-diagnostics/releases">Crash-Diagnostics</a> (for troubleshooting)</li>
+<li>TKG CLI (for ease of use)</li>
+<li>Pre-built OS templates (for quicker time-to-clusters)</li>
+<li>Everything signed by VMware (for peace of mind)</li>
+<li>24/7 support</li>
+</ul>
+<p>As you can see, there are many added components which are necessary to run Kubernetes in a production environment, components which you&rsquo;d otherwise have to figure out yourself. TKG can therefore be thought of as a &ldquo;batteries included but swappable&rdquo; Kubernetes distribution. It&rsquo;s also almost entirely open source software, so you&rsquo;re welcome to go to each of the respective projects&rsquo; repos and inspect the source code if you like, file bugs, and even contribute to fixing them yourself. TKG is also based on the Cluster API (CAPI) project and so what you can do with CAPI you can pretty much do with TKG. And, owing to the fact that it doesn&rsquo;t require NSX-T, you have fewer infrastructure requirements and can therefore easily run this out at the edge.</p>
+<p>As I mentioned above, since it has the Cluster API providers for both vSphere and AWS, you can use TKG to deploy cluster to both locations. For vSphere, you need to be on 6.7 U3 to get the benefits of the <a href="https://blogs.vmware.com/virtualblocks/2019/08/14/introducing-cloud-native-storage-for-vsphere/">new cloud-native storage (CNS)</a> functionality. But if you have vSphere 7 with Kubernetes, TKG can connect to your supervisor cluster and be used as a type of remote client to manage and deploy TKG clusters there. Note that as of the 1.0 release, if you connect TKG to a vSphere 7 environment that isn&rsquo;t licensed for the Kubernetes add-on, it is not supported yet will technically work.</p>
+<h2 id="how-does-it-work">How Does It Work</h2>
+<p>Before jumping right in, let me take you through the architecture of the tool and how it works plus what you can expect to happen.</p>
+<p>The user downloads the <code>tkg</code> CLI tool on a workstation (Linux and Mac for now). You then have the choice of deploying the management cluster to either vSphere or AWS on EC2. After populating the details of how they wish to connect and the characteristics of their management cluster, <code>tkg</code> runs <code>kind</code> on their local machine. This serves as a single-node bootstrap cluster into which the Cluster API bits get loaded. With these bits, the <code>kind</code> cluster can carry out the build of the management cluster itself. Once the management cluster is up and running, <code>kind</code> hands off those resources to the newly-running management cluster and then is deleted.</p>
+<p><img src="/images/2020-04/getting-started-with-tkg/tkg-flow.png" alt="TKG operation overview. Everything in the box happens on the local workstation."></p>
+<p>After the management cluster is up, a user then interacts with the <code>tkg</code> tool which speaks to the management cluster to deploy workload (&ldquo;guest&rdquo;) clusters. These are the clusters that then get provided to developer groups for running their applications.</p>
+<h2 id="getting-started-with-tkg-cli">Getting Started With TKG CLI</h2>
+<p>With a firm understanding of what TKG is and how it generally works, let&rsquo;s put hands on the keyboard and see it in action.</p>
+<p>I&rsquo;ll walk through the steps to build on vSphere in this article. First, we need to make sure a few things are prepared in our infrastructure. These are in addition to the customary info like connecting to vSphere and folders and such.</p>
+<ol>
+<li>Ensure you import the node and HA Proxy templates into your environment.</li>
+<li>Have an SSH key pair ready to go. You&rsquo;ll need the public key half for the deployment.</li>
+<li>Deployment network with DHCP enabled. Right now, DHCP is required for the management cluster when using the <code>tkg</code> CLI.</li>
+<li>Workstation running Linux or Mac.</li>
+<li>Docker installed and running on the workstation. If on Mac, <a href="https://hub.docker.com/editions/community/docker-ce-desktop-mac">Docker Desktop</a> is a quick way to get up and running.</li>
+<li>Internet access from workstation. By default, the CLI will try to pull images from registries on the Internet.</li>
+</ol>
+<p>With everything ready to go, let&rsquo;s get into the wizard. There is always the possibility of going directly into CLI mode, but for this demo I&rsquo;ll start with the UI which is probably what most will want to use at least initially.</p>
+<p>After downloading the <code>tkg</code> CLI and moving it somewhere in your PATH and setting it to executable, we run it in UI mode with <code>tkg init -u</code>.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ tkg init -u
+Logs of the <span class="nb">command</span> execution can also be found at: /var/folders/sn/fj76jv0s7ss4wbx4m8v8dgxc0000gn/T/tkg-20200411T103642876646757.log
+
+Validating the pre-requisites...
+Serving kickstart UI at http://127.0.0.1:8080
+</code></pre></div><p>If it finds the Docker daemon running, it should tell you it&rsquo;s serving the UI on http://127.0.0.1:8080 like above, and open a browser tab for you.</p>
+<p><img src="/images/2020-04/getting-started-with-tkg/tkg-ui-01.png" alt="TKG UI splash screen"></p>
+<p>We&rsquo;ll do this on vSphere and plug in our values here. The public half of your SSH key is required in this wizard, and this is the only way you&rsquo;ll be able to access your nodes via SSH. There is no password auth enabled otherwise.</p>
+<p><img src="/images/2020-04/getting-started-with-tkg/tkg-ui-02.png" alt="TKG UI connecting to vCenter, the version is automatically detected"></p>
+<p>Next, we populate our control plane. When doing this outside of a test or lab environment, it&rsquo;s highly recommend that you deploy an HA control plane of three nodes. This is because later down the line when taking advantage of shared cluster services, they&rsquo;ll run within this management cluster so you want to ensure it&rsquo;s available. Note that even if you deploy a development control plane with a single node, the load balancer still gets deployed. This is to provide a consistent entry point and allows for easy scaling out on day 2. Regardless of which one you choose, you&rsquo;ll get only a single worker.</p>
+<p>Name it and select your HA proxy template.</p>
+<p><img src="/images/2020-04/getting-started-with-tkg/tkg-ui-03.png" alt="TKG UI and selecting number of control plane nodes"></p>
+<p>Specify your resource pool (/Resources is the root of the cluster), VM folder, and datastore and click next.</p>
+<p><img src="/images/2020-04/getting-started-with-tkg/tkg-ui-04.png" alt="TKG UI and selecting resource locations"></p>
+<p>Pick the network that has DHCP enabled and either accept the defaults for the Kubernetes segments or change them to something that doesn&rsquo;t overlap in your environment.</p>
+<p><img src="/images/2020-04/getting-started-with-tkg/tkg-ui-05.png" alt="TKG UI setting networking info"></p>
+<p>Finally, select the node template you imported earlier and click next.</p>
+<p><img src="/images/2020-04/getting-started-with-tkg/tkg-ui-06.png" alt="TKG UI selecting node template image"></p>
+<p>With everything confirmed, continue on to review and then deploy.</p>
+<p>You&rsquo;ll begin to see the wizard kick into action, deploy <code>kind</code>, and then start the deployment process to vSphere. The <code>kind</code> node image is fairly large, so the first time you run the wizard it may take a few minutes to progress depending on your connection.</p>
+<p><img src="/images/2020-04/getting-started-with-tkg/tkg-ui-07.png" alt="TKG UI wizard deployment progress"></p>
+<p>If you flip over to vCenter, you should see the nodes getting cloned and being powered up. During the course of this process, if you happen to see an error in the vCenter task list saying that &ldquo;the name already exists,&rdquo; you&rsquo;re fine. This is just the CAPV controller logic attempting to reconcile the state of the cluster and it is harmless. Should be addressed in a forthcoming patch, but the clones should all succeed.</p>
+<p>After a few minutes, the process should be complete and the management cluster is ready to go.</p>
+<p><img src="/images/2020-04/getting-started-with-tkg/tkg-ui-08.png" alt="TKG UI wizard deployment process complete"></p>
+<p>Back at your terminal, you&rsquo;ll see that the process has ended and your <code>kubeconfig</code> will be set to the context of this management cluster allowing you to immediately begin interacting with it.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ k get no -o wide
+NAME                            STATUS   ROLES    AGE   VERSION            INTERNAL-IP     EXTERNAL-IP     OS-IMAGE                 KERNEL-VERSION   CONTAINER-RUNTIME
+tkgmgmt-control-plane-k9mwt     Ready    master   37m   v1.17.3+vmware.2   192.168.1.178   192.168.1.178   VMware Photon OS/Linux   4.19.112-1.ph3   containerd://1.3.3
+tkgmgmt-control-plane-whbrg     Ready    master   35m   v1.17.3+vmware.2   192.168.1.179   192.168.1.179   VMware Photon OS/Linux   4.19.112-1.ph3   containerd://1.3.3
+tkgmgmt-control-plane-wx2bn     Ready    master   40m   v1.17.3+vmware.2   192.168.1.176   192.168.1.176   VMware Photon OS/Linux   4.19.112-1.ph3   containerd://1.3.3
+tkgmgmt-md-0-5b89776dd9-gtzbx   Ready    &lt;none&gt;   37m   v1.17.3+vmware.2   192.168.1.177   192.168.1.177   VMware Photon OS/Linux   4.19.112-1.ph3   containerd://1.3.3
+</code></pre></div><p>You can see we&rsquo;ve got our three control plane nodes and one worker. The load balancer is not a Kubernetes node type so it won&rsquo;t show. However, you can see it has been configured as the entrypoint into the cluster.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ k cluster-info
+Kubernetes master is running at https://192.168.1.159:6443
+KubeDNS is running at https://192.168.1.159:6443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+</code></pre></div><p><img src="/images/2020-04/getting-started-with-tkg/tkg-lb.png" alt="The management cluster load balancer in vCenter UI. The IP being reported by VMtools is the IP adopted by the K8s cluster."></p>
+<p>Once the management cluster is available, the <code>tkg</code> CLI has created a number of files for you in your home directory, including, most importantly, a <code>config.yaml</code> file. This is the file containing the answers to the wizard you just completed in the UI and is used for subsequent runs of guest cluster creation. There are also a number of cluster-template files which are the blueprints or &ldquo;flavors&rdquo; of the types of workload/guest clusters you can create. More on that in another article, however.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ tree ~/.tkg/
+/Users/chipzoller/.tkg/
+├── config.yaml
+└── providers
+    ├── README.md
+    ├── bootstrap-kubeadm
+    │   └── v0.3.3
+    │       └── bootstrap-components.yaml
+    ├── cluster-api
+    │   └── v0.3.3
+    │       └── core-components.yaml
+    ├── config.yaml
+    ├── control-plane-kubeadm
+    │   └── v0.3.3
+    │       └── control-plane-components.yaml
+    ├── infrastructure-aws
+    │   └── v0.5.2
+    │       ├── cluster-template-dev.yaml
+    │       ├── cluster-template-prod.yaml
+    │       └── infrastructure-components.yaml
+    ├── infrastructure-tkg-service-vsphere
+    │   └── v1.0.0
+    │       ├── cluster-template-dev.yaml
+    │       └── cluster-template-prod.yaml
+    ├── infrastructure-vsphere
+    │   └── v0.6.3
+    │       ├── cluster-template-dev.yaml
+    │       ├── cluster-template-prod.yaml
+    │       └── infrastructure-components.yaml
+    └── provider-bundle
+
+<span class="m">14</span> directories, <span class="m">14</span> files
+</code></pre></div><p>Now that the management cluster is set up, we can begin to very easily build workload clusters. Out of the box, we have a <code>dev</code> and a <code>prod</code> plan we can use. The <code>dev</code> plan is a single control plane and single worker while the <code>prod</code> is three control planes and a single worker. By issuing the command <code>tkg create cluster &lt;cluster_name&gt; -p dev</code> we can get such a cluster. If we wanted to maybe add on a second worker node to get two rather than one, we can simply add the <code>-w</code> flag along with the number of total workers (i.e., <code>-w 2</code>).</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ tkg create cluster czdevtest -p dev
+Logs of the <span class="nb">command</span> execution can also be found at: /var/folders/sn/fj76jv0s7ss4wbx4m8v8dgxc0000gn/T/tkg-20200411T161624262049827.log
+Creating workload cluster <span class="s1">&#39;czdevtest&#39;</span>...
+
+
+Context <span class="nb">set</span> <span class="k">for</span> workload cluster czdevtest as czdevtest-admin@czdevtest
+
+Waiting <span class="k">for</span> cluster nodes to be available...
+
+Workload cluster <span class="s1">&#39;czdevtest&#39;</span> created
+</code></pre></div><p>After a few minutes, the cluster from that plan has been created and our context is set to it. Let&rsquo;s test it out.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ k get no
+NAME                              STATUS   ROLES    AGE     VERSION
+czdevtest-control-plane-rw5sk     Ready    master   3m11s   v1.17.3+vmware.2
+czdevtest-md-0-85c4ddf9c5-dfzdz   Ready    &lt;none&gt;   90s     v1.17.3+vmware.2
+</code></pre></div><p>Simple. Done.</p>
+<p>Lastly, although this context has been conveniently merged into our own local <code>kubeconfig</code>, let&rsquo;s say we want to hand this over to another user so they can get in. Keeping in mind you&rsquo;ll be giving over a role with cluster-admin privileges, it&rsquo;s very simple with the following.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ tkg get credentials czdevtest --export-file czdevtest.kubeconfig
+Credentials of workload cluster czdevtest have been saved
+You can now access the cluster by switching the context to czdevtest-admin@czdevtest under czdevtest.kubeconfig
+</code></pre></div><p>We should now be able to perform the last command but pointing to the exported <code>kubeconfig</code> file called <code>czdevtest.kubeconfig</code>. Let&rsquo;s test.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ k get no --kubeconfig czdevtest.kubeconfig
+NAME                              STATUS   ROLES    AGE     VERSION
+czdevtest-control-plane-rw5sk     Ready    master   3m58s   v1.17.3+vmware.2
+czdevtest-md-0-85c4ddf9c5-dfzdz   Ready    &lt;none&gt;   2m17s   v1.17.3+vmware.2
+</code></pre></div><p>And there we go.</p>
+<p>Hopefully this was a pretty easy article to follow and explained what Tanzu Kubernetes Grid is and what it can do. In the future, we&rsquo;ll look at some of the internals as well as more advanced use cases and functionality.</p>
+
+    
+    <div class="share-icons d-flex d-print-none">
+      <a href="https://twitter.com/intent/tweet?text=Getting%20Started%20with%20Tanzu%20Kubernetes%20Grid&url=https%3a%2f%2fneonmirrors.net%2fpost%2f2020-04%2fgetting-started-with-tkg%2f&tw_p=tweetbutton" class="p-2" title="Share on Twitter" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Tweet</small></div>
+</a>
+
+<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fneonmirrors.net%2fpost%2f2020-04%2fgetting-started-with-tkg%2f&t=Getting%20Started%20with%20Tanzu%20Kubernetes%20Grid" class="p-2" title="Share on Facebook" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+<script>
+  function shareViaLinkedin() {
+    window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent("https://neonmirrors.net/post/2020-04/getting-started-with-tkg/"), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+  }
+</script>
+<a href="#linkedinshare" id = "linkedinshare" class="p-2" title="Share on LinkedIn" rel="nofollow" onclick="shareViaLinkedin()">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+
+<a href="javascript:window.print()" title="Print this article" class="p-2" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fa fa-print fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Print</small></div>
+</a>
+
+    </div>
+  </div>
+  
+  
+</div>
+<div class="sidebar d-print-none d-xl-block internal">
+  
+  <h2>Chip Zoller</h2>
+  <div>
+    Technologist, perpetual student, teacher, continual incremental improvement.
+  </div>
+  <a href="/about/" class="btn btn-outline-secondary mt-3" role="button">Read More...</a>
+  <h2 class="mt-4">Featured Posts</h2>
+  
+  
+  <a href="/post/2019-10/authentication-and-authorization-in-k8s/" class="nav-link">Authentication and Authorization in Kubernetes</a>
+  
+  <a href="/post/2018-12/how-to-ask-for-help-on-tech-forums/" class="nav-link">How to Ask for Help on Tech Forums</a>
+  
+  <h2 class="mt-4">Recent Posts</h2>
+  <nav class="nav flex-column">
+    
+    <a href="/post/2020-04/getting-started-with-tkg/" class="nav-link">Getting Started with Tanzu Kubernetes Grid</a>
+    
+    <a href="/post/2020-04/capv-overview/" class="nav-link">Behind the Scenes with Cluster API Provider vSphere</a>
+    
+    <a href="/post/2020-01/buy-dont-build/" class="nav-link">Buy Don&#39;t Build</a>
+    
+    <a href="/post/2020-01/why-k8s-on-vms/" class="nav-link">Why Kubernetes on Virtual Machines?</a>
+    
+    <a href="/post/2020-01/2020-public-domain-day/" class="nav-link">2020 Public Domain Day</a>
+    
+    <a href="/post/2019-10/authentication-and-authorization-in-k8s/" class="nav-link">Authentication and Authorization in Kubernetes</a>
+    
+    <a href="/post/2019-10/pks-rancher-reg/" class="nav-link">pks-rancher-reg: Automated PKS Cluster Registration For Rancher</a>
+    
+    <a href="/post/2019-09/rancher-ha-on-pks/" class="nav-link">Rancher HA on Enterprise PKS</a>
+    
+  </nav>
+  
+  <h2 class="mt-4 text-capitalize" id="categories-section">categories</h2>
+  <nav class="nav">
+    
+    <a href='/categories/technology/' class="nav-link">
+      technology
+      <span class="badge badge-pill badge-secondary">53</span>
+    </a>
+    
+    <a href='/categories/music/' class="nav-link">
+      music
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+  </nav>
+  
+  <h2 class="mt-4 text-capitalize" id="tags-section">tags</h2>
+  <nav class="nav">
+    
+    <a href='/tags/vrealize/' class="nav-link">
+      vrealize
+      <span class="badge badge-pill badge-secondary">27</span>
+    </a>
+    
+    <a href='/tags/vra/' class="nav-link">
+      vra
+      <span class="badge badge-pill badge-secondary">22</span>
+    </a>
+    
+    <a href='/tags/vsphere/' class="nav-link">
+      vsphere
+      <span class="badge badge-pill badge-secondary">14</span>
+    </a>
+    
+    <a href='/tags/k8s/' class="nav-link">
+      k8s
+      <span class="badge badge-pill badge-secondary">9</span>
+    </a>
+    
+    <a href='/tags/sovlabs/' class="nav-link">
+      sovlabs
+      <span class="badge badge-pill badge-secondary">8</span>
+    </a>
+    
+    <a href='/tags/veeam/' class="nav-link">
+      veeam
+      <span class="badge badge-pill badge-secondary">7</span>
+    </a>
+    
+    <a href='/tags/powershell/' class="nav-link">
+      powershell
+      <span class="badge badge-pill badge-secondary">6</span>
+    </a>
+    
+    <a href='/tags/log-insight/' class="nav-link">
+      log-insight
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/pks/' class="nav-link">
+      pks
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/vrops/' class="nav-link">
+      vrops
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/vro/' class="nav-link">
+      vro
+      <span class="badge badge-pill badge-secondary">4</span>
+    </a>
+    
+    <a href='/tags/docker/' class="nav-link">
+      docker
+      <span class="badge badge-pill badge-secondary">3</span>
+    </a>
+    
+    <a href='/tags/vmworld/' class="nav-link">
+      vmworld
+      <span class="badge badge-pill badge-secondary">3</span>
+    </a>
+    
+    <a href='/tags/featured/' class="nav-link">
+      featured
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/nsx-t/' class="nav-link">
+      nsx-t
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/powercli/' class="nav-link">
+      powercli
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/rancher/' class="nav-link">
+      rancher
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/thoughts/' class="nav-link">
+      thoughts
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/ansible/' class="nav-link">
+      ansible
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/authentication/' class="nav-link">
+      authentication
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/forums/' class="nav-link">
+      forums
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/homelab/' class="nav-link">
+      homelab
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/networking/' class="nav-link">
+      networking
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/security/' class="nav-link">
+      security
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/vmtn/' class="nav-link">
+      vmtn
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+  </nav>
+  
+</div>
+
+
+  </div>
+  
+  <footer class="mt-auto footer d-print-none">
+    <a class="to-top" href="#" title="Back to top">
+      <i class="fa fa-caret-up"></i>
+    </a>
+    <div class="container-fluid">
+      <div class="row justify-content-center">
+        <div class="col-md-4 col-xl-3">
+          <h5>Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved.</h5>
+I&#39;m happy for you to share content on this site, but please provide attribution.
+        </div>
+        <div class="col-md-4 col-xl-3">
+          <h5>Disclaimer</h5>
+Opinions expressed here are my own and may not reflect those of the company I work for, or the people I work with.
+        </div>
+        <div class="col-md-4 col-xl-3">
+          <h5>About This Site</h5>
+This blog was created using the <a href="https://gohugo.io/">Hugo</a> static site generator, using
+<a href="https://getbootstrap.com/">Bootstrap</a>, using the Silhouette Hugo theme, created by
+<a href='https://www.mattbutton.com'>Matt Button</a>
+        </div>
+      </div>
+      
+      <hr />
+      
+      <div class="d-flex justify-content-center icons">
+        <a class="py-2 px-2" href="https://github.com/chipzoller"><i class="fab fa-github"></i></a>
+<a class="py-2 px-2" href="https://twitter.com/chipzoller"><i class="fab fa-twitter"></i></a>
+<a class="py-2 px-2" href="https://www.linkedin.com/in/chipzoller/"><i class="fab fa-linkedin"></i></a>
+<a class="py-2 px-2" href='https://neonmirrors.net/index.xml'><i class="fas fa-rss"></i></a>
+
+      </div>
+    </div>
+  </footer>
+  
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script src="/js/syntax.js"></script>
+  <script src = '/js/index.js'></script>
+  
+  
+</body>
+</html>

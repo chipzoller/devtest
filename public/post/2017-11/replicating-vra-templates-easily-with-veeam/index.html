@@ -1,0 +1,554 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  <meta property="og:title" content="Replicating vRA Templates Easily with Veeam" />
+<meta property="og:description" content="Using Veeam to replicate vSphere templates used by vRealize Automation." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://neonmirrors.net/post/2017-11/replicating-vra-templates-easily-with-veeam/" />
+<meta property="article:published_time" content="2017-11-02T00:00:00+00:00" />
+<meta property="article:modified_time" content="2017-11-02T00:00:00+00:00" />
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Replicating vRA Templates Easily with Veeam"/>
+<meta name="twitter:description" content="Using Veeam to replicate vSphere templates used by vRealize Automation."/>
+<meta name="twitter:site" content="@chipzoller"/>
+
+  
+  <title>
+Replicating vRA Templates Easily with Veeam | Neon Mirrors
+</title>
+  
+  <link rel="icon" type="image/png" href='https://neonmirrors.net/images/favicon-16x16.png' sizes="16x16">
+  <link rel="icon" type="image/png" href='https://neonmirrors.net/images/favicon-32x32.png' sizes="32x32">  
+  
+  <link href="https://fonts.googleapis.com/css?family=Oswald:400" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">      
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel = 'stylesheet' href = 'https://neonmirrors.net/css/main.703162b863e7e1a93ee98f24b75e329848a814522f2d9f5735d41fbc7f023b3772f177c6ef8dbafccee65cfa8c1b8bb57e73d49284b5a0fdbbe772b8b29b07cb.css' integrity = 'sha512-cDFiuGPn4ak&#43;6Y8kt14ymEioFFIvLZ9XNdQfvH8COzdy8XfG7426/M7mXPqMG4u1fnPUkoS1oP2753K4spsHyw=='>
+  
+  
+<link rel="me" type="text/html" href="https://twitter.com/chipzoller"/> 
+<link rel="me" type="text/html" href="https://www.linkedin.com/in/chipzoller/"/> 
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+
+<link rel="alternate" type="application/rss+xml" href='https://neonmirrors.net/index.xml' />
+
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<meta name="author" content="Chip Zoller" />
+<meta name="copyright" content="Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved." />
+
+
+<meta name="description" content="Using Veeam to replicate vSphere templates used by vRealize Automation.">
+
+
+
+
+<style type="text/css">
+  .feature-image {
+    background-image: url("https://neonmirrors.net/images/2017-11/replicating-vra-templates-easily-with-veeam/featured.jpg");
+    height: 500px;
+  }
+  
+  @media (max-width: 992px) {
+    .feature-image {
+      height: 350px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .feature-image {
+      height: 250px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .feature-image {
+      height: 200px;
+    }
+  }
+</style>
+
+        
+</head>
+<body >
+  <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark py-1 top-nav">
+    <div class="container">
+      <span class="internal">
+  <a class="navbar-brand pr-2" href="/">NEON MIRRORS</a>
+</span>
+
+      <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="navbar-collapse collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/categories/technology/">Technology</a>
+  
+</li>
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/categories/music/">Music</a>
+  
+</li>
+<li class="nav-item internal">
+  
+  <div class="nav-link nav-hassubmenu">Links
+    <div class="nav-submenu" >
+    
+      <a class="nav-link" href="https://chipzoller.gitbook.io/vspheremigration/">Ultimate vSphere VM Migration Guide</a>
+    
+    </div>
+    </div>
+  
+</li>
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/about/">About</a>
+  
+</li>
+
+        </ul>
+        <div class="social-icons d-none d-lg-block">
+          <a class="py-2 px-2" href="https://github.com/chipzoller"><i class="fab fa-github"></i></a>
+<a class="py-2 px-2" href="https://twitter.com/chipzoller"><i class="fab fa-twitter"></i></a>
+<a class="py-2 px-2" href="https://www.linkedin.com/in/chipzoller/"><i class="fab fa-linkedin"></i></a>
+<a class="py-2 px-2" href='https://neonmirrors.net/index.xml'><i class="fas fa-rss"></i></a>
+
+        </div>
+      </div>
+    </div>
+  </nav>
+  
+  
+<header class="feature-image d-print-none">
+</header>
+
+  
+  <div class="main">
+    
+<div class="container mt-4 post">
+  <h1>Replicating vRA Templates Easily with Veeam</h1>
+  <div class="mb-3 internal">
+  <small>
+    <strong>By Chip Zoller</strong>
+    | <i class="far fa-calendar-alt"></i>&nbsp;Nov 2, 2017&nbsp;
+    | <i class="fa fa-tags" title="Tags" aria-hidden="true"></i> <a href='/tags/vsphere/'>vsphere</a>, <a href='/tags/veeam/'>veeam</a>, <a href='/tags/vra/'>vra</a>, <a href='/tags/vrealize/'>vrealize</a><span class="d-lg-none">, <a href='#tags-section'>all tags</a></span>
+  </small>
+</div>
+
+  <div class="share-icons d-flex d-print-none">
+    <a href="https://twitter.com/intent/tweet?text=Replicating%20vRA%20Templates%20Easily%20with%20Veeam&url=https%3a%2f%2fneonmirrors.net%2fpost%2f2017-11%2freplicating-vra-templates-easily-with-veeam%2f&tw_p=tweetbutton" class="p-2" title="Share on Twitter" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Tweet</small></div>
+</a>
+
+<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fneonmirrors.net%2fpost%2f2017-11%2freplicating-vra-templates-easily-with-veeam%2f&t=Replicating%20vRA%20Templates%20Easily%20with%20Veeam" class="p-2" title="Share on Facebook" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+<script>
+  function shareViaLinkedin() {
+    window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent("https://neonmirrors.net/post/2017-11/replicating-vra-templates-easily-with-veeam/"), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+  }
+</script>
+<a href="#linkedinshare" id = "linkedinshare" class="p-2" title="Share on LinkedIn" rel="nofollow" onclick="shareViaLinkedin()">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+
+<a href="javascript:window.print()" title="Print this article" class="p-2" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fa fa-print fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Print</small></div>
+</a>
+
+  </div>
+  
+  <div class="mt-4 mb-4 main-content">
+    <p>For those who use vRealize Automation (vRA), you’re probably all too familiar with vSphere templates and how they are the crux of your service catalog. Unless you’re creating machine deployments anew from another build tool, you’re probably using them, and it’s likely you have at least two, sometimes many more. Using the Clone workflow, those vSphere templates become the new VMs in your deployments. That part is all well and good, but do you fall into the category of having several templates? How about multiple data centers across multiple geos? It becomes a real chore when patching time comes around. It’s bad enough having to convert, power on, update, power down, and convert again two templates let alone a dozen only to be forced to multiply that work times the number of sites you have. So, in the words of the dozens of infomercial actors out there hawking questionably useful gadgets and gizmos&hellip;</p>
+<p><img src="/images/2017-11/replicating-vra-templates-easily-with-veeam/image1.png" alt="There has got to be a better way!"></p>
+<p>I’m glad to share with you in this new article that there is indeed a better way if you happen to be using Veeam Backup &amp; Replication. And the best part is this won’t even cost you so much as one easy payment of $19.95. Read on for the best thing since the <a href="http://www.slumbersleeve.com/">Slumber Sleeve</a>.</p>
+<p>Let’s start off with a basic scenario:  You have two different data centers, each managed by a different vCenter with Veeam Backup &amp; Replication able to reach both of them. There is at least one Veeam proxy per site. One site is considered the “primary” site while the other is “secondary.” Your templates are updated only on the primary site but you wish them to be available at the secondary site as well. vRA has endpoints set up for both vCenters with reservations and blueprints created for both locations. This is a very common scenario and can be achieved here, not to mention replication to any N other sites. As the scenario was described, make sure you do have those prerequisites met. If you don’t yet have a second endpoint in vRA with blueprints for the second location, that’s not a problem. But do ensure Veeam is operational, has proxies at both sites, and that those vCenters have been added to Veeam’s Managed Servers inventory list. Also, PowerCLI will be necessary on the Veeam management server. This process as well as the scripts I’ll provide were developed and tested with PowerCLI 6.5.2 against vCenter 6.5 U1 and Veeam 9.5 U2, but presumably they should work on earlier versions of each as well.</p>
+<p>To start this process off, we need to make sure there is some level of organization in vCenter on both sites. Place all your vRA templates into a dedicated folder within the source vCenter. That is to say, any template you want replicated needs to go in one specific folder. I just called mine “vRA Templates” and it is a subfolder of “Templates” because I have others that are not for vRA’s use.</p>
+<p><img src="/images/2017-11/replicating-vra-templates-easily-with-veeam/image2.png" alt="Template folder structure in vSphere"></p>
+<p>Pretty simple with one Windows and one Linux. Also, keep in mind that these templates have the guest/software agent installed on them, and it can only be pointed to one vRA environment, so if you’re thinking of replicating them to another data center for another vRA’s use, you might need to use another method. In the second site, create a folder of the same name.</p>
+<p>Now, in that second site and within that folder, create new VMs but give them the same configuration as your templates. For example, my CentOS 7.2-vRA template you see there is a 1 x 2 x 6 configuration. Create the same configuration in a new VM in the second location. Feel free to give it another name, or append a portion to the name for uniqueness, however this is not required. Join it to a portgroup of your choice keeping in mind vRA will have the ability to change this when deployed. Here’s the thing, though, you do <em>NOT</em> need to power it on or load any sort of OS. Just leave it there as a shell of a VM in a powered-off state. Why is this necessary? Because although Veeam is perfectly capable of creating replicas at the destination, we can’t have that in this case due to the instanceUUID value, also known as the vc.uuid. This is the ID by which vCenter tracks different VMs and each is based off of the vCenter unique ID. The instanceUUID is consequently how vRA tracks VMs and so all must be unique even across sites. If we let Veeam create the VM replica at the destination, those IDs would not be unique thus vRA would not know about both of the templates as different objects. By manually going through this creation process once, we can ensure those IDs are unique and Veeam will honor them going forward with replication. With some simple PowerShell, we can verify those instanceUUIDs and keep track of them for later.</p>
+<div class="highlight"><pre class="chroma"><code class="language-ps1" data-lang="ps1"><span class="nv">$vm</span> <span class="p">=</span> <span class="nb">Get-VM</span> <span class="n">-Name</span> <span class="s2">&#34;MyVMName&#34;</span>
+<span class="nv">$vm</span><span class="p">.</span><span class="n">extensiondata</span><span class="p">.</span><span class="n">config</span><span class="p">.</span><span class="n">InstanceUUID</span>
+</code></pre></div><p>With the template shells created at the destination, make sure you convert the templates at the source side to VMs. It’s time to set up the Veeam replication job. Again, before doing so, make sure both vCenters are in Veeam’s inventory and you have proxies available in both locations.</p>
+<ol>
+<li>Create a new replication job. Before navigating away from that first screen, two very important check boxes we must have in place.</li>
+</ol>
+<p><img src="/images/2017-11/replicating-vra-templates-easily-with-veeam/image3.png" alt="Veeam replication job, check these boxes"></p>
+<p>Check “Low connection bandwidth” and “Separate virtual networks”.</p>
+<ol start="2">
+<li>
+<p>Select the VM folder at the source containing your vRA templates.</p>
+</li>
+<li>
+<p>At the Destination step, select the necessary resources including the folder at the destination containing those shell VMs.</p>
+</li>
+<li>
+<p>On the Network selection, select the portgroup on the source side where those templates are joined, and then the portgroup on the destination side where your shells are joined.</p>
+</li>
+<li>
+<p>On Job Settings, select the repository of your choice. Clear the selection for the replica suffix as we won’t need that (or assign something else). Change restore points to 1 since you must have at least one. In the Advanced Settings option, leave the defaults set ensuring the two options under the Traffic tab are enabled.</p>
+</li>
+</ol>
+<p><img src="/images/2017-11/replicating-vra-templates-easily-with-veeam/image4.png" alt="Enable data reduction options on the job"></p>
+<ol start="6">
+<li>
+<p>Data Transfer, select options to fit your infrastructure.</p>
+</li>
+<li>
+<p>Seeding. This is the key. We’re going to map our replicas to those shells we created earlier at the destination.</p>
+</li>
+</ol>
+<p><img src="/images/2017-11/replicating-vra-templates-easily-with-veeam/image5.png" alt="Enable replica mapping to existing VMs at destination"></p>
+<p>We won’t use the initial seeding functionality, only the replica mapping. Click each template and manually map it to those new shells. Don’t rely on the detect functionality as it probably won’t come up with the right systems.</p>
+<ol start="8">
+<li>
+<p>Guest Processing. Don’t need it since these will be powered off.</p>
+</li>
+<li>
+<p>Schedule is up to you. Since Veeam won’t replicate anything if no data has changed on these templates, it’s safe to set it to a more frequent interval than that in which you’ll be updating them.</p>
+</li>
+<li>
+<p>Click Finish to save the job.</p>
+</li>
+</ol>
+<p>Now, if you were to run the job now, it wouldn’t process anything if you converted those VMs back to templates at the source. The reason being that Veeam can’t replicate templates natively, so they must be converted. A couple scripts I’ll provide you here are for the pre- and post-job processing of the job. The pre job script automatically converts that folder of templates into VMs. Once done and the Veeam job started, it processes them normally. The post-job script reverses the process. In addition to templates needing to be VMs for replication to function, the added benefit is CBT can be leveraged to find and only move the blocks of data that are different. If you’re familiar with backup jobs, you may know that they are capable of backing up templates, but only in NBD mode and without CBT. So this process of template-to-VM conversion and back actually saves time if that data needs to be moved over a WAN to remote sites.</p>
+<p>The last thing to do here is to download the pre- and post-job scripts I’ve provided, modify them slightly, and configure them in the advanced job settings options. Both scripts have been made with ease of use and portability in mind. The only things that need setting by you are the username and password options.</p>
+<p>Edit the PRE script to change the $username and $password variables, and do the same for the POST script. Since this is obviously sensitive information, you’ll want to keep access controlled to these scripts somewhere local to your Veeam server. Once this is done, edit your replication job and go to Job Settings -&gt; Advanced (button) -&gt; Scripts. Check both boxes to run the script at every 1 backup session.</p>
+<p><img src="/images/2017-11/replicating-vra-templates-easily-with-veeam/image6.png" alt="Enable job scripts in Advanced Settings"></p>
+<p>For the path, specify them as the following:</p>
+<div class="highlight"><pre class="chroma"><code class="language-ps1" data-lang="ps1"><span class="n">C:</span><span class="p">\</span><span class="n">Windows</span><span class="p">\</span><span class="n">System32</span><span class="p">\</span><span class="n">WindowsPowerShell</span><span class="p">\</span><span class="n">v1</span><span class="p">.</span><span class="n">0</span><span class="p">\</span><span class="n">powershell</span><span class="p">.</span><span class="n">exe</span> <span class="o">-File</span> <span class="s2">&#34;D:\Replicate vRA Templates PRE.ps1&#34;</span> <span class="n">-SourcevCenter</span> <span class="s2">&#34;source_vC.domain.com&#34;</span> <span class="n">-DestinationvCenter</span> <span class="s2">&#34;dest_vC.domain.com&#34;</span> <span class="n">-FolderName</span> <span class="s2">&#34;My vRA Templates&#34;</span>
+</code></pre></div><p>Since the scripts accept parameters for source, destination, and folder, we can just pass these in as arguments in the program path.</p>
+<p>So after getting that plumbed up, you should be ready to run your replication job. The overall process that happens will be something like this.</p>
+<ol>
+<li>Pre-job script runs. Converts folder of templates at source and destination to virtual machines.</li>
+<li>Veeam replication begins. Replicas are mapped. Disk hashing of destination VMs begins.</li>
+<li>Data is replicated from source to destination using available proxies.</li>
+<li>Replication complete. Retention applied by merging snapshots (if applicable).</li>
+<li>Post-job script runs. Checks destination VMs to see if vCenter reports VMware tools as installed. If no, starts VM, waits for tools status, then shuts down. If yes, converts VMs at destination to templates. Converts VMs at source to templates.</li>
+</ol>
+<p>Step 5 may look a little strange. Why does it care about VMware tools status on a powered-off VM? This is because customizing a VM using a customization spec uses the VMware tools channel to push the configuration. If VMware tools are not installed, customization cannot happen, and even if tools really are installed but vCenter sees they are not, it will still fail. If customization fails, vRA fails, too, since vSphere machines require vCenter customization specs for things like static IPs and domain joins. So the workaround here is to power on the VM until tools starts. At that time, vCenter will pick up on it and change what it has recorded in its configuration to reflect that tools are installed. This is what will allow customization to succeed. Once this status is updated on the VM, the script will then perform a guest OS shutdown (not a power off) followed by a conversion to template.</p>
+<p>One possible workaround if you would prefer not to have this script power on your destination VM/template every time is to, after the initial replication completes, power on the VM yourself waiting for VMware tools, shut it down, then merge the snapshot that Veeam just created. Doing so will retain the tools status, but upon the next run of the replication job will trigger another disk hashing run. This disk hashing will have to check all the blocks on the destination VM to ensure the data is as it left it before proceeding with another replication cycle. But it is one possibility if, for some reason, you cannot have your templates being brought up due to run-once scripts or configurations getting updated, etc.</p>
+<p>There you go. You now have your templates from your source site at your destination site ready to consume with vRA. Because we performed replica mapping, they should be discrete instances of templates, even if the names are the same, due to different instanceUuids. One last thing is to validate from vRA’s side that these templates are, in fact, separate and we can consume them independently. With IaaS Administrator permissions, login to vRA and go to Infrastructure -&gt; Compute Resources -&gt; Compute Resources. Hover over the compute resource corresponding to your remote site and perform a data collection.</p>
+<p><img src="/images/2017-11/replicating-vra-templates-easily-with-veeam/image7.png" alt="Begin a data collection in vRA"></p>
+<p>Request an Inventory data collection.</p>
+<p><img src="/images/2017-11/replicating-vra-templates-easily-with-veeam/image8.png" alt="Only an Inventory data collection is required"></p>
+<p>Once successful, either create a new blueprint or edit an existing one. Click on your vSphere machine object on the canvas, go to the Build Information tab, and click the button next to the Clone from field. You should now be able to see templates from both sites in the list and eligible for selection on your blueprints.</p>
+<p><img src="/images/2017-11/replicating-vra-templates-easily-with-veeam/image9.png" alt="Templates available in vRA from both sites"></p>
+<p>Now all that’s left for you to do is consume them in vRA any way you wish!</p>
+<p>What if you have multiple sites and want to do a one-to-many replication? That’s no problem either. Simply duplicate the process for the second vCenter in a new replication job, and for the scheduling portion, select the “After this job” option and pick the first replica job you created. Also be sure to edit the arguments of the pre- and post-job script configurations so it reflects the correct destination vCenter. Remember, you’ll still need to create one-time “shell” VMs at your other sites and store them in a consistent folder. You can chain as many of these together as you want and vRA will be able to see them independently.</p>
+<p>As you can see, replication of your vRA templates can be done fairly easily with the provided scripts and allows great benefits in the form of time savings and consistency. No more having to manually patch and update the same template in multiple sites. No more user error involved in forgetting to do something on one site that you did in another. And no more failing audits because your corporate, hardened template in your other site didn’t get the new security settings. Now you too can be like one of the millions of satisfied customers with your handy-dandy vRA Template Replicator!</p>
+<p><img src="/images/2017-11/replicating-vra-templates-easily-with-veeam/image10.png" alt="God, this Snuggie is comfortable"></p>
+<p>I wish to give special thanks to <a href="https://twitter.com/LucD22">Luc Dekens</a> for his scripting expertise and assistance in this project. He was very generous in providing some code snippets and reviewing the process of the precursors to the scripts provided here, and he frequents the PowerCLI forum on the VMTN Community where helping others with their PowerShell scripting challenges. Thank you, Luc!</p>
+<h2 id="download-scriptshttpsgithubcomchipzollerblogscriptstreemasterreplicatingvratemplateseasilywithveeam"><a href="https://github.com/chipzoller/BlogScripts/tree/master/ReplicatingvRATemplatesEasilyWithVeeam"><strong>DOWNLOAD SCRIPTS</strong></a></h2>
+
+    
+    <div class="share-icons d-flex d-print-none">
+      <a href="https://twitter.com/intent/tweet?text=Replicating%20vRA%20Templates%20Easily%20with%20Veeam&url=https%3a%2f%2fneonmirrors.net%2fpost%2f2017-11%2freplicating-vra-templates-easily-with-veeam%2f&tw_p=tweetbutton" class="p-2" title="Share on Twitter" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Tweet</small></div>
+</a>
+
+<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fneonmirrors.net%2fpost%2f2017-11%2freplicating-vra-templates-easily-with-veeam%2f&t=Replicating%20vRA%20Templates%20Easily%20with%20Veeam" class="p-2" title="Share on Facebook" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+<script>
+  function shareViaLinkedin() {
+    window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent("https://neonmirrors.net/post/2017-11/replicating-vra-templates-easily-with-veeam/"), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+  }
+</script>
+<a href="#linkedinshare" id = "linkedinshare" class="p-2" title="Share on LinkedIn" rel="nofollow" onclick="shareViaLinkedin()">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+
+<a href="javascript:window.print()" title="Print this article" class="p-2" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fa fa-print fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Print</small></div>
+</a>
+
+    </div>
+  </div>
+  
+  
+</div>
+<div class="sidebar d-print-none d-xl-block internal">
+  
+  <h2>Chip Zoller</h2>
+  <div>
+    Technologist, perpetual student, teacher, continual incremental improvement.
+  </div>
+  <a href="/about/" class="btn btn-outline-secondary mt-3" role="button">Read More...</a>
+  <h2 class="mt-4">Featured Posts</h2>
+  
+  
+  <a href="/post/2019-10/authentication-and-authorization-in-k8s/" class="nav-link">Authentication and Authorization in Kubernetes</a>
+  
+  <a href="/post/2018-12/how-to-ask-for-help-on-tech-forums/" class="nav-link">How to Ask for Help on Tech Forums</a>
+  
+  <h2 class="mt-4">Recent Posts</h2>
+  <nav class="nav flex-column">
+    
+    <a href="/post/2020-04/getting-started-with-tkg/" class="nav-link">Getting Started with Tanzu Kubernetes Grid</a>
+    
+    <a href="/post/2020-04/capv-overview/" class="nav-link">Behind the Scenes with Cluster API Provider vSphere</a>
+    
+    <a href="/post/2020-01/buy-dont-build/" class="nav-link">Buy Don&#39;t Build</a>
+    
+    <a href="/post/2020-01/why-k8s-on-vms/" class="nav-link">Why Kubernetes on Virtual Machines?</a>
+    
+    <a href="/post/2020-01/2020-public-domain-day/" class="nav-link">2020 Public Domain Day</a>
+    
+    <a href="/post/2019-10/authentication-and-authorization-in-k8s/" class="nav-link">Authentication and Authorization in Kubernetes</a>
+    
+    <a href="/post/2019-10/pks-rancher-reg/" class="nav-link">pks-rancher-reg: Automated PKS Cluster Registration For Rancher</a>
+    
+    <a href="/post/2019-09/rancher-ha-on-pks/" class="nav-link">Rancher HA on Enterprise PKS</a>
+    
+  </nav>
+  
+  <h2 class="mt-4 text-capitalize" id="categories-section">categories</h2>
+  <nav class="nav">
+    
+    <a href='/categories/technology/' class="nav-link">
+      technology
+      <span class="badge badge-pill badge-secondary">53</span>
+    </a>
+    
+    <a href='/categories/music/' class="nav-link">
+      music
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+  </nav>
+  
+  <h2 class="mt-4 text-capitalize" id="tags-section">tags</h2>
+  <nav class="nav">
+    
+    <a href='/tags/vrealize/' class="nav-link">
+      vrealize
+      <span class="badge badge-pill badge-secondary">27</span>
+    </a>
+    
+    <a href='/tags/vra/' class="nav-link">
+      vra
+      <span class="badge badge-pill badge-secondary">22</span>
+    </a>
+    
+    <a href='/tags/vsphere/' class="nav-link">
+      vsphere
+      <span class="badge badge-pill badge-secondary">14</span>
+    </a>
+    
+    <a href='/tags/k8s/' class="nav-link">
+      k8s
+      <span class="badge badge-pill badge-secondary">9</span>
+    </a>
+    
+    <a href='/tags/sovlabs/' class="nav-link">
+      sovlabs
+      <span class="badge badge-pill badge-secondary">8</span>
+    </a>
+    
+    <a href='/tags/veeam/' class="nav-link">
+      veeam
+      <span class="badge badge-pill badge-secondary">7</span>
+    </a>
+    
+    <a href='/tags/powershell/' class="nav-link">
+      powershell
+      <span class="badge badge-pill badge-secondary">6</span>
+    </a>
+    
+    <a href='/tags/log-insight/' class="nav-link">
+      log-insight
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/pks/' class="nav-link">
+      pks
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/vrops/' class="nav-link">
+      vrops
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/vro/' class="nav-link">
+      vro
+      <span class="badge badge-pill badge-secondary">4</span>
+    </a>
+    
+    <a href='/tags/docker/' class="nav-link">
+      docker
+      <span class="badge badge-pill badge-secondary">3</span>
+    </a>
+    
+    <a href='/tags/vmworld/' class="nav-link">
+      vmworld
+      <span class="badge badge-pill badge-secondary">3</span>
+    </a>
+    
+    <a href='/tags/featured/' class="nav-link">
+      featured
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/nsx-t/' class="nav-link">
+      nsx-t
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/powercli/' class="nav-link">
+      powercli
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/rancher/' class="nav-link">
+      rancher
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/thoughts/' class="nav-link">
+      thoughts
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/ansible/' class="nav-link">
+      ansible
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/authentication/' class="nav-link">
+      authentication
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/forums/' class="nav-link">
+      forums
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/homelab/' class="nav-link">
+      homelab
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/networking/' class="nav-link">
+      networking
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/security/' class="nav-link">
+      security
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/vmtn/' class="nav-link">
+      vmtn
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+  </nav>
+  
+</div>
+
+
+  </div>
+  
+  <footer class="mt-auto footer d-print-none">
+    <a class="to-top" href="#" title="Back to top">
+      <i class="fa fa-caret-up"></i>
+    </a>
+    <div class="container-fluid">
+      <div class="row justify-content-center">
+        <div class="col-md-4 col-xl-3">
+          <h5>Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved.</h5>
+I&#39;m happy for you to share content on this site, but please provide attribution.
+        </div>
+        <div class="col-md-4 col-xl-3">
+          <h5>Disclaimer</h5>
+Opinions expressed here are my own and may not reflect those of the company I work for, or the people I work with.
+        </div>
+        <div class="col-md-4 col-xl-3">
+          <h5>About This Site</h5>
+This blog was created using the <a href="https://gohugo.io/">Hugo</a> static site generator, using
+<a href="https://getbootstrap.com/">Bootstrap</a>, using the Silhouette Hugo theme, created by
+<a href='https://www.mattbutton.com'>Matt Button</a>
+        </div>
+      </div>
+      
+      <hr />
+      
+      <div class="d-flex justify-content-center icons">
+        <a class="py-2 px-2" href="https://github.com/chipzoller"><i class="fab fa-github"></i></a>
+<a class="py-2 px-2" href="https://twitter.com/chipzoller"><i class="fab fa-twitter"></i></a>
+<a class="py-2 px-2" href="https://www.linkedin.com/in/chipzoller/"><i class="fab fa-linkedin"></i></a>
+<a class="py-2 px-2" href='https://neonmirrors.net/index.xml'><i class="fas fa-rss"></i></a>
+
+      </div>
+    </div>
+  </footer>
+  
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script src="/js/syntax.js"></script>
+  <script src = '/js/index.js'></script>
+  
+  
+</body>
+</html>

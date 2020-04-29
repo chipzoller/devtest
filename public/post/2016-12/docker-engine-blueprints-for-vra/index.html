@@ -1,0 +1,505 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  <meta property="og:title" content="Docker Engine on Windows and Linux through vRealize Automation" />
+<meta property="og:description" content="Docker Engine blueprints for vRealize Automation." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://neonmirrors.net/post/2016-12/docker-engine-blueprints-for-vra/" />
+<meta property="article:published_time" content="2016-12-06T00:00:00+00:00" />
+<meta property="article:modified_time" content="2016-12-06T00:00:00+00:00" />
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Docker Engine on Windows and Linux through vRealize Automation"/>
+<meta name="twitter:description" content="Docker Engine blueprints for vRealize Automation."/>
+<meta name="twitter:site" content="@chipzoller"/>
+
+  
+  <title>
+Docker Engine on Windows and Linux through vRealize Automation | Neon Mirrors
+</title>
+  
+  <link rel="icon" type="image/png" href='https://neonmirrors.net/images/favicon-16x16.png' sizes="16x16">
+  <link rel="icon" type="image/png" href='https://neonmirrors.net/images/favicon-32x32.png' sizes="32x32">  
+  
+  <link href="https://fonts.googleapis.com/css?family=Oswald:400" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">      
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel = 'stylesheet' href = 'https://neonmirrors.net/css/main.703162b863e7e1a93ee98f24b75e329848a814522f2d9f5735d41fbc7f023b3772f177c6ef8dbafccee65cfa8c1b8bb57e73d49284b5a0fdbbe772b8b29b07cb.css' integrity = 'sha512-cDFiuGPn4ak&#43;6Y8kt14ymEioFFIvLZ9XNdQfvH8COzdy8XfG7426/M7mXPqMG4u1fnPUkoS1oP2753K4spsHyw=='>
+  
+  
+<link rel="me" type="text/html" href="https://twitter.com/chipzoller"/> 
+<link rel="me" type="text/html" href="https://www.linkedin.com/in/chipzoller/"/> 
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+
+<link rel="alternate" type="application/rss+xml" href='https://neonmirrors.net/index.xml' />
+
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<meta name="author" content="Chip Zoller" />
+<meta name="copyright" content="Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved." />
+
+
+<meta name="description" content="Docker Engine blueprints for vRealize Automation.">
+
+
+
+
+<style type="text/css">
+  .feature-image {
+    background-image: url("https://neonmirrors.net/images/2016-12/docker-engine-blueprints-for-vra/featured.jpg");
+    height: 500px;
+  }
+  
+  @media (max-width: 992px) {
+    .feature-image {
+      height: 350px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .feature-image {
+      height: 250px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .feature-image {
+      height: 200px;
+    }
+  }
+</style>
+
+        
+</head>
+<body >
+  <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark py-1 top-nav">
+    <div class="container">
+      <span class="internal">
+  <a class="navbar-brand pr-2" href="/">NEON MIRRORS</a>
+</span>
+
+      <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="navbar-collapse collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/categories/technology/">Technology</a>
+  
+</li>
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/categories/music/">Music</a>
+  
+</li>
+<li class="nav-item internal">
+  
+  <div class="nav-link nav-hassubmenu">Links
+    <div class="nav-submenu" >
+    
+      <a class="nav-link" href="https://chipzoller.gitbook.io/vspheremigration/">Ultimate vSphere VM Migration Guide</a>
+    
+    </div>
+    </div>
+  
+</li>
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/about/">About</a>
+  
+</li>
+
+        </ul>
+        <div class="social-icons d-none d-lg-block">
+          <a class="py-2 px-2" href="https://github.com/chipzoller"><i class="fab fa-github"></i></a>
+<a class="py-2 px-2" href="https://twitter.com/chipzoller"><i class="fab fa-twitter"></i></a>
+<a class="py-2 px-2" href="https://www.linkedin.com/in/chipzoller/"><i class="fab fa-linkedin"></i></a>
+<a class="py-2 px-2" href='https://neonmirrors.net/index.xml'><i class="fas fa-rss"></i></a>
+
+        </div>
+      </div>
+    </div>
+  </nav>
+  
+  
+<header class="feature-image d-print-none">
+</header>
+
+  
+  <div class="main">
+    
+<div class="container mt-4 post">
+  <h1>Docker Engine on Windows and Linux through vRealize Automation</h1>
+  <div class="mb-3 internal">
+  <small>
+    <strong>By Chip Zoller</strong>
+    | <i class="far fa-calendar-alt"></i>&nbsp;Dec 6, 2016&nbsp;
+    | <i class="fa fa-tags" title="Tags" aria-hidden="true"></i> <a href='/tags/docker/'>docker</a>, <a href='/tags/vra/'>vra</a>, <a href='/tags/vrealize/'>vrealize</a><span class="d-lg-none">, <a href='#tags-section'>all tags</a></span>
+  </small>
+</div>
+
+  <div class="share-icons d-flex d-print-none">
+    <a href="https://twitter.com/intent/tweet?text=Docker%20Engine%20on%20Windows%20and%20Linux%20through%20vRealize%20Automation&url=https%3a%2f%2fneonmirrors.net%2fpost%2f2016-12%2fdocker-engine-blueprints-for-vra%2f&tw_p=tweetbutton" class="p-2" title="Share on Twitter" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Tweet</small></div>
+</a>
+
+<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fneonmirrors.net%2fpost%2f2016-12%2fdocker-engine-blueprints-for-vra%2f&t=Docker%20Engine%20on%20Windows%20and%20Linux%20through%20vRealize%20Automation" class="p-2" title="Share on Facebook" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+<script>
+  function shareViaLinkedin() {
+    window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent("https://neonmirrors.net/post/2016-12/docker-engine-blueprints-for-vra/"), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+  }
+</script>
+<a href="#linkedinshare" id = "linkedinshare" class="p-2" title="Share on LinkedIn" rel="nofollow" onclick="shareViaLinkedin()">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+
+<a href="javascript:window.print()" title="Print this article" class="p-2" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fa fa-print fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Print</small></div>
+</a>
+
+  </div>
+  
+  <div class="mt-4 mb-4 main-content">
+    <p>Docker is a topic that seems all the rage today, and people and organizations are scrambling to understand the technology in order to power their next-generation apps with methodologies such as continuous delivery and micro-services. In order to make standing up Docker easier for those with vRealize Automation, I’ve made a couple of software blueprints that can be dropped on top of your existing machine blueprints which allow you to provision Docker hosts on both Linux and Windows!  Yes, that is Linux and Windows since Docker is now a functional technology on top of Windows Server 2016.  You can get both of these blueprints for free from the <a href="https://developercenter.vmware.com/samples">VMware Sample Exchange</a>, which, if you don’t know about it, is a great place where folks from the community post everything from vRA blueprints to PowerShell scripts and vRO packages.</p>
+<h2 id="linux-docker-enginehttpsdevelopercentervmwarecomsamples1455linux-docker-engine"><a href="https://developercenter.vmware.com/samples/1455/linux-docker-engine"><strong>Linux Docker Engine</strong></a></h2>
+<h2 id="windows-docker-enginehttpsdevelopercentervmwarecomsamples1462windows-docker-engine"><a href="https://developercenter.vmware.com/samples/1462/windows-docker-engine"><strong>Windows Docker Engine</strong></a></h2>
+<p>Both of these blueprints do the following:</p>
+<ol>
+<li>Get the latest version of Docker from the respective online depots.</li>
+<li>Install a single engine instance.</li>
+<li>Open the remote API on port 2375 (insecure).</li>
+</ol>
+<p>In order to use these, you’ll need a few things:</p>
+<ol>
+<li>vRealize Automation 7.0, 7.1, or 7.2. In the case of the Windows Docker Engine blueprint, you’ll need vRA 7.2 due to <a href="https://www.vmware.com/pdf/vrealize-automation-72-support-matrix.pdf">Windows Server 2016 support only there</a>.</li>
+<li>Enterprise license.</li>
+<li>Existing Linux and Windows Server 2016 template VMs.</li>
+<li>vRA <a href="https://my.vmware.com/group/vmware/details?downloadGroup=CLOUDCLIENT_430&amp;productId=624">CloudClient</a> to import the content into your vRA environment.</li>
+<li>Guest agent and software bootstrap agent installed on your templates.</li>
+</ol>
+<p>Let’s go through the quick steps to get one of these blueprints installed and available. First, download and install the CloudClient on a Windows workstation. Bring up the CLI by starting cloudclient.bat. Login to your vRA environment by issuing a <code>vra login userpass --tenant &lt;my_tenant&gt;</code> and input your vRA server FQDN when prompted. Make sure you’ve downloaded one of the ZIP files representing either the Linux or Windows software component, and after authentication do a <code>vra content import --path &lt;path_to_zip&gt; --resolution skip</code>. If there are no errors, you should see something like the following:</p>
+<p><img src="/images/2016-12/docker-engine-blueprints-for-vra/image1.png" alt="Blueprint imported via CloudClient"></p>
+<p>If you get a success message, you should now be able to go into your Software Components blueprints and see the one you imported. From there, all that’s left is to drag-and-drop that component onto a new or existing machine blueprint.</p>
+<p><img src="/images/2016-12/docker-engine-blueprints-for-vra/image2.png" alt="On the designer canvas, select Software Components"></p>
+<p><img src="/images/2016-12/docker-engine-blueprints-for-vra/image3.png" alt="Drag-and-drop one of the newly-imported blueprints to a machine"></p>
+<p>For the Windows blueprint, make sure the guest agent is installed and running as Local System or the script will not work properly. Also, for the Windows blueprint, make sure to set a user/pass combination in the Properties section to enable the one-time auto logon capability.</p>
+<p><img src="/images/2016-12/docker-engine-blueprints-for-vra/image4.png" alt="Properties on the Windows blueprint"></p>
+<p>Now, all that’s left is to entitle your item and request it, then sit back and watch as your new Docker host is built for you!</p>
+<p><img src="/images/2016-12/docker-engine-blueprints-for-vra/image5.png" alt="Request catalog item containing software component"></p>
+<p><img src="/images/2016-12/docker-engine-blueprints-for-vra/image6.png" alt="Catalog request form should be completed"></p>
+<p>Check the progress of your request and see the various lifecycle stages progress.</p>
+<p><img src="/images/2016-12/docker-engine-blueprints-for-vra/image7.png" alt="Show the software component execution information"></p>
+<p><img src="/images/2016-12/docker-engine-blueprints-for-vra/image8.png" alt="Software component logs, Install phase"></p>
+<p><img src="/images/2016-12/docker-engine-blueprints-for-vra/image9.png" alt="Software component logs, Configure phase"></p>
+<p><img src="/images/2016-12/docker-engine-blueprints-for-vra/image10.png" alt="Software component logs, Start phase"></p>
+
+    
+    <div class="share-icons d-flex d-print-none">
+      <a href="https://twitter.com/intent/tweet?text=Docker%20Engine%20on%20Windows%20and%20Linux%20through%20vRealize%20Automation&url=https%3a%2f%2fneonmirrors.net%2fpost%2f2016-12%2fdocker-engine-blueprints-for-vra%2f&tw_p=tweetbutton" class="p-2" title="Share on Twitter" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Tweet</small></div>
+</a>
+
+<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fneonmirrors.net%2fpost%2f2016-12%2fdocker-engine-blueprints-for-vra%2f&t=Docker%20Engine%20on%20Windows%20and%20Linux%20through%20vRealize%20Automation" class="p-2" title="Share on Facebook" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+<script>
+  function shareViaLinkedin() {
+    window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent("https://neonmirrors.net/post/2016-12/docker-engine-blueprints-for-vra/"), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+  }
+</script>
+<a href="#linkedinshare" id = "linkedinshare" class="p-2" title="Share on LinkedIn" rel="nofollow" onclick="shareViaLinkedin()">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+
+<a href="javascript:window.print()" title="Print this article" class="p-2" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fa fa-print fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Print</small></div>
+</a>
+
+    </div>
+  </div>
+  
+  
+</div>
+<div class="sidebar d-print-none d-xl-block internal">
+  
+  <h2>Chip Zoller</h2>
+  <div>
+    Technologist, perpetual student, teacher, continual incremental improvement.
+  </div>
+  <a href="/about/" class="btn btn-outline-secondary mt-3" role="button">Read More...</a>
+  <h2 class="mt-4">Featured Posts</h2>
+  
+  
+  <a href="/post/2019-10/authentication-and-authorization-in-k8s/" class="nav-link">Authentication and Authorization in Kubernetes</a>
+  
+  <a href="/post/2018-12/how-to-ask-for-help-on-tech-forums/" class="nav-link">How to Ask for Help on Tech Forums</a>
+  
+  <h2 class="mt-4">Recent Posts</h2>
+  <nav class="nav flex-column">
+    
+    <a href="/post/2020-04/getting-started-with-tkg/" class="nav-link">Getting Started with Tanzu Kubernetes Grid</a>
+    
+    <a href="/post/2020-04/capv-overview/" class="nav-link">Behind the Scenes with Cluster API Provider vSphere</a>
+    
+    <a href="/post/2020-01/buy-dont-build/" class="nav-link">Buy Don&#39;t Build</a>
+    
+    <a href="/post/2020-01/why-k8s-on-vms/" class="nav-link">Why Kubernetes on Virtual Machines?</a>
+    
+    <a href="/post/2020-01/2020-public-domain-day/" class="nav-link">2020 Public Domain Day</a>
+    
+    <a href="/post/2019-10/authentication-and-authorization-in-k8s/" class="nav-link">Authentication and Authorization in Kubernetes</a>
+    
+    <a href="/post/2019-10/pks-rancher-reg/" class="nav-link">pks-rancher-reg: Automated PKS Cluster Registration For Rancher</a>
+    
+    <a href="/post/2019-09/rancher-ha-on-pks/" class="nav-link">Rancher HA on Enterprise PKS</a>
+    
+  </nav>
+  
+  <h2 class="mt-4 text-capitalize" id="categories-section">categories</h2>
+  <nav class="nav">
+    
+    <a href='/categories/technology/' class="nav-link">
+      technology
+      <span class="badge badge-pill badge-secondary">53</span>
+    </a>
+    
+    <a href='/categories/music/' class="nav-link">
+      music
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+  </nav>
+  
+  <h2 class="mt-4 text-capitalize" id="tags-section">tags</h2>
+  <nav class="nav">
+    
+    <a href='/tags/vrealize/' class="nav-link">
+      vrealize
+      <span class="badge badge-pill badge-secondary">27</span>
+    </a>
+    
+    <a href='/tags/vra/' class="nav-link">
+      vra
+      <span class="badge badge-pill badge-secondary">22</span>
+    </a>
+    
+    <a href='/tags/vsphere/' class="nav-link">
+      vsphere
+      <span class="badge badge-pill badge-secondary">14</span>
+    </a>
+    
+    <a href='/tags/k8s/' class="nav-link">
+      k8s
+      <span class="badge badge-pill badge-secondary">9</span>
+    </a>
+    
+    <a href='/tags/sovlabs/' class="nav-link">
+      sovlabs
+      <span class="badge badge-pill badge-secondary">8</span>
+    </a>
+    
+    <a href='/tags/veeam/' class="nav-link">
+      veeam
+      <span class="badge badge-pill badge-secondary">7</span>
+    </a>
+    
+    <a href='/tags/powershell/' class="nav-link">
+      powershell
+      <span class="badge badge-pill badge-secondary">6</span>
+    </a>
+    
+    <a href='/tags/log-insight/' class="nav-link">
+      log-insight
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/pks/' class="nav-link">
+      pks
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/vrops/' class="nav-link">
+      vrops
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/vro/' class="nav-link">
+      vro
+      <span class="badge badge-pill badge-secondary">4</span>
+    </a>
+    
+    <a href='/tags/docker/' class="nav-link">
+      docker
+      <span class="badge badge-pill badge-secondary">3</span>
+    </a>
+    
+    <a href='/tags/vmworld/' class="nav-link">
+      vmworld
+      <span class="badge badge-pill badge-secondary">3</span>
+    </a>
+    
+    <a href='/tags/featured/' class="nav-link">
+      featured
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/nsx-t/' class="nav-link">
+      nsx-t
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/powercli/' class="nav-link">
+      powercli
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/rancher/' class="nav-link">
+      rancher
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/thoughts/' class="nav-link">
+      thoughts
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/ansible/' class="nav-link">
+      ansible
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/authentication/' class="nav-link">
+      authentication
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/forums/' class="nav-link">
+      forums
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/homelab/' class="nav-link">
+      homelab
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/networking/' class="nav-link">
+      networking
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/security/' class="nav-link">
+      security
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/vmtn/' class="nav-link">
+      vmtn
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+  </nav>
+  
+</div>
+
+
+  </div>
+  
+  <footer class="mt-auto footer d-print-none">
+    <a class="to-top" href="#" title="Back to top">
+      <i class="fa fa-caret-up"></i>
+    </a>
+    <div class="container-fluid">
+      <div class="row justify-content-center">
+        <div class="col-md-4 col-xl-3">
+          <h5>Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved.</h5>
+I&#39;m happy for you to share content on this site, but please provide attribution.
+        </div>
+        <div class="col-md-4 col-xl-3">
+          <h5>Disclaimer</h5>
+Opinions expressed here are my own and may not reflect those of the company I work for, or the people I work with.
+        </div>
+        <div class="col-md-4 col-xl-3">
+          <h5>About This Site</h5>
+This blog was created using the <a href="https://gohugo.io/">Hugo</a> static site generator, using
+<a href="https://getbootstrap.com/">Bootstrap</a>, using the Silhouette Hugo theme, created by
+<a href='https://www.mattbutton.com'>Matt Button</a>
+        </div>
+      </div>
+      
+      <hr />
+      
+      <div class="d-flex justify-content-center icons">
+        <a class="py-2 px-2" href="https://github.com/chipzoller"><i class="fab fa-github"></i></a>
+<a class="py-2 px-2" href="https://twitter.com/chipzoller"><i class="fab fa-twitter"></i></a>
+<a class="py-2 px-2" href="https://www.linkedin.com/in/chipzoller/"><i class="fab fa-linkedin"></i></a>
+<a class="py-2 px-2" href='https://neonmirrors.net/index.xml'><i class="fas fa-rss"></i></a>
+
+      </div>
+    </div>
+  </footer>
+  
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script src="/js/syntax.js"></script>
+  <script src = '/js/index.js'></script>
+  
+  
+</body>
+</html>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>vmworld on Neon Mirrors</title>
+    <link>https://neonmirrors.net/tags/vmworld/</link>
+    <description>Recent content in vmworld on Neon Mirrors</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <copyright>Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved.</copyright>
+    <lastBuildDate>Mon, 11 Sep 2017 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://neonmirrors.net/tags/vmworld/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>VMworld 2017, Conclusion and Final Thoughts</title>
+      <link>https://neonmirrors.net/post/2017-09/vmworld-2017-and-final-thoughts/</link>
+      <pubDate>Mon, 11 Sep 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2017-09/vmworld-2017-and-final-thoughts/</guid>
+      <description>I wrote last about the first two days of VMworld 2017 and then nothing else. There’s a good reason for that since day three contained no general sessions. Day four consisted of three different speakers from areas such as bionics, AI, and medical technology presenting their latest research and giving an effective overview of the industry framed inside human conditions of various aspects. VMware calls this “day five” and you can read the rundown of the happenings on their blog here.</description>
+    </item>
+    
+    <item>
+      <title>VMworld 2017, Day 2 Announcements</title>
+      <link>https://neonmirrors.net/post/2017-08/vmworld-2017-day-2/</link>
+      <pubDate>Wed, 30 Aug 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2017-08/vmworld-2017-day-2/</guid>
+      <description>Day two was a little slower on the release/announcements side, but there were still a few things mentioned both at VMworld, and also press releases that weren’t spoken at the conference. I’ll give you a run-down of both of those things so we cover all the bases.
+  Pivotal Container Service (PKS): Yes, the word “container” does not start with the letter “k,” however the “K” in this instance is for Kubernetes, because that is the technology used to bring this offering to the table.</description>
+    </item>
+    
+    <item>
+      <title>VMworld 2017, Day 1 Announcements</title>
+      <link>https://neonmirrors.net/post/2017-08/vmworld-2017-day-1/</link>
+      <pubDate>Tue, 29 Aug 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2017-08/vmworld-2017-day-1/</guid>
+      <description>Well, today was the first full day at VMworld 2017 in Las Vegas for all attendees. The prior two days were just for partners and known as Partner Exchange. But today was the first full regular day that included a general session for all attendees. Let me summarize the key points for our readers out there who aren’t with us in Vegas.
+  VMware Cloud on Amazon Web Services: At long last, the solution, which was announced last October, has finally come into general availability.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,706 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  <meta property="og:title" content="Drop-Down Lists in vRealize Automation, from Static to Dynamic to External" />
+<meta property="og:description" content="Comprehensive tutorial on creating drop-down lists on request forms in vRA." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://neonmirrors.net/post/2018-05/drop-down-lists-in-vra/" />
+<meta property="article:published_time" content="2018-05-15T00:00:00+00:00" />
+<meta property="article:modified_time" content="2018-05-15T00:00:00+00:00" />
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Drop-Down Lists in vRealize Automation, from Static to Dynamic to External"/>
+<meta name="twitter:description" content="Comprehensive tutorial on creating drop-down lists on request forms in vRA."/>
+<meta name="twitter:site" content="@chipzoller"/>
+
+  
+  <title>
+Drop-Down Lists in vRealize Automation, from Static to Dynamic to External | Neon Mirrors
+</title>
+  
+  <link rel="icon" type="image/png" href='https://neonmirrors.net/images/favicon-16x16.png' sizes="16x16">
+  <link rel="icon" type="image/png" href='https://neonmirrors.net/images/favicon-32x32.png' sizes="32x32">  
+  
+  <link href="https://fonts.googleapis.com/css?family=Oswald:400" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">      
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel = 'stylesheet' href = 'https://neonmirrors.net/css/main.703162b863e7e1a93ee98f24b75e329848a814522f2d9f5735d41fbc7f023b3772f177c6ef8dbafccee65cfa8c1b8bb57e73d49284b5a0fdbbe772b8b29b07cb.css' integrity = 'sha512-cDFiuGPn4ak&#43;6Y8kt14ymEioFFIvLZ9XNdQfvH8COzdy8XfG7426/M7mXPqMG4u1fnPUkoS1oP2753K4spsHyw=='>
+  
+  
+<link rel="me" type="text/html" href="https://twitter.com/chipzoller"/> 
+<link rel="me" type="text/html" href="https://www.linkedin.com/in/chipzoller/"/> 
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+
+<link rel="alternate" type="application/rss+xml" href='https://neonmirrors.net/index.xml' />
+
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<meta name="author" content="Chip Zoller" />
+<meta name="copyright" content="Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved." />
+
+
+<meta name="description" content="Comprehensive tutorial on creating drop-down lists on request forms in vRA.">
+
+
+
+
+<style type="text/css">
+  .feature-image {
+    background-image: url("https://neonmirrors.net/images/2018-05/drop-down-lists-in-vra/featured.jpg");
+    height: 500px;
+  }
+  
+  @media (max-width: 992px) {
+    .feature-image {
+      height: 350px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .feature-image {
+      height: 250px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .feature-image {
+      height: 200px;
+    }
+  }
+</style>
+
+        
+</head>
+<body >
+  <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark py-1 top-nav">
+    <div class="container">
+      <span class="internal">
+  <a class="navbar-brand pr-2" href="/">NEON MIRRORS</a>
+</span>
+
+      <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="navbar-collapse collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/categories/technology/">Technology</a>
+  
+</li>
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/categories/music/">Music</a>
+  
+</li>
+<li class="nav-item internal">
+  
+  <div class="nav-link nav-hassubmenu">Links
+    <div class="nav-submenu" >
+    
+      <a class="nav-link" href="https://chipzoller.gitbook.io/vspheremigration/">Ultimate vSphere VM Migration Guide</a>
+    
+    </div>
+    </div>
+  
+</li>
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/about/">About</a>
+  
+</li>
+
+        </ul>
+        <div class="social-icons d-none d-lg-block">
+          <a class="py-2 px-2" href="https://github.com/chipzoller"><i class="fab fa-github"></i></a>
+<a class="py-2 px-2" href="https://twitter.com/chipzoller"><i class="fab fa-twitter"></i></a>
+<a class="py-2 px-2" href="https://www.linkedin.com/in/chipzoller/"><i class="fab fa-linkedin"></i></a>
+<a class="py-2 px-2" href='https://neonmirrors.net/index.xml'><i class="fas fa-rss"></i></a>
+
+        </div>
+      </div>
+    </div>
+  </nav>
+  
+  
+<header class="feature-image d-print-none">
+</header>
+
+  
+  <div class="main">
+    
+<div class="container mt-4 post">
+  <h1>Drop-Down Lists in vRealize Automation, from Static to Dynamic to External</h1>
+  <div class="mb-3 internal">
+  <small>
+    <strong>By Chip Zoller</strong>
+    | <i class="far fa-calendar-alt"></i>&nbsp;May 15, 2018&nbsp;
+    | <i class="fa fa-tags" title="Tags" aria-hidden="true"></i> <a href='/tags/vra/'>vra</a>, <a href='/tags/vro/'>vro</a>, <a href='/tags/vrealize/'>vrealize</a><span class="d-lg-none">, <a href='#tags-section'>all tags</a></span>
+  </small>
+</div>
+
+  <div class="share-icons d-flex d-print-none">
+    <a href="https://twitter.com/intent/tweet?text=Drop-Down%20Lists%20in%20vRealize%20Automation%2c%20from%20Static%20to%20Dynamic%20to%20External&url=https%3a%2f%2fneonmirrors.net%2fpost%2f2018-05%2fdrop-down-lists-in-vra%2f&tw_p=tweetbutton" class="p-2" title="Share on Twitter" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Tweet</small></div>
+</a>
+
+<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fneonmirrors.net%2fpost%2f2018-05%2fdrop-down-lists-in-vra%2f&t=Drop-Down%20Lists%20in%20vRealize%20Automation%2c%20from%20Static%20to%20Dynamic%20to%20External" class="p-2" title="Share on Facebook" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+<script>
+  function shareViaLinkedin() {
+    window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent("https://neonmirrors.net/post/2018-05/drop-down-lists-in-vra/"), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+  }
+</script>
+<a href="#linkedinshare" id = "linkedinshare" class="p-2" title="Share on LinkedIn" rel="nofollow" onclick="shareViaLinkedin()">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+
+<a href="javascript:window.print()" title="Print this article" class="p-2" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fa fa-print fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Print</small></div>
+</a>
+
+  </div>
+  
+  <h2>Overview</h2>
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#lesson-1-static-values">Lesson 1: Static Values</a></li>
+    <li><a href="#lesson-2-dynamic-values">Lesson 2: Dynamic Values</a></li>
+    <li><a href="#lesson-3-external-values">Lesson 3: External Values</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+  
+  <div class="mt-4 mb-4 main-content">
+    <p>Today, I wanted to spend some time returning to a basic principle of vRealize Automation (vRA) which is central to creating customized request forms and limiting blueprint sprawl. This is also a subject which is often requested from users. Unfortunately, those unfamiliar with vRA often think this type of customization requires other forms of complex, expensive integrations or even worse, long professional services engagements. Specifically what I’m talking about is the ability to generate drop-down lists when requesting a catalog item, as well as make those drop-downs dynamic in nature. In this article, I will provide a basic overview of how these work, why they’re useful, and how you can easily create these drop-down menus yourself.</p>
+<p>Within vRA, the ability to customize the look and operation of request forms is paramount to its success as a Cloud Management Platform (CMP). When “doing cloud,” some customers have basic needs while others are extremely complex. This wild difference in utilization requires a CMP that is flexible and can be easily extended. One of the most basic ways to provide such an extension is to allow users some form of choice during their request, and the most common way of providing that choice is through a drop-down menu which offers different options.</p>
+<p><img src="/images/2018-05/drop-down-lists-in-vra/image1.png" alt="Drop-down list"></p>
+<p>Suppose you wanted to provide your users a choice at request time allowing them to select an application to provision. While you could certainly hard-code this information in your blueprint, you would be required to offer every choice in a separate blueprint. Based on what you see here, that would be nine separate blueprints. The alternative is to create one blueprint and allow nine possible selections through a drop-down menu. If you’re reading this, you probably agree that one blueprint is simpler.</p>
+<p>This all is good, but how is it possible to create these lists? I’m glad to show you how!</p>
+<p>One of the core tenets of vRealize Automation is its extensibility and furthermore its flexibility. An often-overlooked mechanism central to enabling this is known as custom properties. These properties are key-value pairs that can be attached all throughout vRA and provide a rich metadata engine which can then be used to either label things, or to make active decisions based on them. For information on the out-of-the-box, supported custom properties, refer to the official reference guide <a href="https://docs.vmware.com/en/vRealize-Automation/7.3/vrealize-automation-73-custom-properties.pdf">here</a> (PDF).</p>
+<p>Referring back to my previous screenshot that showed applications as an example, I might have a custom property named <code>CZ.Application</code> whose value might equal <code>Apache</code> when I select “Apache” from the drop-down list. When the catalog request is selected, which is ultimately a vRA blueprint, this input form would be presented to the end user. When Apache was selected and the form was submitted, the result would look like <code>CZ.Application = Apache</code>.  This metadata then follows the deployment through the various pipes within vRA and vRealize Orchestrator (vRO). As it is passed from one internal system to the next, each process can see this key-value pair that has been assigned.  Since vRA is machine lifecycle aware (thanks largely to the Event Broker), we can automatically perform actions based on the custom properties’ presence and/or value tied to specific lifecycle states. For example, you might want to land virtual machines that get Apache installed on them in a different cluster than those which get installed with SQL. Since <code>Apache</code> and <code>SQL</code> are different values for the <code>CZ.Application</code> key, it would then be possible to perform different operations based upon each one.</p>
+<p>Let’s begin by looking at the simplest form of drop-downs and how to create them.</p>
+<h2 id="lesson-1-static-values">Lesson 1: Static Values</h2>
+<p>In order to create the most common type of drop-down, which is a static list, we must create a new custom property. From the vRA console, navigate to Administration -&gt; Property Dictionary -&gt; Property Definitions. Click the green plus symbol to create a new custom property.</p>
+<p>The <strong>name</strong> is, you guessed it, the name of the custom property. This is the key portion of the key-value pair.</p>
+<p>The <strong>label</strong> is a user-friendly word or phrase only users will see in the request form—it has no actual value otherwise.</p>
+<p>Text populated in the <strong>Description</strong> field will appear as a tooltip if a user hovers over an icon to the right of the field in the request form. This is useful to give them some direction so they know what to select.</p>
+<p><strong>Visibility</strong> describes which tenant has access to this custom property, and that can either be all tenants or just this one.</p>
+<p>The <strong>display order</strong> decides how this custom property should show up (if you decide it should in the first place) on the request form.</p>
+<p><strong>Data type</strong> is what type of values are eligible to be included. I’m only going to be covering the most common type in this article: string.</p>
+<p><strong>Required</strong> means the field must have a value in order to allow the request to be submitted.</p>
+<p>And the <strong>display</strong> is how this gets visualized on the request form. This article is specifically about dropdowns, so select that from the list (which is, of course, a drop-down).</p>
+<p><strong>Values</strong> allow us to statically define each and every value (the value part of the key-value pair this time) manually, or to get them from another source. For now, go with static list. We’ll come back here later.</p>
+<p>And in the <strong>list</strong> itself, you can begin to define those values. The name is what users will see in the request form, and the value is what will become the value of the custom property name.</p>
+<p><img src="/images/2018-05/drop-down-lists-in-vra/image2.png" alt="Property definition screen"></p>
+<p>For example, I’ve created one we’ll build upon in this article called <code>CZ.Continents</code>. The list contains four static entries. A user will see “North America” in the drop-down list and, if selected, the value will be set to <code>NA</code>. When the user then submits the request, the key-value of <code>CZ.Continents</code> will equal <code>NA</code> and follow the request through the vRA system.</p>
+<p>Once this custom property is saved, you will have a new definition in the dictionary. Let’s go and now attach this custom property to a blueprint to see its effect.</p>
+<p><img src="/images/2018-05/drop-down-lists-in-vra/image3.png" alt="Blueprint edit icon"></p>
+<p>Click the gear icon when in the blueprint canvas editor to bring up the properties menu for the blueprint itself.</p>
+<p><img src="/images/2018-05/drop-down-lists-in-vra/image4.png" alt="Blueprint properties"></p>
+<p>Navigate to the Properties tab at the top, and then the Custom Properties sub-tab on the bottom. Add a new property and find yours in the list. Make sure to check the box “Show in Request” so it is visible on the request form. Click OK -&gt; OK -&gt; Finish to save the updates to your blueprint and go to the catalog to see how your request looks.</p>
+<p><img src="/images/2018-05/drop-down-lists-in-vra/image5.png" alt="Catalog request with CZ.Continents attached"></p>
+<p>Congratulations! You’ve just created your first drop-down selection list!</p>
+<p>Static drop-downs are nice in that they’re suitable for smaller, simpler selection lists. They can be maintained within vRA, and are reusable in a custom property. However, some of the detractions are that they must be statically maintained and cannot be actioned upon when chained together so that the value of one influences the display of another drop-down. This is when dynamic drop-downs come into play, as well as a huge misunderstanding regarding the product. Let me say that more plainly:  To create dynamic drop-down lists, you do not need another third-party product!</p>
+<p>And for those familiar with <a href="https://sovlabs.com/">SovLabs&rsquo;</a> <a href="https://sovlabs.com/products/sovlabs-property-toolkit-vra-module/">Property Toolkit</a>, this functionality may seem similar but they are actually quite different and achieve different effects. While dynamic drop-downs provide options to end-users at request time that still require explicit selection, Property Toolkit predetermines that choice in the background, removing the need for users to make any selection at all.  Through abilities such as <a href="/post/2017-09/vra-and-the-problem-of-the-vcenter-folder/">property synthesis</a> and <a href="/post/2018-03/sovlabs-property-toolkit-part-2/">dynamic property sets</a>, the Property Toolkit allows custom properties to be set in an automated and templated fashion that does not rely upon drop-down lists.</p>
+<p>Now that some of the confusion has been put to rest, let’s explain dynamic drop-downs a little better building upon our previous example of Continents.</p>
+<h2 id="lesson-2-dynamic-values">Lesson 2: Dynamic Values</h2>
+<p>Assume you wanted multiple selection lists in a single blueprint. Each custom property is capable of storing its own list of static values, but they aren’t aware of what was selected in them. So although I might have a field called “Continents” I may need a second one called “Countries” which list the countries based on the prior selection. For example, if I selected North America from the list of Continents, I would expect to only see a filtered list of countries in the following selection list. It would be fairly useless if I was able to select a country outside of North America. This is what we mean by dynamic drop-downs: The presentation of values in a subsequent list is influenced by the selection of an earlier value and so on. This is where we have to involve vRealize Orchestrator (vRO) because vRA and more specifically, simple static lists are not capable of performing logic. That logic is in the form of “if this then these” in the case of multiple options or “if this then this” in the case of just a single one. By using vRO, which comes baked into vRA and which you own as a part of it, we can craft “Actions.” Actions are reusable scripting components in vRO that are able to understand this flow of logic and respond programmatically.</p>
+<p>An Action is nothing more than a script (written in JavaScript) which takes some inputs, transforms them based on the code you write, and then returns an output. The input can and very probably is the value of a prior selection you made, and the output can be a list of things that are only based on that input. In so doing, we can present dynamic lists of values. Let us go through the process of creating and then consuming these Actions.</p>
+<p>For access to Actions, we need access to vRO. I’m assuming in this article you are at least familiar with vRO, have permissions to login to it, and know how and where to login. If this isn’t information you know at this point, please see the relevant <a href="https://docs.vmware.com/en/vRealize-Automation/index.html">vRealize Automation documentation</a> for your version. Once logged in using the vRO client, enter into Design mode from the drop-down list to the right of the logo.</p>
+<p><img src="/images/2018-05/drop-down-lists-in-vra/image6.png" alt="vRO drop-down list"></p>
+<p>Click on the <img src="/images/2018-05/drop-down-lists-in-vra/image7.png" alt=":inline"> icon to enter the Actions inventory list. Right-click on the vRO object at the top of the tree and create a new module. A module is effectively a folder into which we store Actions.</p>
+<p><img src="/images/2018-05/drop-down-lists-in-vra/image8.png" alt="Create new module"></p>
+<p>Modules are commonly named in reverse DNS format, likely as vestiges of the earliest ties to Java in which this was a common practice. We’ll follow suit and name ours similarly.</p>
+<p><img src="/images/2018-05/drop-down-lists-in-vra/image9.png" alt="Module name"></p>
+<p>Now that we have our module, we can begin to create Actions. Right-click on your module (folder) and select Add action. Give it a name. I’ll call this one “Countries”.</p>
+<p><img src="/images/2018-05/drop-down-lists-in-vra/image10.png" alt="Right-click menu"></p>
+<p>Click the pencil icon to edit your new Action. Flip over to the Scripting tab. This is where the magic happens!</p>
+<p>The Scripting tab contains information the Action needs to perform its decision-making process. It does this by taking an input, doing something with that input, and then giving you an output in return. There are three steps we must complete in order to properly build this action so we can then consume it in vRA. See the screenshot below for an example of the Scripting tab and the steps we’ll outline going from top to bottom.</p>
+<p><img src="/images/2018-05/drop-down-lists-in-vra/image11.png" alt="vRO Action window"></p>
+<p>First, we must define the return type. The return type is the type of output we are telling the Action it must provide. There are all different types within vRO, so don’t get overwhelmed when you see the list. The one we’ll be dealing with is Array/string. This is essentially a list of different strings, because we in turn have to populate a drop-down box—a list, that is.</p>
+<p>Second, we have to give it an input. After all, we can’t do work if we’re not told what to work “on”. Click the right arrow icon to add an input. Call it what you like, but make it a type of string. In my example, since we plan to deliver back a list of cities, we have to take in the name of a continent. Make sense?</p>
+<p>And finally, we have to tell the Action what it needs to do and then hand back. In my screenshot, I’ve deliberately expanded this text so it’s friendlier on novice eyes and easier to read and decipher. And not to worry, I’m not expecting you to type all of this out. I’m not even asking you to copy and paste. At the end of the article, you’ll get all the actions you see here so you may easily import them to quickly get up and running with some dynamic drop-downs in your own vRA environment. That said, here’s the script block if you wish to follow along and try your hand at creating an Action.</p>
+<div class="highlight"><pre class="chroma"><code class="language-js" data-lang="js"><span class="k">if</span> <span class="p">(</span><span class="nx">continent</span> <span class="o">==</span> <span class="s2">&#34;&#34;</span> <span class="o">||</span> <span class="nx">continent</span> <span class="o">==</span> <span class="kc">null</span><span class="p">){</span>
+  <span class="k">return</span> <span class="p">[</span>
+    <span class="s2">&#34;Please select a continent first.&#34;</span>
+  <span class="p">];}</span>
+<span class="k">if</span> <span class="p">(</span><span class="nx">continent</span> <span class="o">==</span> <span class="s2">&#34;NA&#34;</span><span class="p">){</span>
+  <span class="k">return</span> <span class="p">[</span>
+    <span class="s2">&#34;United States&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;Canada&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;Mexico&#34;</span>
+  <span class="p">];}</span>
+<span class="k">if</span> <span class="p">(</span><span class="nx">continent</span> <span class="o">==</span> <span class="s2">&#34;SA&#34;</span><span class="p">){</span>
+  <span class="k">return</span> <span class="p">[</span>
+    <span class="s2">&#34;Chile&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;Brazil&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;Argentina&#34;</span>
+  <span class="p">];}</span>
+<span class="k">if</span> <span class="p">(</span><span class="nx">continent</span> <span class="o">==</span> <span class="s2">&#34;Europe&#34;</span><span class="p">){</span>
+  <span class="k">return</span> <span class="p">[</span>
+    <span class="s2">&#34;France&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;Italy&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;Germany&#34;</span>
+  <span class="p">];}</span>
+<span class="k">if</span> <span class="p">(</span><span class="nx">continent</span> <span class="o">==</span> <span class="s2">&#34;Asia&#34;</span><span class="p">){</span>
+  <span class="k">return</span> <span class="p">[</span>
+    <span class="s2">&#34;China&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;Japan&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;Vietnam&#34;</span>
+  <span class="p">];}</span>
+</code></pre></div><p>The logic is pretty simple. In human readable prose, we’re saying the following:</p>
+<ol>
+<li>If the continent name is blank, let the user know they must select one first.</li>
+<li>If the continent is NA (for North America), return United States, Canada, and Mexico.</li>
+<li>If the continent is SA (for South America), return Chile, Brazil, and Argentina.</li>
+<li>If the continent is Europe, return France, Italy, and Germany.</li>
+<li>If the continent is Asia, return China, Japan, and Vietnam.</li>
+</ol>
+<p>So in each case, the <em>input</em> is the name of the continent, and the <em>output</em> is a list of three different strings, hence the need for an array of strings back in step number one.</p>
+<p>Once you’re satisfied that all is well, Save and Close this Action. If you’ve made any errors that render this script unparseable, vRO should let you know so you can go back and fix it. With that done, let’s now turn over to vRA and add this Action to a new custom property for Countries that generates our list dynamically rather than from a static list of values.</p>
+<p>Create a new custom property just like we did with <code>CZ.Continents</code>. Everything can be the same except for one important selection. For Values, choose the radio button for External values as opposed to Static list.</p>
+<p><img src="/images/2018-05/drop-down-lists-in-vra/image12.png" alt="Select External values"></p>
+<p>When you make this change, you’ll see two new portions revealed: Script action and Input parameters. Click the Change button under Script action which will bring up a window that shows all available modules from vRO and the eligible Actions within them. You should be able to locate the new Action you created.</p>
+<p><img src="/images/2018-05/drop-down-lists-in-vra/image13.png" alt="vRO Actions tree"></p>
+<p>If you do <em>not</em> see your new Action, edit it inside the vRO client and ensure you set the return type as Array/string. vRA filters all Actions within vRO to only display those that return types which are compatible with a custom property definition, and if the return type isn’t compatible it will be absent.</p>
+<p>Click OK once you’ve found and selected your action to be brought back to the custom property definition. When you’re there, you’ll now notice it has pulled in your input. Highlight this input, click the Edit button, and check the Bind box. With a binding, we are telling the input to grab the value from another custom property. This is how we tie (or bind) two or more custom properties together where the value of one feeds the input of another.</p>
+<p><img src="/images/2018-05/drop-down-lists-in-vra/image14.png" alt="Bind the input parameter"></p>
+<p>Select your custom property for Continents, click OK, then click OK to save your new custom property definition. Once that’s done and you have your new Countries custom property, go back to your blueprint and add this one to the existing one for Continents. Remember to show it in request. Mine now looks like this.</p>
+<p><img src="/images/2018-05/drop-down-lists-in-vra/image15.png" alt="Blueprint properties with CZ.Countries"></p>
+<p>From here, let’s go back and request this catalog item to see how it works!</p>
+<p><img src="/images/2018-05/drop-down-lists-in-vra/image16.png" alt="Re-request catalog item"></p>
+<p><img src="/images/2018-05/drop-down-lists-in-vra/image17.png" alt="Catalog item request form with Country drop-down"></p>
+<p><img src="/images/2018-05/drop-down-lists-in-vra/image18.png" alt="Country bound to Continent"></p>
+<p>Cool! So we now have two drop-down lists in the request form, each one originating from a different custom property. The Continent property is, if you remember, a static list of values we defined while the new Country property is a dynamic one being executed as a vRO Action. When I selected “Europe” for the Continent field, I am only presented with the three options that pertain to Europe and nothing else. If I change that value to “Asia” that list filters out countries only in Asia. Pretty slick, isn’t it?!</p>
+<p>Now that we have two custom properties supplying drop-down menus with one being static and another being dynamic, let’s chain one more dynamic drop-down to this form to filter out at an even more granular level. Create a new one called “Cities” that connects to Countries and dynamically presents the cities for a given country. I won’t give away all the answers this time except for the code you can use to practice. If you’d like to skip the lesson, the Action has been pre-built for you and is available as a download at the end of this article. The order is:</p>
+<ol>
+<li>Create new vRO action.</li>
+<li>Create new custom property consuming new vRO Action.</li>
+<li>Bind the input to Countries.</li>
+<li>Add custom property to blueprint and show in request.</li>
+<li>Provision.</li>
+</ol>
+<p>If you’d like to make your own JavaScript from Countries to re-use in Cities, feel free. Otherwise, I’ll provide a block for you here.</p>
+<div class="highlight"><pre class="chroma"><code class="language-js" data-lang="js"><span class="k">if</span> <span class="p">(</span><span class="nx">country</span> <span class="o">==</span> <span class="s2">&#34;&#34;</span> <span class="o">||</span> <span class="nx">country</span> <span class="o">==</span> <span class="kc">null</span><span class="p">){</span>
+  <span class="k">return</span> <span class="p">[</span><span class="s2">&#34;Please select a country first.&#34;</span><span class="p">];}</span>
+<span class="c1">//North America
+</span><span class="c1"></span><span class="k">if</span> <span class="p">(</span><span class="nx">country</span> <span class="o">==</span> <span class="s2">&#34;United States&#34;</span><span class="p">){</span>
+  <span class="k">return</span> <span class="p">[</span><span class="s2">&#34;New York&#34;</span><span class="p">,</span><span class="s2">&#34;Atlanta&#34;</span><span class="p">,</span><span class="s2">&#34;Chicago&#34;</span>
+  <span class="p">];}</span>
+<span class="k">if</span> <span class="p">(</span><span class="nx">country</span> <span class="o">==</span> <span class="s2">&#34;Canada&#34;</span><span class="p">){</span>
+  <span class="k">return</span> <span class="p">[</span><span class="s2">&#34;Toronto&#34;</span><span class="p">,</span><span class="s2">&#34;Ottowa&#34;</span><span class="p">,</span><span class="s2">&#34;Montreal&#34;</span>
+  <span class="p">];}</span>
+<span class="k">if</span> <span class="p">(</span><span class="nx">country</span> <span class="o">==</span> <span class="s2">&#34;Mexico&#34;</span><span class="p">){</span>
+  <span class="k">return</span> <span class="p">[</span><span class="s2">&#34;Mexico City&#34;</span><span class="p">,</span><span class="s2">&#34;Monterrey&#34;</span><span class="p">,</span><span class="s2">&#34;Tijuana&#34;</span>
+  <span class="p">];}</span>
+<span class="c1">//South America
+</span><span class="c1"></span><span class="k">if</span> <span class="p">(</span><span class="nx">country</span> <span class="o">==</span> <span class="s2">&#34;Chile&#34;</span><span class="p">){</span>
+  <span class="k">return</span> <span class="p">[</span><span class="s2">&#34;Santiago&#34;</span><span class="p">,</span><span class="s2">&#34;Valdivia&#34;</span><span class="p">,</span><span class="s2">&#34;Pucón&#34;</span>
+  <span class="p">];}</span>
+<span class="k">if</span> <span class="p">(</span><span class="nx">country</span> <span class="o">==</span> <span class="s2">&#34;Brazil&#34;</span><span class="p">){</span>
+  <span class="k">return</span> <span class="p">[</span><span class="s2">&#34;Rio de Janeiro&#34;</span><span class="p">,</span><span class="s2">&#34;São Paulo&#34;</span><span class="p">,</span><span class="s2">&#34;Salvador&#34;</span>
+  <span class="p">];}</span>
+<span class="k">if</span> <span class="p">(</span><span class="nx">country</span> <span class="o">==</span> <span class="s2">&#34;Argentina&#34;</span><span class="p">){</span>
+  <span class="k">return</span> <span class="p">[</span><span class="s2">&#34;Buenos Aires&#34;</span><span class="p">,</span><span class="s2">&#34;Córdoba&#34;</span><span class="p">,</span><span class="s2">&#34;Rosario&#34;</span>
+  <span class="p">];}</span>
+<span class="c1">//Europe
+</span><span class="c1"></span><span class="k">if</span> <span class="p">(</span><span class="nx">country</span> <span class="o">==</span> <span class="s2">&#34;France&#34;</span><span class="p">){</span>
+  <span class="k">return</span> <span class="p">[</span><span class="s2">&#34;Paris&#34;</span><span class="p">,</span><span class="s2">&#34;Lyon&#34;</span><span class="p">,</span><span class="s2">&#34;Nice&#34;</span>
+  <span class="p">];}</span>
+<span class="k">if</span> <span class="p">(</span><span class="nx">country</span> <span class="o">==</span> <span class="s2">&#34;Italy&#34;</span><span class="p">){</span>
+  <span class="k">return</span> <span class="p">[</span><span class="s2">&#34;Rome&#34;</span><span class="p">,</span><span class="s2">&#34;Venice&#34;</span><span class="p">,</span><span class="s2">&#34;Milan&#34;</span>
+  <span class="p">];}</span>
+<span class="k">if</span> <span class="p">(</span><span class="nx">country</span> <span class="o">==</span> <span class="s2">&#34;Germany&#34;</span><span class="p">){</span>
+  <span class="k">return</span> <span class="p">[</span><span class="s2">&#34;Berlin&#34;</span><span class="p">,</span><span class="s2">&#34;Munich&#34;</span><span class="p">,</span><span class="s2">&#34;Hamburg&#34;</span>
+  <span class="p">];}</span>
+<span class="c1">//Asia
+</span><span class="c1"></span><span class="k">if</span> <span class="p">(</span><span class="nx">country</span> <span class="o">==</span> <span class="s2">&#34;China&#34;</span><span class="p">){</span>
+  <span class="k">return</span> <span class="p">[</span><span class="s2">&#34;Shanghai&#34;</span><span class="p">,</span><span class="s2">&#34;Beijing&#34;</span><span class="p">,</span><span class="s2">&#34;Tianjin&#34;</span>
+  <span class="p">];}</span>
+<span class="k">if</span> <span class="p">(</span><span class="nx">country</span> <span class="o">==</span> <span class="s2">&#34;Japan&#34;</span><span class="p">){</span>
+  <span class="k">return</span> <span class="p">[</span><span class="s2">&#34;Tokyo&#34;</span><span class="p">,</span><span class="s2">&#34;Osaka&#34;</span><span class="p">,</span><span class="s2">&#34;Yokohama&#34;</span>
+  <span class="p">];}</span>
+<span class="k">if</span> <span class="p">(</span><span class="nx">country</span> <span class="o">==</span> <span class="s2">&#34;Vietnam&#34;</span><span class="p">){</span>
+  <span class="k">return</span> <span class="p">[</span><span class="s2">&#34;Ho Chi Minh City&#34;</span><span class="p">,</span><span class="s2">&#34;Hanoi&#34;</span><span class="p">,</span><span class="s2">&#34;Da Nang&#34;</span>
+  <span class="p">];}</span>
+</code></pre></div><p>Take a few minutes now to go through the steps we outlined earlier and create the various objects within vRA and vRO and connect the pieces in your blueprint.</p>
+<p>If you’re done, hopefully you’ve checked your request form and it looks something like this.</p>
+<p><img src="/images/2018-05/drop-down-lists-in-vra/image19.png" alt="Testing Argentina"></p>
+<p><img src="/images/2018-05/drop-down-lists-in-vra/image20.png" alt="Testing Chile"></p>
+<p><img src="/images/2018-05/drop-down-lists-in-vra/image21.png" alt="Testing Brazil"></p>
+<p>If you got this result, a hearty congratulations! You now should have the hang of static lists within custom properties as well as using vRO Actions to create fully dynamic drop-downs. But there’s still one more twist I want to throw in here. While these static and dynamic drop-downs create lots of flexibility in your request forms and reusability in your blueprints, sometimes it isn’t possible to record these values either in vRA or in vRO. In many cases, you might already have a source for these lists and need to present that list as-is in vRealize Automation. This is especially true if the list resides in a secondary system of record such as a database where other applications and processes must have access to insert, update, and delete data directly. It is still possible to use these external sources to provide the data for a drop-down, and this is the third and final use case I want to show for drop-downs: harvesting content from a database.</p>
+<h2 id="lesson-3-external-values">Lesson 3: External Values</h2>
+<p>In the case of a database, you have data that resides within a table that you wish to pull out and present as your dynamic list. When new data is entered, updated, or deleted, no changes are necessary in either vRA or vRO because the source of truth lies external to both of those systems. I’ll illustrate how you can easily connect the plumbing, similar to the second lesson on dynamic drop-downs, but this time to an external Microsoft SQL Database instead!</p>
+<p>To start, ensure you have an existing MS SQL database to work with and have sufficient credentials and network connectivity from vRO to connect to it. You will also need to know the table and column from which you want the data pulled. With those things in hand, return to the vRO client.</p>
+<p>From the Run menu, access the Workflows inventory tree, and browse to Library -&gt; JDBC -&gt; JDBC URL generator.</p>
+<p><img src="/images/2018-05/drop-down-lists-in-vra/image22.png" alt="Find &ldquo;JDBC URL generator&rdquo; workflow"></p>
+<p>In order to connect to that SQL database, we need to get a proper URL that has all the various pieces and parts to direct communication to the right server, instance, and database. We will reuse the URL in the next step. Run the JDBC URL generator workflow.</p>
+<p><img src="/images/2018-05/drop-down-lists-in-vra/image23.png" alt="JDBC URL generator presentation form"></p>
+<p>In the first step, we need to fill out the form with the type of database (SQL Server/MSDE for Microsoft’s), the hostname where the database is run, the name of the actual database, and credentials to connect. In this lesson, I’ve created a very basic SQL database called “MyContinents” with a single table containing, yep, a list of continents.</p>
+<p><img src="/images/2018-05/drop-down-lists-in-vra/image24.png" alt="JDBC URL generator presentation form, step 2"></p>
+<p>On the second and final step, provide the database instance name if it’s something other than the default of MSSQLSERVER, and the domain of the user supplied earlier. If you do not know the instance name of your SQL server, you can find this, among other places, in the list of Windows services.</p>
+<p><img src="/images/2018-05/drop-down-lists-in-vra/image25.png" alt="Windows service name of SQL Server"></p>
+<p>Once you submit the workflow and it succeeds (if it did not, go back and check the values you provided), check the Logs tab of the completed workflow. The message shown contains the URL we will use in just a second.</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback"><span class="hl">[2018-05-10 20:38:56.622] [I] Connection String: jdbc:jtds:sqlserver://sql2014.zoller.com:1433/MyContinents;domain=zoller.com
+</span>[2018-05-10 20:38:56.668] [I] Connection to database successful
+</code></pre></div><p>In this case, the connection URL we want to copy is the part beginning with jdbc:jtds:sqlserver://. Everything you see highlighted above, copy for use in the next workflow. We can also see the test connection was successful.</p>
+<p>With this JDBC URL in hand, navigate to Library -&gt; SQL -&gt; Configuration -&gt; Add a database.</p>
+<p><img src="/images/2018-05/drop-down-lists-in-vra/image26.png" alt="Workflow tree for &ldquo;Add a database&rdquo;"></p>
+<p>Run the workflow. For the name, it’s best to call it the same name as the database to which you’re connecting. Select MS SQL for the type, and paste in that JDBC URL you received in the last workflow.</p>
+<p><img src="/images/2018-05/drop-down-lists-in-vra/image27.png" alt="&ldquo;Add a database&rdquo;, step 1a"></p>
+<p>Click Next and leave Shared Session the default while entering the username (without domain information) and password. A Shared Session will ensure that the query is always executed with the same credentials no matter who is pushing buttons inside the vRA portal.</p>
+<p><img src="/images/2018-05/drop-down-lists-in-vra/image28.png" alt="&ldquo;Add a database&rdquo;, step 1b"></p>
+<p>Click Submit and watch it go. When it completes successfully, flip over in your vRO client to the Inventory tab. Find and expand SQL Plug-in, and make sure you can see your newly-added database and any tables and columns.</p>
+<p><img src="/images/2018-05/drop-down-lists-in-vra/image29.png" alt="vRO inventory"></p>
+<p>Again, mine is very simple for illustration purposes, so I have but a single table with a single column. Ultimately we only need these three things to start pulling data.</p>
+<p>Once you’re satisfied with your database configuration, it’s time to create the new Action. This one will have three inputs because we want to be able to supply database, table, and column all from within vRA without having to manually update JavaScript. This makes the Action extremely simple to connect and very quick to update if we later wanted to connect to a different database. The JavaScript is a little more complex here, so I’ll save you the trouble in attempting to figure it out. Simply copy-and-paste from the code block below or, better still, download the Action I’ve pre-built for you.</p>
+<p>Here’s the code we’ll use to pull in values from a specified column within a table. Comments, denoted by double forward slashes (/) are generously placed so it’s easy for you to identify exactly what the following code attempts to do.</p>
+<div class="highlight"><pre class="chroma"><code class="language-js" data-lang="js"><span class="c1">//Find the name of the database from inputDB and convert it to a SQL:Database type.
+</span><span class="c1"></span><span class="kd">var</span> <span class="nx">databases</span> <span class="o">=</span> <span class="nx">SQLDatabaseManager</span><span class="p">.</span><span class="nx">getDatabases</span><span class="p">();</span>
+<span class="kd">var</span> <span class="nx">database</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+<span class="k">for</span> <span class="nx">each</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">thisdb</span> <span class="k">in</span> <span class="nx">databases</span><span class="p">)</span> <span class="p">{</span>
+   <span class="k">if</span> <span class="p">(</span><span class="nx">thisdb</span><span class="p">.</span><span class="nx">name</span> <span class="o">==</span> <span class="nx">inputDB</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">database</span> <span class="o">=</span> <span class="nx">thisdb</span><span class="p">;</span>
+  <span class="k">break</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="c1">//Build the SQL query statement which searches the input database within the specified table and returns results from only the inputColumn name.
+</span><span class="c1"></span><span class="kd">var</span> <span class="nx">query</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span><span class="p">;</span>
+<span class="nx">query</span> <span class="o">+=</span> <span class="s2">&#34;SELECT &#34;</span><span class="p">;</span>
+<span class="nx">query</span> <span class="o">+=</span> <span class="nx">inputColumn</span><span class="p">;</span>
+<span class="nx">query</span> <span class="o">+=</span> <span class="s2">&#34; FROM &#34;</span><span class="p">;</span>
+<span class="nx">query</span> <span class="o">+=</span> <span class="nx">inputDB</span><span class="p">;</span>
+<span class="nx">query</span> <span class="o">+=</span> <span class="s2">&#34;.dbo.&#34;</span><span class="p">;</span>
+<span class="nx">query</span> <span class="o">+=</span> <span class="nx">inputTable</span><span class="p">;</span>
+<span class="c1">//Execute the query, then store the results in an array. Return the array at the very end.
+</span><span class="c1"></span><span class="kd">var</span> <span class="nx">list</span> <span class="o">=</span> <span class="nx">thisdb</span><span class="p">.</span><span class="nx">readCustomQuery</span><span class="p">(</span><span class="nx">query</span><span class="p">)</span>
+<span class="kd">var</span> <span class="nx">results</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Array</span> <span class="p">();</span>
+<span class="kd">var</span> <span class="nx">d</span><span class="p">,</span> <span class="nx">i</span><span class="p">;</span>
+<span class="k">for</span> <span class="p">(</span><span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">list</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">d</span> <span class="o">=</span> <span class="nx">list</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="nx">inputColumn</span><span class="p">];</span>
+  <span class="nx">results</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">d</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="k">return</span> <span class="nx">results</span>
+</code></pre></div><p>Now we can head into vRA and create a new custom property that calls this Action. Since my database is called MyContinents, and contains the same list of continents that was stored in the static list, let’s swap out that static list custom property for this one that pulls from an external SQL database.</p>
+<p><img src="/images/2018-05/drop-down-lists-in-vra/image30.png" alt="SQL columns"></p>
+<p>From the Property Definitions section, I’ll create a new one called CZ.DB.Continents which uses this action. Because we defined three inputs on the Action, we must supply three values for those inputs here.</p>
+<p><img src="/images/2018-05/drop-down-lists-in-vra/image31.png" alt="vRA custom property with script action and input parameters"></p>
+<p>Note that we do not bind these inputs because we’re telling it directly which database, table, and column to use. From there, the Action knows what to fetch and return.</p>
+<p>With this complete, there is one last step and that is to swap out the custom property binding of our Countries property so it keys off this new custom property and not the first one we created with static values. Edit your Countries property now to update the binding. Don’t forget to edit your blueprint to remove the static list of Continents and supply this new custom property that pulls them from the database.</p>
+<p>If you go back to your request form, you should now see that your Continents custom property is pulling in those names directly from your external SQL database.</p>
+<p><img src="/images/2018-05/drop-down-lists-in-vra/image32.png" alt="vRA request form with CZ.DB.Continents"></p>
+<p>Very cool, indeed! You’ll also find that if you updated your bindings, your cascading properties with dynamic drop-downs continue to work as before. The best part about this Action is it is super simple to either reconfigure your existing custom property to point to a new column, table, and database; but it’s just as easy to create a new custom property and supply different values—all while not needing to return to vRO to manipulate code.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>During the course of this tutorial, I’ve introduced custom properties and briefly explained their function. We then took a look at a simple custom property which statically defines its values in a list and showed how that list can be leveraged at request time. From there, we discussed vRealize Orchestrator in the context of Actions and how, through scriptable tasks, they can dynamically supply values of further drop-down selection lists. Finally, I illustrated how it is possible to pull those reference values into a drop-down list from an external data source, specifically a Microsoft SQL database.</p>
+<p>I hope this has been a helpful and, above all, informative article that helps you grasp the concept of drop-down lists in vRA. Furthermore I hope this arms you with some good tools (Actions) you can download and put to work in your own environment, instantly delivering value! If you did not enjoy this, maybe keep that to yourself. (Only kidding, of course.) Either way, I’d love to hear your feedback whether that’s positive or negative, so feel free to reach out to me on Twitter (@chipzoller). Good luck making your CMP more valuable, feature-rich, and flexible.</p>
+<p>P.S. – For a vRO Package containing all three Actions covered in this tutorial, download it from VMware {code} <a href="https://code.vmware.com/samples?id=4086">here</a>. If you’d like a quick article illustrating how to import a vRO package, see <a href="https://kb.net4future.de/import-a-vro-package">this blog</a>. If you’re only interested in the Action illustrated in Lesson 3, see <a href="https://code.vmware.com/samples/4079/getvaluesfrommssqldb">this page</a>.</p>
+
+    
+    <div class="share-icons d-flex d-print-none">
+      <a href="https://twitter.com/intent/tweet?text=Drop-Down%20Lists%20in%20vRealize%20Automation%2c%20from%20Static%20to%20Dynamic%20to%20External&url=https%3a%2f%2fneonmirrors.net%2fpost%2f2018-05%2fdrop-down-lists-in-vra%2f&tw_p=tweetbutton" class="p-2" title="Share on Twitter" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Tweet</small></div>
+</a>
+
+<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fneonmirrors.net%2fpost%2f2018-05%2fdrop-down-lists-in-vra%2f&t=Drop-Down%20Lists%20in%20vRealize%20Automation%2c%20from%20Static%20to%20Dynamic%20to%20External" class="p-2" title="Share on Facebook" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+<script>
+  function shareViaLinkedin() {
+    window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent("https://neonmirrors.net/post/2018-05/drop-down-lists-in-vra/"), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+  }
+</script>
+<a href="#linkedinshare" id = "linkedinshare" class="p-2" title="Share on LinkedIn" rel="nofollow" onclick="shareViaLinkedin()">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+
+<a href="javascript:window.print()" title="Print this article" class="p-2" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fa fa-print fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Print</small></div>
+</a>
+
+    </div>
+  </div>
+  
+  
+</div>
+<div class="sidebar d-print-none d-xl-block internal">
+  
+  <h2>Chip Zoller</h2>
+  <div>
+    Technologist, perpetual student, teacher, continual incremental improvement.
+  </div>
+  <a href="/about/" class="btn btn-outline-secondary mt-3" role="button">Read More...</a>
+  <h2 class="mt-4">Featured Posts</h2>
+  
+  
+  <a href="/post/2019-10/authentication-and-authorization-in-k8s/" class="nav-link">Authentication and Authorization in Kubernetes</a>
+  
+  <a href="/post/2018-12/how-to-ask-for-help-on-tech-forums/" class="nav-link">How to Ask for Help on Tech Forums</a>
+  
+  <h2 class="mt-4">Recent Posts</h2>
+  <nav class="nav flex-column">
+    
+    <a href="/post/2020-04/getting-started-with-tkg/" class="nav-link">Getting Started with Tanzu Kubernetes Grid</a>
+    
+    <a href="/post/2020-04/capv-overview/" class="nav-link">Behind the Scenes with Cluster API Provider vSphere</a>
+    
+    <a href="/post/2020-01/buy-dont-build/" class="nav-link">Buy Don&#39;t Build</a>
+    
+    <a href="/post/2020-01/why-k8s-on-vms/" class="nav-link">Why Kubernetes on Virtual Machines?</a>
+    
+    <a href="/post/2020-01/2020-public-domain-day/" class="nav-link">2020 Public Domain Day</a>
+    
+    <a href="/post/2019-10/authentication-and-authorization-in-k8s/" class="nav-link">Authentication and Authorization in Kubernetes</a>
+    
+    <a href="/post/2019-10/pks-rancher-reg/" class="nav-link">pks-rancher-reg: Automated PKS Cluster Registration For Rancher</a>
+    
+    <a href="/post/2019-09/rancher-ha-on-pks/" class="nav-link">Rancher HA on Enterprise PKS</a>
+    
+  </nav>
+  
+  <h2 class="mt-4 text-capitalize" id="categories-section">categories</h2>
+  <nav class="nav">
+    
+    <a href='/categories/technology/' class="nav-link">
+      technology
+      <span class="badge badge-pill badge-secondary">53</span>
+    </a>
+    
+    <a href='/categories/music/' class="nav-link">
+      music
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+  </nav>
+  
+  <h2 class="mt-4 text-capitalize" id="tags-section">tags</h2>
+  <nav class="nav">
+    
+    <a href='/tags/vrealize/' class="nav-link">
+      vrealize
+      <span class="badge badge-pill badge-secondary">27</span>
+    </a>
+    
+    <a href='/tags/vra/' class="nav-link">
+      vra
+      <span class="badge badge-pill badge-secondary">22</span>
+    </a>
+    
+    <a href='/tags/vsphere/' class="nav-link">
+      vsphere
+      <span class="badge badge-pill badge-secondary">14</span>
+    </a>
+    
+    <a href='/tags/k8s/' class="nav-link">
+      k8s
+      <span class="badge badge-pill badge-secondary">9</span>
+    </a>
+    
+    <a href='/tags/sovlabs/' class="nav-link">
+      sovlabs
+      <span class="badge badge-pill badge-secondary">8</span>
+    </a>
+    
+    <a href='/tags/veeam/' class="nav-link">
+      veeam
+      <span class="badge badge-pill badge-secondary">7</span>
+    </a>
+    
+    <a href='/tags/powershell/' class="nav-link">
+      powershell
+      <span class="badge badge-pill badge-secondary">6</span>
+    </a>
+    
+    <a href='/tags/log-insight/' class="nav-link">
+      log-insight
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/pks/' class="nav-link">
+      pks
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/vrops/' class="nav-link">
+      vrops
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/vro/' class="nav-link">
+      vro
+      <span class="badge badge-pill badge-secondary">4</span>
+    </a>
+    
+    <a href='/tags/docker/' class="nav-link">
+      docker
+      <span class="badge badge-pill badge-secondary">3</span>
+    </a>
+    
+    <a href='/tags/vmworld/' class="nav-link">
+      vmworld
+      <span class="badge badge-pill badge-secondary">3</span>
+    </a>
+    
+    <a href='/tags/featured/' class="nav-link">
+      featured
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/nsx-t/' class="nav-link">
+      nsx-t
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/powercli/' class="nav-link">
+      powercli
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/rancher/' class="nav-link">
+      rancher
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/thoughts/' class="nav-link">
+      thoughts
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/ansible/' class="nav-link">
+      ansible
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/authentication/' class="nav-link">
+      authentication
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/forums/' class="nav-link">
+      forums
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/homelab/' class="nav-link">
+      homelab
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/networking/' class="nav-link">
+      networking
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/security/' class="nav-link">
+      security
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/vmtn/' class="nav-link">
+      vmtn
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+  </nav>
+  
+</div>
+
+
+  </div>
+  
+  <footer class="mt-auto footer d-print-none">
+    <a class="to-top" href="#" title="Back to top">
+      <i class="fa fa-caret-up"></i>
+    </a>
+    <div class="container-fluid">
+      <div class="row justify-content-center">
+        <div class="col-md-4 col-xl-3">
+          <h5>Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved.</h5>
+I&#39;m happy for you to share content on this site, but please provide attribution.
+        </div>
+        <div class="col-md-4 col-xl-3">
+          <h5>Disclaimer</h5>
+Opinions expressed here are my own and may not reflect those of the company I work for, or the people I work with.
+        </div>
+        <div class="col-md-4 col-xl-3">
+          <h5>About This Site</h5>
+This blog was created using the <a href="https://gohugo.io/">Hugo</a> static site generator, using
+<a href="https://getbootstrap.com/">Bootstrap</a>, using the Silhouette Hugo theme, created by
+<a href='https://www.mattbutton.com'>Matt Button</a>
+        </div>
+      </div>
+      
+      <hr />
+      
+      <div class="d-flex justify-content-center icons">
+        <a class="py-2 px-2" href="https://github.com/chipzoller"><i class="fab fa-github"></i></a>
+<a class="py-2 px-2" href="https://twitter.com/chipzoller"><i class="fab fa-twitter"></i></a>
+<a class="py-2 px-2" href="https://www.linkedin.com/in/chipzoller/"><i class="fab fa-linkedin"></i></a>
+<a class="py-2 px-2" href='https://neonmirrors.net/index.xml'><i class="fas fa-rss"></i></a>
+
+      </div>
+    </div>
+  </footer>
+  
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script src="/js/syntax.js"></script>
+  <script src = '/js/index.js'></script>
+  
+  
+</body>
+</html>

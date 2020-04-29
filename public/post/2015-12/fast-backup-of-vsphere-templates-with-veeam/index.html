@@ -1,0 +1,541 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  <meta property="og:title" content="Fast Backup of vSphere Templates with Veeam" />
+<meta property="og:description" content="Custom scripts for Veeam to quickly backup vSphere templates." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://neonmirrors.net/post/2015-12/fast-backup-of-vsphere-templates-with-veeam/" />
+<meta property="article:published_time" content="2015-12-17T00:00:00+00:00" />
+<meta property="article:modified_time" content="2015-12-17T00:00:00+00:00" />
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Fast Backup of vSphere Templates with Veeam"/>
+<meta name="twitter:description" content="Custom scripts for Veeam to quickly backup vSphere templates."/>
+<meta name="twitter:site" content="@chipzoller"/>
+
+  
+  <title>
+Fast Backup of vSphere Templates with Veeam | Neon Mirrors
+</title>
+  
+  <link rel="icon" type="image/png" href='https://neonmirrors.net/images/favicon-16x16.png' sizes="16x16">
+  <link rel="icon" type="image/png" href='https://neonmirrors.net/images/favicon-32x32.png' sizes="32x32">  
+  
+  <link href="https://fonts.googleapis.com/css?family=Oswald:400" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">      
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel = 'stylesheet' href = 'https://neonmirrors.net/css/main.703162b863e7e1a93ee98f24b75e329848a814522f2d9f5735d41fbc7f023b3772f177c6ef8dbafccee65cfa8c1b8bb57e73d49284b5a0fdbbe772b8b29b07cb.css' integrity = 'sha512-cDFiuGPn4ak&#43;6Y8kt14ymEioFFIvLZ9XNdQfvH8COzdy8XfG7426/M7mXPqMG4u1fnPUkoS1oP2753K4spsHyw=='>
+  
+  
+<link rel="me" type="text/html" href="https://twitter.com/chipzoller"/> 
+<link rel="me" type="text/html" href="https://www.linkedin.com/in/chipzoller/"/> 
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+
+<link rel="alternate" type="application/rss+xml" href='https://neonmirrors.net/index.xml' />
+
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<meta name="author" content="Chip Zoller" />
+<meta name="copyright" content="Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved." />
+
+
+<meta name="description" content="Custom scripts for Veeam to quickly backup vSphere templates.">
+
+
+
+
+<style type="text/css">
+  .feature-image {
+    background-image: url("https://neonmirrors.net/images/2015-12/fast-backup-of-vsphere-templates-with-veeam/featured.jpg");
+    height: 500px;
+  }
+  
+  @media (max-width: 992px) {
+    .feature-image {
+      height: 350px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .feature-image {
+      height: 250px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .feature-image {
+      height: 200px;
+    }
+  }
+</style>
+
+        
+</head>
+<body >
+  <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark py-1 top-nav">
+    <div class="container">
+      <span class="internal">
+  <a class="navbar-brand pr-2" href="/">NEON MIRRORS</a>
+</span>
+
+      <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="navbar-collapse collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/categories/technology/">Technology</a>
+  
+</li>
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/categories/music/">Music</a>
+  
+</li>
+<li class="nav-item internal">
+  
+  <div class="nav-link nav-hassubmenu">Links
+    <div class="nav-submenu" >
+    
+      <a class="nav-link" href="https://chipzoller.gitbook.io/vspheremigration/">Ultimate vSphere VM Migration Guide</a>
+    
+    </div>
+    </div>
+  
+</li>
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/about/">About</a>
+  
+</li>
+
+        </ul>
+        <div class="social-icons d-none d-lg-block">
+          <a class="py-2 px-2" href="https://github.com/chipzoller"><i class="fab fa-github"></i></a>
+<a class="py-2 px-2" href="https://twitter.com/chipzoller"><i class="fab fa-twitter"></i></a>
+<a class="py-2 px-2" href="https://www.linkedin.com/in/chipzoller/"><i class="fab fa-linkedin"></i></a>
+<a class="py-2 px-2" href='https://neonmirrors.net/index.xml'><i class="fas fa-rss"></i></a>
+
+        </div>
+      </div>
+    </div>
+  </nav>
+  
+  
+<header class="feature-image d-print-none">
+</header>
+
+  
+  <div class="main">
+    
+<div class="container mt-4 post">
+  <h1>Fast Backup of vSphere Templates with Veeam</h1>
+  <div class="mb-3 internal">
+  <small>
+    <strong>By Chip Zoller</strong>
+    | <i class="far fa-calendar-alt"></i>&nbsp;Dec 17, 2015&nbsp;
+    | <i class="fa fa-tags" title="Tags" aria-hidden="true"></i> <a href='/tags/veeam/'>veeam</a>, <a href='/tags/vsphere/'>vsphere</a>, <a href='/tags/powercli/'>powercli</a>, <a href='/tags/powershell/'>powershell</a><span class="d-lg-none">, <a href='#tags-section'>all tags</a></span>
+  </small>
+</div>
+
+  <div class="share-icons d-flex d-print-none">
+    <a href="https://twitter.com/intent/tweet?text=Fast%20Backup%20of%20vSphere%20Templates%20with%20Veeam&url=https%3a%2f%2fneonmirrors.net%2fpost%2f2015-12%2ffast-backup-of-vsphere-templates-with-veeam%2f&tw_p=tweetbutton" class="p-2" title="Share on Twitter" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Tweet</small></div>
+</a>
+
+<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fneonmirrors.net%2fpost%2f2015-12%2ffast-backup-of-vsphere-templates-with-veeam%2f&t=Fast%20Backup%20of%20vSphere%20Templates%20with%20Veeam" class="p-2" title="Share on Facebook" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+<script>
+  function shareViaLinkedin() {
+    window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent("https://neonmirrors.net/post/2015-12/fast-backup-of-vsphere-templates-with-veeam/"), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+  }
+</script>
+<a href="#linkedinshare" id = "linkedinshare" class="p-2" title="Share on LinkedIn" rel="nofollow" onclick="shareViaLinkedin()">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+
+<a href="javascript:window.print()" title="Print this article" class="p-2" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fa fa-print fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Print</small></div>
+</a>
+
+  </div>
+  
+  <div class="mt-4 mb-4 main-content">
+    <p>Most organizations use vSphere templates for a quick way to roll out VMs manually through vCenter, via a clone workflow in vRealize Automation, or something else. Sometimes they’re just base OS with configuration, and sometimes they have complicated applications installed in the case of VDI. Very often, these would be time consuming to reproduce and are changing on a regular basis due to things like patching and updates. So, naturally, you probably want to back those templates up. Now, backing up templates with Veeam has been around for a while, and it’s even enabled by default within a job. But the processing method used is fairly slow compared with other options. Fortunately, I have a couple neat ways around this which can boost your processing rate of templates by several fold allowing you to backup more frequently and in shorter time windows.</p>
+<p><img src="/images/2015-12/fast-backup-of-vsphere-templates-with-veeam/image1.png" alt="Templates can be backed up in Veeam with a check box"></p>
+<p>By default, templates are excluded from any incremental backup. The reason for this is the informational message displayed at the bottom:  <strong>Templates backup functionality is available in Network backup mode only.</strong> For those not familiar with how Veeam processes data, it does so via three methods listed in descending order of efficiency:</p>
+<ol>
+<li>Direct SAN Access</li>
+<li>Hot-Add Mode</li>
+<li>Network Backup Mode</li>
+</ol>
+<p>Direct SAN Access entails, as you probably guessed, having a proxy directly connected to the SAN via Fibre Channel or iSCSI, and retrieving data blocks from the source data store without having to traverse the hypervisor stack.</p>
+<p>Hot-Add Mode is available when your proxies are installed as virtual machines, and this mode leverages the SCSI disk hot-add capabilities of vSphere whereby, after a target VM’s disk is snapshot, the base VMDK (made read-only by the snapshot) is “hot added” to the backup proxy. The data blocks are retrieved by the proxy going through the host, then sent to the repository service.</p>
+<p>And the last and slowest processing mode is Network Mode (referred to in job logs as NBD or Network Block Device) where the data blocks are retrieved over your IP network by communicating with the owning host via its management interface. Not very efficient as you can probably see.</p>
+<p>Back to the template backup settings&hellip;You <em>can</em> enable templates for incremental backup, but as I’ve illustrated above, since fulls and incrementals will be processed in NBD mode, this potentially means very slow processing if you have lots of templates, the rate of change is high, your proxy resources are limited, or your primary disk storage is a deduplicating appliance. There are several reasons why this could be a problem in your environment.</p>
+<p>There are a couple of ways around this. One way is to configure a separate job just for your templates and run that on a less frequent basis than your other VMs. Maybe once a month is sufficient, or maybe you need to protect them once a week. And this certainly can work fine, even taking incrementals of your templates.</p>
+<p>The other method which I’ll illustrate here, involves actually <em>converting</em> those templates to VMs first before the proxy touches them. This has the advantage of leveraging the other two processing modes:  hot-add and direct SAN. The added benefit is that changed-block tracking can also be used, which further reduces backup time. In order to do this, we have to automate the conversion process both from a template to a VM and the other direction when complete. This way, the managed object ID never changes from vCenter’s perspective and no functionality is impacted.</p>
+<p>To automate this changed, I leveraged PowerCLI along with Veeam’s ability to run scripts as a pre- and post-job action, and I did so giving you a couple options on how you want to add those templates to a job.</p>
+<p>Option #1 is by adding an inventory folder containing your templates to a job. This job can either be dedicated to that folder, or can include other VMs added via a number of other supported objects. Since our templates are in a folder, we can automate this change fairly easily with a PowerCLI one-liner pipeline:</p>
+<div class="highlight"><pre class="chroma"><code class="language-ps1" data-lang="ps1"><span class="nb">Get-Folder</span> <span class="n">-Name</span> <span class="n">ChipTemplates</span> <span class="p">|</span> <span class="nb">Get-Template</span> <span class="p">|</span> <span class="nb">Set-Template</span> <span class="n">-ToVM</span>
+</code></pre></div><p>Here I have a folder in the VMs and Templates view “ChipTemplates” that contains my templates (just one for this demo’s purpose). We get the folder, pipe it over to the next stage, and then set all those templates as VMs. Note that there is a <code>-Location</code> parameter to <code>Get-Template</code>, so we could have used that instead of <code>Get-Folder -Name</code>.</p>
+<p>When the job is done, we reverse that process with another:</p>
+<div class="highlight"><pre class="chroma"><code class="language-ps1" data-lang="ps1"><span class="nb">Get-Folder</span> <span class="n">-Name</span> <span class="n">ChipTemplates</span> <span class="p">|</span> <span class="nb">Get-VM</span> <span class="p">|</span> <span class="nb">Set-VM</span> <span class="n">-ToTemplate</span> <span class="n">-Confirm</span><span class="err">:</span><span class="nv">$false</span>
+</code></pre></div><p>Same principle here. Fairly easy as you can see.</p>
+<p>Now, to call these scripts by Veeam, we have to put a few more details into them including adding the PowerCLI snap-in and connecting to the vCenter. Effectively, your script will need to look something like this:</p>
+<div class="highlight"><pre class="chroma"><code class="language-ps1" data-lang="ps1"><span class="nb">Add-PsSnapin</span> <span class="n">VMware</span><span class="p">.</span><span class="n">VimAutomation</span><span class="p">.</span><span class="n">Core</span>
+<span class="nb">Connect-VIServer</span> <span class="n">-Server</span> <span class="n">myvcenter</span><span class="p">.</span><span class="n">domain</span><span class="p">.</span><span class="n">com</span> <span class="n">-User</span> <span class="n">myuser</span><span class="nv">@mydomain</span><span class="p">.</span><span class="n">com</span> <span class="n">-Password</span> <span class="n">MyPa</span><span class="p">$</span><span class="nv">$w0rd</span>
+<span class="nb">Get-Folder</span> <span class="n">-Name</span> <span class="n">ChipTemplates</span> <span class="p">|</span> <span class="nb">Get-Template</span> <span class="p">|</span> <span class="nb">Set-Template</span> <span class="n">-ToVM</span>
+<span class="nb">Disconnect-VIServer</span> <span class="n">-Server</span> <span class="n">myvcenter</span><span class="p">.</span><span class="n">domain</span><span class="p">.</span><span class="n">com</span> <span class="n">-Confirm</span><span class="err">:</span><span class="nv">$false</span>
+</code></pre></div><p>Save it as a PS1 file and put it into a directory of your choice on the backup server. We then need to configure the job to use that script. Edit your job by going to the Storage tab and clicking the Advanced button.</p>
+<p><img src="/images/2015-12/fast-backup-of-vsphere-templates-with-veeam/image2.png" alt="Edit a backup job and find the Advanced button"></p>
+<p>Go to the Advanced tab in the next window and configure the job scripts.</p>
+<p><img src="/images/2015-12/fast-backup-of-vsphere-templates-with-veeam/image3.png" alt="Configure job scripts on the Advanced tab"></p>
+<p>Format the fields with:  <code>powershell.exe –file PathToScript</code></p>
+<p>When you save the job and run it next time, look at the job log to make sure the scripts are running, look at the vCenter to make sure it’s doing what you thought it would do, and then check the processing of your VM to ensure it’s using something other than NBD. In my case, since my proxy is virtual, I expect to see hot-add used, and sure enough I do.</p>
+<p><img src="/images/2015-12/fast-backup-of-vsphere-templates-with-veeam/image4.png" alt="Veeam processing templates"></p>
+<p>I moused-over the line that’s important here. You can see it did indeed use hot-add mode and processed at a respectable 147 MB/s. When the job finishes, it converts those VMs back to templates as expected.</p>
+<p>So that’s pretty useful, but Veeam can also add members to a job using vSphere Tags, and I love using tags. Rather than adding a static object to a job like a cluster or VM folder, you can add the tag. Wherever that tag exists at runtime, those are the objects Veeam will grab.</p>
+<p><img src="/images/2015-12/fast-backup-of-vsphere-templates-with-veeam/image5.png" alt="Using vSphere tags to organize backup jobs"></p>
+<p>In the above screenshot, I’ve expanded my lab vCenter and clicked the Tag icon in the upper-right. What is shown is a real-time view of the tags in inventory and the objects applied (if you expand the tag). In this case, let’s add the tag called “MyTemplate” to the job instead and get the same result. This time, we have to use a different set of scripts to dynamically convert tagged objects to templates and VMs.</p>
+<p>This is the tricky part. In the first option, we easily converted a folder full of templates to VMs and back to templates again. This was because we were able to pipe the output of Get-Folder directly into Get-Template. However, when working with tags, there is no Tag parameter with Get-Template, so we can’t get a list of templates with a certain tag name applied. There is a Tag parameter with Get-VM, which makes the post-job script easy, so we have to find a workaround with the pre-job script. The answer, at least until the PowerCLI team adds a  <code>-Tag</code> as a parameter to <code>Get-Template</code>, is a custom function that retrieves templates as objects from a list of tags. Thanks to <a href="https://communities.vmware.com/people/ccalvetTCC">TheCrazyConsultant</a> over on the VMware Communities, we have such a function:</p>
+<div class="highlight"><pre class="chroma"><code class="language-ps1" data-lang="ps1"><span class="nb">Add-PsSnapin</span> <span class="n">VMware</span><span class="p">.</span><span class="n">VimAutomation</span><span class="p">.</span><span class="n">Core</span>
+<span class="nb">Connect-VIServer</span> <span class="n">-Server</span> <span class="n">myvcenter</span><span class="p">.</span><span class="n">domain</span><span class="p">.</span><span class="n">com</span> <span class="n">-User</span> <span class="n">myuser</span><span class="nv">@domain</span><span class="p">.</span><span class="n">com</span> <span class="n">-Password</span> <span class="n">myPa</span><span class="p">$</span><span class="nv">$w0rd</span>
+
+<span class="k">function</span> <span class="nb">Get-TemplateWithTag</span><span class="p">{</span>
+<span class="k">param</span><span class="p">(</span>
+<span class="nv">$TagNameArray</span>
+<span class="p">)</span>
+    <span class="k">process</span><span class="p">{</span>
+    <span class="nv">$AllTemplatesAndTag</span> <span class="p">=</span> <span class="nb">get-template</span> <span class="p">|</span> <span class="k">foreach</span> <span class="p">{(</span><span class="nv">$MyTemplate</span> <span class="p">=</span> <span class="nv">$_</span><span class="p">)}</span> <span class="p">|</span> <span class="nb">get-tagassignment</span> <span class="p">|</span> <span class="nb">select-object</span> <span class="p">@{</span><span class="n">name</span><span class="p">=</span><span class="s2">&#34;Template&#34;</span><span class="p">;</span><span class="n">Expression</span><span class="p">={</span><span class="nv">$MyTemplate</span><span class="p">}},</span> <span class="p">@{</span><span class="n">name</span><span class="p">=</span><span class="s2">&#34;TagName&#34;</span><span class="p">;</span><span class="n">Expression</span><span class="p">={</span><span class="nv">$_</span><span class="p">.</span><span class="n">tag</span><span class="p">.</span><span class="n">Name</span><span class="p">}},@{</span><span class="n">name</span><span class="p">=</span><span class="s2">&#34;TagCategory&#34;</span><span class="p">;</span><span class="n">Expression</span><span class="p">={</span><span class="nv">$_</span><span class="p">.</span><span class="n">tag</span><span class="p">.</span><span class="n">Category</span><span class="p">}}</span>
+
+    <span class="nv">$AllTemplateWithDuplicate</span> <span class="p">=</span> <span class="nv">$AllTemplatesAndTag</span> <span class="p">|</span> <span class="k">foreach</span><span class="n">-object</span><span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nv">$TagNameArray</span> <span class="o">-contains</span> <span class="nv">$_</span><span class="p">.</span><span class="n">TagName</span><span class="p">){</span>
+            <span class="nv">$_</span><span class="p">.</span><span class="n">Template</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+    <span class="nv">$AllTemplateWithoutDuplicate</span> <span class="p">=</span> <span class="nv">$AllTemplateWithDuplicate</span> <span class="p">|</span> <span class="nb">get-unique</span>
+    <span class="nv">$AllTemplateWithoutDuplicate</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="c">#####Begin working area#####</span>
+<span class="nv">$TagNameArray</span> <span class="p">=</span> <span class="s2">&#34;MyTemplate&#34;</span>
+<span class="nb">Get-TemplateWithTag</span> <span class="n">-TagNameArray</span> <span class="nv">$TagNameArray</span> <span class="p">|</span> <span class="nb">Set-Template</span> <span class="n">-ToVM</span>
+
+<span class="nb">Disconnect-VIServer</span> <span class="n">-Server</span> <span class="n">myvcenter</span><span class="p">.</span><span class="n">domain</span><span class="p">.</span><span class="n">com</span> <span class="n">-Confirm</span><span class="err">:</span><span class="nv">$false</span>
+</code></pre></div><p>With this function, we perform the familiar <code>Get-Template</code>, but we then loop through them looking for the tag name we specified at the bottom with a variable called <code>$TagNameArray</code> that corresponds to a tag called “MyTemplate”. Once we have this, we have to change the object type to a template, and also only get the unique templates that apply. We can then take this output and pipe it to <code>Set-Template</code> as an input with the parameter to convert those objects to VMs.</p>
+<p>When we put this script into Veeam and run the job, it grabs that tag, grabs any templates associated with it, converts them to VMs, and backs them up via hot-add and CBT.</p>
+<p>So now we have two methods to back up templates in a very speedy manner:  Folder organization and Tag organization. Pretty neat stuff.</p>
+<p>I’ll include these scripts here so you can just grab them and begin using them directly. Now there’s no reason not to back up those templates with Veeam!</p>
+<h2 id="download-scriptshttpsgithubcomchipzollerblogscriptstreemasterfastbackupofvspheretemplateswithveeam"><a href="https://github.com/chipzoller/BlogScripts/tree/master/FastBackupOfvSphereTemplatesWithVeeam"><strong>DOWNLOAD SCRIPTS</strong></a></h2>
+
+    
+    <div class="share-icons d-flex d-print-none">
+      <a href="https://twitter.com/intent/tweet?text=Fast%20Backup%20of%20vSphere%20Templates%20with%20Veeam&url=https%3a%2f%2fneonmirrors.net%2fpost%2f2015-12%2ffast-backup-of-vsphere-templates-with-veeam%2f&tw_p=tweetbutton" class="p-2" title="Share on Twitter" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Tweet</small></div>
+</a>
+
+<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fneonmirrors.net%2fpost%2f2015-12%2ffast-backup-of-vsphere-templates-with-veeam%2f&t=Fast%20Backup%20of%20vSphere%20Templates%20with%20Veeam" class="p-2" title="Share on Facebook" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+<script>
+  function shareViaLinkedin() {
+    window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent("https://neonmirrors.net/post/2015-12/fast-backup-of-vsphere-templates-with-veeam/"), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+  }
+</script>
+<a href="#linkedinshare" id = "linkedinshare" class="p-2" title="Share on LinkedIn" rel="nofollow" onclick="shareViaLinkedin()">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+
+<a href="javascript:window.print()" title="Print this article" class="p-2" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fa fa-print fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Print</small></div>
+</a>
+
+    </div>
+  </div>
+  
+  
+</div>
+<div class="sidebar d-print-none d-xl-block internal">
+  
+  <h2>Chip Zoller</h2>
+  <div>
+    Technologist, perpetual student, teacher, continual incremental improvement.
+  </div>
+  <a href="/about/" class="btn btn-outline-secondary mt-3" role="button">Read More...</a>
+  <h2 class="mt-4">Featured Posts</h2>
+  
+  
+  <a href="/post/2019-10/authentication-and-authorization-in-k8s/" class="nav-link">Authentication and Authorization in Kubernetes</a>
+  
+  <a href="/post/2018-12/how-to-ask-for-help-on-tech-forums/" class="nav-link">How to Ask for Help on Tech Forums</a>
+  
+  <h2 class="mt-4">Recent Posts</h2>
+  <nav class="nav flex-column">
+    
+    <a href="/post/2020-04/getting-started-with-tkg/" class="nav-link">Getting Started with Tanzu Kubernetes Grid</a>
+    
+    <a href="/post/2020-04/capv-overview/" class="nav-link">Behind the Scenes with Cluster API Provider vSphere</a>
+    
+    <a href="/post/2020-01/buy-dont-build/" class="nav-link">Buy Don&#39;t Build</a>
+    
+    <a href="/post/2020-01/why-k8s-on-vms/" class="nav-link">Why Kubernetes on Virtual Machines?</a>
+    
+    <a href="/post/2020-01/2020-public-domain-day/" class="nav-link">2020 Public Domain Day</a>
+    
+    <a href="/post/2019-10/authentication-and-authorization-in-k8s/" class="nav-link">Authentication and Authorization in Kubernetes</a>
+    
+    <a href="/post/2019-10/pks-rancher-reg/" class="nav-link">pks-rancher-reg: Automated PKS Cluster Registration For Rancher</a>
+    
+    <a href="/post/2019-09/rancher-ha-on-pks/" class="nav-link">Rancher HA on Enterprise PKS</a>
+    
+  </nav>
+  
+  <h2 class="mt-4 text-capitalize" id="categories-section">categories</h2>
+  <nav class="nav">
+    
+    <a href='/categories/technology/' class="nav-link">
+      technology
+      <span class="badge badge-pill badge-secondary">53</span>
+    </a>
+    
+    <a href='/categories/music/' class="nav-link">
+      music
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+  </nav>
+  
+  <h2 class="mt-4 text-capitalize" id="tags-section">tags</h2>
+  <nav class="nav">
+    
+    <a href='/tags/vrealize/' class="nav-link">
+      vrealize
+      <span class="badge badge-pill badge-secondary">27</span>
+    </a>
+    
+    <a href='/tags/vra/' class="nav-link">
+      vra
+      <span class="badge badge-pill badge-secondary">22</span>
+    </a>
+    
+    <a href='/tags/vsphere/' class="nav-link">
+      vsphere
+      <span class="badge badge-pill badge-secondary">14</span>
+    </a>
+    
+    <a href='/tags/k8s/' class="nav-link">
+      k8s
+      <span class="badge badge-pill badge-secondary">9</span>
+    </a>
+    
+    <a href='/tags/sovlabs/' class="nav-link">
+      sovlabs
+      <span class="badge badge-pill badge-secondary">8</span>
+    </a>
+    
+    <a href='/tags/veeam/' class="nav-link">
+      veeam
+      <span class="badge badge-pill badge-secondary">7</span>
+    </a>
+    
+    <a href='/tags/powershell/' class="nav-link">
+      powershell
+      <span class="badge badge-pill badge-secondary">6</span>
+    </a>
+    
+    <a href='/tags/log-insight/' class="nav-link">
+      log-insight
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/pks/' class="nav-link">
+      pks
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/vrops/' class="nav-link">
+      vrops
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/vro/' class="nav-link">
+      vro
+      <span class="badge badge-pill badge-secondary">4</span>
+    </a>
+    
+    <a href='/tags/docker/' class="nav-link">
+      docker
+      <span class="badge badge-pill badge-secondary">3</span>
+    </a>
+    
+    <a href='/tags/vmworld/' class="nav-link">
+      vmworld
+      <span class="badge badge-pill badge-secondary">3</span>
+    </a>
+    
+    <a href='/tags/featured/' class="nav-link">
+      featured
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/nsx-t/' class="nav-link">
+      nsx-t
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/powercli/' class="nav-link">
+      powercli
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/rancher/' class="nav-link">
+      rancher
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/thoughts/' class="nav-link">
+      thoughts
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/ansible/' class="nav-link">
+      ansible
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/authentication/' class="nav-link">
+      authentication
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/forums/' class="nav-link">
+      forums
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/homelab/' class="nav-link">
+      homelab
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/networking/' class="nav-link">
+      networking
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/security/' class="nav-link">
+      security
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/vmtn/' class="nav-link">
+      vmtn
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+  </nav>
+  
+</div>
+
+
+  </div>
+  
+  <footer class="mt-auto footer d-print-none">
+    <a class="to-top" href="#" title="Back to top">
+      <i class="fa fa-caret-up"></i>
+    </a>
+    <div class="container-fluid">
+      <div class="row justify-content-center">
+        <div class="col-md-4 col-xl-3">
+          <h5>Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved.</h5>
+I&#39;m happy for you to share content on this site, but please provide attribution.
+        </div>
+        <div class="col-md-4 col-xl-3">
+          <h5>Disclaimer</h5>
+Opinions expressed here are my own and may not reflect those of the company I work for, or the people I work with.
+        </div>
+        <div class="col-md-4 col-xl-3">
+          <h5>About This Site</h5>
+This blog was created using the <a href="https://gohugo.io/">Hugo</a> static site generator, using
+<a href="https://getbootstrap.com/">Bootstrap</a>, using the Silhouette Hugo theme, created by
+<a href='https://www.mattbutton.com'>Matt Button</a>
+        </div>
+      </div>
+      
+      <hr />
+      
+      <div class="d-flex justify-content-center icons">
+        <a class="py-2 px-2" href="https://github.com/chipzoller"><i class="fab fa-github"></i></a>
+<a class="py-2 px-2" href="https://twitter.com/chipzoller"><i class="fab fa-twitter"></i></a>
+<a class="py-2 px-2" href="https://www.linkedin.com/in/chipzoller/"><i class="fab fa-linkedin"></i></a>
+<a class="py-2 px-2" href='https://neonmirrors.net/index.xml'><i class="fas fa-rss"></i></a>
+
+      </div>
+    </div>
+  </footer>
+  
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script src="/js/syntax.js"></script>
+  <script src = '/js/index.js'></script>
+  
+  
+</body>
+</html>

@@ -1,0 +1,529 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  <meta property="og:title" content="Detecting PSC Replication Failure with Log Insight" />
+<meta property="og:description" content="Using vRealize Log Insight to detect replication failures between Platform Service Controllers in vSphere." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://neonmirrors.net/post/2017-11/detecting-psc-repl-failure-with-vrli/" />
+<meta property="article:published_time" content="2017-11-29T00:00:00+00:00" />
+<meta property="article:modified_time" content="2017-11-29T00:00:00+00:00" />
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Detecting PSC Replication Failure with Log Insight"/>
+<meta name="twitter:description" content="Using vRealize Log Insight to detect replication failures between Platform Service Controllers in vSphere."/>
+<meta name="twitter:site" content="@chipzoller"/>
+
+  
+  <title>
+Detecting PSC Replication Failure with Log Insight | Neon Mirrors
+</title>
+  
+  <link rel="icon" type="image/png" href='https://neonmirrors.net/images/favicon-16x16.png' sizes="16x16">
+  <link rel="icon" type="image/png" href='https://neonmirrors.net/images/favicon-32x32.png' sizes="32x32">  
+  
+  <link href="https://fonts.googleapis.com/css?family=Oswald:400" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">      
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel = 'stylesheet' href = 'https://neonmirrors.net/css/main.703162b863e7e1a93ee98f24b75e329848a814522f2d9f5735d41fbc7f023b3772f177c6ef8dbafccee65cfa8c1b8bb57e73d49284b5a0fdbbe772b8b29b07cb.css' integrity = 'sha512-cDFiuGPn4ak&#43;6Y8kt14ymEioFFIvLZ9XNdQfvH8COzdy8XfG7426/M7mXPqMG4u1fnPUkoS1oP2753K4spsHyw=='>
+  
+  
+<link rel="me" type="text/html" href="https://twitter.com/chipzoller"/> 
+<link rel="me" type="text/html" href="https://www.linkedin.com/in/chipzoller/"/> 
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+
+<link rel="alternate" type="application/rss+xml" href='https://neonmirrors.net/index.xml' />
+
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<meta name="author" content="Chip Zoller" />
+<meta name="copyright" content="Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved." />
+
+
+<meta name="description" content="Using vRealize Log Insight to detect replication failures between Platform Service Controllers in vSphere.">
+
+
+
+
+<style type="text/css">
+  .feature-image {
+    background-image: url("https://neonmirrors.net/images/2017-11/detecting-psc-repl-failure-with-vrli/featured.jpg");
+    height: 500px;
+  }
+  
+  @media (max-width: 992px) {
+    .feature-image {
+      height: 350px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .feature-image {
+      height: 250px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .feature-image {
+      height: 200px;
+    }
+  }
+</style>
+
+        
+</head>
+<body >
+  <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark py-1 top-nav">
+    <div class="container">
+      <span class="internal">
+  <a class="navbar-brand pr-2" href="/">NEON MIRRORS</a>
+</span>
+
+      <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="navbar-collapse collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/categories/technology/">Technology</a>
+  
+</li>
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/categories/music/">Music</a>
+  
+</li>
+<li class="nav-item internal">
+  
+  <div class="nav-link nav-hassubmenu">Links
+    <div class="nav-submenu" >
+    
+      <a class="nav-link" href="https://chipzoller.gitbook.io/vspheremigration/">Ultimate vSphere VM Migration Guide</a>
+    
+    </div>
+    </div>
+  
+</li>
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/about/">About</a>
+  
+</li>
+
+        </ul>
+        <div class="social-icons d-none d-lg-block">
+          <a class="py-2 px-2" href="https://github.com/chipzoller"><i class="fab fa-github"></i></a>
+<a class="py-2 px-2" href="https://twitter.com/chipzoller"><i class="fab fa-twitter"></i></a>
+<a class="py-2 px-2" href="https://www.linkedin.com/in/chipzoller/"><i class="fab fa-linkedin"></i></a>
+<a class="py-2 px-2" href='https://neonmirrors.net/index.xml'><i class="fas fa-rss"></i></a>
+
+        </div>
+      </div>
+    </div>
+  </nav>
+  
+  
+<header class="feature-image d-print-none">
+</header>
+
+  
+  <div class="main">
+    
+<div class="container mt-4 post">
+  <h1>Detecting PSC Replication Failure with Log Insight</h1>
+  <div class="mb-3 internal">
+  <small>
+    <strong>By Chip Zoller</strong>
+    | <i class="far fa-calendar-alt"></i>&nbsp;Nov 29, 2017&nbsp;
+    | <i class="fa fa-tags" title="Tags" aria-hidden="true"></i> <a href='/tags/vsphere/'>vsphere</a>, <a href='/tags/log-insight/'>log-insight</a>, <a href='/tags/vrealize/'>vrealize</a><span class="d-lg-none">, <a href='#tags-section'>all tags</a></span>
+  </small>
+</div>
+
+  <div class="share-icons d-flex d-print-none">
+    <a href="https://twitter.com/intent/tweet?text=Detecting%20PSC%20Replication%20Failure%20with%20Log%20Insight&url=https%3a%2f%2fneonmirrors.net%2fpost%2f2017-11%2fdetecting-psc-repl-failure-with-vrli%2f&tw_p=tweetbutton" class="p-2" title="Share on Twitter" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Tweet</small></div>
+</a>
+
+<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fneonmirrors.net%2fpost%2f2017-11%2fdetecting-psc-repl-failure-with-vrli%2f&t=Detecting%20PSC%20Replication%20Failure%20with%20Log%20Insight" class="p-2" title="Share on Facebook" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+<script>
+  function shareViaLinkedin() {
+    window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent("https://neonmirrors.net/post/2017-11/detecting-psc-repl-failure-with-vrli/"), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+  }
+</script>
+<a href="#linkedinshare" id = "linkedinshare" class="p-2" title="Share on LinkedIn" rel="nofollow" onclick="shareViaLinkedin()">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+
+<a href="javascript:window.print()" title="Print this article" class="p-2" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fa fa-print fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Print</small></div>
+</a>
+
+  </div>
+  
+  <div class="mt-4 mb-4 main-content">
+    <p>In vSphere 6, the Platform Services Controller (PSC) contains a number of pieces of functionality including the SSO components, certificates, licensing, and other core parts that make vCenter function. Because of its importance, it is possible to join external PSCs that share the same SSO domain in a replication topology whereby their states are kept synchronized. When a change is made to, for example, a vSphere tag, that change is asynchronously replicated to the other member(s). In the instance where a single PSC failed, vCenter could be manually repointed to another PSC that was an identical copy of the one that failed. Use of a load balancer in front of replicating PSCs can even provide automatic PSC switching so a manual repointing is unnecessary. This is all well and good and tends to work just swimmingly, however what happens when PSC replication fails? Bad things happen, that’s what. The natural and next logical question to ask then becomes, “how can I know and be informed when my PSCs have stopped replicating?” To this, unfortunately, there doesn’t seem to be an out-of-the-box way that is displayed in any GUI present in vSphere 6.5. Although you can setup replication through the GUI-driven installer when deploying PSCs, that’s basically the end of the insight into how replication is actually functioning. And when vCenter is pointed at a PSC with a replica partner, the additional PSC shows up under System Configuration in the web client yet does not inform you of replication success or failure.</p>
+<p><img src="/images/2017-11/detecting-psc-repl-failure-with-vrli/image2.png" alt="System Configuration in vCenter"></p>
+<p>Clearly, there is room for improvement here, and like the majority of my articles I want to try and find a solution where one currently doesn’t exist. In this one, I’ll show you how you can use a combination of Log Insight and vRealize Operations Manager to be informed when your PSCs stop replicating.</p>
+<p>In my lab I’ve setup two PSCs in the same site and same SSO domain (vsphere.local) which are replica partners. I have a single vCenter currently pointed at PSC-01. When I make a change to any of the components managed by the PSC through vCenter (or even the PSC-01’s UI at /psc), that change is propagated to PSC-02. This replication happens about every 30 seconds. By logging into PSC-01, we can interrogate the current node for its replication status using the vdcrepadmin tool. Since its path is not stored in the $PATH variable, it’ll have to be called directly.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">root@psc-01 <span class="o">[</span> / <span class="o">]</span><span class="c1"># /usr/lib/vmware-vmdir/bin/vdcrepadmin -f showpartnerstatus -h localhost -u administrator -w VMware1!</span>
+Partner: psc-02.zoller.com
+Host available:   Yes
+Status available: Yes
+My last change number:             <span class="m">1632</span>
+Partner has seen my change number: <span class="m">1632</span>
+Partner is <span class="m">0</span> changes behind.
+</code></pre></div><p>From this message we can see its replica partner (psc-02.zoller.com), if it’s currently available, the last numbered change seen by the source PSC, the last numbered change seen by the replica partner, and then how many changes behind that represents. When everything is functioning properly, you should see something like above. If you were to run the same command on PSC-02, you’d get very much the same response minus the change numbers.</p>
+<p>Now, if I go over to PSC-02 and stop <code>vmdird</code>, the main service responsible for replication, and re-run the <code>vdcrepadmin</code> command on PSC-01, the message would look like the following.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">Partner: psc-02.zoller.com
+Host available:   No
+</code></pre></div><p>And if we look at the log at <code>/var/log/vmware/vmdird/vmdird-syslog.log</code>, we see corresponding failure messages.</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">17-11-29T14:48:00.420592+00:00 err vmdird  t@140610837108480: VmDirSafeLDAPBind to (ldap://psc-02.zoller.com:389) failed. SRP(9127)
+</code></pre></div><p>Yet despite replication obviously failing, vCenter shows no change in status. Although there is a pre-built alarm in vCenter called “PSC Service Health Alarm” this only applies to the source PSC (where vCenter is currently pointed) and has no knowledge of replication status. Total bummer as you’d really hope to see something trigger inside vCenter. Maybe one day. (Cue sad face and violins.)</p>
+<p>Anyhow, if vCenter won’t do it for you, we’ll do it ourselves. Since we know the logged messages that occur when failure is upon us, we can use Log Insight to notify us. And, furthermore, if we integrate Log Insight with vROps, we can send that alert to vROps and have it associated to the correct PSC virtual machine. For this to work, we obviously need both applications, and we also need to integrate them. See some of my other articles that cover this as I won’t spend time on it here, but it’s a pretty simple process.</p>
+<p>After they’re stitched together, we need to get logs from our PSCs over to Log Insight. Log into the VAMI for each PSC on port 5480. Plug in your vRLI host in the Syslog Configuration portion as shown below.</p>
+<p><img src="/images/2017-11/detecting-psc-repl-failure-with-vrli/image3.png" alt="Configuring syslog exporting in vCSA"></p>
+<p>Do this for both PSCs.</p>
+<p><strong>NOTE:</strong> Although the Log Insight agent can also be installed on the PSCs to provide better logging, it is not required if you want visibility into the replication process.</p>
+<p>Verify from your vRLI server that logs are indeed being received from those sources. They should show up in Interactive Analysis and Administration -&gt; Hosts.</p>
+<p><img src="/images/2017-11/detecting-psc-repl-failure-with-vrli/image4.png" alt="Hosts in vRLI"></p>
+<p>Also confirm that the vmdird log stream is coming in. Since Log Insight already extracts the proper fields, we have the convenience of just asking for that stream directly in a query.</p>
+<p><img src="/images/2017-11/detecting-psc-repl-failure-with-vrli/image5.png" alt="vRLI query for vmdird logs"></p>
+<p>Change the resolution to a longer period to ensure logs are there. And if you want to watch how logs change based on activities you perform on the PSC, try to create a new user in the internal SSO domain, add a license, or create a vSphere tag. Update the query you’ve built and see what you get.</p>
+<p><img src="/images/2017-11/detecting-psc-repl-failure-with-vrli/image6.png" alt="vRLI interactive analysis for vmdird logs"></p>
+<p>Starting at the bottom, you might be able to figure out I added a new user, and then about 15 seconds later that change was replicated to the peer PSC as evident by the top line.</p>
+<p>Once we have verified good logs, we can create an alert based on them. Stop <code>vmdird</code> on the PSC replica and watch the failure logs come rolling in.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">root@psc-02 <span class="o">[</span> ~ <span class="o">]</span><span class="c1"># service-control --status</span>
+Running:
+ applmgmt lwsmd pschealth vmafdd vmcad vmdird vmdnsd vmonapi vmware-cis-license vmware-cm vmware-psc-client vmware-rhttpproxy vmware-sca vmware-statsmonitor vmware-sts-idmd vmware-stsd vmware-vapi-endpoint vmware-vmon
+root@psc-02 <span class="o">[</span> ~ <span class="o">]</span><span class="c1"># service-control --stop vmdird</span>
+Perform stop operation. <span class="nv">vmon_profile</span><span class="o">=</span>None, <span class="nv">svc_names</span><span class="o">=[</span><span class="s1">&#39;vmdird&#39;</span><span class="o">]</span>, <span class="nv">include_coreossvcs</span><span class="o">=</span>False, <span class="nv">include_leafossvcs</span><span class="o">=</span>False
+2017-11-29T15:12:57.617Z   Service vmdird does not seem to be registered with vMon. If this is unexpected please make sure your service config is a valid json. Also check vmon logs <span class="k">for</span> warnings.
+2017-11-29T15:12:57.617Z   Running command: <span class="o">[</span><span class="s1">&#39;/sbin/service&#39;</span>, u<span class="s1">&#39;vmdird&#39;</span>, <span class="s1">&#39;status&#39;</span><span class="o">]</span>
+2017-11-29T15:12:57.655Z   Done running <span class="nb">command</span>
+Successfully stopped service vmdird
+</code></pre></div><p><img src="/images/2017-11/detecting-psc-repl-failure-with-vrli/image7.png" alt="Queries for logs showing replication failure"></p>
+<p>We can see the failure messages now, and from these we can create a new alert. Highlight the “VmDirSafeLDAPBind” part and add it to the query.</p>
+<p><img src="/images/2017-11/detecting-psc-repl-failure-with-vrli/image8.png" alt="Add failure message to new filter"></p>
+<p>Now, highlight “failed” and do the same. Put them on two separate lines because entries on the same line are effectively an OR statement. Your built query should look like the following.</p>
+<p><img src="/images/2017-11/detecting-psc-repl-failure-with-vrli/image9.png" alt="Add &ldquo;failed&rdquo; keyword to filter"></p>
+<p>Remove the hostname portion so as to make this alert more general. Now, on the right-hand side, create an alert from this query.</p>
+<p><img src="/images/2017-11/detecting-psc-repl-failure-with-vrli/image10.png" alt="Create new vRLI alert from constructed query"></p>
+<p>Complete the alert definition including description and recommendation as these are fields that will show up when we forward it to vROps.</p>
+<p><img src="/images/2017-11/detecting-psc-repl-failure-with-vrli/image11.png" alt="Alert definition in vRLI"></p>
+<p>Check the box to Send to vRealize Operations Manager and specify a failback object. This is the object with which vROps will associate the alert if it cannot find the source. Set the criticality to your liking. Finally, on the Raise an alert panel at the bottom, select the last radio button and choose “more than” with a number less than 20 in the last 5 minutes. Since the PSCs replicate approximately every 30 seconds and two messages match the query every period, the result would produce 20 logged entries in a 5-minute period, so you want to stay under that if your timeline is 5 minutes. Save the query and be sure to enable it.</p>
+<p><img src="/images/2017-11/detecting-psc-repl-failure-with-vrli/image12.png" alt="Enabled user-created alerts"></p>
+<p>With the alert configured, saved, and enabled, let’s give it a try and see what happens. On your PSC replica, again stop <code>vmdird</code> with <code>service-control --stop vmdird</code> and wait a couple minutes. Flip over to vROps and go to Alerts.</p>
+<p><img src="/images/2017-11/detecting-psc-repl-failure-with-vrli/image13.png" alt="Alert fired in vROps"></p>
+<p>Great! The alert fired, got sent to vROps, and even was correctly associated with PSC-01, the PSC from which the errors were observed. And the description and recommendations that were configured for the alert also show.</p>
+<p><img src="/images/2017-11/detecting-psc-repl-failure-with-vrli/image14.png" alt="Alert with recommendation in vROps"></p>
+<p>Now you’ll have some peace of mind knowing that your replication is working properly, and if not when it occurred. I’m also providing my Log Insight alert definition that you can easily import if you’d prefer not to create your own. So hopefully this makes you sleep a little bit better knowing that you won’t be caught off guard if you need to repoint your PSC only to find out it’s broken.</p>
+
+    
+    <div class="share-icons d-flex d-print-none">
+      <a href="https://twitter.com/intent/tweet?text=Detecting%20PSC%20Replication%20Failure%20with%20Log%20Insight&url=https%3a%2f%2fneonmirrors.net%2fpost%2f2017-11%2fdetecting-psc-repl-failure-with-vrli%2f&tw_p=tweetbutton" class="p-2" title="Share on Twitter" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Tweet</small></div>
+</a>
+
+<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fneonmirrors.net%2fpost%2f2017-11%2fdetecting-psc-repl-failure-with-vrli%2f&t=Detecting%20PSC%20Replication%20Failure%20with%20Log%20Insight" class="p-2" title="Share on Facebook" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+<script>
+  function shareViaLinkedin() {
+    window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent("https://neonmirrors.net/post/2017-11/detecting-psc-repl-failure-with-vrli/"), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+  }
+</script>
+<a href="#linkedinshare" id = "linkedinshare" class="p-2" title="Share on LinkedIn" rel="nofollow" onclick="shareViaLinkedin()">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+
+<a href="javascript:window.print()" title="Print this article" class="p-2" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fa fa-print fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Print</small></div>
+</a>
+
+    </div>
+  </div>
+  
+  
+</div>
+<div class="sidebar d-print-none d-xl-block internal">
+  
+  <h2>Chip Zoller</h2>
+  <div>
+    Technologist, perpetual student, teacher, continual incremental improvement.
+  </div>
+  <a href="/about/" class="btn btn-outline-secondary mt-3" role="button">Read More...</a>
+  <h2 class="mt-4">Featured Posts</h2>
+  
+  
+  <a href="/post/2019-10/authentication-and-authorization-in-k8s/" class="nav-link">Authentication and Authorization in Kubernetes</a>
+  
+  <a href="/post/2018-12/how-to-ask-for-help-on-tech-forums/" class="nav-link">How to Ask for Help on Tech Forums</a>
+  
+  <h2 class="mt-4">Recent Posts</h2>
+  <nav class="nav flex-column">
+    
+    <a href="/post/2020-04/getting-started-with-tkg/" class="nav-link">Getting Started with Tanzu Kubernetes Grid</a>
+    
+    <a href="/post/2020-04/capv-overview/" class="nav-link">Behind the Scenes with Cluster API Provider vSphere</a>
+    
+    <a href="/post/2020-01/buy-dont-build/" class="nav-link">Buy Don&#39;t Build</a>
+    
+    <a href="/post/2020-01/why-k8s-on-vms/" class="nav-link">Why Kubernetes on Virtual Machines?</a>
+    
+    <a href="/post/2020-01/2020-public-domain-day/" class="nav-link">2020 Public Domain Day</a>
+    
+    <a href="/post/2019-10/authentication-and-authorization-in-k8s/" class="nav-link">Authentication and Authorization in Kubernetes</a>
+    
+    <a href="/post/2019-10/pks-rancher-reg/" class="nav-link">pks-rancher-reg: Automated PKS Cluster Registration For Rancher</a>
+    
+    <a href="/post/2019-09/rancher-ha-on-pks/" class="nav-link">Rancher HA on Enterprise PKS</a>
+    
+  </nav>
+  
+  <h2 class="mt-4 text-capitalize" id="categories-section">categories</h2>
+  <nav class="nav">
+    
+    <a href='/categories/technology/' class="nav-link">
+      technology
+      <span class="badge badge-pill badge-secondary">53</span>
+    </a>
+    
+    <a href='/categories/music/' class="nav-link">
+      music
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+  </nav>
+  
+  <h2 class="mt-4 text-capitalize" id="tags-section">tags</h2>
+  <nav class="nav">
+    
+    <a href='/tags/vrealize/' class="nav-link">
+      vrealize
+      <span class="badge badge-pill badge-secondary">27</span>
+    </a>
+    
+    <a href='/tags/vra/' class="nav-link">
+      vra
+      <span class="badge badge-pill badge-secondary">22</span>
+    </a>
+    
+    <a href='/tags/vsphere/' class="nav-link">
+      vsphere
+      <span class="badge badge-pill badge-secondary">14</span>
+    </a>
+    
+    <a href='/tags/k8s/' class="nav-link">
+      k8s
+      <span class="badge badge-pill badge-secondary">9</span>
+    </a>
+    
+    <a href='/tags/sovlabs/' class="nav-link">
+      sovlabs
+      <span class="badge badge-pill badge-secondary">8</span>
+    </a>
+    
+    <a href='/tags/veeam/' class="nav-link">
+      veeam
+      <span class="badge badge-pill badge-secondary">7</span>
+    </a>
+    
+    <a href='/tags/powershell/' class="nav-link">
+      powershell
+      <span class="badge badge-pill badge-secondary">6</span>
+    </a>
+    
+    <a href='/tags/log-insight/' class="nav-link">
+      log-insight
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/pks/' class="nav-link">
+      pks
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/vrops/' class="nav-link">
+      vrops
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/vro/' class="nav-link">
+      vro
+      <span class="badge badge-pill badge-secondary">4</span>
+    </a>
+    
+    <a href='/tags/docker/' class="nav-link">
+      docker
+      <span class="badge badge-pill badge-secondary">3</span>
+    </a>
+    
+    <a href='/tags/vmworld/' class="nav-link">
+      vmworld
+      <span class="badge badge-pill badge-secondary">3</span>
+    </a>
+    
+    <a href='/tags/featured/' class="nav-link">
+      featured
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/nsx-t/' class="nav-link">
+      nsx-t
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/powercli/' class="nav-link">
+      powercli
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/rancher/' class="nav-link">
+      rancher
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/thoughts/' class="nav-link">
+      thoughts
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/ansible/' class="nav-link">
+      ansible
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/authentication/' class="nav-link">
+      authentication
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/forums/' class="nav-link">
+      forums
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/homelab/' class="nav-link">
+      homelab
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/networking/' class="nav-link">
+      networking
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/security/' class="nav-link">
+      security
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/vmtn/' class="nav-link">
+      vmtn
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+  </nav>
+  
+</div>
+
+
+  </div>
+  
+  <footer class="mt-auto footer d-print-none">
+    <a class="to-top" href="#" title="Back to top">
+      <i class="fa fa-caret-up"></i>
+    </a>
+    <div class="container-fluid">
+      <div class="row justify-content-center">
+        <div class="col-md-4 col-xl-3">
+          <h5>Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved.</h5>
+I&#39;m happy for you to share content on this site, but please provide attribution.
+        </div>
+        <div class="col-md-4 col-xl-3">
+          <h5>Disclaimer</h5>
+Opinions expressed here are my own and may not reflect those of the company I work for, or the people I work with.
+        </div>
+        <div class="col-md-4 col-xl-3">
+          <h5>About This Site</h5>
+This blog was created using the <a href="https://gohugo.io/">Hugo</a> static site generator, using
+<a href="https://getbootstrap.com/">Bootstrap</a>, using the Silhouette Hugo theme, created by
+<a href='https://www.mattbutton.com'>Matt Button</a>
+        </div>
+      </div>
+      
+      <hr />
+      
+      <div class="d-flex justify-content-center icons">
+        <a class="py-2 px-2" href="https://github.com/chipzoller"><i class="fab fa-github"></i></a>
+<a class="py-2 px-2" href="https://twitter.com/chipzoller"><i class="fab fa-twitter"></i></a>
+<a class="py-2 px-2" href="https://www.linkedin.com/in/chipzoller/"><i class="fab fa-linkedin"></i></a>
+<a class="py-2 px-2" href='https://neonmirrors.net/index.xml'><i class="fas fa-rss"></i></a>
+
+      </div>
+    </div>
+  </footer>
+  
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script src="/js/syntax.js"></script>
+  <script src = '/js/index.js'></script>
+  
+  
+</body>
+</html>

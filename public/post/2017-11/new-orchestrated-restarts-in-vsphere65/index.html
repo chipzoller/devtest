@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  <meta property="og:title" content="New Orchestrated Restarts in vSphere 6.5" />
+<meta property="og:description" content="Orchestrated Restarts feature in HA in vSphere 6.5" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://neonmirrors.net/post/2017-11/new-orchestrated-restarts-in-vsphere65/" />
+<meta property="article:published_time" content="2017-11-13T00:00:00+00:00" />
+<meta property="article:modified_time" content="2017-11-13T00:00:00+00:00" />
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="New Orchestrated Restarts in vSphere 6.5"/>
+<meta name="twitter:description" content="Orchestrated Restarts feature in HA in vSphere 6.5"/>
+<meta name="twitter:site" content="@chipzoller"/>
+
+  
+  <title>
+New Orchestrated Restarts in vSphere 6.5 | Neon Mirrors
+</title>
+  
+  <link rel="icon" type="image/png" href='https://neonmirrors.net/images/favicon-16x16.png' sizes="16x16">
+  <link rel="icon" type="image/png" href='https://neonmirrors.net/images/favicon-32x32.png' sizes="32x32">  
+  
+  <link href="https://fonts.googleapis.com/css?family=Oswald:400" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">      
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel = 'stylesheet' href = 'https://neonmirrors.net/css/main.703162b863e7e1a93ee98f24b75e329848a814522f2d9f5735d41fbc7f023b3772f177c6ef8dbafccee65cfa8c1b8bb57e73d49284b5a0fdbbe772b8b29b07cb.css' integrity = 'sha512-cDFiuGPn4ak&#43;6Y8kt14ymEioFFIvLZ9XNdQfvH8COzdy8XfG7426/M7mXPqMG4u1fnPUkoS1oP2753K4spsHyw=='>
+  
+  
+<link rel="me" type="text/html" href="https://twitter.com/chipzoller"/> 
+<link rel="me" type="text/html" href="https://www.linkedin.com/in/chipzoller/"/> 
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+
+<link rel="alternate" type="application/rss+xml" href='https://neonmirrors.net/index.xml' />
+
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<meta name="author" content="Chip Zoller" />
+<meta name="copyright" content="Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved." />
+
+
+<meta name="description" content="Orchestrated Restarts feature in HA in vSphere 6.5">
+
+
+
+
+<style type="text/css">
+  .feature-image {
+    background-image: url("https://neonmirrors.net/images/2017-11/new-orchestrated-restarts-in-vsphere65/featured.jpg");
+    height: 500px;
+  }
+  
+  @media (max-width: 992px) {
+    .feature-image {
+      height: 350px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .feature-image {
+      height: 250px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .feature-image {
+      height: 200px;
+    }
+  }
+</style>
+
+        
+</head>
+<body >
+  <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark py-1 top-nav">
+    <div class="container">
+      <span class="internal">
+  <a class="navbar-brand pr-2" href="/">NEON MIRRORS</a>
+</span>
+
+      <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="navbar-collapse collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/categories/technology/">Technology</a>
+  
+</li>
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/categories/music/">Music</a>
+  
+</li>
+<li class="nav-item internal">
+  
+  <div class="nav-link nav-hassubmenu">Links
+    <div class="nav-submenu" >
+    
+      <a class="nav-link" href="https://chipzoller.gitbook.io/vspheremigration/">Ultimate vSphere VM Migration Guide</a>
+    
+    </div>
+    </div>
+  
+</li>
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/about/">About</a>
+  
+</li>
+
+        </ul>
+        <div class="social-icons d-none d-lg-block">
+          <a class="py-2 px-2" href="https://github.com/chipzoller"><i class="fab fa-github"></i></a>
+<a class="py-2 px-2" href="https://twitter.com/chipzoller"><i class="fab fa-twitter"></i></a>
+<a class="py-2 px-2" href="https://www.linkedin.com/in/chipzoller/"><i class="fab fa-linkedin"></i></a>
+<a class="py-2 px-2" href='https://neonmirrors.net/index.xml'><i class="fas fa-rss"></i></a>
+
+        </div>
+      </div>
+    </div>
+  </nav>
+  
+  
+<header class="feature-image d-print-none">
+</header>
+
+  
+  <div class="main">
+    
+<div class="container mt-4 post">
+  <h1>New Orchestrated Restarts in vSphere 6.5</h1>
+  <div class="mb-3 internal">
+  <small>
+    <strong>By Chip Zoller</strong>
+    | <i class="far fa-calendar-alt"></i>&nbsp;Nov 13, 2017&nbsp;
+    | <i class="fa fa-tags" title="Tags" aria-hidden="true"></i> <a href='/tags/vsphere/'>vsphere</a><span class="d-lg-none">, <a href='#tags-section'>all tags</a></span>
+  </small>
+</div>
+
+  <div class="share-icons d-flex d-print-none">
+    <a href="https://twitter.com/intent/tweet?text=New%20Orchestrated%20Restarts%20in%20vSphere%206.5&url=https%3a%2f%2fneonmirrors.net%2fpost%2f2017-11%2fnew-orchestrated-restarts-in-vsphere65%2f&tw_p=tweetbutton" class="p-2" title="Share on Twitter" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Tweet</small></div>
+</a>
+
+<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fneonmirrors.net%2fpost%2f2017-11%2fnew-orchestrated-restarts-in-vsphere65%2f&t=New%20Orchestrated%20Restarts%20in%20vSphere%206.5" class="p-2" title="Share on Facebook" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+<script>
+  function shareViaLinkedin() {
+    window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent("https://neonmirrors.net/post/2017-11/new-orchestrated-restarts-in-vsphere65/"), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+  }
+</script>
+<a href="#linkedinshare" id = "linkedinshare" class="p-2" title="Share on LinkedIn" rel="nofollow" onclick="shareViaLinkedin()">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+
+<a href="javascript:window.print()" title="Print this article" class="p-2" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fa fa-print fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Print</small></div>
+</a>
+
+  </div>
+  
+  <div class="mt-4 mb-4 main-content">
+    <p>vSphere 6.5 was released at the end of 2016 and so, at this point, has been on the market for about a year. VMware introduced several <a href="https://www.vmware.com/content/dam/digitalmarketing/vmware/en/pdf/whitepaper/vsphere/vmw-white-paper-vsphr-whats-new-6-5.pdf">new features</a> in vSphere 6.5, and several of them are very, very useful however sometimes people don’t take the time to really read and understand these new features to solve problems that might already exist. One such feature that I’d like to focus on today is the new HA feature called Orchestrated Restarts. In prior releases, vSphere High Availability (HA) has served to reliably restart VMs on available hosts should one host fail. It does this by building a manifest of protected VMs and, through a master-slave relationship structure, makes those manifests known to other cluster members. Fun fact that I’ve used in interviews when assessing another’s VMware skill set is HA does not require vCenter for its operation although it does for the setup. In other words, HA is able to restart VMs from a failed host even if vCenter is unavailable for any reason.  The gap with HA, until vSphere 6.5 that is, is it has no knowledge of the VMs it is restarting as far as their interdependencies are concerned. So, in some situations, HA may restart a VM that has a dependency upon another VM which results in application unavailability when all return to service. In vSphere 6.5, VMware addressed this need with a new enhancement to HA called Orchestrated Restarts in which you can declare those dependencies and their order so HA restarts VMs in the necessary sequence. This feature is imminently useful in multi-tier applications, and one such application that can benefit tremendously is vRealize Automation. In this article, I’ll walk through this feature and illustrate how you can leverage it to increase availability of vRA in the face of disaster in addition to covering a couple other best practices with vSphere features when dealing with similar stacks.</p>
+<p>In prior versions of HA, there was no dependency awareness—HA just restarted any and all VMs it knew about in any order. The focus was on making them power on and that’s it. There were (and still are) restart priorities which can be set, but not a chain. In vSphere 6.5, this changed with Orchestrated Restarts.</p>
+<p><img src="/images/2017-11/new-orchestrated-restarts-in-vsphere65/image1.png" alt="Orchestrated restarts visual order"></p>
+<p>With special rules set in the web client, we can determine the order in which power-ons should occur. First, let’s look at a common vRA architecture. These are the machines present.</p>
+<p><img src="/images/2017-11/new-orchestrated-restarts-in-vsphere65/image2.png" alt="Test VMs in vSphere inventory"></p>
+<p>We’ve got a couple front-end servers (App), manager and web roles (IaaS), a vSphere Agent server (Agent), and a couple of DEM workers (DEM). The front-end servers have to be available before anything else is, followed by IaaS, and then the rest. So, effectively, we have a 3-tier structure.</p>
+<p><img src="/images/2017-11/new-orchestrated-restarts-in-vsphere65/image3.png" alt="Structure of application"></p>
+<p>And the dependencies are in this order, so therefore App must be available before IaaS, and IaaS must be available before Agent or DEM.</p>
+<p>Going back over to vCenter, we have to first create our groups or tiers. From the Hosts and Clusters view, click the cluster object, then Configure, and go down to VM/Host Groups.</p>
+<p><img src="/images/2017-11/new-orchestrated-restarts-in-vsphere65/image4.png" alt="VM/Host Groups on Cluster object"></p>
+<p>We’ll add a new group and put the App servers in them.</p>
+<p><img src="/images/2017-11/new-orchestrated-restarts-in-vsphere65/image5.png" alt="Create new VM group with app tier VMs"></p>
+<p>And do the same for the other tiers with the third tier having three VMs. It should end up looking like the following.</p>
+<p><img src="/images/2017-11/new-orchestrated-restarts-in-vsphere65/image6.png" alt="Three VM groups created, one per tier"></p>
+<p>Now that you have those tiers, go down to VM/Host Rules beneath it. Here is where the new feature resides. In the past, there was just affinity, anti-affinity, and host pinning. In 6.5, there is an additional option now called “Virtual Machines to Virtual Machines.”</p>
+<p><img src="/images/2017-11/new-orchestrated-restarts-in-vsphere65/image7.png" alt="New &ldquo;Virtual Machines to Virtual Machines&rdquo; rule in 6.5"></p>
+<p>This is the rule type we want to leverage, so we’ll create a new rule based on this and select the first two tiers.</p>
+<p><img src="/images/2017-11/new-orchestrated-restarts-in-vsphere65/image8.png" alt="Create rule based on tiers"></p>
+<p>This rule says anything in vRA-Tier1 must be restarted before anything in vRA-Tier2 in the case where a host failure takes out members from both groups. Now we repeat the process for tiers 2 and 3. Once complete, you should have at least two rules in place, possibly more if you’re following these instructions for another application.</p>
+<p><img src="/images/2017-11/new-orchestrated-restarts-in-vsphere65/image9.png" alt="Created rules"></p>
+<p>After they’ve been saved, you should see tasks that kick off that indicate these rules are being populated on the underlying ESXi hosts.</p>
+<p><img src="/images/2017-11/new-orchestrated-restarts-in-vsphere65/image10.png" alt="New rules updated in inventory"></p>
+<p>In my case, I’m running vSAN and since vSAN and HA are very closely coupled, the HA rules serve as vSAN cluster updates as well. And by the way, here is another opportunity we have to exercise best practice with a distributed or enterprise vRealize Automation stack. We need to ensure machines of like tier are separated to increase availability. This is also done here and we need to specify some anti-affinity rules to keep the App servers apart as well as the IaaS servers and others. My full complement of rules, both group dependency based and anti-affinity, looks like so.</p>
+<p><img src="/images/2017-11/new-orchestrated-restarts-in-vsphere65/image11.png" alt="List of VM/Host rules created"></p>
+<p>Now we have the VM groups and the orchestration rules, let’s configure a couple other important points to make this stack function better. In vRA, the front-end (café) appliance(s) usually take some time to boot up because of the number of services that are involved. This process, even with a well-performing infrastructure can still take several minutes to complete, so we should complement these orchestrated restart rules with a delay that’ll properly allow the front-end to start up before attempting to start other tiers. After all, there’s no point starting other tiers if they have to be restarted manually later because the first tier isn’t yet ready for action.</p>
+<p>Let’s go down to VM Overrides and add a couple rules. This is something else that’s great about vSphere 6.5, the ability to fine-tune how HA restarts VMs based on conditions. Add a new rule and put both App servers in there.</p>
+<p><img src="/images/2017-11/new-orchestrated-restarts-in-vsphere65/image12.png" alt="VM override rules"></p>
+<p>Three key things we want to change. First, the VM restart priority. By default, an HA cluster has a Medium restart priority where everything is of equal weight. We want to change the front-end appliances to be a bit higher than that because this serves as the login portal, so HA needs to make haste when prioritizing resources to start VMs elsewhere. Next, the “start next priority VMs when” setting allows us to instruct HA when to being starting VMs in the next rule. There are a few options here.</p>
+<p><img src="/images/2017-11/new-orchestrated-restarts-in-vsphere65/image13.png" alt="Drop-down list with options for next priority start"></p>
+<p>The default in the cluster unless it’s overridden is “Resources allocated” which simply means as soon as the scheduler has powered it on—basically immediately. Powered On is waiting for confirmation that the VM was actually powered on rather than just attempted. But the one that’s extremely helpful here is what I’d suggest setting which is “Guest Heartbeats detected.” This setting allows ESXi to listen for heartbeats from VMware tools, which is usually a good indicator that the VM in question has reached a suitable run state for its applications to initialize.</p>
+<p>Then back to the list, an additional delay of 120 seconds will further allow the front-end to let services start before attempting to start any IaaS servers. If, after this custom value, guest heartbeats are still not detected, a timeout will occur and, afterwards, other VMs will be started. Extremely helpful in these situations when you need all members to come up, even at the expense of pieces maybe needing to be rebooted again. Rinse and repeat for your second tier containing your IaaS layer. Using the same settings as the front-end tier is just fine.</p>
+<p>Great! Now the only thing left is to test. I’ll kill a host in my lab to see what happens. Obviously, you may not want to do this in a production situation :)</p>
+<p>I killed the first host (10.10.40.246) at 7:55pm that was running App01, IaaS01, and Agent01. Here’s the state before.</p>
+<p><img src="/images/2017-11/new-orchestrated-restarts-in-vsphere65/image14.png" alt="VM and host list prior to simulated failures"></p>
+<p>Now after the host has died and vCenter acknowledges that, the membership looks like the following.</p>
+<p><img src="/images/2017-11/new-orchestrated-restarts-in-vsphere65/image15.png" alt="VM and host list after failure of 10.10.40.246"></p>
+<p>Those VMs show disconnected with an unknown status. Let’s see how HA behaves.</p>
+<p><img src="/images/2017-11/new-orchestrated-restarts-in-vsphere65/image16.png" alt="HA restart event"></p>
+<p>Ok, good, so at 8:00pm it started up App01 as it should have once vSAN updated its cluster status. Normally this failover is a bit quicker when not using vSAN.</p>
+<p>Next, when guest heartbeats were detected, the 2-minute countdown started.</p>
+<p><img src="/images/2017-11/new-orchestrated-restarts-in-vsphere65/image17.png" alt="HA restart event after countdown"></p>
+<p>So at 8:04, it then started up IaaS01 followed by Agent01 similarly. After a few minutes, the stack is back up and functional.</p>
+<p><img src="/images/2017-11/new-orchestrated-restarts-in-vsphere65/image18.png" alt="All VMs back in operation"></p>
+<p>Pretty great enhancements in vSphere 6.5 related to availability if you ask me, and all these features are extremely handy when running vRA on top.</p>
+<p>I hope this has been a useful illustration on a couple of the new features in vSphere 6.5 and how you can leverage those to provide even greater availability to vRealize Automation. Go forward and use these features anywhere you have application dependencies, and if you aren’t on vSphere 6.5 yet, start planning for it now!</p>
+
+    
+    <div class="share-icons d-flex d-print-none">
+      <a href="https://twitter.com/intent/tweet?text=New%20Orchestrated%20Restarts%20in%20vSphere%206.5&url=https%3a%2f%2fneonmirrors.net%2fpost%2f2017-11%2fnew-orchestrated-restarts-in-vsphere65%2f&tw_p=tweetbutton" class="p-2" title="Share on Twitter" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Tweet</small></div>
+</a>
+
+<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fneonmirrors.net%2fpost%2f2017-11%2fnew-orchestrated-restarts-in-vsphere65%2f&t=New%20Orchestrated%20Restarts%20in%20vSphere%206.5" class="p-2" title="Share on Facebook" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+<script>
+  function shareViaLinkedin() {
+    window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent("https://neonmirrors.net/post/2017-11/new-orchestrated-restarts-in-vsphere65/"), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+  }
+</script>
+<a href="#linkedinshare" id = "linkedinshare" class="p-2" title="Share on LinkedIn" rel="nofollow" onclick="shareViaLinkedin()">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+
+<a href="javascript:window.print()" title="Print this article" class="p-2" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fa fa-print fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Print</small></div>
+</a>
+
+    </div>
+  </div>
+  
+  
+</div>
+<div class="sidebar d-print-none d-xl-block internal">
+  
+  <h2>Chip Zoller</h2>
+  <div>
+    Technologist, perpetual student, teacher, continual incremental improvement.
+  </div>
+  <a href="/about/" class="btn btn-outline-secondary mt-3" role="button">Read More...</a>
+  <h2 class="mt-4">Featured Posts</h2>
+  
+  
+  <a href="/post/2019-10/authentication-and-authorization-in-k8s/" class="nav-link">Authentication and Authorization in Kubernetes</a>
+  
+  <a href="/post/2018-12/how-to-ask-for-help-on-tech-forums/" class="nav-link">How to Ask for Help on Tech Forums</a>
+  
+  <h2 class="mt-4">Recent Posts</h2>
+  <nav class="nav flex-column">
+    
+    <a href="/post/2020-04/getting-started-with-tkg/" class="nav-link">Getting Started with Tanzu Kubernetes Grid</a>
+    
+    <a href="/post/2020-04/capv-overview/" class="nav-link">Behind the Scenes with Cluster API Provider vSphere</a>
+    
+    <a href="/post/2020-01/buy-dont-build/" class="nav-link">Buy Don&#39;t Build</a>
+    
+    <a href="/post/2020-01/why-k8s-on-vms/" class="nav-link">Why Kubernetes on Virtual Machines?</a>
+    
+    <a href="/post/2020-01/2020-public-domain-day/" class="nav-link">2020 Public Domain Day</a>
+    
+    <a href="/post/2019-10/authentication-and-authorization-in-k8s/" class="nav-link">Authentication and Authorization in Kubernetes</a>
+    
+    <a href="/post/2019-10/pks-rancher-reg/" class="nav-link">pks-rancher-reg: Automated PKS Cluster Registration For Rancher</a>
+    
+    <a href="/post/2019-09/rancher-ha-on-pks/" class="nav-link">Rancher HA on Enterprise PKS</a>
+    
+  </nav>
+  
+  <h2 class="mt-4 text-capitalize" id="categories-section">categories</h2>
+  <nav class="nav">
+    
+    <a href='/categories/technology/' class="nav-link">
+      technology
+      <span class="badge badge-pill badge-secondary">53</span>
+    </a>
+    
+    <a href='/categories/music/' class="nav-link">
+      music
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+  </nav>
+  
+  <h2 class="mt-4 text-capitalize" id="tags-section">tags</h2>
+  <nav class="nav">
+    
+    <a href='/tags/vrealize/' class="nav-link">
+      vrealize
+      <span class="badge badge-pill badge-secondary">27</span>
+    </a>
+    
+    <a href='/tags/vra/' class="nav-link">
+      vra
+      <span class="badge badge-pill badge-secondary">22</span>
+    </a>
+    
+    <a href='/tags/vsphere/' class="nav-link">
+      vsphere
+      <span class="badge badge-pill badge-secondary">14</span>
+    </a>
+    
+    <a href='/tags/k8s/' class="nav-link">
+      k8s
+      <span class="badge badge-pill badge-secondary">9</span>
+    </a>
+    
+    <a href='/tags/sovlabs/' class="nav-link">
+      sovlabs
+      <span class="badge badge-pill badge-secondary">8</span>
+    </a>
+    
+    <a href='/tags/veeam/' class="nav-link">
+      veeam
+      <span class="badge badge-pill badge-secondary">7</span>
+    </a>
+    
+    <a href='/tags/powershell/' class="nav-link">
+      powershell
+      <span class="badge badge-pill badge-secondary">6</span>
+    </a>
+    
+    <a href='/tags/log-insight/' class="nav-link">
+      log-insight
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/pks/' class="nav-link">
+      pks
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/vrops/' class="nav-link">
+      vrops
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/vro/' class="nav-link">
+      vro
+      <span class="badge badge-pill badge-secondary">4</span>
+    </a>
+    
+    <a href='/tags/docker/' class="nav-link">
+      docker
+      <span class="badge badge-pill badge-secondary">3</span>
+    </a>
+    
+    <a href='/tags/vmworld/' class="nav-link">
+      vmworld
+      <span class="badge badge-pill badge-secondary">3</span>
+    </a>
+    
+    <a href='/tags/featured/' class="nav-link">
+      featured
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/nsx-t/' class="nav-link">
+      nsx-t
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/powercli/' class="nav-link">
+      powercli
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/rancher/' class="nav-link">
+      rancher
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/thoughts/' class="nav-link">
+      thoughts
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/ansible/' class="nav-link">
+      ansible
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/authentication/' class="nav-link">
+      authentication
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/forums/' class="nav-link">
+      forums
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/homelab/' class="nav-link">
+      homelab
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/networking/' class="nav-link">
+      networking
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/security/' class="nav-link">
+      security
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/vmtn/' class="nav-link">
+      vmtn
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+  </nav>
+  
+</div>
+
+
+  </div>
+  
+  <footer class="mt-auto footer d-print-none">
+    <a class="to-top" href="#" title="Back to top">
+      <i class="fa fa-caret-up"></i>
+    </a>
+    <div class="container-fluid">
+      <div class="row justify-content-center">
+        <div class="col-md-4 col-xl-3">
+          <h5>Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved.</h5>
+I&#39;m happy for you to share content on this site, but please provide attribution.
+        </div>
+        <div class="col-md-4 col-xl-3">
+          <h5>Disclaimer</h5>
+Opinions expressed here are my own and may not reflect those of the company I work for, or the people I work with.
+        </div>
+        <div class="col-md-4 col-xl-3">
+          <h5>About This Site</h5>
+This blog was created using the <a href="https://gohugo.io/">Hugo</a> static site generator, using
+<a href="https://getbootstrap.com/">Bootstrap</a>, using the Silhouette Hugo theme, created by
+<a href='https://www.mattbutton.com'>Matt Button</a>
+        </div>
+      </div>
+      
+      <hr />
+      
+      <div class="d-flex justify-content-center icons">
+        <a class="py-2 px-2" href="https://github.com/chipzoller"><i class="fab fa-github"></i></a>
+<a class="py-2 px-2" href="https://twitter.com/chipzoller"><i class="fab fa-twitter"></i></a>
+<a class="py-2 px-2" href="https://www.linkedin.com/in/chipzoller/"><i class="fab fa-linkedin"></i></a>
+<a class="py-2 px-2" href='https://neonmirrors.net/index.xml'><i class="fas fa-rss"></i></a>
+
+      </div>
+    </div>
+  </footer>
+  
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script src="/js/syntax.js"></script>
+  <script src = '/js/index.js'></script>
+  
+  
+</body>
+</html>

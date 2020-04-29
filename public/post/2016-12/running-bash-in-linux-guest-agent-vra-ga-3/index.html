@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  <meta property="og:title" content="Running Bash commands in the Linux guest agent in vRA 7" />
+<meta property="og:description" content="Customized script to enable running bash commands in Linux via the vRealize Automation 7 guest agent." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://neonmirrors.net/post/2016-12/running-bash-in-linux-guest-agent-vra-ga-3/" />
+<meta property="article:published_time" content="2016-12-19T00:00:00+00:00" />
+<meta property="article:modified_time" content="2016-12-19T00:00:00+00:00" />
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Running Bash commands in the Linux guest agent in vRA 7"/>
+<meta name="twitter:description" content="Customized script to enable running bash commands in Linux via the vRealize Automation 7 guest agent."/>
+<meta name="twitter:site" content="@chipzoller"/>
+
+  
+  <title>
+Running Bash commands in the Linux guest agent in vRA 7 | Neon Mirrors
+</title>
+  
+  <link rel="icon" type="image/png" href='https://neonmirrors.net/images/favicon-16x16.png' sizes="16x16">
+  <link rel="icon" type="image/png" href='https://neonmirrors.net/images/favicon-32x32.png' sizes="32x32">  
+  
+  <link href="https://fonts.googleapis.com/css?family=Oswald:400" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">      
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel = 'stylesheet' href = 'https://neonmirrors.net/css/main.703162b863e7e1a93ee98f24b75e329848a814522f2d9f5735d41fbc7f023b3772f177c6ef8dbafccee65cfa8c1b8bb57e73d49284b5a0fdbbe772b8b29b07cb.css' integrity = 'sha512-cDFiuGPn4ak&#43;6Y8kt14ymEioFFIvLZ9XNdQfvH8COzdy8XfG7426/M7mXPqMG4u1fnPUkoS1oP2753K4spsHyw=='>
+  
+  
+<link rel="me" type="text/html" href="https://twitter.com/chipzoller"/> 
+<link rel="me" type="text/html" href="https://www.linkedin.com/in/chipzoller/"/> 
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+
+<link rel="alternate" type="application/rss+xml" href='https://neonmirrors.net/index.xml' />
+
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<meta name="author" content="Chip Zoller" />
+<meta name="copyright" content="Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved." />
+
+
+<meta name="description" content="Customized script to enable running bash commands in Linux via the vRealize Automation 7 guest agent.">
+
+
+
+
+<style type="text/css">
+  .feature-image {
+    background-image: url("https://neonmirrors.net/images/2016-12/running-bash-in-linux-guest-agent-vra-ga-3/featured.jpg");
+    height: 500px;
+  }
+  
+  @media (max-width: 992px) {
+    .feature-image {
+      height: 350px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .feature-image {
+      height: 250px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .feature-image {
+      height: 200px;
+    }
+  }
+</style>
+
+        
+</head>
+<body >
+  <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark py-1 top-nav">
+    <div class="container">
+      <span class="internal">
+  <a class="navbar-brand pr-2" href="/">NEON MIRRORS</a>
+</span>
+
+      <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="navbar-collapse collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/categories/technology/">Technology</a>
+  
+</li>
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/categories/music/">Music</a>
+  
+</li>
+<li class="nav-item internal">
+  
+  <div class="nav-link nav-hassubmenu">Links
+    <div class="nav-submenu" >
+    
+      <a class="nav-link" href="https://chipzoller.gitbook.io/vspheremigration/">Ultimate vSphere VM Migration Guide</a>
+    
+    </div>
+    </div>
+  
+</li>
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/about/">About</a>
+  
+</li>
+
+        </ul>
+        <div class="social-icons d-none d-lg-block">
+          <a class="py-2 px-2" href="https://github.com/chipzoller"><i class="fab fa-github"></i></a>
+<a class="py-2 px-2" href="https://twitter.com/chipzoller"><i class="fab fa-twitter"></i></a>
+<a class="py-2 px-2" href="https://www.linkedin.com/in/chipzoller/"><i class="fab fa-linkedin"></i></a>
+<a class="py-2 px-2" href='https://neonmirrors.net/index.xml'><i class="fas fa-rss"></i></a>
+
+        </div>
+      </div>
+    </div>
+  </nav>
+  
+  
+<header class="feature-image d-print-none">
+</header>
+
+  
+  <div class="main">
+    
+<div class="container mt-4 post">
+  <h1>Running Bash commands in the Linux guest agent in vRA 7</h1>
+  <div class="mb-3 internal">
+  <small>
+    <strong>By Chip Zoller</strong>
+    | <i class="far fa-calendar-alt"></i>&nbsp;Dec 19, 2016&nbsp;
+    | <i class="fa fa-tags" title="Tags" aria-hidden="true"></i> <a href='/tags/vra/'>vra</a>, <a href='/tags/vrealize/'>vrealize</a><span class="d-lg-none">, <a href='#tags-section'>all tags</a></span>
+  </small>
+</div>
+
+  <div class="share-icons d-flex d-print-none">
+    <a href="https://twitter.com/intent/tweet?text=Running%20Bash%20commands%20in%20the%20Linux%20guest%20agent%20in%20vRA%207&url=https%3a%2f%2fneonmirrors.net%2fpost%2f2016-12%2frunning-bash-in-linux-guest-agent-vra-ga-3%2f&tw_p=tweetbutton" class="p-2" title="Share on Twitter" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Tweet</small></div>
+</a>
+
+<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fneonmirrors.net%2fpost%2f2016-12%2frunning-bash-in-linux-guest-agent-vra-ga-3%2f&t=Running%20Bash%20commands%20in%20the%20Linux%20guest%20agent%20in%20vRA%207" class="p-2" title="Share on Facebook" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+<script>
+  function shareViaLinkedin() {
+    window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent("https://neonmirrors.net/post/2016-12/running-bash-in-linux-guest-agent-vra-ga-3/"), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+  }
+</script>
+<a href="#linkedinshare" id = "linkedinshare" class="p-2" title="Share on LinkedIn" rel="nofollow" onclick="shareViaLinkedin()">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+
+<a href="javascript:window.print()" title="Print this article" class="p-2" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fa fa-print fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Print</small></div>
+</a>
+
+  </div>
+  
+  <div class="mt-4 mb-4 main-content">
+    <p><em>This article is the third in a series of three which explore the vRealize Automation guest agent in depth. For the others, please see these links.</em></p>
+<h2 id="part-1-adding-machine-requestor-to-local-administrators-group-in-vra-7post2016-12adding-machine-requestor-to-local-admins-vra-ga-1">Part 1: <a href="/post/2016-12/adding-machine-requestor-to-local-admins-vra-ga-1/">Adding machine requestor to local administrators group in vRA 7</a></h2>
+<h2 id="part-2-running-in-guest-scripts-on-windows-vms-in-vra-7post2016-12running-in-guest-scripts-vra-ga-2">Part 2: <a href="/post/2016-12/running-in-guest-scripts-vra-ga-2">Running in-guest scripts on Windows VMs in vRA 7</a></h2>
+<h2 id="part-3-running-bash-commands-in-the-linux-guest-agent-in-vra-7post2016-12running-bash-in-linux-guest-agent-vra-ga-3">Part 3: <a href="/post/2016-12/running-bash-in-linux-guest-agent-vra-ga-3">Running Bash commands in the Linux guest agent in vRA 7</a></h2>
+<hr>
+<p><br>
+Welcome back! Taking the first and second part of my three-part series on exploring the vRA guest agent as a starting point, in this article we’ll look at the Linux guest agent and how to use it to run commands and scripts like we showed on Windows in part two. Specifically of interest here, I’m calling out the word “commands”.  In Linux, unlike on Windows, we are restricted to only running scripts. We can’t directly execute the equivalent of a “net use” command like in the previous post. We’d have to call a script stored locally that has such a command written inside. That’s all well and good, but it takes us back to having to potentially manage and maintain an artifact in our template, and I want to avoid that if at all possible. Today, we’ll look at this Linux agent more in depth and also offer a solution on how we can run arbitrary commands in addition to scripts. We’ll build on the previous two posts, so for basics on custom properties and property groups, see parts one and two.</p>
+<p>Installing the Linux guest agent is just as simple (if not simpler) than installing the Windows agent. At least VMware were kind enough to provide a single script that automates the whole process of getting the software agent, guest agent, and necessary dependencies all installed for you. In this article, I’ll use a CentOS 7 template to illustrate. First, go to https://&lt;vraFQDN&gt;:5480/i and click on “VM Templates Preparation for Software Provisioning.” Starting in vRA 7.1, these have been moved to https://&lt;vRAFQDN&gt;/software/index.html.</p>
+<p><img src="/images/2016-12/running-bash-in-linux-guest-agent-vra-ga-3/image1.png" alt="Scripts and other packages can be found under Provisioning Utilities"></p>
+<p>From there, download <code>prepare_vra_template.sh</code> and copy it over to your template. Execute the script and follow the simple on-screen directions. Remember that we need to put our manager server in there when prompted, not the web server. Once complete, we need to doctor one of the files that makes our nifty change possible. Why is this necessary? As I mentioned above, the Linux guest agent can only execute scripts. Anything that is not a script it will just fail out on. It’s just a hunch on my part, because I don’t know why DynamicOps/VMware decided to do this, but I believe the script is intentionally crippled to disallow arbitrary command execution. There does not appear to be a technical reason why shell commands cannot be executed other than the original code prevents it. So to issue my same warning as I did in part one:</p>
+<p><strong>DISCLAIMER:  THIS IS ALMOST CERTAINLY NOT SUPPORTED BY VMWARE. USE AT YOUR OWN RISK.</strong></p>
+<p>Navigate to /usr/share/gugent/site/InstallSoftware/ and replace the file <code>10_InstallSoftware.sh</code> with one of the ones provided for your version of vRA. Before doing so, it’s always a good practice to backup the original. Copy it to a backup file in the same directory. Make sure that the execute bit is disabled on it or else the agent may try to use it even with the name being different. Let’s see the changes we made in the new file.</p>
+<p>Even though a chunk is removed and another changed, this is the meat of it all:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nv">EscapedString</span><span class="o">=</span><span class="k">$(</span>python getprop.py Vrm.Software.Command<span class="k">)</span>
+<span class="nv">PropertyValue</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="s2">&#34;</span><span class="nv">$EscapedString</span><span class="s2">&#34;</span> <span class="p">|</span> sed -e <span class="s1">&#39;s~\&amp;amp;~\&amp;~g&#39;</span> -e <span class="s1">&#39;s~\&amp;lt;~&lt;~g&#39;</span>  -e  <span class="s1">&#39;s~\&amp;gt;~&gt;~g&#39;</span> -e <span class="s1">&#39;s~\&amp;gt;~&gt;~g&#39;</span> -e <span class="s1">&#39;s~\&amp;quot;~\&#34;~g&#39;</span> -e <span class="s2">&#34;s~\&amp;apos;~\&#39;~g&#34;</span><span class="sb">`</span>
+
+...
+
+<span class="k">if</span> <span class="o">[</span> <span class="s2">&#34;</span><span class="nv">$PropertyValue</span><span class="s2">&#34;</span> !<span class="o">=</span> <span class="s2">&#34;False&#34;</span> <span class="o">]</span><span class="p">;</span><span class="k">then</span>
+    sleep <span class="m">10</span>
+        <span class="k">if</span> <span class="o">[</span> -x <span class="s2">&#34;</span><span class="nv">$PropertyValue</span><span class="s2">&#34;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+            . <span class="nv">$PropertyValue</span>
+        <span class="k">else</span>
+            <span class="nb">eval</span> <span class="nv">$PropertyValue</span>
+        <span class="k">fi</span>
+</code></pre></div><p>I cut out a good chunk of code, and you can see for yourself in the file, but we’re doing two things.</p>
+<ol>
+<li>
+<p>We are telling it to see if the work item is an executable file. If it is, it’ll attempt to run it, but if it’s not it assumes it’s a command and attempts to execute that.</p>
+</li>
+<li>
+<p>We are replacing escaped HTML characters with their ASCII originals so we can chain Bash commands together that have characters like &gt; and &amp;. If we didn’t do this, we’d attempt to run a Bash command like <code>echo “something” &amp;gt /tmp/myfile</code> which obviously wouldn’t fly. Using the <code>sed</code> utility, we are replacing those escape characters with the originals.</p>
+</li>
+</ol>
+<p>Once that file is replaced, we can shutdown this Linux VM and convert it to a template. Go through the usual process of creating a blueprint out of it, and let’s use part two’s illustrated functionality of creating property groups and using those to store our software scripts or commands. To illustrate this new functionality, how about we create a property group that performs the same function as the first one we created in part two? In other words, let’s create a Linux repo mount property group that doesn’t require the use of a script to do it for us. Here are the properties I’m going to use:</p>
+<p><img src="/images/2016-12/running-bash-in-linux-guest-agent-vra-ga-3/image2.png" alt="Custom properties in use"></p>
+<p>Just like with Windows, my <code>VirtualMachine.Software0.ScriptPath</code> will have my mount command. In this case, I’ll use the following:</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">mkdir /repo <span class="o">&amp;&amp;</span> yum -y install cifs-utils <span class="o">&amp;&amp;</span> mount -t cifs -o <span class="nv">username</span><span class="o">={</span>Mount.Username<span class="o">}</span>,password<span class="o">=[</span>Mount.Password<span class="o">]</span> //<span class="o">{</span>Mount.Path<span class="o">}</span> /repo
+</code></pre></div><p>A directory at /repo will be created, followed by a mount command that mounts our repo by taking the custom properties <code>Mount.Username</code>, <code>Mount.Password</code>, and <code>Mount.Path</code> and replacing them at runtime. You might have observed that we’re doing replacement of an encrypted property again. If you’re in vRA 7.1 or 7.2, this works just like it did in the Windows agent; if you’re still on vRA 7.0, this is not an option. If you are using vRA 7.x, we could certainly store a password as an unencrypted property and have the guest agent replace it, except we’d need to scrub a couple files to make sure it doesn’t linger. If that interests you, you could perform a <code>shred -n 100 -z -u</code> of /usr/share/gugent/GuestAgent.log as well as /usr/share/gugent/site/workitem.xml. That should obliterate all traces of your password. To automate the process, you could even add this to the file <code>10_noop.sh</code> located at /usr/share/gugent/site/Finalize as this is what gets called after the guest agent has completed all of its work.</p>
+<p>Naming is another thing. Since we have property groups that belong to either Windows or Linux, we can have two sequences of numbers to maintain. Naming is key here to not only know where you left off in the sequence so you don’t repeat the <code>Virtualmachine.SoftwareN.</code> properties, but also so you have the ability to sort the name column and find what you need easier. You may want to do something like this for your property group naming standard:</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">Scripts – <span class="o">[</span>OS<span class="o">]</span> – <span class="o">[</span>SoftwareN<span class="o">]</span> – <span class="o">[</span>Name<span class="o">]</span>
+</code></pre></div><p>The portions in brackets are dependent upon your OS (Windows or Linux), the software sequence number (or you could just use NN instead of SoftwareN), and finally whatever you want to call this.</p>
+<p><img src="/images/2016-12/running-bash-in-linux-guest-agent-vra-ga-3/image3.png" alt="Example naming schema"></p>
+<p>Go ahead and attach whatever name you give this Linux repo mount command to your blueprint, either at the blueprint level, or at the machine level, and fire off a request. Once done, you should be able to access your share at /repo, or whatever Bash command you tried to run. Check the agent log at /usr/share/gugent/GuestAgent.log and search for “vrm.software.command” to ensure it ran what you expected. To make sure it can still run .sh scripts, try creating another property group and giving it the absolute path to a script on your template. You should find it runs both at this point. As a last step, you may wish to create a simple bash command that unmounts that repo as I have done in the screenshot above. A simple <code>umount /repo</code> should do the trick and can be created as yet another property group then attached to your blueprint.</p>
+<p>I’d like to give special thanks to Dell (now NTT Data) developer extraordinaire, <a href="https://www.linkedin.com/in/josh-mccartt-1b7bab72">Josh McCartt</a>, for his help in developing the cool replacement script that makes running Bash commands possible.  Thank you, Josh!</p>
+<p>Let’s do a brief recap of the series to show what we covered:</p>
+<ol>
+<li>
+<p>We introduced the guest agent in part one and showed custom properties that enable it.</p>
+</li>
+<li>
+<p>Also in part one, we provided a small workaround that makes it possible to add both the machine owner (requestor) to the local administrators group and the Remote Desktop Users group.</p>
+</li>
+<li>
+<p>In part two, we extended these concepts by showing how you can run not only scripts but cmd and PowerShell commands on a Windows VM.</p>
+</li>
+<li>
+<p>You now have a system of organization for your scripts/commands by way of property groups, plus an example naming system which makes it easy to find, manage, and maintain those scripts. Oh, don’t forget to show the “Name” property in requests so you know exactly what will get executed on a given blueprint.</p>
+</li>
+<li>
+<p>In part three, we built on the prior two articles by showing how this works on Linux. Additionally, we provided a replacement file for the guest agent which now makes it possible to run not only .sh scripts, but any shell command on Linux just as was possible on Windows.</p>
+</li>
+</ol>
+<p>I hope you’ve found this three-part series to be valuable and maybe even learned a thing or two. I know I have. Although the guest agent has limitations and may not be the best choice for everyone, it’s there, it works, and with a little organization and careful planning can make for a decent system for running various operations inside your deployed VMs through vRealize Automation.</p>
+<h2 id="script-downloadhttpsgithubcomchipzollerblogscriptstreemastervraguestagentseries"><a href="https://github.com/chipzoller/BlogScripts/tree/master/vRAGuestAgentSeries"><strong>SCRIPT DOWNLOAD</strong></a></h2>
+
+    
+    <div class="share-icons d-flex d-print-none">
+      <a href="https://twitter.com/intent/tweet?text=Running%20Bash%20commands%20in%20the%20Linux%20guest%20agent%20in%20vRA%207&url=https%3a%2f%2fneonmirrors.net%2fpost%2f2016-12%2frunning-bash-in-linux-guest-agent-vra-ga-3%2f&tw_p=tweetbutton" class="p-2" title="Share on Twitter" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Tweet</small></div>
+</a>
+
+<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fneonmirrors.net%2fpost%2f2016-12%2frunning-bash-in-linux-guest-agent-vra-ga-3%2f&t=Running%20Bash%20commands%20in%20the%20Linux%20guest%20agent%20in%20vRA%207" class="p-2" title="Share on Facebook" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+<script>
+  function shareViaLinkedin() {
+    window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent("https://neonmirrors.net/post/2016-12/running-bash-in-linux-guest-agent-vra-ga-3/"), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+  }
+</script>
+<a href="#linkedinshare" id = "linkedinshare" class="p-2" title="Share on LinkedIn" rel="nofollow" onclick="shareViaLinkedin()">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+
+<a href="javascript:window.print()" title="Print this article" class="p-2" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fa fa-print fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Print</small></div>
+</a>
+
+    </div>
+  </div>
+  
+  
+</div>
+<div class="sidebar d-print-none d-xl-block internal">
+  
+  <h2>Chip Zoller</h2>
+  <div>
+    Technologist, perpetual student, teacher, continual incremental improvement.
+  </div>
+  <a href="/about/" class="btn btn-outline-secondary mt-3" role="button">Read More...</a>
+  <h2 class="mt-4">Featured Posts</h2>
+  
+  
+  <a href="/post/2019-10/authentication-and-authorization-in-k8s/" class="nav-link">Authentication and Authorization in Kubernetes</a>
+  
+  <a href="/post/2018-12/how-to-ask-for-help-on-tech-forums/" class="nav-link">How to Ask for Help on Tech Forums</a>
+  
+  <h2 class="mt-4">Recent Posts</h2>
+  <nav class="nav flex-column">
+    
+    <a href="/post/2020-04/getting-started-with-tkg/" class="nav-link">Getting Started with Tanzu Kubernetes Grid</a>
+    
+    <a href="/post/2020-04/capv-overview/" class="nav-link">Behind the Scenes with Cluster API Provider vSphere</a>
+    
+    <a href="/post/2020-01/buy-dont-build/" class="nav-link">Buy Don&#39;t Build</a>
+    
+    <a href="/post/2020-01/why-k8s-on-vms/" class="nav-link">Why Kubernetes on Virtual Machines?</a>
+    
+    <a href="/post/2020-01/2020-public-domain-day/" class="nav-link">2020 Public Domain Day</a>
+    
+    <a href="/post/2019-10/authentication-and-authorization-in-k8s/" class="nav-link">Authentication and Authorization in Kubernetes</a>
+    
+    <a href="/post/2019-10/pks-rancher-reg/" class="nav-link">pks-rancher-reg: Automated PKS Cluster Registration For Rancher</a>
+    
+    <a href="/post/2019-09/rancher-ha-on-pks/" class="nav-link">Rancher HA on Enterprise PKS</a>
+    
+  </nav>
+  
+  <h2 class="mt-4 text-capitalize" id="categories-section">categories</h2>
+  <nav class="nav">
+    
+    <a href='/categories/technology/' class="nav-link">
+      technology
+      <span class="badge badge-pill badge-secondary">53</span>
+    </a>
+    
+    <a href='/categories/music/' class="nav-link">
+      music
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+  </nav>
+  
+  <h2 class="mt-4 text-capitalize" id="tags-section">tags</h2>
+  <nav class="nav">
+    
+    <a href='/tags/vrealize/' class="nav-link">
+      vrealize
+      <span class="badge badge-pill badge-secondary">27</span>
+    </a>
+    
+    <a href='/tags/vra/' class="nav-link">
+      vra
+      <span class="badge badge-pill badge-secondary">22</span>
+    </a>
+    
+    <a href='/tags/vsphere/' class="nav-link">
+      vsphere
+      <span class="badge badge-pill badge-secondary">14</span>
+    </a>
+    
+    <a href='/tags/k8s/' class="nav-link">
+      k8s
+      <span class="badge badge-pill badge-secondary">9</span>
+    </a>
+    
+    <a href='/tags/sovlabs/' class="nav-link">
+      sovlabs
+      <span class="badge badge-pill badge-secondary">8</span>
+    </a>
+    
+    <a href='/tags/veeam/' class="nav-link">
+      veeam
+      <span class="badge badge-pill badge-secondary">7</span>
+    </a>
+    
+    <a href='/tags/powershell/' class="nav-link">
+      powershell
+      <span class="badge badge-pill badge-secondary">6</span>
+    </a>
+    
+    <a href='/tags/log-insight/' class="nav-link">
+      log-insight
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/pks/' class="nav-link">
+      pks
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/vrops/' class="nav-link">
+      vrops
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/vro/' class="nav-link">
+      vro
+      <span class="badge badge-pill badge-secondary">4</span>
+    </a>
+    
+    <a href='/tags/docker/' class="nav-link">
+      docker
+      <span class="badge badge-pill badge-secondary">3</span>
+    </a>
+    
+    <a href='/tags/vmworld/' class="nav-link">
+      vmworld
+      <span class="badge badge-pill badge-secondary">3</span>
+    </a>
+    
+    <a href='/tags/featured/' class="nav-link">
+      featured
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/nsx-t/' class="nav-link">
+      nsx-t
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/powercli/' class="nav-link">
+      powercli
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/rancher/' class="nav-link">
+      rancher
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/thoughts/' class="nav-link">
+      thoughts
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/ansible/' class="nav-link">
+      ansible
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/authentication/' class="nav-link">
+      authentication
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/forums/' class="nav-link">
+      forums
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/homelab/' class="nav-link">
+      homelab
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/networking/' class="nav-link">
+      networking
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/security/' class="nav-link">
+      security
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/vmtn/' class="nav-link">
+      vmtn
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+  </nav>
+  
+</div>
+
+
+  </div>
+  
+  <footer class="mt-auto footer d-print-none">
+    <a class="to-top" href="#" title="Back to top">
+      <i class="fa fa-caret-up"></i>
+    </a>
+    <div class="container-fluid">
+      <div class="row justify-content-center">
+        <div class="col-md-4 col-xl-3">
+          <h5>Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved.</h5>
+I&#39;m happy for you to share content on this site, but please provide attribution.
+        </div>
+        <div class="col-md-4 col-xl-3">
+          <h5>Disclaimer</h5>
+Opinions expressed here are my own and may not reflect those of the company I work for, or the people I work with.
+        </div>
+        <div class="col-md-4 col-xl-3">
+          <h5>About This Site</h5>
+This blog was created using the <a href="https://gohugo.io/">Hugo</a> static site generator, using
+<a href="https://getbootstrap.com/">Bootstrap</a>, using the Silhouette Hugo theme, created by
+<a href='https://www.mattbutton.com'>Matt Button</a>
+        </div>
+      </div>
+      
+      <hr />
+      
+      <div class="d-flex justify-content-center icons">
+        <a class="py-2 px-2" href="https://github.com/chipzoller"><i class="fab fa-github"></i></a>
+<a class="py-2 px-2" href="https://twitter.com/chipzoller"><i class="fab fa-twitter"></i></a>
+<a class="py-2 px-2" href="https://www.linkedin.com/in/chipzoller/"><i class="fab fa-linkedin"></i></a>
+<a class="py-2 px-2" href='https://neonmirrors.net/index.xml'><i class="fas fa-rss"></i></a>
+
+      </div>
+    </div>
+  </footer>
+  
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script src="/js/syntax.js"></script>
+  <script src = '/js/index.js'></script>
+  
+  
+</body>
+</html>

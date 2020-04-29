@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>sovlabs on Neon Mirrors</title>
+    <link>https://neonmirrors.net/tags/sovlabs/</link>
+    <description>Recent content in sovlabs on Neon Mirrors</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <copyright>Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved.</copyright>
+    <lastBuildDate>Wed, 05 Dec 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://neonmirrors.net/tags/sovlabs/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>New Features in Sovlabs Property Toolkit: Entity Assignment</title>
+      <link>https://neonmirrors.net/post/2018-12/new-features-in-sovlabs-property-toolkit/</link>
+      <pubDate>Wed, 05 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2018-12/new-features-in-sovlabs-property-toolkit/</guid>
+      <description>It’s no secret that I’ve been a huge proponent of the SovLabs Property Toolkit module. So much so that my new motto is, “don’t leave home without it.” I’ve written fairly extensively about some of its power in articles here and here, but today I’m really excited. No, SUPER excited because the guys and gals at SovLabs have just added a whole bunch of new features that make this indispensable to anyone running vRA.</description>
+    </item>
+    
+    <item>
+      <title>Veeam Backup-as-a-Service, Part 1</title>
+      <link>https://neonmirrors.net/post/2018-08/veeam-baas-part-1/</link>
+      <pubDate>Thu, 02 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2018-08/veeam-baas-part-1/</guid>
+      <description>Today I want to introduce and provide a walk-through on how to use what I think is one of the coolest modules SovLabs has produced to date for vRealize Automation: Backup-as-a-Service (or BaaS for short). BaaS is one of those pie-in-the-sky dreams for many CMP owners and operators and, frankly, the aim of lots of other companies hoping to give a real self-service-type experience to users inside a CMP. Unfortunately, due to the complexity of it, they all come up pretty short—until SovLabs entered the game, that is.</description>
+    </item>
+    
+    <item>
+      <title>Making vRA Email Easy with Custom Notifications</title>
+      <link>https://neonmirrors.net/post/2018-03/making-vra-email-easy-with-custom-notifications/</link>
+      <pubDate>Wed, 21 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2018-03/making-vra-email-easy-with-custom-notifications/</guid>
+      <description>Email is one of those things that most of us take for granted these days. We just expect email works, that it is flexible, and that it’s adaptable to our situation. Within vRA, we can also get email in and out based on a variety of scenarios. But when it comes to customizing how that looks and works, it’s a little tricky. As a result, many folks don’t even bother mucking around with it because of how complex it is what with manually uploading new email templates to the appliance, restarting services, customizing XML files, or writing vRO code and event broker subscriptions and doing all the plumbing work yourself.</description>
+    </item>
+    
+    <item>
+      <title>SovLabs Property Toolkit Part 2: Dynamic Custom Property Assignment</title>
+      <link>https://neonmirrors.net/post/2018-03/sovlabs-property-toolkit-part-2/</link>
+      <pubDate>Wed, 21 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2018-03/sovlabs-property-toolkit-part-2/</guid>
+      <description>Welcome back to another installment of the exploration of the SovLabs modules! A while back, I went through and introduced the Property Toolkit module via a use case of dynamically building custom properties based on the presence of other custom properties. I illustrated this in the form of placement in vCenter folders. In this article, however, I want to dive into another feature of this amazingly powerful module: dynamic property sets.</description>
+    </item>
+    
+    <item>
+      <title>What is Sovlabs?</title>
+      <link>https://neonmirrors.net/post/2018-03/what-is-sovlabs/</link>
+      <pubDate>Sun, 18 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2018-03/what-is-sovlabs/</guid>
+      <description>I realized that although I have covered several of the SovLabs modules already with some fine use cases, I might have jumped the gun a little and not fully explained what this SovLabs business is and how I got to those points. I often receive the question “is it a vRO plug-in?” and so realize a little introduction is in order. To answer that question, the answer is Yes* but also No*.</description>
+    </item>
+    
+    <item>
+      <title>Automating vSphere Tagging in vRA with SovLabs</title>
+      <link>https://neonmirrors.net/post/2017-12/automating-vsphere-tagging-in-vra-with-sovlabs/</link>
+      <pubDate>Sun, 31 Dec 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2017-12/automating-vsphere-tagging-in-vra-with-sovlabs/</guid>
+      <description>vRealize Automation is a very metadata-driven system through capabilities called custom properties. These properties—which are nothing more than key-value pairs—can be applied at multiple levels throughout vRA and cause it to behave in different ways. The same sort of metadata drives a lot of decision within vSphere which are external to vRA. But applying these tags at a vSphere level has been somewhat of a challenge in the past when driven through vRA because there is no out-of-the-box support for vSphere tags.</description>
+    </item>
+    
+    <item>
+      <title>Custom Naming in vRA with zero custom coding</title>
+      <link>https://neonmirrors.net/post/2017-10/custom-naming-in-vra-with-zero-custom-coding/</link>
+      <pubDate>Mon, 02 Oct 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2017-10/custom-naming-in-vra-with-zero-custom-coding/</guid>
+      <description>Everyone’s got one, everyone needs them, and most people struggle with them. I’m talking about custom machine names, of course. Just like organizations themselves, naming schemes can be, and are about, as varied as possible. Some companies have fairly straightforward names with maybe two elements while others have extremely dynamic requirements that factor in five or six elements. Whatever your naming scheme might be, anyone who has used vRealize Automation (vRA) appreciates the difficulty of getting their naming scheme out of deployed machines.</description>
+    </item>
+    
+    <item>
+      <title>vRA and The Problem of the vCenter Folder</title>
+      <link>https://neonmirrors.net/post/2017-09/vra-and-the-problem-of-the-vcenter-folder/</link>
+      <pubDate>Mon, 18 Sep 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2017-09/vra-and-the-problem-of-the-vcenter-folder/</guid>
+      <description>Between speaking with customers, architecting and deploying solutions, and helping others out with their issues on the VMware Communities forums, I encounter a lot of problems and get a lot of info on how customers do business with their CMPs. One of the requests that keeps coming up over and over again is how to deal with putting vRA’s workloads into the correct folder structure that has already been established in an enterprise.</description>
+    </item>
+    
+  </channel>
+</rss>

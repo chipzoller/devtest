@@ -1,0 +1,525 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  <meta property="og:title" content="Custom Naming in vRA with zero custom coding" />
+<meta property="og:description" content="Using SovLabs custom naming module for vRA." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://neonmirrors.net/post/2017-10/custom-naming-in-vra-with-zero-custom-coding/" />
+<meta property="article:published_time" content="2017-10-02T00:00:00+00:00" />
+<meta property="article:modified_time" content="2017-10-02T00:00:00+00:00" />
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Custom Naming in vRA with zero custom coding"/>
+<meta name="twitter:description" content="Using SovLabs custom naming module for vRA."/>
+<meta name="twitter:site" content="@chipzoller"/>
+
+  
+  <title>
+Custom Naming in vRA with zero custom coding | Neon Mirrors
+</title>
+  
+  <link rel="icon" type="image/png" href='https://neonmirrors.net/images/favicon-16x16.png' sizes="16x16">
+  <link rel="icon" type="image/png" href='https://neonmirrors.net/images/favicon-32x32.png' sizes="32x32">  
+  
+  <link href="https://fonts.googleapis.com/css?family=Oswald:400" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">      
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel = 'stylesheet' href = 'https://neonmirrors.net/css/main.703162b863e7e1a93ee98f24b75e329848a814522f2d9f5735d41fbc7f023b3772f177c6ef8dbafccee65cfa8c1b8bb57e73d49284b5a0fdbbe772b8b29b07cb.css' integrity = 'sha512-cDFiuGPn4ak&#43;6Y8kt14ymEioFFIvLZ9XNdQfvH8COzdy8XfG7426/M7mXPqMG4u1fnPUkoS1oP2753K4spsHyw=='>
+  
+  
+<link rel="me" type="text/html" href="https://twitter.com/chipzoller"/> 
+<link rel="me" type="text/html" href="https://www.linkedin.com/in/chipzoller/"/> 
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+
+<link rel="alternate" type="application/rss+xml" href='https://neonmirrors.net/index.xml' />
+
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<meta name="author" content="Chip Zoller" />
+<meta name="copyright" content="Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved." />
+
+
+<meta name="description" content="Using SovLabs custom naming module for vRA.">
+
+
+
+
+<style type="text/css">
+  .feature-image {
+    background-image: url("https://neonmirrors.net/images/2017-10/custom-naming-in-vra-with-zero-custom-coding/featured.jpg");
+    height: 500px;
+  }
+  
+  @media (max-width: 992px) {
+    .feature-image {
+      height: 350px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .feature-image {
+      height: 250px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .feature-image {
+      height: 200px;
+    }
+  }
+</style>
+
+        
+</head>
+<body >
+  <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark py-1 top-nav">
+    <div class="container">
+      <span class="internal">
+  <a class="navbar-brand pr-2" href="/">NEON MIRRORS</a>
+</span>
+
+      <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="navbar-collapse collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/categories/technology/">Technology</a>
+  
+</li>
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/categories/music/">Music</a>
+  
+</li>
+<li class="nav-item internal">
+  
+  <div class="nav-link nav-hassubmenu">Links
+    <div class="nav-submenu" >
+    
+      <a class="nav-link" href="https://chipzoller.gitbook.io/vspheremigration/">Ultimate vSphere VM Migration Guide</a>
+    
+    </div>
+    </div>
+  
+</li>
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/about/">About</a>
+  
+</li>
+
+        </ul>
+        <div class="social-icons d-none d-lg-block">
+          <a class="py-2 px-2" href="https://github.com/chipzoller"><i class="fab fa-github"></i></a>
+<a class="py-2 px-2" href="https://twitter.com/chipzoller"><i class="fab fa-twitter"></i></a>
+<a class="py-2 px-2" href="https://www.linkedin.com/in/chipzoller/"><i class="fab fa-linkedin"></i></a>
+<a class="py-2 px-2" href='https://neonmirrors.net/index.xml'><i class="fas fa-rss"></i></a>
+
+        </div>
+      </div>
+    </div>
+  </nav>
+  
+  
+<header class="feature-image d-print-none">
+</header>
+
+  
+  <div class="main">
+    
+<div class="container mt-4 post">
+  <h1>Custom Naming in vRA with zero custom coding</h1>
+  <div class="mb-3 internal">
+  <small>
+    <strong>By Chip Zoller</strong>
+    | <i class="far fa-calendar-alt"></i>&nbsp;Oct 2, 2017&nbsp;
+    | <i class="fa fa-tags" title="Tags" aria-hidden="true"></i> <a href='/tags/vra/'>vra</a>, <a href='/tags/sovlabs/'>sovlabs</a>, <a href='/tags/vrealize/'>vrealize</a><span class="d-lg-none">, <a href='#tags-section'>all tags</a></span>
+  </small>
+</div>
+
+  <div class="share-icons d-flex d-print-none">
+    <a href="https://twitter.com/intent/tweet?text=Custom%20Naming%20in%20vRA%20with%20zero%20custom%20coding&url=https%3a%2f%2fneonmirrors.net%2fpost%2f2017-10%2fcustom-naming-in-vra-with-zero-custom-coding%2f&tw_p=tweetbutton" class="p-2" title="Share on Twitter" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Tweet</small></div>
+</a>
+
+<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fneonmirrors.net%2fpost%2f2017-10%2fcustom-naming-in-vra-with-zero-custom-coding%2f&t=Custom%20Naming%20in%20vRA%20with%20zero%20custom%20coding" class="p-2" title="Share on Facebook" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+<script>
+  function shareViaLinkedin() {
+    window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent("https://neonmirrors.net/post/2017-10/custom-naming-in-vra-with-zero-custom-coding/"), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+  }
+</script>
+<a href="#linkedinshare" id = "linkedinshare" class="p-2" title="Share on LinkedIn" rel="nofollow" onclick="shareViaLinkedin()">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+
+<a href="javascript:window.print()" title="Print this article" class="p-2" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fa fa-print fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Print</small></div>
+</a>
+
+  </div>
+  
+  <div class="mt-4 mb-4 main-content">
+    <p>Everyone’s got one, everyone needs them, and most people struggle with them. I’m talking about custom machine names, of course. Just like organizations themselves, naming schemes can be, and are about, as varied as possible. Some companies have fairly straightforward names with maybe two elements while others have extremely dynamic requirements that factor in five or six elements. Whatever your naming scheme might be, anyone who has used vRealize Automation (vRA) appreciates the difficulty of getting their naming scheme out of deployed machines. Unless you raised your hand with the more straightforward example and only use a couple simple elements, you aren’t going to be able to get it from vRA out of the box. In vRA, you’re limited to “machine prefixes” which are extremely basic consisting of a name (the prefix), number of digits, and a running counter of what the next number would be. With that, you could do something like “VM001” or “Sales-01” or “vra007”. Although that’s, well, cute, it’s almost totally useless if you hope to integrate vRA into your existing naming standard. To solve this vexatious issue, some have developed ad-hoc packages in vRealize Orchestrator (vRO) that make custom names a little better while others have taken to recreating the wheel themselves, often spending weeks or months writing, testing, debugging, and operationalizing custom code only to find they need to rinse and repeat when the new version of vRA or vRO comes along. So as I hope the picture I’m painting is clear, the solutions to date have not been satisfactory to really operationalize vRA in a stable, consistent, and enterprise-ready fashion. This changed dramatically when <a href="https://sovlabs.com/">SovLabs</a> entered the market with their plug-in for vRA. For the first time, there was a solution that solved many of the difficult extensibility challenges faced by organizations and solved them in a way which was consistent with their existing enterprise software experiences–that is to say, with software that is compiled, tested, maintained, updated, and, most importantly, supported by a team of developers. The solution that we’ll check out here is probably the most popular one amongst the crowd, and that is an enterprise-ready custom naming module. And, as the title of the article implies, we’ll demonstrate how you can implement a complex naming standard into your own vRA with <em>zero</em> custom code.</p>
+<p>Custom Naming is just one of the many modules developed and delivered by SovLabs with others including things like Active Directory, DNS, IPAM, Backup-as-a-Service, and all of these from multiple vendors in the ecosystem. Basically, if you want to extend vRA to encompass it, they probably have it. Custom Naming is the one we’ll dive into today, however, but I’ll cover others in the future. This article is really intended to get you familiar with the power of custom naming and how to actually implement it inside vRA. It will assume you have already installed the plug-in in your vRO environment and licensed it appropriately.</p>
+<p>Before we begin with the technical bits, we need to come up with a custom naming standard, and one that is realistic to your naming standard. This is what we’ll use as it’s based on a real, live enterprise customer that has datacenters all over the world with thousands of virtual machines deployed.</p>
+<hr>
+<h2 id="lllt-oeeeaaa">LLLT-OEEEAAA###</h2>
+<hr>
+<p>This needs a little explanation, so have a look at the key below to understand how this is broken down.</p>
+<h3 id="l--location-datacenter-continent-country-or-state">L = Location. Datacenter, Continent, Country, or State.</h3>
+<h3 id="t--type-physical-virtual">T = Type. P(hysical), V(irtual).</h3>
+<h3 id="o--os-linux-windows-esxi">O = OS. L(inux), W(indows), E(SXi).</h3>
+<h3 id="e--environment-production-development-qualityassurancet-test-stage">E = Environment. PRO(duction), DEV(elopment), Q(uality)A(ssurance)T, T(e)ST, ST(a)G(e).</h3>
+<h3 id="a--application-various-3-character-codes-for-any-application">A = Application. Various 3-character codes for any application.</h3>
+<h3 id="--sequence"># = Sequence.</h3>
+<p>Hopefully this is self-explanatory with some of the possibilities next to the descriptor. Based on this name, an example would be LONV-LPROORA023, indicating London, Virtual, Production, Oracle, and number twenty-three in the sequence. This example name is exactly fifteen characters in length, thus able to accommodate Windows’ naming limitations. Also, it’s worth pointing out that the 023 at the end is specific to the combination that precedes it. That is to say that it is the 23rd system that corresponds to that precise name combination, and each different combination has its own set of running sequence numbers.</p>
+<p><img src="/images/2017-10/custom-naming-in-vra-with-zero-custom-coding/image1.png" alt="Naming flow map"></p>
+<p>So, a name like LONV-LPRO<strong>NGX</strong> would have its own separate sequence that is maintained strictly for that combination. As you can see, this six-element name is rather complex yet is very real for some organizations. Let’s go on and see how simple this can actually be to accomplish with SovLabs’ solution.</p>
+<p>After getting the plug-in installed and licensed, you’ll see two new catalog items inside vRA. By the way, these are created automatically so you need to do <em>zero</em> work inside vRA to see them. Just so that’s clear, I did not so much as lift a finger here after running a single configuration workflow from inside vRO.</p>
+<p><img src="/images/2017-10/custom-naming-in-vra-with-zero-custom-coding/image2.png" alt="Catalog items for SovLabs Custom Naming"></p>
+<p>We need to add the sequence first, then when we create the naming standard we will use that sequence as a part of it. Click on the Request button for Add Naming Sequence to pull up the request form.</p>
+<p><img src="/images/2017-10/custom-naming-in-vra-with-zero-custom-coding/image3.png" alt="Naming sequence request form"></p>
+<p>First, thing is to give it a label. This label will be selected as a component of the naming standard, so give it a name that can easily be tied to that naming standard. I’ll call it “BlogSequence”. Next, select a sequence type. In virtually all of the cases, you’ll want to use decimal, but just in case you have a very unusual sequencing type, you can choose from hex, octal, or even a pattern consisting of a mix of bases and static text. The checkbox to reuse sequence values is for when a machine is destroyed that has a given sequence and you wish to reuse that in a new machine build. Max sequence length, the number of digits involved, three in our example case. Initial value, usually 1. Sequence padding are left-aligned numbers or characters to reach the value, so if your sequence length is three and you start with 1, then setting sequence padding to 0 gives your first machine a sequence of 001. Lastly, the unique key. This requires a bit of an explanation. I talked a bit earlier how we have a specific combination of naming elements that we need to maintain, and I used the examples LONV-LPROORA and LONV-LPRONGX to illustrate this. The unique key is that combination which precedes the sequence number. SovLabs uses a unique <a href="http://docs.sovlabs.com/framework/sovlabs-template-engine.html">template engine</a> to accomplish the work behind the scenes. We need to specify these name elements enclosed in double braces. Type the following below in the unique key window:</p>
+<h2 id="locationtypeosenvironmentapplication"><strong>{{Location}}{{Type}}{{OS}}{{Environment}}{{Application}}</strong></h2>
+<p>“What about the dash? Why do I need to type this stuff, and what does it mean? I’m lost!” Stay with me, all will become clear shortly.</p>
+<p>Go back to the catalog and request the Add Naming Standard catalog item.</p>
+<p><img src="/images/2017-10/custom-naming-in-vra-with-zero-custom-coding/image4.png" alt="Naming standard request form with template"></p>
+<p>Give it a name, choose the naming sequence that we created earlier, and then complete the template. Now, similar to the Unique Key field in the naming sequence, the Template uses the same labels in double braces, only this time we have to format it exactly how we want our name to be formed. So you can see I have added a dash (-) between {{Type}} and {{OS}}. If you refer to our sample naming scheme at the outset, there is a dash that separates those two. So the Template here is the pattern in which the name will actually be generated and slapped on a machine whereas the Unique Key is what the module uses internally to keep track of the number sequences that get assigned. Make sense? Finally, at the end of the template, tack on BlogSequence by adding {{sequence.BlogSequence}}. All sequences must begin with the word “sequence” for the template to be valid. Submit the request and watch it complete.</p>
+<p><img src="/images/2017-10/custom-naming-in-vra-with-zero-custom-coding/image5.png" alt="Requests successful for naming standard and sequence"></p>
+<p>Once this is successful, let’s see what happened in the background. Navigate t0 Administration -&gt; Property Dictionary -&gt; Property Groups. Notice that a new property group has been created automatically for you once the Naming Standard workflow completed successfully.</p>
+<p><img src="/images/2017-10/custom-naming-in-vra-with-zero-custom-coding/image6.png" alt="New custom property group created"></p>
+<p>The name you see will be prefaced by your tenant, hence the word “ravel” you see above. So now we have a property group ready for use, and we put it to work by simply attaching it to a blueprint. Before we do that, however, we have to put those labels in place from which our naming standard was constructed. After all, vRA has to be able to tell the pieces and parts from which to pull actual names. We do this through the use of custom properties and by assigning them at specific locations inside vRA. Let’s explain.</p>
+<p>If you’re reading this it’s assumed you are familiar with custom properties, but if you aren’t familiar with them know that they’re essentially key/value pairs that enable a rich system of metadata within vRA. Properties can influence the behavior of vRA itself, or be used as tags that are consumed by other things for eventual action. The latter is how the SovLabs module works. Let’s start by taking the first element in our name, {{Location}}. If you have two datacenters into which you can deploy resources, you need to distinguish between the two. You more than likely have a vCenter at each location, and within vRA, vCenter Server is seen as an Endpoint. Find them at Infrastructure -&gt; Endpoints -&gt; Endpoints. Choose your vCenter endpoint and click on the Properties tab. We need to add a new property here with the idea being that if a machine were to be targeted at this endpoint, it would pick up any custom properties associated with it. Likewise, if it went to another endpoint, it would pick up all the properties saved on it. In this manner, vRA does a kind-of “crawl” through the system and whatever constructs were used in forming a machine the related properties are collected into a bundle and delivered to vRO for processing. Create a new custom property and call it Location. In our example naming scheme, location was three characters in length, so give the value of Location as three characters. I’m in Lexington, so I’ll call this value LEX.</p>
+<p><img src="/images/2017-10/custom-naming-in-vra-with-zero-custom-coding/image7.png" alt="Custom property applied to vSphere endpoint in vRA"></p>
+<p>If you’ve followed me thus far you’re probably getting the picture here, but just to state it more openly: We need to add custom properties throughout vRA and give them the necessary values which will factor into the custom name.</p>
+<p>To save time, here’s a table that shows the custom property, its value, and where in vRA I created it. This will hopefully give you a good idea as to what’s possible with these properties, but do understand that there are more places than this where properties can be attached.</p>
+<p><img src="/images/2017-10/custom-naming-in-vra-with-zero-custom-coding/table.png" alt="Custom property reference table"></p>
+<p>Ok, so let me show you the blueprint portion since it may not be clear from the table above where those related properties are.</p>
+<p>I created a blueprint called “Oracle” and inside it is a single vSphere machine. There are three of the properties above that I created somewhere in this blueprint. First, the application I created on the blueprint object itself. You access this by editing the blueprint and choosing the gear icon in the upper-left corner.</p>
+<p><img src="/images/2017-10/custom-naming-in-vra-with-zero-custom-coding/image8.png" alt="Edit blueprint icon"></p>
+<p>Three things we have to do here on the blueprint object: 1.) Attach the property group that invokes the modules; 2.) Attach the group which calls our naming scheme; and 3.) Add the Application custom property that contains ORA corresponding to Oracle. When you click the Properties tab, click the Add button and browse for the following property groups.</p>
+<p><img src="/images/2017-10/custom-naming-in-vra-with-zero-custom-coding/image9.png" alt="Available property groups to select"></p>
+<p><img src="/images/2017-10/custom-naming-in-vra-with-zero-custom-coding/image10.png" alt="Attached property groups to blueprint"></p>
+<p>On the Custom Properties tab now, add a new one and call it Application and provide ORA as the value.</p>
+<p><img src="/images/2017-10/custom-naming-in-vra-with-zero-custom-coding/image11.png" alt="Define new custom property called Application and set value to ORA"></p>
+<p>Click OK as we’re done here. Now, click on the vSphere machine you dragged onto the design canvas and go into the Properties tab, Custom Properties sub-tab. Create two additional properties as shown in the table and provide the values.</p>
+<p><img src="/images/2017-10/custom-naming-in-vra-with-zero-custom-coding/image12.png" alt="Define new custom properties on the machine object"></p>
+<p>Make any other changes you need and save the blueprint. Go through the process to publish and entitle it in your catalog. Now let’s go and request it to see if we get the name we want.</p>
+<p><img src="/images/2017-10/custom-naming-in-vra-with-zero-custom-coding/image13.png" alt="Sample catalog item"></p>
+<p><img src="/images/2017-10/custom-naming-in-vra-with-zero-custom-coding/image14.png" alt="Sample catalog item request is successful"></p>
+<p><img src="/images/2017-10/custom-naming-in-vra-with-zero-custom-coding/image15.png" alt="VM in inventory from request with custom name"></p>
+<p>And, bam, there it is! So if we request another at this point, it’ll be 002. But if we were to build another blueprint and leave all the same values except change the Application custom property to a something else, say like NGX, the name would be <strong>LEXV-LPRONGX001</strong> because this is a different unique key so the sequence is different.</p>
+<p>Now you know the power of what this can do for your custom naming strategy, so feel free to try out various combinations of names, create different blueprints with different machines, and assign custom properties all throughout vRA. Once you become proficient with stringing properties together, have a look at the <a href="http://docs.sovlabs.com/framework/sovlabs-template-engine.html">template language</a> it uses for even more flexibility. For example, maybe you want to re-use the OS custom property in multiple workflows aside from just custom naming, but you need the full word “Linux” and not just a single letter. Using the template engine, the module can perform operations on those property values at runtime, for example you could use the truncate filter to just get the letter L by doing {{OS | truncate: 1}}, and if your naming standard uses lower-case letters you can perform even more manipulation by doing {{OS | truncate: 1 | downcase}}. This would give you the lower-case “l” from the property that has the value “Linux”.</p>
+<p>I hope this article has proven how immensely powerful yet simple and elegant this module is at producing complex names that were impossible otherwise, and all while writing absolutely zero custom code yourself. There’s no need to fear wrapping vRA into your company’s custom naming standard now, because regardless of how complex or involved it may be, the module can handle it with ease.</p>
+
+    
+    <div class="share-icons d-flex d-print-none">
+      <a href="https://twitter.com/intent/tweet?text=Custom%20Naming%20in%20vRA%20with%20zero%20custom%20coding&url=https%3a%2f%2fneonmirrors.net%2fpost%2f2017-10%2fcustom-naming-in-vra-with-zero-custom-coding%2f&tw_p=tweetbutton" class="p-2" title="Share on Twitter" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Tweet</small></div>
+</a>
+
+<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fneonmirrors.net%2fpost%2f2017-10%2fcustom-naming-in-vra-with-zero-custom-coding%2f&t=Custom%20Naming%20in%20vRA%20with%20zero%20custom%20coding" class="p-2" title="Share on Facebook" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+<script>
+  function shareViaLinkedin() {
+    window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent("https://neonmirrors.net/post/2017-10/custom-naming-in-vra-with-zero-custom-coding/"), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+  }
+</script>
+<a href="#linkedinshare" id = "linkedinshare" class="p-2" title="Share on LinkedIn" rel="nofollow" onclick="shareViaLinkedin()">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+
+<a href="javascript:window.print()" title="Print this article" class="p-2" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fa fa-print fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Print</small></div>
+</a>
+
+    </div>
+  </div>
+  
+  
+</div>
+<div class="sidebar d-print-none d-xl-block internal">
+  
+  <h2>Chip Zoller</h2>
+  <div>
+    Technologist, perpetual student, teacher, continual incremental improvement.
+  </div>
+  <a href="/about/" class="btn btn-outline-secondary mt-3" role="button">Read More...</a>
+  <h2 class="mt-4">Featured Posts</h2>
+  
+  
+  <a href="/post/2019-10/authentication-and-authorization-in-k8s/" class="nav-link">Authentication and Authorization in Kubernetes</a>
+  
+  <a href="/post/2018-12/how-to-ask-for-help-on-tech-forums/" class="nav-link">How to Ask for Help on Tech Forums</a>
+  
+  <h2 class="mt-4">Recent Posts</h2>
+  <nav class="nav flex-column">
+    
+    <a href="/post/2020-04/getting-started-with-tkg/" class="nav-link">Getting Started with Tanzu Kubernetes Grid</a>
+    
+    <a href="/post/2020-04/capv-overview/" class="nav-link">Behind the Scenes with Cluster API Provider vSphere</a>
+    
+    <a href="/post/2020-01/buy-dont-build/" class="nav-link">Buy Don&#39;t Build</a>
+    
+    <a href="/post/2020-01/why-k8s-on-vms/" class="nav-link">Why Kubernetes on Virtual Machines?</a>
+    
+    <a href="/post/2020-01/2020-public-domain-day/" class="nav-link">2020 Public Domain Day</a>
+    
+    <a href="/post/2019-10/authentication-and-authorization-in-k8s/" class="nav-link">Authentication and Authorization in Kubernetes</a>
+    
+    <a href="/post/2019-10/pks-rancher-reg/" class="nav-link">pks-rancher-reg: Automated PKS Cluster Registration For Rancher</a>
+    
+    <a href="/post/2019-09/rancher-ha-on-pks/" class="nav-link">Rancher HA on Enterprise PKS</a>
+    
+  </nav>
+  
+  <h2 class="mt-4 text-capitalize" id="categories-section">categories</h2>
+  <nav class="nav">
+    
+    <a href='/categories/technology/' class="nav-link">
+      technology
+      <span class="badge badge-pill badge-secondary">53</span>
+    </a>
+    
+    <a href='/categories/music/' class="nav-link">
+      music
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+  </nav>
+  
+  <h2 class="mt-4 text-capitalize" id="tags-section">tags</h2>
+  <nav class="nav">
+    
+    <a href='/tags/vrealize/' class="nav-link">
+      vrealize
+      <span class="badge badge-pill badge-secondary">27</span>
+    </a>
+    
+    <a href='/tags/vra/' class="nav-link">
+      vra
+      <span class="badge badge-pill badge-secondary">22</span>
+    </a>
+    
+    <a href='/tags/vsphere/' class="nav-link">
+      vsphere
+      <span class="badge badge-pill badge-secondary">14</span>
+    </a>
+    
+    <a href='/tags/k8s/' class="nav-link">
+      k8s
+      <span class="badge badge-pill badge-secondary">9</span>
+    </a>
+    
+    <a href='/tags/sovlabs/' class="nav-link">
+      sovlabs
+      <span class="badge badge-pill badge-secondary">8</span>
+    </a>
+    
+    <a href='/tags/veeam/' class="nav-link">
+      veeam
+      <span class="badge badge-pill badge-secondary">7</span>
+    </a>
+    
+    <a href='/tags/powershell/' class="nav-link">
+      powershell
+      <span class="badge badge-pill badge-secondary">6</span>
+    </a>
+    
+    <a href='/tags/log-insight/' class="nav-link">
+      log-insight
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/pks/' class="nav-link">
+      pks
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/vrops/' class="nav-link">
+      vrops
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/vro/' class="nav-link">
+      vro
+      <span class="badge badge-pill badge-secondary">4</span>
+    </a>
+    
+    <a href='/tags/docker/' class="nav-link">
+      docker
+      <span class="badge badge-pill badge-secondary">3</span>
+    </a>
+    
+    <a href='/tags/vmworld/' class="nav-link">
+      vmworld
+      <span class="badge badge-pill badge-secondary">3</span>
+    </a>
+    
+    <a href='/tags/featured/' class="nav-link">
+      featured
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/nsx-t/' class="nav-link">
+      nsx-t
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/powercli/' class="nav-link">
+      powercli
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/rancher/' class="nav-link">
+      rancher
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/thoughts/' class="nav-link">
+      thoughts
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/ansible/' class="nav-link">
+      ansible
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/authentication/' class="nav-link">
+      authentication
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/forums/' class="nav-link">
+      forums
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/homelab/' class="nav-link">
+      homelab
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/networking/' class="nav-link">
+      networking
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/security/' class="nav-link">
+      security
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/vmtn/' class="nav-link">
+      vmtn
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+  </nav>
+  
+</div>
+
+
+  </div>
+  
+  <footer class="mt-auto footer d-print-none">
+    <a class="to-top" href="#" title="Back to top">
+      <i class="fa fa-caret-up"></i>
+    </a>
+    <div class="container-fluid">
+      <div class="row justify-content-center">
+        <div class="col-md-4 col-xl-3">
+          <h5>Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved.</h5>
+I&#39;m happy for you to share content on this site, but please provide attribution.
+        </div>
+        <div class="col-md-4 col-xl-3">
+          <h5>Disclaimer</h5>
+Opinions expressed here are my own and may not reflect those of the company I work for, or the people I work with.
+        </div>
+        <div class="col-md-4 col-xl-3">
+          <h5>About This Site</h5>
+This blog was created using the <a href="https://gohugo.io/">Hugo</a> static site generator, using
+<a href="https://getbootstrap.com/">Bootstrap</a>, using the Silhouette Hugo theme, created by
+<a href='https://www.mattbutton.com'>Matt Button</a>
+        </div>
+      </div>
+      
+      <hr />
+      
+      <div class="d-flex justify-content-center icons">
+        <a class="py-2 px-2" href="https://github.com/chipzoller"><i class="fab fa-github"></i></a>
+<a class="py-2 px-2" href="https://twitter.com/chipzoller"><i class="fab fa-twitter"></i></a>
+<a class="py-2 px-2" href="https://www.linkedin.com/in/chipzoller/"><i class="fab fa-linkedin"></i></a>
+<a class="py-2 px-2" href='https://neonmirrors.net/index.xml'><i class="fas fa-rss"></i></a>
+
+      </div>
+    </div>
+  </footer>
+  
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script src="/js/syntax.js"></script>
+  <script src = '/js/index.js'></script>
+  
+  
+</body>
+</html>

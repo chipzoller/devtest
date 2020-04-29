@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Music on Neon Mirrors</title>
+    <link>https://neonmirrors.net/categories/music/</link>
+    <description>Recent content in Music on Neon Mirrors</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <copyright>Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved.</copyright>
+    <lastBuildDate>Sat, 04 Jan 2020 10:23:20 -0500</lastBuildDate>
+    
+	<atom:link href="https://neonmirrors.net/categories/music/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>2020 Public Domain Day</title>
+      <link>https://neonmirrors.net/post/2020-01/2020-public-domain-day/</link>
+      <pubDate>Sat, 04 Jan 2020 10:23:20 -0500</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2020-01/2020-public-domain-day/</guid>
+      <description>In addition to the customary &amp;ldquo;Happy New Year&amp;rdquo; we casually wish each other, the first of January also ushers in a new round of creative works entering the public domain around the world. In Canada, it&amp;rsquo;s works authored by contributors who died in 1969; in the EU it&amp;rsquo;s works authored by contributors who died in 1949; and in the US it&amp;rsquo;s works published in 1924.
+One of the more prominent works entering the public domain from the US side is George Gershwin&amp;rsquo;s Rhapsody in Blue, first published in 1924 in its version for two pianos.</description>
+    </item>
+    
+  </channel>
+</rss>

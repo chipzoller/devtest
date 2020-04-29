@@ -1,0 +1,504 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Technology on Neon Mirrors</title>
+    <link>https://neonmirrors.net/categories/technology/</link>
+    <description>Recent content in Technology on Neon Mirrors</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <copyright>Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved.</copyright>
+    <lastBuildDate>Sat, 11 Apr 2020 08:24:25 -0400</lastBuildDate>
+    
+	<atom:link href="https://neonmirrors.net/categories/technology/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Getting Started with Tanzu Kubernetes Grid</title>
+      <link>https://neonmirrors.net/post/2020-04/getting-started-with-tkg/</link>
+      <pubDate>Sat, 11 Apr 2020 08:24:25 -0400</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2020-04/getting-started-with-tkg/</guid>
+      <description>After VMworld US 2019 when the Tanzu portfolio was announced, there was naturally a lot of excitement for what VMware was doing around modern application development. Fast forward a couple months when more things were announced, names were changed, and Pivotal became part of VMware, and what Tanzu actually is and what the product sets are has been wildly confusing to most. One of those offerings called Tanzu Kubernetes Grid (TKG) has now been released, and so in this article I want to explain what this offering is, what it promises, and, lastly, how to get started with the CLI tool by putting rubber to the road.</description>
+    </item>
+    
+    <item>
+      <title>Behind the Scenes with Cluster API Provider vSphere</title>
+      <link>https://neonmirrors.net/post/2020-04/capv-overview/</link>
+      <pubDate>Wed, 08 Apr 2020 10:41:47 -0400</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2020-04/capv-overview/</guid>
+      <description>The verdict is in and Kubernetes has proven a great success in its ability to deploy and manage containerized applications. And in that regard, it is now seen as the de facto platform for running cloud-native applications. A somewhat more recent project has emerged which seeks to apply that same system of desired state reconciliation to Kubernetes clusters themselves, and this is called the Cluster API (CAPI) project. Cluster API has already been written about numerous times (this blog is a good overview; so is this for more of a technical primer) and so I won&amp;rsquo;t rehash its merits here.</description>
+    </item>
+    
+    <item>
+      <title>Buy Don&#39;t Build</title>
+      <link>https://neonmirrors.net/post/2020-01/buy-dont-build/</link>
+      <pubDate>Sat, 25 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2020-01/buy-dont-build/</guid>
+      <description>As long as I’ve been involved in technology, I’ve noticed a central theme which reappears countless times and is a powerful influencer in every decision, hire, and discussion. This theme invisibly steers businesses in meaningful ways yet isn&amp;rsquo;t given enough serious thought by developers and technical folks. That theme, or question rather, is whether to build or buy. In other words, &amp;ldquo;do we build this thing ourselves or do we buy a thing from someone else?</description>
+    </item>
+    
+    <item>
+      <title>Why Kubernetes on Virtual Machines?</title>
+      <link>https://neonmirrors.net/post/2020-01/why-k8s-on-vms/</link>
+      <pubDate>Fri, 17 Jan 2020 18:35:21 -0500</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2020-01/why-k8s-on-vms/</guid>
+      <description>One of the arguments or debates (depending on how generous you are) that continues to rage in the world of Kubernetes is the old &amp;ldquo;bare metal versus virtual machines&amp;rdquo; subject. Some people seem to be all in on bare metal while you have those staunch opponents (as well as some hilarious memes) who advise not even attempting it.
+The reality, of course, is an &amp;ldquo;it depends&amp;rdquo; moment, with pros and cons on each side.</description>
+    </item>
+    
+    <item>
+      <title>Authentication and Authorization in Kubernetes</title>
+      <link>https://neonmirrors.net/post/2019-10/authentication-and-authorization-in-k8s/</link>
+      <pubDate>Wed, 30 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2019-10/authentication-and-authorization-in-k8s/</guid>
+      <description>Kubernetes is designed to be secured by default, and many of the built-in technologies and concepts are designed to ensure that is the case. Often times, the first exposure users will have to Kubernetes security will be to authentication and authorization: simply getting inside the cluster and being permitted to do something. In this blog post, I want to focus on human user/operator access to Kubernetes and the mechanisms at your disposal to ensure you get it right the first try.</description>
+    </item>
+    
+    <item>
+      <title>pks-rancher-reg: Automated PKS Cluster Registration For Rancher</title>
+      <link>https://neonmirrors.net/post/2019-10/pks-rancher-reg/</link>
+      <pubDate>Tue, 15 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2019-10/pks-rancher-reg/</guid>
+      <description>My previous blog showed a method that can be used to stand up Rancher Server in HA on VMware PKS, and I’m going to build on it in this one. Having a Rancher Server environment is great for managing all sorts of Kubernetes clusters from the edge to those hosted in cloud providers, but we can also use it to manage VMware PKS clusters as well. That’s really no secret. However, since PKS focuses on a high degree of difficult automation to produce ready-to-run Kubernetes clusters at the end of the day, wouldn’t it be nice to extend that to making them ready-to-manage as well?</description>
+    </item>
+    
+    <item>
+      <title>Rancher HA on Enterprise PKS</title>
+      <link>https://neonmirrors.net/post/2019-09/rancher-ha-on-pks/</link>
+      <pubDate>Wed, 25 Sep 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2019-09/rancher-ha-on-pks/</guid>
+      <description>Rancher is a container orchestration and management tool that has been around for several years at this point and performs a variety of different functions. In more recent days, it has been refactored to completely adopt Kubernetes. In this blog, I am going to focus on how to build an enterprise-grade, highly-available, and secure installation of Rancher Server on top of VMware Enterprise PKS. I’ll respond to the burning question of ‘why Rancher on PKS in the first place?</description>
+    </item>
+    
+    <item>
+      <title>HTTPS Ingress with Enterprise PKS</title>
+      <link>https://neonmirrors.net/post/2019-09/https-ingress-with-pks/</link>
+      <pubDate>Tue, 03 Sep 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2019-09/https-ingress-with-pks/</guid>
+      <description>Kubernetes is an awesome technology, in my humble opinion, and one of the best ways to adopt it and begin to use it in a production-worthy manner is with VMware’s Enterprise PKS. By using Enterprise PKS, you get some truly great additional value by leveraging NSX-T for the networking and security components. One of those things that comes in so handy is the ingress controller capabilities of NSX-T in which you don’t need to go roll your own.</description>
+    </item>
+    
+    <item>
+      <title>pks-dns: Automated DNS registration for PKS Clusters</title>
+      <link>https://neonmirrors.net/post/2019-08/pks-dns/</link>
+      <pubDate>Fri, 09 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2019-08/pks-dns/</guid>
+      <description>VMware’s Enterprise PKS is a great solution for quickly and easily stamping out Kubernetes clusters. It really makes the process simple and repeatable while bringing additional benefits like scaling, upgrades, and auto-healing thanks to the likes of BOSH–PKS’ right-hand man. It also leverages (or can) NSX-T which provides tons of additional value. All of these pieces come together to form what is often touted as a “turnkey solution”. However, ever since I first started working with the product, something has always bugged me and remained in the back of my mind like a chime ringing in the distance.</description>
+    </item>
+    
+    <item>
+      <title>Optimize-VMwarePKS: A PowerShell script for all your VMware PKS deployment needs</title>
+      <link>https://neonmirrors.net/post/2019-04/optimize-vmwarepks/</link>
+      <pubDate>Wed, 03 Apr 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2019-04/optimize-vmwarepks/</guid>
+      <description>Ever since VMware PKS (now called Enterprise PKS) came onto the market over a year ago, it’s been a big hit. With it, you get upstream Kubernetes, NSX-T, an enterprise-class container registry, automation of the entire K8s cluster creation process, and lots more all on top of the de facto private cloud platform of vSphere. It’s truly becoming the way organizations are standardizing on K8s cluster instantiation, upgrade, and management on-premises.</description>
+    </item>
+    
+    <item>
+      <title>Installing vRealize Automation software components as a specific user</title>
+      <link>https://neonmirrors.net/post/2019-03/installing-vra-software-components-as-specific-user/</link>
+      <pubDate>Wed, 20 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2019-03/installing-vra-software-components-as-specific-user/</guid>
+      <description>Since I’ve been working with software components in vRealize Automation (vRA), one of the difficulties I see come up time and time again in Windows environments is the need to run a specific command or component with specific credentials. This is quite common even outside of the scope of vRA. There are multiple ways to go about doing this when talking about PowerShell and I won’t cover them all here. But sometimes, for one reason or not, those methods don’t work—especially when dealing with some specific programs that require elevation.</description>
+    </item>
+    
+    <item>
+      <title>Deploying VMware Agents with Ansible</title>
+      <link>https://neonmirrors.net/post/2019-01/deploying-vmware-agents-with-ansible/</link>
+      <pubDate>Thu, 03 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2019-01/deploying-vmware-agents-with-ansible/</guid>
+      <description>Although there are numerous deployment and config management tools out there, none have had as much traction and continued success as Ansible. Purchased by Red Hat in October 2015, Ansible continues to gain steam in every corner. One of the great things about it and keys to its success is its agentless design. Rather that installing and maintaining a persistent agent inside your managed node, Ansible uses SSH/WinRM to conduct its operations.</description>
+    </item>
+    
+    <item>
+      <title>How to Ask for Help on Tech Forums</title>
+      <link>https://neonmirrors.net/post/2018-12/how-to-ask-for-help-on-tech-forums/</link>
+      <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2018-12/how-to-ask-for-help-on-tech-forums/</guid>
+      <description>All of us need help at some point, and it’s only too common to reach out to others to ask for help. Before you do that, however, you need to understand some basic rules. These rules exist not only to maintain a sense of courtesy and respect, but to ultimately get you the best help possible. While most of this wisdom is applicable to any online technology forum, it is specifically geared to the VMware Technology Network (VMTN), VMware’s official online community.</description>
+    </item>
+    
+    <item>
+      <title>New Features in Sovlabs Property Toolkit: Entity Assignment</title>
+      <link>https://neonmirrors.net/post/2018-12/new-features-in-sovlabs-property-toolkit/</link>
+      <pubDate>Wed, 05 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2018-12/new-features-in-sovlabs-property-toolkit/</guid>
+      <description>It’s no secret that I’ve been a huge proponent of the SovLabs Property Toolkit module. So much so that my new motto is, “don’t leave home without it.” I’ve written fairly extensively about some of its power in articles here and here, but today I’m really excited. No, SUPER excited because the guys and gals at SovLabs have just added a whole bunch of new features that make this indispensable to anyone running vRA.</description>
+    </item>
+    
+    <item>
+      <title>Veeam Backup-as-a-Service, Part 1</title>
+      <link>https://neonmirrors.net/post/2018-08/veeam-baas-part-1/</link>
+      <pubDate>Thu, 02 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2018-08/veeam-baas-part-1/</guid>
+      <description>Today I want to introduce and provide a walk-through on how to use what I think is one of the coolest modules SovLabs has produced to date for vRealize Automation: Backup-as-a-Service (or BaaS for short). BaaS is one of those pie-in-the-sky dreams for many CMP owners and operators and, frankly, the aim of lots of other companies hoping to give a real self-service-type experience to users inside a CMP. Unfortunately, due to the complexity of it, they all come up pretty short—until SovLabs entered the game, that is.</description>
+    </item>
+    
+    <item>
+      <title>Drop-Down Lists in vRealize Automation, from Static to Dynamic to External</title>
+      <link>https://neonmirrors.net/post/2018-05/drop-down-lists-in-vra/</link>
+      <pubDate>Tue, 15 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2018-05/drop-down-lists-in-vra/</guid>
+      <description>Today, I wanted to spend some time returning to a basic principle of vRealize Automation (vRA) which is central to creating customized request forms and limiting blueprint sprawl. This is also a subject which is often requested from users. Unfortunately, those unfamiliar with vRA often think this type of customization requires other forms of complex, expensive integrations or even worse, long professional services engagements. Specifically what I’m talking about is the ability to generate drop-down lists when requesting a catalog item, as well as make those drop-downs dynamic in nature.</description>
+    </item>
+    
+    <item>
+      <title>Using vRA Software Components and binding any custom property</title>
+      <link>https://neonmirrors.net/post/2018-04/using-vra-software-components-and-binding/</link>
+      <pubDate>Sun, 29 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2018-04/using-vra-software-components-and-binding/</guid>
+      <description>Software components (SCs) are pretty neat in vRA (although you pay a pretty penny for them), but they have some serious shortcomings. One of the really cool abilities of them is to “bind” or let a property (variable, really) assume the value of something else inside that blueprint. This makes scripts much more dynamic, but one of those shortcomings is not all properties are available to bind. In this article, I’ll give you an easy workaround that makes binding to any custom property which gets passed into the machine a possibility.</description>
+    </item>
+    
+    <item>
+      <title>Making vRA Email Easy with Custom Notifications</title>
+      <link>https://neonmirrors.net/post/2018-03/making-vra-email-easy-with-custom-notifications/</link>
+      <pubDate>Wed, 21 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2018-03/making-vra-email-easy-with-custom-notifications/</guid>
+      <description>Email is one of those things that most of us take for granted these days. We just expect email works, that it is flexible, and that it’s adaptable to our situation. Within vRA, we can also get email in and out based on a variety of scenarios. But when it comes to customizing how that looks and works, it’s a little tricky. As a result, many folks don’t even bother mucking around with it because of how complex it is what with manually uploading new email templates to the appliance, restarting services, customizing XML files, or writing vRO code and event broker subscriptions and doing all the plumbing work yourself.</description>
+    </item>
+    
+    <item>
+      <title>SovLabs Property Toolkit Part 2: Dynamic Custom Property Assignment</title>
+      <link>https://neonmirrors.net/post/2018-03/sovlabs-property-toolkit-part-2/</link>
+      <pubDate>Wed, 21 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2018-03/sovlabs-property-toolkit-part-2/</guid>
+      <description>Welcome back to another installment of the exploration of the SovLabs modules! A while back, I went through and introduced the Property Toolkit module via a use case of dynamically building custom properties based on the presence of other custom properties. I illustrated this in the form of placement in vCenter folders. In this article, however, I want to dive into another feature of this amazingly powerful module: dynamic property sets.</description>
+    </item>
+    
+    <item>
+      <title>What is Sovlabs?</title>
+      <link>https://neonmirrors.net/post/2018-03/what-is-sovlabs/</link>
+      <pubDate>Sun, 18 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2018-03/what-is-sovlabs/</guid>
+      <description>I realized that although I have covered several of the SovLabs modules already with some fine use cases, I might have jumped the gun a little and not fully explained what this SovLabs business is and how I got to those points. I often receive the question “is it a vRO plug-in?” and so realize a little introduction is in order. To answer that question, the answer is Yes* but also No*.</description>
+    </item>
+    
+    <item>
+      <title>Getting users in an AD Group through vRA</title>
+      <link>https://neonmirrors.net/post/2018-02/getting-users-in-ad-group-through-vra/</link>
+      <pubDate>Sat, 24 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2018-02/getting-users-in-ad-group-through-vra/</guid>
+      <description>Have you ever needed or wanted to dynamically get the users within an Active Directory group through vRA? The process I hoped would already exist but, unfortunately as I found out, the existing vRO Active Directory plug-in does not contain a pre-built workflow or action to handle this. As I typically do, I find my own way, but my trials and tribulations can easily be to your benefit as you’ll see.</description>
+    </item>
+    
+    <item>
+      <title>How to Cleanly Remove a vSphere Datastore</title>
+      <link>https://neonmirrors.net/post/2018-01/how-to-cleanly-remove-vsphere-datastores/</link>
+      <pubDate>Sat, 06 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2018-01/how-to-cleanly-remove-vsphere-datastores/</guid>
+      <description>Removal of datastores is one of those things that seems like it would be simple, and it’s not complex, but there a few steps and you have to do them in the correct order to produce the best result. There are also some KB articles out there that are rather outdated, have mixed information, and don’t cover the graphical options available today. So in this short article, I’m going to run through the best practice way to remove a datastore from an ESXi host without destroying its data.</description>
+    </item>
+    
+    <item>
+      <title>Deploying End Point Operations Agents through vRA</title>
+      <link>https://neonmirrors.net/post/2018-01/deploying-epops-agents-through-vra/</link>
+      <pubDate>Tue, 02 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2018-01/deploying-epops-agents-through-vra/</guid>
+      <description>vRealize Automation is useful for deploying a variety of different items as-a-service, from simple IaaS to databases to container hosts and, of course applications. And most of these have been demonstrated to date. One other piece that is often forgotten about is monitoring agents on these systems, or maybe it’s done as a manual process after the fact (which defeats the purpose of cloud automation). In the past, I’ve provided a few blueprints that automates this process for the Log Insight agents for Windows and Linux.</description>
+    </item>
+    
+    <item>
+      <title>Automating vSphere Tagging in vRA with SovLabs</title>
+      <link>https://neonmirrors.net/post/2017-12/automating-vsphere-tagging-in-vra-with-sovlabs/</link>
+      <pubDate>Sun, 31 Dec 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2017-12/automating-vsphere-tagging-in-vra-with-sovlabs/</guid>
+      <description>vRealize Automation is a very metadata-driven system through capabilities called custom properties. These properties—which are nothing more than key-value pairs—can be applied at multiple levels throughout vRA and cause it to behave in different ways. The same sort of metadata drives a lot of decision within vSphere which are external to vRA. But applying these tags at a vSphere level has been somewhat of a challenge in the past when driven through vRA because there is no out-of-the-box support for vSphere tags.</description>
+    </item>
+    
+    <item>
+      <title>vCSA File Backup Fails</title>
+      <link>https://neonmirrors.net/post/2017-12/vcsa-file-backup-fails/</link>
+      <pubDate>Sat, 09 Dec 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2017-12/vcsa-file-backup-fails/</guid>
+      <description>I encountered this issue in my home lab recently whereby vCSA 6.5 U1c was failing the file-based backup through the VAMI with the message “BackupManager encountered an exception. Please check logs for details.” A very generic error message to be sure, and not at all helpful. I checked the log responsible at /var/log/vmware/applmgmt/backup.log and saw the following message.
+2017-12-09 02:46:10,833 [ConfigFilesBackup:PID-38335] ERROR: Encountered an error during ConfigFiles backup. Traceback (most recent call last): File &amp;#34;/usr/lib/applmgmt/backup_restore/py/vmware/appliance/backup_restore/components/ConfigFiles.</description>
+    </item>
+    
+    <item>
+      <title>Detecting PSC Replication Failure with Log Insight</title>
+      <link>https://neonmirrors.net/post/2017-11/detecting-psc-repl-failure-with-vrli/</link>
+      <pubDate>Wed, 29 Nov 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2017-11/detecting-psc-repl-failure-with-vrli/</guid>
+      <description>In vSphere 6, the Platform Services Controller (PSC) contains a number of pieces of functionality including the SSO components, certificates, licensing, and other core parts that make vCenter function. Because of its importance, it is possible to join external PSCs that share the same SSO domain in a replication topology whereby their states are kept synchronized. When a change is made to, for example, a vSphere tag, that change is asynchronously replicated to the other member(s).</description>
+    </item>
+    
+    <item>
+      <title>Upgrading vSphere through migration</title>
+      <link>https://neonmirrors.net/post/2017-11/upgrading-vsphere-through-migration/</link>
+      <pubDate>Mon, 27 Nov 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2017-11/upgrading-vsphere-through-migration/</guid>
+      <description>Introduction The topic of vSphere upgrades is a hot one with every new release of VMware’s flagship platform. Architectures change, new features are introduced, old ones are removed, and so everyone is scrambling to figure out how to move to the next version and what process they should use. There are generally two approaches when it comes to vSphere upgrades: in-place upgrade or migrate. In the in-place upgrade process, the existing vCenter Server is preserved and transformed into the new version while in the migration method, new resources are provisioned using the new version which then take over from the old resources.</description>
+    </item>
+    
+    <item>
+      <title>New Orchestrated Restarts in vSphere 6.5</title>
+      <link>https://neonmirrors.net/post/2017-11/new-orchestrated-restarts-in-vsphere65/</link>
+      <pubDate>Mon, 13 Nov 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2017-11/new-orchestrated-restarts-in-vsphere65/</guid>
+      <description>vSphere 6.5 was released at the end of 2016 and so, at this point, has been on the market for about a year. VMware introduced several new features in vSphere 6.5, and several of them are very, very useful however sometimes people don’t take the time to really read and understand these new features to solve problems that might already exist. One such feature that I’d like to focus on today is the new HA feature called Orchestrated Restarts.</description>
+    </item>
+    
+    <item>
+      <title>Replicating vRA Templates Easily with Veeam</title>
+      <link>https://neonmirrors.net/post/2017-11/replicating-vra-templates-easily-with-veeam/</link>
+      <pubDate>Thu, 02 Nov 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2017-11/replicating-vra-templates-easily-with-veeam/</guid>
+      <description>For those who use vRealize Automation (vRA), you’re probably all too familiar with vSphere templates and how they are the crux of your service catalog. Unless you’re creating machine deployments anew from another build tool, you’re probably using them, and it’s likely you have at least two, sometimes many more. Using the Clone workflow, those vSphere templates become the new VMs in your deployments. That part is all well and good, but do you fall into the category of having several templates?</description>
+    </item>
+    
+    <item>
+      <title>Monitoring Windows disk space usage with vROps super metrics</title>
+      <link>https://neonmirrors.net/post/2017-10/monitoring-windows-disk-space-with-vrops-sm/</link>
+      <pubDate>Sun, 15 Oct 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2017-10/monitoring-windows-disk-space-with-vrops-sm/</guid>
+      <description>Although vRealize Operations Manager (vROps) is a great tool for a variety of reasons, one of the more useful abilities it brings to a datacenter is the ability to look inside the guest OS and tell you about its state. Back in 6.2 or maybe 6.3, VMware added the ability to look at guest OS metrics. One of the things they added was guest file system stats on a per-drive basis.</description>
+    </item>
+    
+    <item>
+      <title>Custom Naming in vRA with zero custom coding</title>
+      <link>https://neonmirrors.net/post/2017-10/custom-naming-in-vra-with-zero-custom-coding/</link>
+      <pubDate>Mon, 02 Oct 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2017-10/custom-naming-in-vra-with-zero-custom-coding/</guid>
+      <description>Everyone’s got one, everyone needs them, and most people struggle with them. I’m talking about custom machine names, of course. Just like organizations themselves, naming schemes can be, and are about, as varied as possible. Some companies have fairly straightforward names with maybe two elements while others have extremely dynamic requirements that factor in five or six elements. Whatever your naming scheme might be, anyone who has used vRealize Automation (vRA) appreciates the difficulty of getting their naming scheme out of deployed machines.</description>
+    </item>
+    
+    <item>
+      <title>Monitoring Veeam Backup &amp; Replication with vROps</title>
+      <link>https://neonmirrors.net/post/2017-09/monitoring-veeam-with-vrops/</link>
+      <pubDate>Mon, 25 Sep 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2017-09/monitoring-veeam-with-vrops/</guid>
+      <description>Backup servers, I think we can all agree, are of primary importance. We rely upon them for business continuity as much as we rely upon other systems of primary record like Active Directory or DNS. So why is it that we monitor the latter systems with such fervor and the former not at all? Often times, we don’t know that backup systems are impacted until we go to attempt a restore when it’s necessary only to find it doesn’t work or you don’t have the needed restore point.</description>
+    </item>
+    
+    <item>
+      <title>vRA and The Problem of the vCenter Folder</title>
+      <link>https://neonmirrors.net/post/2017-09/vra-and-the-problem-of-the-vcenter-folder/</link>
+      <pubDate>Mon, 18 Sep 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2017-09/vra-and-the-problem-of-the-vcenter-folder/</guid>
+      <description>Between speaking with customers, architecting and deploying solutions, and helping others out with their issues on the VMware Communities forums, I encounter a lot of problems and get a lot of info on how customers do business with their CMPs. One of the requests that keeps coming up over and over again is how to deal with putting vRA’s workloads into the correct folder structure that has already been established in an enterprise.</description>
+    </item>
+    
+    <item>
+      <title>VMworld 2017, Conclusion and Final Thoughts</title>
+      <link>https://neonmirrors.net/post/2017-09/vmworld-2017-and-final-thoughts/</link>
+      <pubDate>Mon, 11 Sep 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2017-09/vmworld-2017-and-final-thoughts/</guid>
+      <description>I wrote last about the first two days of VMworld 2017 and then nothing else. There’s a good reason for that since day three contained no general sessions. Day four consisted of three different speakers from areas such as bionics, AI, and medical technology presenting their latest research and giving an effective overview of the industry framed inside human conditions of various aspects. VMware calls this “day five” and you can read the rundown of the happenings on their blog here.</description>
+    </item>
+    
+    <item>
+      <title>VMworld 2017, Day 2 Announcements</title>
+      <link>https://neonmirrors.net/post/2017-08/vmworld-2017-day-2/</link>
+      <pubDate>Wed, 30 Aug 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2017-08/vmworld-2017-day-2/</guid>
+      <description>Day two was a little slower on the release/announcements side, but there were still a few things mentioned both at VMworld, and also press releases that weren’t spoken at the conference. I’ll give you a run-down of both of those things so we cover all the bases.
+  Pivotal Container Service (PKS): Yes, the word “container” does not start with the letter “k,” however the “K” in this instance is for Kubernetes, because that is the technology used to bring this offering to the table.</description>
+    </item>
+    
+    <item>
+      <title>VMworld 2017, Day 1 Announcements</title>
+      <link>https://neonmirrors.net/post/2017-08/vmworld-2017-day-1/</link>
+      <pubDate>Tue, 29 Aug 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2017-08/vmworld-2017-day-1/</guid>
+      <description>Well, today was the first full day at VMworld 2017 in Las Vegas for all attendees. The prior two days were just for partners and known as Partner Exchange. But today was the first full regular day that included a general session for all attendees. Let me summarize the key points for our readers out there who aren’t with us in Vegas.
+  VMware Cloud on Amazon Web Services: At long last, the solution, which was announced last October, has finally come into general availability.</description>
+    </item>
+    
+    <item>
+      <title>Automate Log Insight agent installation from vRA</title>
+      <link>https://neonmirrors.net/post/2017-08/automate-log-insight-agent-installation-from-vra/</link>
+      <pubDate>Fri, 25 Aug 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2017-08/automate-log-insight-agent-installation-from-vra/</guid>
+      <description>Hi, all, short blog post today to inform you of some new community content. Logging is a pretty important thing these days (well, almost all days), and being able to implement that into your CMP is equally as important. VMware&amp;rsquo;s Log Insight solution is a fantastic platform for aggregating, analyzing, and searching for logs, which offers the best integration with other VMware products from any others on the market. Log Insight can consume logs from a variety of sources over several protocols.</description>
+    </item>
+    
+    <item>
+      <title>Log Insight and Alerting When There Are No More Logs for Insight</title>
+      <link>https://neonmirrors.net/post/2017-07/log-insight-and-alerting/</link>
+      <pubDate>Mon, 17 Jul 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2017-07/log-insight-and-alerting/</guid>
+      <description>Logging is an extremely important and, in some cases, essential part of a successful data center. That’s why you use a tool like Log Insight to aggregate, query, and alert on them. There are a variety of reasons why having your systems report their logs are crucial. They could be things like compliance: you are bound by law or maybe just company policy to keep log data for a certain period of time.</description>
+    </item>
+    
+    <item>
+      <title>4 Free Community Veeam Tools and Utilities</title>
+      <link>https://neonmirrors.net/post/2017-06/four-free-veeam-tools/</link>
+      <pubDate>Wed, 21 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2017-06/four-free-veeam-tools/</guid>
+      <description>I wrote last about attending VeeamON 2017 in New Orleans and you can view that here. As I was deep in various sessions or talking with peers and Veeam folks, several things stuck out in my mind as current gaps or “nice-to-haves” when it comes to Veeam. So after putting pen to paper, I identified four things I thought could really help other users out. I’m glad to say that all of these have been brought to fruition and have now been released to the community for all to use!</description>
+    </item>
+    
+    <item>
+      <title>VeeamON 2017</title>
+      <link>https://neonmirrors.net/post/2017-06/veeamon-2017/</link>
+      <pubDate>Fri, 02 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2017-06/veeamon-2017/</guid>
+      <description>I had the chance to attend VeeamON this year for the first time, which took place at the convention center in New Orleans from May 16–18. This three-day event was as much about the new product announcements, which we’ll get to in a minute, as well as expert technical deep dive sessions and networking. There were around 2,500 attendees in total, including about half the technical minds at Veeam. The focus of the conference was to reinforce Veeam’s message of “availability” and how they are themselves poised to be a cloud company, not just simply a backup company.</description>
+    </item>
+    
+    <item>
+      <title>Photon Docker Container Hosts in vRA 7.2</title>
+      <link>https://neonmirrors.net/post/2017-01/photon-docker-container-hosts-vra72/</link>
+      <pubDate>Tue, 10 Jan 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2017-01/photon-docker-container-hosts-vra72/</guid>
+      <description>vRealize Automation 7.2 was released in late November with the much-heralded release of container support. You can read about it in the official announcement blog here and a post from Jad here, but other features also accompanied containers including support for Azure, ServiceNow integration, and others. Since containers has been and continues to be such a hot topic, I wanted to explore this feature in depth and I’ll be writing several posts that cover all aspects of Docker and containers through vRA, so stay tuned here for more posts.</description>
+    </item>
+    
+    <item>
+      <title>Running Bash commands in the Linux guest agent in vRA 7</title>
+      <link>https://neonmirrors.net/post/2016-12/running-bash-in-linux-guest-agent-vra-ga-3/</link>
+      <pubDate>Mon, 19 Dec 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2016-12/running-bash-in-linux-guest-agent-vra-ga-3/</guid>
+      <description>This article is the third in a series of three which explore the vRealize Automation guest agent in depth. For the others, please see these links.
+Part 1: Adding machine requestor to local administrators group in vRA 7 Part 2: Running in-guest scripts on Windows VMs in vRA 7 Part 3: Running Bash commands in the Linux guest agent in vRA 7  
+Welcome back! Taking the first and second part of my three-part series on exploring the vRA guest agent as a starting point, in this article we’ll look at the Linux guest agent and how to use it to run commands and scripts like we showed on Windows in part two.</description>
+    </item>
+    
+    <item>
+      <title>Running in-guest scripts on Windows VMs in vRA 7</title>
+      <link>https://neonmirrors.net/post/2016-12/running-in-guest-scripts-vra-ga-2/</link>
+      <pubDate>Mon, 12 Dec 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2016-12/running-in-guest-scripts-vra-ga-2/</guid>
+      <description>This article is the second in a series of three which explore the vRealize Automation guest agent in depth. For the others, please see these links.
+Part 1: Adding machine requestor to local administrators group in vRA 7 Part 2: Running in-guest scripts on Windows VMs in vRA 7 Part 3: Running Bash commands in the Linux guest agent in vRA 7  
+In the last article, we looked at getting started with the guest agent on Windows.</description>
+    </item>
+    
+    <item>
+      <title>Docker Engine on Windows and Linux through vRealize Automation</title>
+      <link>https://neonmirrors.net/post/2016-12/docker-engine-blueprints-for-vra/</link>
+      <pubDate>Tue, 06 Dec 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2016-12/docker-engine-blueprints-for-vra/</guid>
+      <description>Docker is a topic that seems all the rage today, and people and organizations are scrambling to understand the technology in order to power their next-generation apps with methodologies such as continuous delivery and micro-services. In order to make standing up Docker easier for those with vRealize Automation, I’ve made a couple of software blueprints that can be dropped on top of your existing machine blueprints which allow you to provision Docker hosts on both Linux and Windows!</description>
+    </item>
+    
+    <item>
+      <title>Adding machine requestor to local administrators group in vRA 7</title>
+      <link>https://neonmirrors.net/post/2016-12/adding-machine-requestor-to-local-admins-vra-ga-1/</link>
+      <pubDate>Mon, 05 Dec 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2016-12/adding-machine-requestor-to-local-admins-vra-ga-1/</guid>
+      <description>This article is the first in a series of three which explore the vRealize Automation guest agent in depth. For the others, please see these links.
+Part 1: Adding machine requestor to local administrators group in vRA 7 Part 2: Running in-guest scripts on Windows VMs in vRA 7 Part 3: Running Bash commands in the Linux guest agent in vRA 7  
+When I first started using vRA (it was still called vCAC at that point), there was this concept of a “guest agent” that got installed in a VM template.</description>
+    </item>
+    
+    <item>
+      <title>PowerCLI Core on Mac or Linux made easy, with help!</title>
+      <link>https://neonmirrors.net/post/2016-10/powercli-core-with-help/</link>
+      <pubDate>Wed, 26 Oct 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2016-10/powercli-core-with-help/</guid>
+      <description>With the much-heralded release of Microsoft’s PowerShell, VMware’s PowerCLI Core in fling format was released on October 17th. This allows users of Mac and Linux to run PowerShell just like on Windows. While PowerCLI can be installed with instructions on the fling website, VMware also released a Docker container with the same. Containers are all the rage right now, and we at Sovereign are all over this technology to determine how to best leverage it for our customers, so in this blog post I’m going to illustrate how to get started with both Docker and PowerCLI Core.</description>
+    </item>
+    
+    <item>
+      <title>Real-world troubleshooting with Log Insight</title>
+      <link>https://neonmirrors.net/post/2016-07/real-world-troubleshooting-with-vrli/</link>
+      <pubDate>Thu, 28 Jul 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2016-07/real-world-troubleshooting-with-vrli/</guid>
+      <description>Having some sort of log aggregation tool is an extremely important addition to any sort of management or monitoring system, so much so that it can mean the difference between violating SLAs, losing customers, or lengthier outages, and not. Log Insight is a product in the vRealize Suite which is this kind of tool and is way more capable than performing log searches on just vSphere components. Here is one such example of how I used VMware’s Log Insight to solve a real-world production issue in our internal lab.</description>
+    </item>
+    
+    <item>
+      <title>Synology DiskStation:  The Magical Crash</title>
+      <link>https://neonmirrors.net/post/2016-07/synology-and-the-magical-crash/</link>
+      <pubDate>Fri, 15 Jul 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2016-07/synology-and-the-magical-crash/</guid>
+      <description>I’m inside, at my desk on a Sunday morning having just had some coffee and not in the best of spirits despite looking out the window at a beautifully sunny day on a well-coiffed lawn. I look to my left and patiently wait for a vertical row of four green, blinking lights to calm themselves. It’s definitely a moment of anxiety for me, because at this moment, I am having to rebuild and start anew with my 4-bay Synology DS412+, the NAS I’ve been using in my home lab for the past few years.</description>
+    </item>
+    
+    <item>
+      <title>New disk-related features in vSphere 6</title>
+      <link>https://neonmirrors.net/post/2016-01/new-disk-features-vsphere6/</link>
+      <pubDate>Tue, 12 Jan 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2016-01/new-disk-features-vsphere6/</guid>
+      <description>vSphere 6 launched in March of 2015, and since then there have been numerous blogs, presentations, videos, and discussions around the myriad new major features. These are all great improvements to an already solid platform, but there are also lots of un- or minimally-documented features which should be mentioned, features which make administrators’ and engineers’ lives easier. I’ll cover just three of them here, and they all are related to disk devices.</description>
+    </item>
+    
+    <item>
+      <title>Fast Backup of vSphere Templates with Veeam</title>
+      <link>https://neonmirrors.net/post/2015-12/fast-backup-of-vsphere-templates-with-veeam/</link>
+      <pubDate>Thu, 17 Dec 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2015-12/fast-backup-of-vsphere-templates-with-veeam/</guid>
+      <description>Most organizations use vSphere templates for a quick way to roll out VMs manually through vCenter, via a clone workflow in vRealize Automation, or something else. Sometimes they’re just base OS with configuration, and sometimes they have complicated applications installed in the case of VDI. Very often, these would be time consuming to reproduce and are changing on a regular basis due to things like patching and updates. So, naturally, you probably want to back those templates up.</description>
+    </item>
+    
+    <item>
+      <title>Using the vRealize Certificate Generation Tool</title>
+      <link>https://neonmirrors.net/post/2015-11/using-vrealize-cert-generation-tool/</link>
+      <pubDate>Wed, 18 Nov 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2015-11/using-vrealize-cert-generation-tool/</guid>
+      <description>Most of us have felt the pain in some way of dealing with certificate management in enterprise environments. I suspect for most people, this is one of the least fun tasks in either the virtualization world or IT in general. Let’s face it, it just isn’t something we look forward to doing. Most products out there have a reasonable if not good way of coping with installing, changing, or renewing of certificates.</description>
+    </item>
+    
+    <item>
+      <title>Critical CBT Bug in vSphere 6 and Veeam workaround</title>
+      <link>https://neonmirrors.net/post/2015-11/critical-cbt-bug-vsphere6-veeam-workaround/</link>
+      <pubDate>Mon, 16 Nov 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2015-11/critical-cbt-bug-vsphere6-veeam-workaround/</guid>
+      <description>There was recently (12 November 2015) another critical backup-related bug published affecting ESXi 6.x and CBT-based backups. Any backup product that leverages VADP (snapshot-based backup processing) is affected by this issue. For customers using Veeam, here is a workaround if it is not possible to downgrade to ESXi 5.5.
+Edit each job that processes VMs on hosts that are at version 6 or higher, go to Storage, then click on the Advanced button.</description>
+    </item>
+    
+    <item>
+      <title>vRO 5.5 DNS Reverts</title>
+      <link>https://neonmirrors.net/post/2015-10/vco-55-dns-reverts/</link>
+      <pubDate>Thu, 08 Oct 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2015-10/vco-55-dns-reverts/</guid>
+      <description>vRealize Orchestrator is VMware’s automation and workflow engine that unlocks the true power of vRealize Automation enabling things like custom machine provisioning/de-provisioning steps and any external systems that may need to be called.
+For those still using vCenter Orchestrator 5.5, the appliance sees to have one strange issue that might impact those making changes to the underlying infrastructure. The appliance has an odd tendency to revert DNS to the previously provisioned values even after changing them in the configurator.</description>
+    </item>
+    
+  </channel>
+</rss>

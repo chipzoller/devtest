@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>vsphere on Neon Mirrors</title>
+    <link>https://neonmirrors.net/tags/vsphere/</link>
+    <description>Recent content in vsphere on Neon Mirrors</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <copyright>Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved.</copyright>
+    <lastBuildDate>Sat, 11 Apr 2020 08:24:25 -0400</lastBuildDate>
+    
+	<atom:link href="https://neonmirrors.net/tags/vsphere/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Getting Started with Tanzu Kubernetes Grid</title>
+      <link>https://neonmirrors.net/post/2020-04/getting-started-with-tkg/</link>
+      <pubDate>Sat, 11 Apr 2020 08:24:25 -0400</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2020-04/getting-started-with-tkg/</guid>
+      <description>After VMworld US 2019 when the Tanzu portfolio was announced, there was naturally a lot of excitement for what VMware was doing around modern application development. Fast forward a couple months when more things were announced, names were changed, and Pivotal became part of VMware, and what Tanzu actually is and what the product sets are has been wildly confusing to most. One of those offerings called Tanzu Kubernetes Grid (TKG) has now been released, and so in this article I want to explain what this offering is, what it promises, and, lastly, how to get started with the CLI tool by putting rubber to the road.</description>
+    </item>
+    
+    <item>
+      <title>Behind the Scenes with Cluster API Provider vSphere</title>
+      <link>https://neonmirrors.net/post/2020-04/capv-overview/</link>
+      <pubDate>Wed, 08 Apr 2020 10:41:47 -0400</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2020-04/capv-overview/</guid>
+      <description>The verdict is in and Kubernetes has proven a great success in its ability to deploy and manage containerized applications. And in that regard, it is now seen as the de facto platform for running cloud-native applications. A somewhat more recent project has emerged which seeks to apply that same system of desired state reconciliation to Kubernetes clusters themselves, and this is called the Cluster API (CAPI) project. Cluster API has already been written about numerous times (this blog is a good overview; so is this for more of a technical primer) and so I won&amp;rsquo;t rehash its merits here.</description>
+    </item>
+    
+    <item>
+      <title>Why Kubernetes on Virtual Machines?</title>
+      <link>https://neonmirrors.net/post/2020-01/why-k8s-on-vms/</link>
+      <pubDate>Fri, 17 Jan 2020 18:35:21 -0500</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2020-01/why-k8s-on-vms/</guid>
+      <description>One of the arguments or debates (depending on how generous you are) that continues to rage in the world of Kubernetes is the old &amp;ldquo;bare metal versus virtual machines&amp;rdquo; subject. Some people seem to be all in on bare metal while you have those staunch opponents (as well as some hilarious memes) who advise not even attempting it.
+The reality, of course, is an &amp;ldquo;it depends&amp;rdquo; moment, with pros and cons on each side.</description>
+    </item>
+    
+    <item>
+      <title>Optimize-VMwarePKS: A PowerShell script for all your VMware PKS deployment needs</title>
+      <link>https://neonmirrors.net/post/2019-04/optimize-vmwarepks/</link>
+      <pubDate>Wed, 03 Apr 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2019-04/optimize-vmwarepks/</guid>
+      <description>Ever since VMware PKS (now called Enterprise PKS) came onto the market over a year ago, it’s been a big hit. With it, you get upstream Kubernetes, NSX-T, an enterprise-class container registry, automation of the entire K8s cluster creation process, and lots more all on top of the de facto private cloud platform of vSphere. It’s truly becoming the way organizations are standardizing on K8s cluster instantiation, upgrade, and management on-premises.</description>
+    </item>
+    
+    <item>
+      <title>How to Cleanly Remove a vSphere Datastore</title>
+      <link>https://neonmirrors.net/post/2018-01/how-to-cleanly-remove-vsphere-datastores/</link>
+      <pubDate>Sat, 06 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2018-01/how-to-cleanly-remove-vsphere-datastores/</guid>
+      <description>Removal of datastores is one of those things that seems like it would be simple, and it’s not complex, but there a few steps and you have to do them in the correct order to produce the best result. There are also some KB articles out there that are rather outdated, have mixed information, and don’t cover the graphical options available today. So in this short article, I’m going to run through the best practice way to remove a datastore from an ESXi host without destroying its data.</description>
+    </item>
+    
+    <item>
+      <title>vCSA File Backup Fails</title>
+      <link>https://neonmirrors.net/post/2017-12/vcsa-file-backup-fails/</link>
+      <pubDate>Sat, 09 Dec 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2017-12/vcsa-file-backup-fails/</guid>
+      <description>I encountered this issue in my home lab recently whereby vCSA 6.5 U1c was failing the file-based backup through the VAMI with the message “BackupManager encountered an exception. Please check logs for details.” A very generic error message to be sure, and not at all helpful. I checked the log responsible at /var/log/vmware/applmgmt/backup.log and saw the following message.
+2017-12-09 02:46:10,833 [ConfigFilesBackup:PID-38335] ERROR: Encountered an error during ConfigFiles backup. Traceback (most recent call last): File &amp;#34;/usr/lib/applmgmt/backup_restore/py/vmware/appliance/backup_restore/components/ConfigFiles.</description>
+    </item>
+    
+    <item>
+      <title>Detecting PSC Replication Failure with Log Insight</title>
+      <link>https://neonmirrors.net/post/2017-11/detecting-psc-repl-failure-with-vrli/</link>
+      <pubDate>Wed, 29 Nov 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2017-11/detecting-psc-repl-failure-with-vrli/</guid>
+      <description>In vSphere 6, the Platform Services Controller (PSC) contains a number of pieces of functionality including the SSO components, certificates, licensing, and other core parts that make vCenter function. Because of its importance, it is possible to join external PSCs that share the same SSO domain in a replication topology whereby their states are kept synchronized. When a change is made to, for example, a vSphere tag, that change is asynchronously replicated to the other member(s).</description>
+    </item>
+    
+    <item>
+      <title>Upgrading vSphere through migration</title>
+      <link>https://neonmirrors.net/post/2017-11/upgrading-vsphere-through-migration/</link>
+      <pubDate>Mon, 27 Nov 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2017-11/upgrading-vsphere-through-migration/</guid>
+      <description>Introduction The topic of vSphere upgrades is a hot one with every new release of VMware’s flagship platform. Architectures change, new features are introduced, old ones are removed, and so everyone is scrambling to figure out how to move to the next version and what process they should use. There are generally two approaches when it comes to vSphere upgrades: in-place upgrade or migrate. In the in-place upgrade process, the existing vCenter Server is preserved and transformed into the new version while in the migration method, new resources are provisioned using the new version which then take over from the old resources.</description>
+    </item>
+    
+    <item>
+      <title>New Orchestrated Restarts in vSphere 6.5</title>
+      <link>https://neonmirrors.net/post/2017-11/new-orchestrated-restarts-in-vsphere65/</link>
+      <pubDate>Mon, 13 Nov 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2017-11/new-orchestrated-restarts-in-vsphere65/</guid>
+      <description>vSphere 6.5 was released at the end of 2016 and so, at this point, has been on the market for about a year. VMware introduced several new features in vSphere 6.5, and several of them are very, very useful however sometimes people don’t take the time to really read and understand these new features to solve problems that might already exist. One such feature that I’d like to focus on today is the new HA feature called Orchestrated Restarts.</description>
+    </item>
+    
+    <item>
+      <title>Replicating vRA Templates Easily with Veeam</title>
+      <link>https://neonmirrors.net/post/2017-11/replicating-vra-templates-easily-with-veeam/</link>
+      <pubDate>Thu, 02 Nov 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2017-11/replicating-vra-templates-easily-with-veeam/</guid>
+      <description>For those who use vRealize Automation (vRA), you’re probably all too familiar with vSphere templates and how they are the crux of your service catalog. Unless you’re creating machine deployments anew from another build tool, you’re probably using them, and it’s likely you have at least two, sometimes many more. Using the Clone workflow, those vSphere templates become the new VMs in your deployments. That part is all well and good, but do you fall into the category of having several templates?</description>
+    </item>
+    
+    <item>
+      <title>4 Free Community Veeam Tools and Utilities</title>
+      <link>https://neonmirrors.net/post/2017-06/four-free-veeam-tools/</link>
+      <pubDate>Wed, 21 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2017-06/four-free-veeam-tools/</guid>
+      <description>I wrote last about attending VeeamON 2017 in New Orleans and you can view that here. As I was deep in various sessions or talking with peers and Veeam folks, several things stuck out in my mind as current gaps or “nice-to-haves” when it comes to Veeam. So after putting pen to paper, I identified four things I thought could really help other users out. I’m glad to say that all of these have been brought to fruition and have now been released to the community for all to use!</description>
+    </item>
+    
+    <item>
+      <title>New disk-related features in vSphere 6</title>
+      <link>https://neonmirrors.net/post/2016-01/new-disk-features-vsphere6/</link>
+      <pubDate>Tue, 12 Jan 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2016-01/new-disk-features-vsphere6/</guid>
+      <description>vSphere 6 launched in March of 2015, and since then there have been numerous blogs, presentations, videos, and discussions around the myriad new major features. These are all great improvements to an already solid platform, but there are also lots of un- or minimally-documented features which should be mentioned, features which make administrators’ and engineers’ lives easier. I’ll cover just three of them here, and they all are related to disk devices.</description>
+    </item>
+    
+    <item>
+      <title>Fast Backup of vSphere Templates with Veeam</title>
+      <link>https://neonmirrors.net/post/2015-12/fast-backup-of-vsphere-templates-with-veeam/</link>
+      <pubDate>Thu, 17 Dec 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2015-12/fast-backup-of-vsphere-templates-with-veeam/</guid>
+      <description>Most organizations use vSphere templates for a quick way to roll out VMs manually through vCenter, via a clone workflow in vRealize Automation, or something else. Sometimes they’re just base OS with configuration, and sometimes they have complicated applications installed in the case of VDI. Very often, these would be time consuming to reproduce and are changing on a regular basis due to things like patching and updates. So, naturally, you probably want to back those templates up.</description>
+    </item>
+    
+    <item>
+      <title>Critical CBT Bug in vSphere 6 and Veeam workaround</title>
+      <link>https://neonmirrors.net/post/2015-11/critical-cbt-bug-vsphere6-veeam-workaround/</link>
+      <pubDate>Mon, 16 Nov 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2015-11/critical-cbt-bug-vsphere6-veeam-workaround/</guid>
+      <description>There was recently (12 November 2015) another critical backup-related bug published affecting ESXi 6.x and CBT-based backups. Any backup product that leverages VADP (snapshot-based backup processing) is affected by this issue. For customers using Veeam, here is a workaround if it is not possible to downgrade to ESXi 5.5.
+Edit each job that processes VMs on hosts that are at version 6 or higher, go to Storage, then click on the Advanced button.</description>
+    </item>
+    
+  </channel>
+</rss>

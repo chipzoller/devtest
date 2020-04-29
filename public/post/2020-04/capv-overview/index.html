@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  <meta property="og:title" content="Behind the Scenes with Cluster API Provider vSphere" />
+<meta property="og:description" content="An deeper look into the internal workings of Cluster API (CAPI) and Cluster API Provider vSphere (CAPV)." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://neonmirrors.net/post/2020-04/capv-overview/" />
+<meta property="article:published_time" content="2020-04-08T10:41:47-04:00" />
+<meta property="article:modified_time" content="2020-04-08T10:41:47-04:00" />
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Behind the Scenes with Cluster API Provider vSphere"/>
+<meta name="twitter:description" content="An deeper look into the internal workings of Cluster API (CAPI) and Cluster API Provider vSphere (CAPV)."/>
+<meta name="twitter:site" content="@chipzoller"/>
+
+  
+  <title>
+Behind the Scenes with Cluster API Provider vSphere | Neon Mirrors
+</title>
+  
+  <link rel="icon" type="image/png" href='https://neonmirrors.net/images/favicon-16x16.png' sizes="16x16">
+  <link rel="icon" type="image/png" href='https://neonmirrors.net/images/favicon-32x32.png' sizes="32x32">  
+  
+  <link href="https://fonts.googleapis.com/css?family=Oswald:400" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">      
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel = 'stylesheet' href = 'https://neonmirrors.net/css/main.703162b863e7e1a93ee98f24b75e329848a814522f2d9f5735d41fbc7f023b3772f177c6ef8dbafccee65cfa8c1b8bb57e73d49284b5a0fdbbe772b8b29b07cb.css' integrity = 'sha512-cDFiuGPn4ak&#43;6Y8kt14ymEioFFIvLZ9XNdQfvH8COzdy8XfG7426/M7mXPqMG4u1fnPUkoS1oP2753K4spsHyw=='>
+  
+  
+<link rel="me" type="text/html" href="https://twitter.com/chipzoller"/> 
+<link rel="me" type="text/html" href="https://www.linkedin.com/in/chipzoller/"/> 
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+
+<link rel="alternate" type="application/rss+xml" href='https://neonmirrors.net/index.xml' />
+
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<meta name="author" content="Chip Zoller" />
+<meta name="copyright" content="Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved." />
+
+
+<meta name="description" content="An deeper look into the internal workings of Cluster API (CAPI) and Cluster API Provider vSphere (CAPV).">
+
+
+
+
+<style type="text/css">
+  .feature-image {
+    background-image: url("https://neonmirrors.net/images/2020-04/capv-overview/featured.jpg");
+    height: 500px;
+  }
+  
+  @media (max-width: 992px) {
+    .feature-image {
+      height: 350px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .feature-image {
+      height: 250px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .feature-image {
+      height: 200px;
+    }
+  }
+</style>
+
+        
+</head>
+<body >
+  <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark py-1 top-nav">
+    <div class="container">
+      <span class="internal">
+  <a class="navbar-brand pr-2" href="/">NEON MIRRORS</a>
+</span>
+
+      <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="navbar-collapse collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/categories/technology/">Technology</a>
+  
+</li>
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/categories/music/">Music</a>
+  
+</li>
+<li class="nav-item internal">
+  
+  <div class="nav-link nav-hassubmenu">Links
+    <div class="nav-submenu" >
+    
+      <a class="nav-link" href="https://chipzoller.gitbook.io/vspheremigration/">Ultimate vSphere VM Migration Guide</a>
+    
+    </div>
+    </div>
+  
+</li>
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/about/">About</a>
+  
+</li>
+
+        </ul>
+        <div class="social-icons d-none d-lg-block">
+          <a class="py-2 px-2" href="https://github.com/chipzoller"><i class="fab fa-github"></i></a>
+<a class="py-2 px-2" href="https://twitter.com/chipzoller"><i class="fab fa-twitter"></i></a>
+<a class="py-2 px-2" href="https://www.linkedin.com/in/chipzoller/"><i class="fab fa-linkedin"></i></a>
+<a class="py-2 px-2" href='https://neonmirrors.net/index.xml'><i class="fas fa-rss"></i></a>
+
+        </div>
+      </div>
+    </div>
+  </nav>
+  
+  
+<header class="feature-image d-print-none">
+</header>
+
+  
+  <div class="main">
+    
+<div class="container mt-4 post">
+  <h1>Behind the Scenes with Cluster API Provider vSphere</h1>
+  <div class="mb-3 internal">
+  <small>
+    <strong>By Chip Zoller</strong>
+    | <i class="far fa-calendar-alt"></i>&nbsp;Apr 8, 2020&nbsp;
+    | <i class="fa fa-tags" title="Tags" aria-hidden="true"></i> <a href='/tags/k8s/'>k8s</a>, <a href='/tags/vsphere/'>vsphere</a><span class="d-lg-none">, <a href='#tags-section'>all tags</a></span>
+  </small>
+</div>
+
+  <div class="share-icons d-flex d-print-none">
+    <a href="https://twitter.com/intent/tweet?text=Behind%20the%20Scenes%20with%20Cluster%20API%20Provider%20vSphere&url=https%3a%2f%2fneonmirrors.net%2fpost%2f2020-04%2fcapv-overview%2f&tw_p=tweetbutton" class="p-2" title="Share on Twitter" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Tweet</small></div>
+</a>
+
+<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fneonmirrors.net%2fpost%2f2020-04%2fcapv-overview%2f&t=Behind%20the%20Scenes%20with%20Cluster%20API%20Provider%20vSphere" class="p-2" title="Share on Facebook" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+<script>
+  function shareViaLinkedin() {
+    window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent("https://neonmirrors.net/post/2020-04/capv-overview/"), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+  }
+</script>
+<a href="#linkedinshare" id = "linkedinshare" class="p-2" title="Share on LinkedIn" rel="nofollow" onclick="shareViaLinkedin()">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+
+<a href="javascript:window.print()" title="Print this article" class="p-2" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fa fa-print fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Print</small></div>
+</a>
+
+  </div>
+  
+  <div class="mt-4 mb-4 main-content">
+    <p>The verdict is in and Kubernetes has proven a great success in its ability to deploy and manage containerized applications. And in that regard, it is now seen as the <em>de facto</em> platform for running cloud-native applications. A somewhat more recent project has emerged which seeks to apply that same system of desired state reconciliation to Kubernetes clusters themselves, and this is called the Cluster API (CAPI) project. Cluster API has already been written about numerous times (<a href="https://blogs.vmware.com/cloudnative/2020/02/19/cluster-api-is-a-big-deal-joe-beda-craig-mcluckie-tell-you-why/">this blog</a> is a good overview; so is <a href="https://blogs.vmware.com/cloudnative/2019/12/12/how-cluster-api-promotes-self-service-infrastructure/">this</a> for more of a technical primer) and so I won&rsquo;t rehash its merits here. What I instead want to focus on is the vSphere Provider, known as Cluster API Provider vSphere or CAPV, and its relationship to CAPI as well as how the two interact to deliver the end results. If you&rsquo;re not familiar with CAPI, I&rsquo;d recommend starting with the concepts section of the very nice <a href="https://cluster-api.sigs.k8s.io/user/concepts.html">Cluster API book</a>, and for an overview of the CAPV project have a look at the <a href="https://github.com/kubernetes-sigs/cluster-api-provider-vsphere">GitHub repo</a>.</p>
+<p>The CAPV project is the vSphere-specific provider implementation of Cluster API in that it contains the logic necessary that translates the abstract concepts of CAPI into the realistic objects (virtual machines) inside vSphere. You can think of it as a shim layer between CAPI and vSphere itself. For other IaaS like AWS or Azure, similar projects exist. CAPV is not only important to the broader Kubernetes ecosystem, but also serves as the core underpinnings behind VMware&rsquo;s <a href="https://tanzu.vmware.com/kubernetes-grid">Tanzu Kubernetes Grid (TKG)</a>, a common VMware Kubernetes distribution which can run on public cloud, private cloud, and edge. TKG clusters contain the upstream Kubernetes bits plus other components that provide the necessary integrations for vSphere, and one of the central components is the CAPV project. Most recently in <a href="https://blogs.vmware.com/vsphere/2020/03/vsphere-7-kubernetes-tanzu.html">vSphere 7 with Kubernetes</a> (formerly known as Project Pacific), these CAPV bits are built directly into the supervisor cluster allowing for the deployment of TKG (formerly known as &ldquo;guest&rdquo;) clusters. More on that in a future article, however.</p>
+<p>As of the latest version of the CAPI revision (v1alpha3), some significant changes have occurred in the way of the management cluster bootstrapping process. At the core of that is a reworked <a href="https://cluster-api.sigs.k8s.io/clusterctl/overview.html"><code>clusterctl</code></a> utility which not only bootstraps the management cluster but generates the workload cluster manifests based on your provider of choice. Once those manifests are generated, they can be submitted to the management cluster via <code>kubectl</code> in order to build a workload cluster.</p>
+<p>The first step in the process of getting a workload cluster built is converting a dedicated &ldquo;vanilla&rdquo; Kubernetes cluster into a CAPI/CAPV management cluster. This takes a generic Kubernetes cluster (it can even be an ephemeral cluster on <code>kind</code>) and applies the CAPI and CAPV bits necessary to automate the cloning and configuration process of your VMs. With that to-be management cluster in hand as well as the <a href="https://github.com/kubernetes-sigs/cluster-api/releases"><code>clusterctl</code></a> utility, we need to run <code>clusterctl init --infrastructure vsphere</code>. Behind the scenes, the <code>clusterctl</code> utility is fetching a number of manifests from the public GitHub repos for CAPI and CAPV. These manifests describe the components and software (running as pods) that comprise the CAPI/CAPV stack including all the YAML manifests from the <a href="https://github.com/kubernetes-sigs/cluster-api/releases">CAPI releases page</a> and the <code>infrastructure-components.yaml</code> file from the <a href="https://github.com/kubernetes-sigs/cluster-api-provider-vsphere/releases">CAPV releases page</a>. Once that&rsquo;s complete, you may see something like the following in your management cluster.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ k get po -A
+NAMESPACE                           NAME                                                             READY   STATUS    RESTARTS   AGE
+capi-kubeadm-bootstrap-system       capi-kubeadm-bootstrap-controller-manager-5bb9bfdc46-vcm4g       2/2     Running   <span class="m">0</span>          3h2m
+capi-kubeadm-control-plane-system   capi-kubeadm-control-plane-controller-manager-77466c7666-xqbjn   2/2     Running   <span class="m">0</span>          3h2m
+capi-system                         capi-controller-manager-5798474d9f-hrrpw                         2/2     Running   <span class="m">0</span>          3h2m
+capi-webhook-system                 capi-controller-manager-5d64dd9dfb-5mw2l                         2/2     Running   <span class="m">0</span>          3h2m
+capi-webhook-system                 capi-kubeadm-bootstrap-controller-manager-7c78fff45-tcg6p        2/2     Running   <span class="m">0</span>          3h2m
+capi-webhook-system                 capi-kubeadm-control-plane-controller-manager-58465bb88f-cxb5t   2/2     Running   <span class="m">0</span>          3h2m
+capi-webhook-system                 capv-controller-manager-6bbbc59845-sz9j8                         2/2     Running   <span class="m">0</span>          3h2m
+capv-system                         capv-controller-manager-5c8648757b-fs85h                         2/2     Running   <span class="m">0</span>          3h1m
+</code></pre></div><p>This output shows a number of new namespaces and several different pods which are running CAPI and CAPV containers.</p>
+<p>Once the management cluster has been built, it&rsquo;s a three-step process to get workload clusters.</p>
+<ol>
+<li>Import (or otherwise build) the CAPV templates into your vSphere environment.</li>
+<li>Populate a variables file with information on how to connect to vSphere.</li>
+<li>Generate a workload cluster manifest using <code>clusterctl</code>.</li>
+</ol>
+<p>In order for CAPV to create a new Kubernetes cluster for us, it&rsquo;s required that it have access to a template in vSphere with the necessary bits to get started. Although it&rsquo;s certainly possible to build your own, the CAPV project conveniently has done that for us. Although it&rsquo;s best to control your own image build process, in this case I&rsquo;ll just import one of the templates available <a href="https://github.com/kubernetes-sigs/cluster-api-provider-vsphere/blob/master/README.md#kubernetes-versions-with-published-ovas">here</a>. In addition to the regular VM template, as of this writing we&rsquo;ll also need an <a href="https://github.com/kubernetes-sigs/cluster-api-provider-vsphere/blob/master/docs/getting_started.md">HA Proxy template</a> as well. This will serve as the load balancer sitting in front of the control plane. Even if only a single control plane node is requested, it still requires a load balancer.</p>
+<p>Next, we need to store some default information about our vSphere environment that will be used to generate the workload cluster manifest. To do so, we should create a file at <code>~/.cluster-api/clusterctl.yaml</code> which defines a number of variables on how to connect to vSphere as well as where the VMs will get built. An example of this file and its contents can be seen in the <a href="https://github.com/kubernetes-sigs/cluster-api-provider-vsphere/blob/master/docs/getting_started.md#configuring-and-installing-cluster-api-provider-vsphere-in-a-management-cluster">documentation</a>.</p>
+<p>Lastly, we&rsquo;re ready to generate our workload cluster manifest. To do this, we run a <code>clusterctl config cluster</code> command supplying our various parameters like cluster name, infrastructure provider (<code>vsphere</code> in this case), Kubernetes version, and number of control plane and worker nodes.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">clusterctl config cluster capv-demo -i vsphere --kubernetes-version v1.17.3 --control-plane-machine-count <span class="m">1</span> --worker-machine-count <span class="m">2</span> &gt; capv-demo.yaml
+</code></pre></div><p>When running this <code>config</code> command, behind the scenes the <code>clusterctl</code> utility is accessing the <code>cluster-template.yaml</code> file from the <a href="https://github.com/kubernetes-sigs/cluster-api-provider-vsphere/releases">CAPV releases repo</a> and replacing the templated values with those you supplied in the <code>~/.cluster-api/clusterctl.yaml</code> file. The resulting output is a YAML manifest containing a description of all the components that represent a new Kubernetes cluster of your specifications. The objects within are a mixture of CAPI and CAPV resources with many relationships between them.</p>
+<p>The objects in this workload cluster manifest have a certain relationship, and to better understand that take a look at the diagram below.</p>
+<p><img src="/images/2020-04/capv-overview/clusterctl-workload-manifest-ref.png" alt="clusterctl workload cluster manifest reference"></p>
+<p>Each box represents a distinct resource in the resulting YAML manifest. So, for example, the Cluster object is a CAPI resource and contains references to VSphereCluster (CAPV) and KubeadmControlPlane (CAPI) resources. Those resources in turn reference other resources. The objects in this manifest are those required by the API server to realize the workload cluster, but once persisted in the data store, the various CAPI and CAPV controllers go to work on them in order to reconcile to this desired state.</p>
+<p>After applying the resulting workload cluster&rsquo;s manifest, if you turn your attention towards vSphere, you&rsquo;ll notice a number of tasks have occurred including cloning from the HA Proxy and Kubernetes machine templates. After a few minutes, the workload cluster should be running and available. The <code>kubeconfig</code> should be accessible with something like the following.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">k get secret &lt;cluster_name&gt;-kubeconfig -o <span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.data.value}&#39;</span> <span class="p">|</span> base64 -d &gt; &lt;cluster_name&gt;-kubeconfig
+</code></pre></div><p>The last thing needed in order to begin deploying workloads to this new cluster is to apply a CNI of some sort. <a href="https://docs.projectcalico.org">Calico</a>, for example, is the one used in the docs but any other CNI which supports the target version will work.</p>
+<p>Ok, now let&rsquo;s turn towards the internals of how CAPI and CAPV work together to bring this new Kubernetes cluster into existence. I&rsquo;ve broken this down into a very detailed timeline which captures all the steps in the process from when the manifest is POSTed to when reconciliation is done. For a simple TL;DR, high-level version, it goes something like this:</p>
+<ol>
+<li>Manifest is POSTed.</li>
+<li>CAPI/CAPV controllers read manifest objects and create new resources.</li>
+<li>HA Proxy load balancer clone and configuration happens.</li>
+<li>First control plane clone and configuration happens.</li>
+<li>Other control plane nodes begin (if applicable) simultaneous to any worker nodes.</li>
+<li>Workers joined to control plane (via load balancer).</li>
+<li>Cluster ready.</li>
+</ol>
+<p>For a more detailed timeline, see below. The spacing between the events is somewhat relative although not exactly to scale. For example, when the manifest is first applied, the next three steps happen very quickly. Large gaps are generally processing times while either a VM clone completes or the node is configured.</p>
+<p><img src="/images/2020-04/capv-overview/guest-cluster-reconciliation-timeline.png" alt="Guest cluster reconciliation timeline"></p>
+<p>If you compare this cluster reconciliation timeline with the manifest reference diagram shown first, you&rsquo;ll notice that there are many other resources not accounted for. How do these all relate? What owns what? What are the various types? To answer those questions and help you make sense of how CAPI and CAPV components relate as well as where to look when things don&rsquo;t go as planned, I&rsquo;ve put together an ownership reference diagram that completely maps out all the objects.</p>
+<p><img src="/images/2020-04/capv-overview/CAPI-CAPV-resource-ownership-reference.png" alt="CAPI/CAPV resource ownership reference"></p>
+<p>A couple of comments about this diagram which may help to better understand it. If you refer back to your workload cluster manifest, you&rsquo;ll see entries for VSphereMachineTemplate and KubeadmConfigTemplate. Although you could have probably figured it out, these resources only serve as &ldquo;templates&rdquo; to generate the real resources of VSphereMachine and KubeadmConfig, respectively. And last, you&rsquo;ll note the stars on four of the resources. These stars indicate that these four resources are the common resources that represent any Kubernetes node (a load balancer is not a Kubernetes node), so regardless of its type, it has to have these four resources associated with it.</p>
+<p>Other resources within the CAPI project that aren&rsquo;t used at this point in time include the MachinePools resource (reserved for auto-scaling groups like those found in AWS) and MachineHealthChecks (user-defined tests which check for when a Machine is determined to be unhealthy; BOSH-like functionality), the latter of which is reserved for the next CAPV release.</p>
+<p>Although there is a lot of complexity in the inner-workings of Cluster API and CAPV, I hope this post and these diagrams go a long way in helping to understand the underlying processes at work and the various resources and how they relate to one another.</p>
+<p>Special thanks to <a href="https://twitter.com/yassinetj">Yassine Tijani</a> for his review.</p>
+
+    
+    <div class="share-icons d-flex d-print-none">
+      <a href="https://twitter.com/intent/tweet?text=Behind%20the%20Scenes%20with%20Cluster%20API%20Provider%20vSphere&url=https%3a%2f%2fneonmirrors.net%2fpost%2f2020-04%2fcapv-overview%2f&tw_p=tweetbutton" class="p-2" title="Share on Twitter" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Tweet</small></div>
+</a>
+
+<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fneonmirrors.net%2fpost%2f2020-04%2fcapv-overview%2f&t=Behind%20the%20Scenes%20with%20Cluster%20API%20Provider%20vSphere" class="p-2" title="Share on Facebook" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+<script>
+  function shareViaLinkedin() {
+    window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent("https://neonmirrors.net/post/2020-04/capv-overview/"), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+  }
+</script>
+<a href="#linkedinshare" id = "linkedinshare" class="p-2" title="Share on LinkedIn" rel="nofollow" onclick="shareViaLinkedin()">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+
+<a href="javascript:window.print()" title="Print this article" class="p-2" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fa fa-print fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Print</small></div>
+</a>
+
+    </div>
+  </div>
+  
+  
+</div>
+<div class="sidebar d-print-none d-xl-block internal">
+  
+  <h2>Chip Zoller</h2>
+  <div>
+    Technologist, perpetual student, teacher, continual incremental improvement.
+  </div>
+  <a href="/about/" class="btn btn-outline-secondary mt-3" role="button">Read More...</a>
+  <h2 class="mt-4">Featured Posts</h2>
+  
+  
+  <a href="/post/2019-10/authentication-and-authorization-in-k8s/" class="nav-link">Authentication and Authorization in Kubernetes</a>
+  
+  <a href="/post/2018-12/how-to-ask-for-help-on-tech-forums/" class="nav-link">How to Ask for Help on Tech Forums</a>
+  
+  <h2 class="mt-4">Recent Posts</h2>
+  <nav class="nav flex-column">
+    
+    <a href="/post/2020-04/getting-started-with-tkg/" class="nav-link">Getting Started with Tanzu Kubernetes Grid</a>
+    
+    <a href="/post/2020-04/capv-overview/" class="nav-link">Behind the Scenes with Cluster API Provider vSphere</a>
+    
+    <a href="/post/2020-01/buy-dont-build/" class="nav-link">Buy Don&#39;t Build</a>
+    
+    <a href="/post/2020-01/why-k8s-on-vms/" class="nav-link">Why Kubernetes on Virtual Machines?</a>
+    
+    <a href="/post/2020-01/2020-public-domain-day/" class="nav-link">2020 Public Domain Day</a>
+    
+    <a href="/post/2019-10/authentication-and-authorization-in-k8s/" class="nav-link">Authentication and Authorization in Kubernetes</a>
+    
+    <a href="/post/2019-10/pks-rancher-reg/" class="nav-link">pks-rancher-reg: Automated PKS Cluster Registration For Rancher</a>
+    
+    <a href="/post/2019-09/rancher-ha-on-pks/" class="nav-link">Rancher HA on Enterprise PKS</a>
+    
+  </nav>
+  
+  <h2 class="mt-4 text-capitalize" id="categories-section">categories</h2>
+  <nav class="nav">
+    
+    <a href='/categories/technology/' class="nav-link">
+      technology
+      <span class="badge badge-pill badge-secondary">53</span>
+    </a>
+    
+    <a href='/categories/music/' class="nav-link">
+      music
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+  </nav>
+  
+  <h2 class="mt-4 text-capitalize" id="tags-section">tags</h2>
+  <nav class="nav">
+    
+    <a href='/tags/vrealize/' class="nav-link">
+      vrealize
+      <span class="badge badge-pill badge-secondary">27</span>
+    </a>
+    
+    <a href='/tags/vra/' class="nav-link">
+      vra
+      <span class="badge badge-pill badge-secondary">22</span>
+    </a>
+    
+    <a href='/tags/vsphere/' class="nav-link">
+      vsphere
+      <span class="badge badge-pill badge-secondary">14</span>
+    </a>
+    
+    <a href='/tags/k8s/' class="nav-link">
+      k8s
+      <span class="badge badge-pill badge-secondary">9</span>
+    </a>
+    
+    <a href='/tags/sovlabs/' class="nav-link">
+      sovlabs
+      <span class="badge badge-pill badge-secondary">8</span>
+    </a>
+    
+    <a href='/tags/veeam/' class="nav-link">
+      veeam
+      <span class="badge badge-pill badge-secondary">7</span>
+    </a>
+    
+    <a href='/tags/powershell/' class="nav-link">
+      powershell
+      <span class="badge badge-pill badge-secondary">6</span>
+    </a>
+    
+    <a href='/tags/log-insight/' class="nav-link">
+      log-insight
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/pks/' class="nav-link">
+      pks
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/vrops/' class="nav-link">
+      vrops
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/vro/' class="nav-link">
+      vro
+      <span class="badge badge-pill badge-secondary">4</span>
+    </a>
+    
+    <a href='/tags/docker/' class="nav-link">
+      docker
+      <span class="badge badge-pill badge-secondary">3</span>
+    </a>
+    
+    <a href='/tags/vmworld/' class="nav-link">
+      vmworld
+      <span class="badge badge-pill badge-secondary">3</span>
+    </a>
+    
+    <a href='/tags/featured/' class="nav-link">
+      featured
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/nsx-t/' class="nav-link">
+      nsx-t
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/powercli/' class="nav-link">
+      powercli
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/rancher/' class="nav-link">
+      rancher
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/thoughts/' class="nav-link">
+      thoughts
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/ansible/' class="nav-link">
+      ansible
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/authentication/' class="nav-link">
+      authentication
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/forums/' class="nav-link">
+      forums
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/homelab/' class="nav-link">
+      homelab
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/networking/' class="nav-link">
+      networking
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/security/' class="nav-link">
+      security
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/vmtn/' class="nav-link">
+      vmtn
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+  </nav>
+  
+</div>
+
+
+  </div>
+  
+  <footer class="mt-auto footer d-print-none">
+    <a class="to-top" href="#" title="Back to top">
+      <i class="fa fa-caret-up"></i>
+    </a>
+    <div class="container-fluid">
+      <div class="row justify-content-center">
+        <div class="col-md-4 col-xl-3">
+          <h5>Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved.</h5>
+I&#39;m happy for you to share content on this site, but please provide attribution.
+        </div>
+        <div class="col-md-4 col-xl-3">
+          <h5>Disclaimer</h5>
+Opinions expressed here are my own and may not reflect those of the company I work for, or the people I work with.
+        </div>
+        <div class="col-md-4 col-xl-3">
+          <h5>About This Site</h5>
+This blog was created using the <a href="https://gohugo.io/">Hugo</a> static site generator, using
+<a href="https://getbootstrap.com/">Bootstrap</a>, using the Silhouette Hugo theme, created by
+<a href='https://www.mattbutton.com'>Matt Button</a>
+        </div>
+      </div>
+      
+      <hr />
+      
+      <div class="d-flex justify-content-center icons">
+        <a class="py-2 px-2" href="https://github.com/chipzoller"><i class="fab fa-github"></i></a>
+<a class="py-2 px-2" href="https://twitter.com/chipzoller"><i class="fab fa-twitter"></i></a>
+<a class="py-2 px-2" href="https://www.linkedin.com/in/chipzoller/"><i class="fab fa-linkedin"></i></a>
+<a class="py-2 px-2" href='https://neonmirrors.net/index.xml'><i class="fas fa-rss"></i></a>
+
+      </div>
+    </div>
+  </footer>
+  
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script src="/js/syntax.js"></script>
+  <script src = '/js/index.js'></script>
+  
+  
+</body>
+</html>

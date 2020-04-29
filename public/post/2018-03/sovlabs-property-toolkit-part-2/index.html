@@ -1,0 +1,576 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  <meta property="og:title" content="SovLabs Property Toolkit Part 2: Dynamic Custom Property Assignment" />
+<meta property="og:description" content="Dynamically assigning custom property values with SovLabs Property Toolkit." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://neonmirrors.net/post/2018-03/sovlabs-property-toolkit-part-2/" />
+<meta property="article:published_time" content="2018-03-21T00:00:00+00:00" />
+<meta property="article:modified_time" content="2018-03-21T00:00:00+00:00" />
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="SovLabs Property Toolkit Part 2: Dynamic Custom Property Assignment"/>
+<meta name="twitter:description" content="Dynamically assigning custom property values with SovLabs Property Toolkit."/>
+<meta name="twitter:site" content="@chipzoller"/>
+
+  
+  <title>
+SovLabs Property Toolkit Part 2: Dynamic Custom Property Assignment | Neon Mirrors
+</title>
+  
+  <link rel="icon" type="image/png" href='https://neonmirrors.net/images/favicon-16x16.png' sizes="16x16">
+  <link rel="icon" type="image/png" href='https://neonmirrors.net/images/favicon-32x32.png' sizes="32x32">  
+  
+  <link href="https://fonts.googleapis.com/css?family=Oswald:400" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">      
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel = 'stylesheet' href = 'https://neonmirrors.net/css/main.703162b863e7e1a93ee98f24b75e329848a814522f2d9f5735d41fbc7f023b3772f177c6ef8dbafccee65cfa8c1b8bb57e73d49284b5a0fdbbe772b8b29b07cb.css' integrity = 'sha512-cDFiuGPn4ak&#43;6Y8kt14ymEioFFIvLZ9XNdQfvH8COzdy8XfG7426/M7mXPqMG4u1fnPUkoS1oP2753K4spsHyw=='>
+  
+  
+<link rel="me" type="text/html" href="https://twitter.com/chipzoller"/> 
+<link rel="me" type="text/html" href="https://www.linkedin.com/in/chipzoller/"/> 
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+
+<link rel="alternate" type="application/rss+xml" href='https://neonmirrors.net/index.xml' />
+
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<meta name="author" content="Chip Zoller" />
+<meta name="copyright" content="Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved." />
+
+
+<meta name="description" content="Dynamically assigning custom property values with SovLabs Property Toolkit.">
+
+
+
+
+<style type="text/css">
+  .feature-image {
+    background-image: url("https://neonmirrors.net/images/2018-03/sovlabs-property-toolkit-part-2/featured.jpg");
+    height: 500px;
+  }
+  
+  @media (max-width: 992px) {
+    .feature-image {
+      height: 350px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .feature-image {
+      height: 250px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .feature-image {
+      height: 200px;
+    }
+  }
+</style>
+
+        
+</head>
+<body >
+  <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark py-1 top-nav">
+    <div class="container">
+      <span class="internal">
+  <a class="navbar-brand pr-2" href="/">NEON MIRRORS</a>
+</span>
+
+      <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="navbar-collapse collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/categories/technology/">Technology</a>
+  
+</li>
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/categories/music/">Music</a>
+  
+</li>
+<li class="nav-item internal">
+  
+  <div class="nav-link nav-hassubmenu">Links
+    <div class="nav-submenu" >
+    
+      <a class="nav-link" href="https://chipzoller.gitbook.io/vspheremigration/">Ultimate vSphere VM Migration Guide</a>
+    
+    </div>
+    </div>
+  
+</li>
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/about/">About</a>
+  
+</li>
+
+        </ul>
+        <div class="social-icons d-none d-lg-block">
+          <a class="py-2 px-2" href="https://github.com/chipzoller"><i class="fab fa-github"></i></a>
+<a class="py-2 px-2" href="https://twitter.com/chipzoller"><i class="fab fa-twitter"></i></a>
+<a class="py-2 px-2" href="https://www.linkedin.com/in/chipzoller/"><i class="fab fa-linkedin"></i></a>
+<a class="py-2 px-2" href='https://neonmirrors.net/index.xml'><i class="fas fa-rss"></i></a>
+
+        </div>
+      </div>
+    </div>
+  </nav>
+  
+  
+<header class="feature-image d-print-none">
+</header>
+
+  
+  <div class="main">
+    
+<div class="container mt-4 post">
+  <h1>SovLabs Property Toolkit Part 2: Dynamic Custom Property Assignment</h1>
+  <div class="mb-3 internal">
+  <small>
+    <strong>By Chip Zoller</strong>
+    | <i class="far fa-calendar-alt"></i>&nbsp;Mar 21, 2018&nbsp;
+    | <i class="fa fa-tags" title="Tags" aria-hidden="true"></i> <a href='/tags/vra/'>vra</a>, <a href='/tags/vrealize/'>vrealize</a>, <a href='/tags/sovlabs/'>sovlabs</a><span class="d-lg-none">, <a href='#tags-section'>all tags</a></span>
+  </small>
+</div>
+
+  <div class="share-icons d-flex d-print-none">
+    <a href="https://twitter.com/intent/tweet?text=SovLabs%20Property%20Toolkit%20Part%202%3a%20Dynamic%20Custom%20Property%20Assignment&url=https%3a%2f%2fneonmirrors.net%2fpost%2f2018-03%2fsovlabs-property-toolkit-part-2%2f&tw_p=tweetbutton" class="p-2" title="Share on Twitter" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Tweet</small></div>
+</a>
+
+<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fneonmirrors.net%2fpost%2f2018-03%2fsovlabs-property-toolkit-part-2%2f&t=SovLabs%20Property%20Toolkit%20Part%202%3a%20Dynamic%20Custom%20Property%20Assignment" class="p-2" title="Share on Facebook" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+<script>
+  function shareViaLinkedin() {
+    window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent("https://neonmirrors.net/post/2018-03/sovlabs-property-toolkit-part-2/"), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+  }
+</script>
+<a href="#linkedinshare" id = "linkedinshare" class="p-2" title="Share on LinkedIn" rel="nofollow" onclick="shareViaLinkedin()">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+
+<a href="javascript:window.print()" title="Print this article" class="p-2" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fa fa-print fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Print</small></div>
+</a>
+
+  </div>
+  
+  <div class="mt-4 mb-4 main-content">
+    <p>Welcome back to another installment of the exploration of the SovLabs modules! A while back, I went through and introduced the Property Toolkit module via a use case of dynamically building custom properties based on the presence of other custom properties. I illustrated this in the form of <a href="/post/2017-09/vra-and-the-problem-of-the-vcenter-folder/">placement in vCenter folders</a>. In this article, however, I want to dive into another feature of this amazingly powerful module: dynamic property sets. With dynamic property sets, you are able to set the value of one or more custom properties based off of the value of a reference custom property. In so doing, you can greatly simplify your request forms by having multiple values defined in the background based on just a single one that is manually chosen. Read on to see how this is accomplished.</p>
+<p>Custom properties (CPs henceforth) are the lifeblood of vRA, as many of those reading this know. They are a rich system of metadata which can influence not only the decisions made by vRA proper but also extensibility through vRO. CPs are life, effectively, and one of the biggest challenges is managing those CPs and having their values set simply and without too much complexity. A common problem arises in the face of this which amounts to CP sprawl in a request form. When CPs are used for most major decisions, the user in the request form may be bombarded with a whole array of them which can slow down provisioning time, increase adoptability, and lead to user error (by virtue of incorrect selection in the form). Property Toolkit can help eliminate almost all of these through transparent, background, silent assignment of other properties.</p>
+<p>Consider this scenario: Your vRA catalog requires users to select a number of values which steer the deployment in a variety of ways. For example, you ask the user to select the following: Application, Environment, Storage, and Network. But you require them to select the correct value based on an earlier selection, like where the application is “Oracle” they need to provision this to “Production” only as other environments are not licensed appropriately. And also, given the environment, there is a specific network associated with only that environment and so they have to pick the correct one. Now, this can be done with vRO actions, but wouldn’t it be nice if you could only ask them to choose <em>one</em> thing in the form and all other decisions were made automatically? Further, wouldn’t it be awesome if all that logic <em>didn’t</em> require you to design new workflows or actions in vRO or crunch new JavaScript? Well, if this is something you’re looking to do (or any variant thereof), then Property Toolkit is your savior because that’s exactly what it’s designed to do (plus more). Let’s see how to do this in a real life example.</p>
+<p>We need to set several CPs to steer a deployment to the correct place. These are as follows:</p>
+<ol>
+<li>Environment. This sets the target cluster where the machine(s) will be built.</li>
+<li>Reservation Policy. Selects the right reservation policy (which can open up things like endpoint and datacenter).</li>
+<li>Network Profile. Sets the correct network on which the machine(s) will be attached.</li>
+<li>Name. Provides part of the name in our custom naming standard.</li>
+<li>Storage Reservation Policy. Sets the storage which will be consumed.</li>
+</ol>
+<p>Now, we could list each of these individually in a request form and have the user select each and every one (after making sure to tell them how to complete the form). But even easier, let’s define only a single CP and have each of these 5 CPs get their value based on it. I’m going to create a CP called <code>My.RequestForm.Prop</code> and provide three possible values: <code>A</code>, <code>B</code>, and <code>C</code>.</p>
+<p><img src="/images/2018-03/sovlabs-property-toolkit-part-2/image1.png" alt="My.RequestForm.Prop with list of static values"></p>
+<p>I’ll show this as a dropdown in the form. These values can be whatever you like, but I’m just using simple letters in this case for illustration. For example, instead of <code>A</code>, <code>B</code>, and <code>C</code> these could be application names like <code>Oracle</code>, <code>JBoss</code>, and <code>Apache</code>.</p>
+<p>Next, I want to set the first of the dynamic properties, Environment, based on the value of <code>My.RequestForm.Prop</code>. The Environment CP will be called <code>CZ.MyProp.Environment</code> and the choices I have are <code>Prod</code>, <code>Dev</code>, and <code>QA</code>. I’ll map them one-for-one to the values you see above in <code>My.RequestForm.Prop</code>. In other words, if a user selects <code>A</code> from the list, then the value of <code>CZ.MyProp.Environment</code> will be dynamically set to <code>Prod</code>. If the user chooses <code>B</code> then it’ll be <code>Dev</code> and so on. In order to do this, all we need to do is create a new property on the deployment and call it <code>SovLabs_CreateProperties_&lt;anything&gt;</code>. The <code>&lt;anything&gt;</code> portion can truly be whatever you want—it’s only a label for your organizational purposes. So long as the property begins with <code>SovLabs_CreateProperties_</code> then it’ll invoke the Property Toolkit module. The value of this property can be a variety of things as explained in the <a href="http://docs.sovlabs.com/vRA7x/2018.1.x/modules/property-toolkit/setup/">documentation</a>, but in this case let’s use an array of single objects. The value of this property becomes the value of another property. For example, if I wanted to define a new property in the simplest way, I could set the value to this:</p>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">[{</span>
+  <span class="nt">&#34;name&#34;</span> <span class="p">:</span> <span class="s2">&#34;CZ.Cities&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;value&#34;</span> <span class="p">:</span> <span class="s2">&#34;Texas&#34;</span>
+<span class="p">}]</span>
+</code></pre></div><p>When the module ran, I would then get a new CP defined on the deployment with name of <code>CZ.Cities</code> and a value of <code>Texas</code>. But, because everything SovLabs does is templated, we have a <a href="http://docs.sovlabs.com/vRA7x/2018.1.x/framework/sovlabs-template-engine/tags/">whole host of operators</a> at our disposal thanks to the templating engine. The one which we want to use here is the <a href="http://docs.sovlabs.com/vRA7x/2018.1.x/framework/sovlabs-template-engine/tags/#case_when">case/when</a> operator. This will allow us to switch to a different value based on another value. So getting back to the new CP we want to set, the value of that property would get defined as such:</p>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">[{</span>
+  <span class="nt">&#34;name&#34;</span> <span class="p">:</span> <span class="s2">&#34;CZ.MyProp.Environment&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;value&#34;</span> <span class="p">:</span> <span class="s2">&#34;{% case My.RequestForm.Prop %}{% when &#39;A&#39; %}Prod{% when &#39;B&#39; %}Dev{% when &#39;C&#39; %}QA{% else %}UNKNOWN{% endcase %}&#34;</span>
+<span class="p">}]</span>
+</code></pre></div><p>It’s fairly straightforward. If the value set in <code>My.RequestForm.Prop</code> equals <code>A</code> then assign the value of <code>Prod</code> to <code>CZ.MyProp.Environment</code>. If that value is <code>B</code> then let it equal <code>Dev</code> and so on.</p>
+<p>Now we have that one, let’s define the others with the same basic statement. To simplify this, you can put them all in a single property group and attach that property group to your blueprint. To save time, I’ve drawn up the following table which shows the combinations.</p>
+<table>
+<thead>
+<tr>
+<th>CP Name</th>
+<th>CP Value</th>
+<th>CP Value</th>
+<th>CP Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>My.RequestForm.Prop</code></td>
+<td><code>A</code></td>
+<td><code>B</code></td>
+<td><code>C</code></td>
+</tr>
+<tr>
+<td><code>CZ.MyProp.Environment</code></td>
+<td><code>Prod</code></td>
+<td><code>Dev</code></td>
+<td><code>QA</code></td>
+</tr>
+<tr>
+<td><code>CZ.MyProp.ResPol</code></td>
+<td><code>ReservationA</code></td>
+<td><code>ReservationB</code></td>
+<td><code>ReservationC</code></td>
+</tr>
+<tr>
+<td><code>CZ.MyProp.NetProfile</code></td>
+<td><code>NetworkA</code></td>
+<td><code>NetworkB</code></td>
+<td><code>NetworkC</code></td>
+</tr>
+<tr>
+<td><code>SovLabs.Naming.App</code></td>
+<td><code>TST</code></td>
+<td><code>ORA</code></td>
+<td><code>APA</code></td>
+</tr>
+<tr>
+<td><code>VirtualMachine.Disk0.StorageReservationPolicy</code></td>
+<td><code>Diskstation</code></td>
+<td><code>vSAN</code></td>
+<td><code>Diskstation</code></td>
+</tr>
+</tbody>
+</table>
+<p><br>
+Effectively, then, the value of a single property (<code>My.RequestForm.Prop</code>) will influence the outcome of five other properties dynamically. Graphically, it can be represented as the following.</p>
+<p><img src="/images/2018-03/sovlabs-property-toolkit-part-2/image2.png" alt="My.RequestForm.Prop impact"></p>
+<p>If the value of <code>My.RequestForm.Prop</code> equals <code>A</code> then all the following values are set below it. If <code>B</code>, then all those in that column apply, etc. In this demo, I built a single property group and stashed all these properties there, although they could be in just a single dynamic property definition if you wish.</p>
+<p><img src="/images/2018-03/sovlabs-property-toolkit-part-2/image3.png" alt="Property group"></p>
+<p>The exception is the CP <code>VirtualMachine.Disk0.StorageReservationPolicy</code> as this must be set on the machine element in the canvas and not the blueprint level.</p>
+<p>If we flip over to the request form, we can see how simple this can be when presented to the end user.</p>
+<p><img src="/images/2018-03/sovlabs-property-toolkit-part-2/image4.png" alt="vRA catalog item request form with drop-down"></p>
+<p>Let’s select A then deploy to see what happens.</p>
+<p><img src="/images/2018-03/sovlabs-property-toolkit-part-2/image5.png" alt="Deployment produced LEXVTST21"></p>
+<p><img src="/images/2018-03/sovlabs-property-toolkit-part-2/image6.png" alt="Custom properties on LEXVTST21"></p>
+<p>Based on the value <code>A</code> the Property Toolkit then set the 5 CPs we were after, including <code>SovLabs.Naming.App</code> which I am then consuming in another SovLabs module for Custom Naming (which produced the “TST” portion of the hostname you see). It got the correct Environment, it got the correct Reservation Policy, Network Profile, and it also went to the correct storage because this property, while on the machine element, still was able to be set from the initial value of <code>A</code>.</p>
+<p><img src="/images/2018-03/sovlabs-property-toolkit-part-2/image7.png" alt="Deployed machine received intended storage reservation policy"></p>
+<p>Although I’ve obviously created a few of these properties myself to illustrate what you can do, you can use this module to set any CP, even reserved system properties such as the one that controls the storage reservation policy. Can you not see how incredibly flexible this can make your deployments? We can ask the user to make but a single decision, and based on that outcome we can then dynamically set any number of other CPs. That’s amazing if you ask me and something that, prior to the Property Toolkit, required a whole heap of complex JavaScript and vRO plumbing to get done.</p>
+<p>So, this is cool, but let’s take it one step further. Let’s let <code>My.RequestForm.Prop</code> influence another CP, and then let’s let <em>that</em> value influence <strong>another</strong> CP. In this manner, we can create cascading dynamic property assignment. Here’s what I mean.</p>
+<p>Let’s still ask the user to pick a value of <code>My.RequestForm.Prop</code>. The value they choose will still influence the Environment CP (<code>CZ.MyProp.Environment</code> if you recall). But, rather than basing the Reservation Policy CP on <code>My.RequestForm.Prop</code>, what if we could determine that from the Environment CP? Graphically, it’d be represented like this:</p>
+<p><img src="/images/2018-03/sovlabs-property-toolkit-part-2/image8.png" alt="Cascading dependency on My.RequestForm.Prop"></p>
+<p>And to put that in context with the other properties, the altered flow chart would result as the following.</p>
+<p><img src="/images/2018-03/sovlabs-property-toolkit-part-2/image9.png" alt="Full custom property graph"></p>
+<p>In order to distinguish, I’ll change the possible values of <code>CZ.MyProp.ResPol</code> from the table previously to be the following: <code>ReservationPrd</code>, <code>ReservationDev</code>, and <code>ReservationQA</code>. Now, let’s change the definition of <code>CZ.MyProp.ResPol</code> to key off of <code>CZ.MyProp.Environment</code> and not <code>My.RequestForm.Prop</code>.</p>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">[{</span>
+  <span class="nt">&#34;name&#34;</span> <span class="p">:</span> <span class="s2">&#34;CZ.MyProp.ResPol&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;value&#34;</span> <span class="p">:</span> <span class="s2">&#34;{% case CZ.MyProp.Environment %}{% when &#39;Prod&#39; %}ReservationPrd{% when &#39;Dev&#39; %}ReservationDev{% when &#39;QA&#39; %}ReservationQA{% else %}UNKNOWN{% endcase %}&#34;</span>
+<span class="p">}]</span>
+</code></pre></div><p>Let’s make the same request and see what happens this time.</p>
+<p><img src="/images/2018-03/sovlabs-property-toolkit-part-2/image10.png" alt="New values for custom properties"></p>
+<p>Amazing! All we’ve changed is the definition for <code>CZ.MyProp.ResPol</code> in this case and nothing else. Can you imagine the possibilities this opens up? The freedom, flexibility, and power the Property Toolkit enables your vRA to have is limited only by your imagination.</p>
+<p>To recap, then, in part one of the Property Toolkit series, we showed how it can synthesize new CPs based on the value of others. This was illustrated with the vCenter Folder use case. In part two here, we are creating dynamic property sets in which the value of multiple different CPs get their values from other CPs. We did this in two ways. The first was to assign five separate properties based on the value of one reference CP. The second was to cascade this logic by letting one equal another which equals yet another. In both cases, we achieved a dynamic assignment of various CPs even in different places by exposing just a single decision in the request form.</p>
+<p>I really hope you’ve found this article to be helpful and that it has stirred your imagination with all the various ways you can use Property Toolkit to make your life simpler and your vRA much more powerful all while reducing complexity. It really is game-changing integration that opens so many doors all while eliminating the need to write, test, and maintain custom code. If you have any thoughts or comments about this article, please feel free to reach me on Twitter (@chipzoller).</p>
+
+    
+    <div class="share-icons d-flex d-print-none">
+      <a href="https://twitter.com/intent/tweet?text=SovLabs%20Property%20Toolkit%20Part%202%3a%20Dynamic%20Custom%20Property%20Assignment&url=https%3a%2f%2fneonmirrors.net%2fpost%2f2018-03%2fsovlabs-property-toolkit-part-2%2f&tw_p=tweetbutton" class="p-2" title="Share on Twitter" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Tweet</small></div>
+</a>
+
+<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fneonmirrors.net%2fpost%2f2018-03%2fsovlabs-property-toolkit-part-2%2f&t=SovLabs%20Property%20Toolkit%20Part%202%3a%20Dynamic%20Custom%20Property%20Assignment" class="p-2" title="Share on Facebook" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+<script>
+  function shareViaLinkedin() {
+    window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent("https://neonmirrors.net/post/2018-03/sovlabs-property-toolkit-part-2/"), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+  }
+</script>
+<a href="#linkedinshare" id = "linkedinshare" class="p-2" title="Share on LinkedIn" rel="nofollow" onclick="shareViaLinkedin()">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+
+<a href="javascript:window.print()" title="Print this article" class="p-2" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fa fa-print fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Print</small></div>
+</a>
+
+    </div>
+  </div>
+  
+  
+</div>
+<div class="sidebar d-print-none d-xl-block internal">
+  
+  <h2>Chip Zoller</h2>
+  <div>
+    Technologist, perpetual student, teacher, continual incremental improvement.
+  </div>
+  <a href="/about/" class="btn btn-outline-secondary mt-3" role="button">Read More...</a>
+  <h2 class="mt-4">Featured Posts</h2>
+  
+  
+  <a href="/post/2019-10/authentication-and-authorization-in-k8s/" class="nav-link">Authentication and Authorization in Kubernetes</a>
+  
+  <a href="/post/2018-12/how-to-ask-for-help-on-tech-forums/" class="nav-link">How to Ask for Help on Tech Forums</a>
+  
+  <h2 class="mt-4">Recent Posts</h2>
+  <nav class="nav flex-column">
+    
+    <a href="/post/2020-04/getting-started-with-tkg/" class="nav-link">Getting Started with Tanzu Kubernetes Grid</a>
+    
+    <a href="/post/2020-04/capv-overview/" class="nav-link">Behind the Scenes with Cluster API Provider vSphere</a>
+    
+    <a href="/post/2020-01/buy-dont-build/" class="nav-link">Buy Don&#39;t Build</a>
+    
+    <a href="/post/2020-01/why-k8s-on-vms/" class="nav-link">Why Kubernetes on Virtual Machines?</a>
+    
+    <a href="/post/2020-01/2020-public-domain-day/" class="nav-link">2020 Public Domain Day</a>
+    
+    <a href="/post/2019-10/authentication-and-authorization-in-k8s/" class="nav-link">Authentication and Authorization in Kubernetes</a>
+    
+    <a href="/post/2019-10/pks-rancher-reg/" class="nav-link">pks-rancher-reg: Automated PKS Cluster Registration For Rancher</a>
+    
+    <a href="/post/2019-09/rancher-ha-on-pks/" class="nav-link">Rancher HA on Enterprise PKS</a>
+    
+  </nav>
+  
+  <h2 class="mt-4 text-capitalize" id="categories-section">categories</h2>
+  <nav class="nav">
+    
+    <a href='/categories/technology/' class="nav-link">
+      technology
+      <span class="badge badge-pill badge-secondary">53</span>
+    </a>
+    
+    <a href='/categories/music/' class="nav-link">
+      music
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+  </nav>
+  
+  <h2 class="mt-4 text-capitalize" id="tags-section">tags</h2>
+  <nav class="nav">
+    
+    <a href='/tags/vrealize/' class="nav-link">
+      vrealize
+      <span class="badge badge-pill badge-secondary">27</span>
+    </a>
+    
+    <a href='/tags/vra/' class="nav-link">
+      vra
+      <span class="badge badge-pill badge-secondary">22</span>
+    </a>
+    
+    <a href='/tags/vsphere/' class="nav-link">
+      vsphere
+      <span class="badge badge-pill badge-secondary">14</span>
+    </a>
+    
+    <a href='/tags/k8s/' class="nav-link">
+      k8s
+      <span class="badge badge-pill badge-secondary">9</span>
+    </a>
+    
+    <a href='/tags/sovlabs/' class="nav-link">
+      sovlabs
+      <span class="badge badge-pill badge-secondary">8</span>
+    </a>
+    
+    <a href='/tags/veeam/' class="nav-link">
+      veeam
+      <span class="badge badge-pill badge-secondary">7</span>
+    </a>
+    
+    <a href='/tags/powershell/' class="nav-link">
+      powershell
+      <span class="badge badge-pill badge-secondary">6</span>
+    </a>
+    
+    <a href='/tags/log-insight/' class="nav-link">
+      log-insight
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/pks/' class="nav-link">
+      pks
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/vrops/' class="nav-link">
+      vrops
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/vro/' class="nav-link">
+      vro
+      <span class="badge badge-pill badge-secondary">4</span>
+    </a>
+    
+    <a href='/tags/docker/' class="nav-link">
+      docker
+      <span class="badge badge-pill badge-secondary">3</span>
+    </a>
+    
+    <a href='/tags/vmworld/' class="nav-link">
+      vmworld
+      <span class="badge badge-pill badge-secondary">3</span>
+    </a>
+    
+    <a href='/tags/featured/' class="nav-link">
+      featured
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/nsx-t/' class="nav-link">
+      nsx-t
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/powercli/' class="nav-link">
+      powercli
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/rancher/' class="nav-link">
+      rancher
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/thoughts/' class="nav-link">
+      thoughts
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/ansible/' class="nav-link">
+      ansible
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/authentication/' class="nav-link">
+      authentication
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/forums/' class="nav-link">
+      forums
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/homelab/' class="nav-link">
+      homelab
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/networking/' class="nav-link">
+      networking
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/security/' class="nav-link">
+      security
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/vmtn/' class="nav-link">
+      vmtn
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+  </nav>
+  
+</div>
+
+
+  </div>
+  
+  <footer class="mt-auto footer d-print-none">
+    <a class="to-top" href="#" title="Back to top">
+      <i class="fa fa-caret-up"></i>
+    </a>
+    <div class="container-fluid">
+      <div class="row justify-content-center">
+        <div class="col-md-4 col-xl-3">
+          <h5>Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved.</h5>
+I&#39;m happy for you to share content on this site, but please provide attribution.
+        </div>
+        <div class="col-md-4 col-xl-3">
+          <h5>Disclaimer</h5>
+Opinions expressed here are my own and may not reflect those of the company I work for, or the people I work with.
+        </div>
+        <div class="col-md-4 col-xl-3">
+          <h5>About This Site</h5>
+This blog was created using the <a href="https://gohugo.io/">Hugo</a> static site generator, using
+<a href="https://getbootstrap.com/">Bootstrap</a>, using the Silhouette Hugo theme, created by
+<a href='https://www.mattbutton.com'>Matt Button</a>
+        </div>
+      </div>
+      
+      <hr />
+      
+      <div class="d-flex justify-content-center icons">
+        <a class="py-2 px-2" href="https://github.com/chipzoller"><i class="fab fa-github"></i></a>
+<a class="py-2 px-2" href="https://twitter.com/chipzoller"><i class="fab fa-twitter"></i></a>
+<a class="py-2 px-2" href="https://www.linkedin.com/in/chipzoller/"><i class="fab fa-linkedin"></i></a>
+<a class="py-2 px-2" href='https://neonmirrors.net/index.xml'><i class="fas fa-rss"></i></a>
+
+      </div>
+    </div>
+  </footer>
+  
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script src="/js/syntax.js"></script>
+  <script src = '/js/index.js'></script>
+  
+  
+</body>
+</html>

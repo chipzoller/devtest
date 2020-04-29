@@ -1,0 +1,681 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  <meta property="og:title" content="Using the vRealize Certificate Generation Tool" />
+<meta property="og:description" content="Generating certificates for vRealize Automation with the vRealize Certificate Generation Tool." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://neonmirrors.net/post/2015-11/using-vrealize-cert-generation-tool/" />
+<meta property="article:published_time" content="2015-11-18T00:00:00+00:00" />
+<meta property="article:modified_time" content="2015-11-18T00:00:00+00:00" />
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Using the vRealize Certificate Generation Tool"/>
+<meta name="twitter:description" content="Generating certificates for vRealize Automation with the vRealize Certificate Generation Tool."/>
+<meta name="twitter:site" content="@chipzoller"/>
+
+  
+  <title>
+Using the vRealize Certificate Generation Tool | Neon Mirrors
+</title>
+  
+  <link rel="icon" type="image/png" href='https://neonmirrors.net/images/favicon-16x16.png' sizes="16x16">
+  <link rel="icon" type="image/png" href='https://neonmirrors.net/images/favicon-32x32.png' sizes="32x32">  
+  
+  <link href="https://fonts.googleapis.com/css?family=Oswald:400" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">      
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel = 'stylesheet' href = 'https://neonmirrors.net/css/main.703162b863e7e1a93ee98f24b75e329848a814522f2d9f5735d41fbc7f023b3772f177c6ef8dbafccee65cfa8c1b8bb57e73d49284b5a0fdbbe772b8b29b07cb.css' integrity = 'sha512-cDFiuGPn4ak&#43;6Y8kt14ymEioFFIvLZ9XNdQfvH8COzdy8XfG7426/M7mXPqMG4u1fnPUkoS1oP2753K4spsHyw=='>
+  
+  
+<link rel="me" type="text/html" href="https://twitter.com/chipzoller"/> 
+<link rel="me" type="text/html" href="https://www.linkedin.com/in/chipzoller/"/> 
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+
+<link rel="alternate" type="application/rss+xml" href='https://neonmirrors.net/index.xml' />
+
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<meta name="author" content="Chip Zoller" />
+<meta name="copyright" content="Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved." />
+
+
+<meta name="description" content="Generating certificates for vRealize Automation with the vRealize Certificate Generation Tool.">
+
+
+
+
+<style type="text/css">
+  .feature-image {
+    background-image: url("https://neonmirrors.net/images/2015-11/using-vrealize-cert-generation-tool/featured.jpg");
+    height: 500px;
+  }
+  
+  @media (max-width: 992px) {
+    .feature-image {
+      height: 350px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .feature-image {
+      height: 250px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .feature-image {
+      height: 200px;
+    }
+  }
+</style>
+
+        
+</head>
+<body >
+  <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark py-1 top-nav">
+    <div class="container">
+      <span class="internal">
+  <a class="navbar-brand pr-2" href="/">NEON MIRRORS</a>
+</span>
+
+      <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="navbar-collapse collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/categories/technology/">Technology</a>
+  
+</li>
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/categories/music/">Music</a>
+  
+</li>
+<li class="nav-item internal">
+  
+  <div class="nav-link nav-hassubmenu">Links
+    <div class="nav-submenu" >
+    
+      <a class="nav-link" href="https://chipzoller.gitbook.io/vspheremigration/">Ultimate vSphere VM Migration Guide</a>
+    
+    </div>
+    </div>
+  
+</li>
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/about/">About</a>
+  
+</li>
+
+        </ul>
+        <div class="social-icons d-none d-lg-block">
+          <a class="py-2 px-2" href="https://github.com/chipzoller"><i class="fab fa-github"></i></a>
+<a class="py-2 px-2" href="https://twitter.com/chipzoller"><i class="fab fa-twitter"></i></a>
+<a class="py-2 px-2" href="https://www.linkedin.com/in/chipzoller/"><i class="fab fa-linkedin"></i></a>
+<a class="py-2 px-2" href='https://neonmirrors.net/index.xml'><i class="fas fa-rss"></i></a>
+
+        </div>
+      </div>
+    </div>
+  </nav>
+  
+  
+<header class="feature-image d-print-none">
+</header>
+
+  
+  <div class="main">
+    
+<div class="container mt-4 post">
+  <h1>Using the vRealize Certificate Generation Tool</h1>
+  <div class="mb-3 internal">
+  <small>
+    <strong>By Chip Zoller</strong>
+    | <i class="far fa-calendar-alt"></i>&nbsp;Nov 18, 2015&nbsp;
+    | <i class="fa fa-tags" title="Tags" aria-hidden="true"></i> <a href='/tags/vra/'>vra</a>, <a href='/tags/vrealize/'>vrealize</a><span class="d-lg-none">, <a href='#tags-section'>all tags</a></span>
+  </small>
+</div>
+
+  <div class="share-icons d-flex d-print-none">
+    <a href="https://twitter.com/intent/tweet?text=Using%20the%20vRealize%20Certificate%20Generation%20Tool&url=https%3a%2f%2fneonmirrors.net%2fpost%2f2015-11%2fusing-vrealize-cert-generation-tool%2f&tw_p=tweetbutton" class="p-2" title="Share on Twitter" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Tweet</small></div>
+</a>
+
+<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fneonmirrors.net%2fpost%2f2015-11%2fusing-vrealize-cert-generation-tool%2f&t=Using%20the%20vRealize%20Certificate%20Generation%20Tool" class="p-2" title="Share on Facebook" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+<script>
+  function shareViaLinkedin() {
+    window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent("https://neonmirrors.net/post/2015-11/using-vrealize-cert-generation-tool/"), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+  }
+</script>
+<a href="#linkedinshare" id = "linkedinshare" class="p-2" title="Share on LinkedIn" rel="nofollow" onclick="shareViaLinkedin()">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+
+<a href="javascript:window.print()" title="Print this article" class="p-2" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fa fa-print fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Print</small></div>
+</a>
+
+  </div>
+  
+  <div class="mt-4 mb-4 main-content">
+    <p>Most of us have felt the pain in some way of dealing with certificate management in enterprise environments. I suspect for most people, this is one of the least fun tasks in either the virtualization world or IT in general. Let’s face it, it just isn’t something we look forward to doing. Most products out there have a reasonable if not good way of coping with installing, changing, or renewing of certificates. In the VMware space, recently the vSphere 6 release dramatically simplified this process with the Certificate Manager application built into the Platform Services Controller. It made issuing certificates and most of the headaches surrounding it disappear in a multi-component environment. However, for VMware’s other large suite, vRealize, there has yet to be a good way to centrally handle even the generation of certificates for all the various components. You would have to login into every box, run OpenSSL commands, pre-create various file templates, and export your CSR only to come back to each box later. All of this is now made a little easier and more convenient with VMware’s new vRealize Certificate Generation Tool released in March. There don’t seem to be many people who are aware of its existence or at least who have written about it, and this may be due to the fact that it was published in a <a href="http://kb.vmware.com/kb/2107816">KB article</a> only. In this blog post, I’ll walk you through the steps necessary to use this tool and generate certificates for all the vRealize Automation components, an example of how most enterprises will actually create the certs, and how they can then be installed in the various VMs in the stack leading up to a successful installation of vRealize Automation 6.2.3.</p>
+<p>First, point your browser to the KB article 2107816 and download the attachment listed towards the bottom. When you un-zip it, there will be a shell script called <code>certgen.sh</code> and a PDF with instructions.</p>
+<p>Next, decide whether you want to run this from a Mac (if you use one), or from one of the Linux-based appliances. If the latter, you have your choice of the identity appliance, or the front-end appliance, and I recommend the identity appliance. If you wish to use a Mac and you also want to generate the certificates for the vRA Application Services or vRO appliances, you have to follow an additional step. If this doesn’t interest you and you want to use a Mac and only get the certificates for vRealize Automation, skip the next section.</p>
+<h2 id="installing-jdk-for-mac-os-x">Installing JDK for Mac OS X</h2>
+<p>Because the certificates for vRA App Services and vRO are Java-based and require the command-line tool called <code>keytool</code>, you will need to first download and install the Java SE Development Kit. You can <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">pick that up here for JDK8</a>.</p>
+<p><img src="/images/2015-11/using-vrealize-cert-generation-tool/image1.png" alt="Download the Java SE Development Kit"></p>
+<p>Click the radio button to Accept License Agreement, and download the file <code>jdk-8u65-macosx-x64.dmg</code>.  Install the binaries and verify in a terminal session you can run <code>keytool</code>:</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">Key and Certificate Management Tool
+
+Commands:
+
+ -certreq            Generates a certificate request
+ -changealias        Changes an entry&#39;s alias
+ -delete             Deletes an entry
+ -exportcert         Exports certificate
+ -genkeypair         Generates a key pair
+ -genseckey          Generates a secret key
+ -gencert            Generates certificate from a certificate request
+ -importcert         Imports a certificate or a certificate chain
+ -importpass         Imports a password
+ -importkeystore     Imports one or all entries from another keystore
+ -keypasswd          Changes the key password of an entry
+ -list               Lists entries in a keystore
+ -printcert          Prints the content of a certificate
+ -printcertreq       Prints the content of a certificate request
+ -printcrl           Prints the content of a CRL file
+ -storepasswd        Changes the store password of a keystore
+
+Use &#34;keytool -command_name -help&#34; for usage of command_name
+</code></pre></div><p>This process was performed on Mac OS 10.10 (Yosemite), so if using an earlier or later version, your experience might be slightly different.</p>
+<h2 id="running-the-vrealize-certificate-generation-tool">Running the vRealize Certificate Generation Tool</h2>
+<p>Ok, so you either prepped your Mac for running the tool, decided you weren’t going to bother with certs other than those for vRA proper, or don’t have a Mac and want to run the tool from one of the vRA appliances. If the latter, simply upload <code>certgen.sh</code> to /tmp on the identity appliance since this is generally the first appliance that gets uploaded and configured. Make sure the script has execute permissions for root, and if not run a <code>chmod +x certgen.sh</code> command to ensure you can run it.</p>
+<p>Alright, we have all that done? Good. Let’s continue.</p>
+<p>I’m going to run this from my Mac, but the steps are the same regardless of where you run the script.</p>
+<p>Before you actually run the tool, we need to pre-create a text file called servers.txt in the same directory as the script. Inside this file we will need to create a list of all the components for which a certificate will need to be generated. We will do this using the shortname of the hostname, one per line. Since this is a demo environment, and I’m going to generate a certificate signing request (CSR) for a fully-distributed install, I’m going to put everything inside.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">cat servers.txt
+vrademo
+vrademoid1
+vrademoweb
+vrademoman
+</code></pre></div><p>Make sure that if you are doing a distributed install, you use the load balancer VIP name for the components that require it, such as what I’ve done above. In this case, the identity appliance is a single instance, hence the number at the end. I have VIPs for the front-end, web, and manager servers. Since I’m not interested in Application Services, vRO, or vROps, I haven’t included those hostnames here, but follow the same formula and put their hostnames/VIP names here in order for the CSR to include them.</p>
+<p>When you have created the text file with my hostnames, run the script and begin inputting the information to create the CSR.</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">********************************************************
+*      VMware vRealize - Signed Certificate Tool       *
+*            CSE Reference Architecture Team           *
+********************************************************
+
+
+This script will generate certificate signing requests (CSRs) which can be signed by a Certificate Authority (CA).
+Once the signed certificates are downloaded to the execution directory of this script this script will output certificates in formats accepted by various VMware products.
+
+Enter Organization:
+Zoller
+
+Enter Organizational Unit:
+IT
+
+Enter Locality/Town:
+Norcross
+
+Enter State/County:
+Georgia
+
+Enter Country Code (2 lettered ISO code e.g. GB,US,etc):
+US
+
+Found server list file, containing the following names:
+vrademo
+vrademoid1
+vrademoweb
+vrademoman
+
+
+Do you wish to import the servers from this file? (y/n):
+</code></pre></div><p>You can see it has imported the hostnames as we have entered them. Choose ‘y’ to import those names. It then asks you to insert the domain name which it will append to the shortnames after which it will generate the CSR. <em><strong>Be very certain that you scrutanize the hostnames carefully in the above output.</strong></em> They must be exactly correct before going forward. If there is even one misspelling it could cause you to repeat this process all over again.</p>
+<p>Copy the block of text for the CSR making sure to include everything including the <code>-----BEGIN CERTIFICATE REQUEST-----</code> and <code>-----END CERTIFICATE REQUEST-----</code> pieces.</p>
+<p>You now have the CSR, so we’ll take this over to our root CA and get it signed.</p>
+<p>We have to get two different files from this stage, one of which is the root CA certificate encoded in Base64 format and saved as <code>Root64.cer</code> along with the certificate file itself saved as <code>vrealize.crt</code>. These files should be uploaded back to the working directory of the script before continuing. To get the CA cert, I’ll login to my enterprise root CA administration page and click on “Download a CA certificate, certificate chain, or CRL”. In this example, I’m running Windows Server 2012 R2 with the Certificate Management role, so your environment might be different.</p>
+<p><img src="/images/2015-11/using-vrealize-cert-generation-tool/image2.png" alt="Home page of Windows Server ADCS"></p>
+<p>Click on the Base64 radio button under Encoding method and then click the link to “Download CA certificate”.</p>
+<p><img src="/images/2015-11/using-vrealize-cert-generation-tool/image3.png" alt="Download the root certificate in base64 format"></p>
+<p>Save as <code>Root64.cer</code>.</p>
+<p>Once we have the Root CA certificate, we need to actually generate the certificate for the components now that we have the CSR. Go back to the homepage and click “Request a certificate”.</p>
+<p>We want to submit an “advanced certificate request”.</p>
+<p><img src="/images/2015-11/using-vrealize-cert-generation-tool/image4.png" alt="Create an advanced certificate request"></p>
+<p>Since I have already created a certificate signing template on my certificate server, I’ll select that from the list and enter the full CSR text in the box at the top. Click the Submit button.</p>
+<p><img src="/images/2015-11/using-vrealize-cert-generation-tool/image5.png" alt="Paste in the CSR and choose a template to generate the certificate"></p>
+<p>Now that the cert is generated, click the radio button for Base 64 encoded and click the link to download the certificate remembering to save as <code>vrealize.crt</code>. Do not download the entire chain.</p>
+<p><img src="/images/2015-11/using-vrealize-cert-generation-tool/image6.png" alt="Download the new certificate"></p>
+<p>Now that we have both of these files in the working directory, we can continue the script.</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">Copy the above Certificate Request, or use the vrealize.csr file in /Users/chipzoller/Downloads/vrealizecerttool,
+and use it to request a signed certificate from your CA - the certificate must be Base64 encoded,
+and contain only the certificate, not the full certificate chain. If you are requesting this
+from another party, please also request the CA Root Certificate in Base 64 format
+as it is also required in later steps. Note: you can exit this script now and re-run
+it later if necessary.
+
+Save your signed certificate as vrealize.crt in /Users/chipzoller/Downloads/vrealizecerttool and hit Enter:
+
+Download your Root CA Certificate and save it as Root64.cer in /Users/chipzoller/Downloads/vrealizecerttool and hit Enter. Optionally, you can exit this script here and resume later:
+
+Please create a PFX file password (store this safely as this will be used when importing accross components)
+
+Enter Password:
+</code></pre></div><p>We are then asked to enter a password to encrypt the contents of the PFX file. This is the file that will get installed on your Windows IaaS components. Enter a password and continue. Once you do that, the tool will run for a few seconds and spit out all of your files in the correct format with the correct file extensions. How cool is that?!</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">***** Certificate Generation Complete *****
+Certificates generated for servers:
+vrademo
+vrademoid1
+vrademoweb
+vrademoman
+
+
+Private Key for vRealize Automation (vCAC) and Identity Appliance
+-----------------------------------------------------------------
+File: /Users/chipzoller/Downloads/vrealizecerttool/vrealize.key
+Installation Method:
+Go to https://vcac-server:5480 and paste into the Private Key box on the SSL page
+Notes: Passphrase is the PFX password you entered earlier
+
+PEM without Private Key for vRealize Automation (vCAC) and Identity Appliance
+-----------------------------------------------------------------------------
+File: /Users/chipzoller/Downloads/vrealizecerttool/vrealize.pem
+Installation Method:
+Go to https://vcac-server:5480 and paste into the Certificate Chain box on the SSL page
+Notes: Passphrase is the PFX password you entered earlier
+
+PFX for vRealize Automation IAAS - IIS
+--------------------------------------
+File: /Users/chipzoller/Downloads/vrealizecerttool/vrealize.pfx
+Installation Method:
+Copy file to all IAAS servers
+Double click the vrealize.pfx file
+Click Next until the wizard finishes, accepting default options
+
+JKS for vRealize Automation Application Services
+------------------------------------------------
+Files: /Users/chipzoller/Downloads/vrealizecerttool/appdui.jks, /Users/chipzoller/Downloads/vrealizecerttool/server.xml
+Installation Method:
+Copy appdui.jks to /home/darwin/keystore/ on the appliance
+Copy server.xml to /home/darwin/tcserver/darwin/conf/ on the appliance
+Edit /etc/init.d/vmware-darwin-tcserver and change:
+1. server.external.ws.url=&lt;App Service IP&gt;:8444
+2. external.keystore=/home/darwin/keystore/appdui.jks
+3. external.cert.alias=ssl
+chown darwin /home/darwin/keystore/appdui.jks
+chmod 400 /home/darwin/keystore/appdui.jks
+service vmware-darwin-tcserver restart
+
+JKS for vRealize Orchestrator (vCO)
+-----------------------------------
+File: /Users/chipzoller/Downloads/vrealizecerttool/jssecacerts
+Installation Method:
+Copy jssecacerts to /etc/vco/app-server/security/ on each vCO appliance and run the following commands:
+chmod 600 /etc/vco/app-server/security/jssecacerts
+chown vco:vco /etc/vco/app-server/security/jssecacerts
+vcac-config vco-configure (embedded vCAC version only)
+service vco-configurator restart
+service vco-server restart
+
+PEM with Private Key for vRealize Operations (vC Ops)
+-----------------------------------------------------
+File: /Users/chipzoller/Downloads/vrealizecerttool/vrealize-full.pem
+Installation Method:
+Paste the PEM file contents into the Certificate box when requested by the installation wizard
+</code></pre></div><p>If you ran this on your Mac and you need the certs for Application Services and vRO, double check that the <code>appdui.jks</code> and <code>jssecacerts</code> files were created successfully. If you don’t care, disregard that since you’ll delete them anyhow.</p>
+<p>Great! Now we have all the certs we need. Let’s get into actually using them.</p>
+<p>For the Linux-based appliances in the vRealize Automation stack, we’ll specifically need the <code>vrealize.pem</code> and <code>vrealize.key</code> files. Assuming that this is a new install of vRealize Automation, we’ll begin with the identity appliance.</p>
+<h2 id="installing-certificates-into-identity-appliance">Installing certificates into Identity Appliance</h2>
+<p>Once we’ved logged into the VAMI, we have to configure and initialize SSO before we can insert the newly-generated certificate. Head over to the SSO tab and SSO sub-tab to complete the information. Once done and SSO is started, we can click the SSL sub-tab and work with certificates.</p>
+<p>Over on the SSL page, we can choose the option to “Import PEM encoded Certificate”.</p>
+<p><img src="/images/2015-11/using-vrealize-cert-generation-tool/image7.png" alt="Identity Appliance VAMI page SSL section"></p>
+<p>Once we’re here, we need to copy the contents of <code>vrealize.key</code> into the RSA Private Key field and enter the passphrase used when running the script. We then copy the top block of text in the <code>vrealize.pem</code> file into the Certificate Chain box. Make sure not to copy both of them as this will cause the replacement action to fail.</p>
+<p>Click the Apply button and, if all goes as planned, you should get a nice green success message.</p>
+<p><img src="/images/2015-11/using-vrealize-cert-generation-tool/image8.png" alt="Success message returned if cert was added"></p>
+<p>Now that we have this step complete, we can finish the few configuration changes to the identity appliance, the most important of which is time synchronization. Make sure you’ve correctly set the time zone of the appliance, and a valid NTP server with which to sync the clocks. Both this and the front-end appliance should have identical settings in this regard.</p>
+<h2 id="installing-certificates-into-front-end-appliance">Installing certificates into Front-end Appliance</h2>
+<p>Ok, now we move on to the front-end appliance to insert its new certificate.</p>
+<p>Login to the VAMI and navigate to the vRA Settings main tab, then to the Host Settings sub-tab. We need to update the host name to ensure it is the same as what was on the CSR because we’re putting it behind a load balancer. Down on the SSL Configuration screen, we choose the Import radio button where we’ll do essentially the same thing as on the identity appliance.</p>
+<p><img src="/images/2015-11/using-vrealize-cert-generation-tool/image9.png" alt="Café appliance VAMI host settings"></p>
+<p>If everything is right, after we click Save Settings, we should be greeted with another cozy green success message.</p>
+<p><img src="/images/2015-11/using-vrealize-cert-generation-tool/image10.png" alt="Successful replacement on the appliance"></p>
+<p>We can now go over to the SSO section and connect it to our identity appliance.</p>
+<p><img src="/images/2015-11/using-vrealize-cert-generation-tool/image11.png" alt="Connecting the café appliance to the identity appliance"></p>
+<p>Once we click Save Settings, we’ll be prompted to accept the certificate on the identity appliance that we just installed.</p>
+<p><img src="/images/2015-11/using-vrealize-cert-generation-tool/image12.png" alt="Cert must be accepted"></p>
+<p>It will take several minutes for the SSO settings to validate and configure themselves and during this time the front-end appliance will ramp up CPU activity as it configures and then starts all its services. But once it’s done, we should get another success message, and the SSO Info section should now show “Connected” under Status.</p>
+<p><img src="/images/2015-11/using-vrealize-cert-generation-tool/image13.png" alt="SSO configured successfully"></p>
+<p>We can now finish the rest of the appliance configuration, which I won’t cover here, but don’t forget about the time sync parts.</p>
+<p>You should now be able to login to the front end without any harassment about untrusted certificates. Once you do so, you can inspect what the browser presents to you if so inclined.</p>
+<p><img src="/images/2015-11/using-vrealize-cert-generation-tool/image14.png" alt="Trusted cert chain"></p>
+<p>Scroll down to view the Subject Alternative Name (SAN) extensions which shows all the hostnames you presented when running the script.</p>
+<p><img src="/images/2015-11/using-vrealize-cert-generation-tool/image15.png" alt="SANs in the cert"></p>
+<h2 id="installing-certificates-into-iaas-servers">Installing certificates into IaaS Servers</h2>
+<p>We can now do the final piece in the certificate installation journey, which is to install the PFX file in the Windows IaaS components.</p>
+<p>Once we have copied the <code>vrealize.pfx</code> file to the IaaS box, we double-click the certificate to import it into the local store. Choose the Local Machine option and click Next.</p>
+<p><img src="/images/2015-11/using-vrealize-cert-generation-tool/image16.png" alt="Certificate Import Wizard"></p>
+<p>Come to where you are now prompted for the passphrase set earlier, and leave the box checked to “Include all extended properties”.</p>
+<p><img src="/images/2015-11/using-vrealize-cert-generation-tool/image17.png" alt="Input the password used to protect the certificate"></p>
+<p>Choose the radio button to “Place all certificates in the following store” and click the Browse button to find the Personal store. Click OK then Next.</p>
+<p><img src="/images/2015-11/using-vrealize-cert-generation-tool/image18.png" alt="Place imported certificate into the Personal store"></p>
+<p>Click Finish and the import should be successful.</p>
+<p>Now with that done, we can run the IaaS installer and we should be able to select this new certificate for use during the installation process. Note in this example, I’m just using a single IaaS box called “vrademoweb”, but remember you’ll have to repeat this process for any other distributed components other than the DEMs.</p>
+<p>We’ll do a custom install and choose just the IaaS components. On the next screen, we will select everything except the Manager Service. When you click the tab for Administration &amp; Model Manager Web Site, under the Available Certificates box we should see our new certificate called simply “vrealize”. Check the box for “Suppress certificate mismatch” since, if you’re using a VIP, the local hostname will differ from what the certificate says.</p>
+<p><img src="/images/2015-11/using-vrealize-cert-generation-tool/image19.png" alt="vRA IaaS installer"></p>
+<p>Once you put in your configuration and run through the installer, it should succeed and be fully certified with the front-end components.</p>
+<p>Congratulations are in order as you have just successfully defeated the certificate generation and installation process!</p>
+<p>The vRealize Certificate Generation Tool is certainly very handy and makes the task of working with certs a whole lot quicker and easier. I recommend this as the way to go for anyone looking to create signed certificates for anything in the vRealize suite.</p>
+
+    
+    <div class="share-icons d-flex d-print-none">
+      <a href="https://twitter.com/intent/tweet?text=Using%20the%20vRealize%20Certificate%20Generation%20Tool&url=https%3a%2f%2fneonmirrors.net%2fpost%2f2015-11%2fusing-vrealize-cert-generation-tool%2f&tw_p=tweetbutton" class="p-2" title="Share on Twitter" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Tweet</small></div>
+</a>
+
+<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fneonmirrors.net%2fpost%2f2015-11%2fusing-vrealize-cert-generation-tool%2f&t=Using%20the%20vRealize%20Certificate%20Generation%20Tool" class="p-2" title="Share on Facebook" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+<script>
+  function shareViaLinkedin() {
+    window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent("https://neonmirrors.net/post/2015-11/using-vrealize-cert-generation-tool/"), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+  }
+</script>
+<a href="#linkedinshare" id = "linkedinshare" class="p-2" title="Share on LinkedIn" rel="nofollow" onclick="shareViaLinkedin()">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+
+<a href="javascript:window.print()" title="Print this article" class="p-2" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fa fa-print fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Print</small></div>
+</a>
+
+    </div>
+  </div>
+  
+  
+</div>
+<div class="sidebar d-print-none d-xl-block internal">
+  
+  <h2>Chip Zoller</h2>
+  <div>
+    Technologist, perpetual student, teacher, continual incremental improvement.
+  </div>
+  <a href="/about/" class="btn btn-outline-secondary mt-3" role="button">Read More...</a>
+  <h2 class="mt-4">Featured Posts</h2>
+  
+  
+  <a href="/post/2019-10/authentication-and-authorization-in-k8s/" class="nav-link">Authentication and Authorization in Kubernetes</a>
+  
+  <a href="/post/2018-12/how-to-ask-for-help-on-tech-forums/" class="nav-link">How to Ask for Help on Tech Forums</a>
+  
+  <h2 class="mt-4">Recent Posts</h2>
+  <nav class="nav flex-column">
+    
+    <a href="/post/2020-04/getting-started-with-tkg/" class="nav-link">Getting Started with Tanzu Kubernetes Grid</a>
+    
+    <a href="/post/2020-04/capv-overview/" class="nav-link">Behind the Scenes with Cluster API Provider vSphere</a>
+    
+    <a href="/post/2020-01/buy-dont-build/" class="nav-link">Buy Don&#39;t Build</a>
+    
+    <a href="/post/2020-01/why-k8s-on-vms/" class="nav-link">Why Kubernetes on Virtual Machines?</a>
+    
+    <a href="/post/2020-01/2020-public-domain-day/" class="nav-link">2020 Public Domain Day</a>
+    
+    <a href="/post/2019-10/authentication-and-authorization-in-k8s/" class="nav-link">Authentication and Authorization in Kubernetes</a>
+    
+    <a href="/post/2019-10/pks-rancher-reg/" class="nav-link">pks-rancher-reg: Automated PKS Cluster Registration For Rancher</a>
+    
+    <a href="/post/2019-09/rancher-ha-on-pks/" class="nav-link">Rancher HA on Enterprise PKS</a>
+    
+  </nav>
+  
+  <h2 class="mt-4 text-capitalize" id="categories-section">categories</h2>
+  <nav class="nav">
+    
+    <a href='/categories/technology/' class="nav-link">
+      technology
+      <span class="badge badge-pill badge-secondary">53</span>
+    </a>
+    
+    <a href='/categories/music/' class="nav-link">
+      music
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+  </nav>
+  
+  <h2 class="mt-4 text-capitalize" id="tags-section">tags</h2>
+  <nav class="nav">
+    
+    <a href='/tags/vrealize/' class="nav-link">
+      vrealize
+      <span class="badge badge-pill badge-secondary">27</span>
+    </a>
+    
+    <a href='/tags/vra/' class="nav-link">
+      vra
+      <span class="badge badge-pill badge-secondary">22</span>
+    </a>
+    
+    <a href='/tags/vsphere/' class="nav-link">
+      vsphere
+      <span class="badge badge-pill badge-secondary">14</span>
+    </a>
+    
+    <a href='/tags/k8s/' class="nav-link">
+      k8s
+      <span class="badge badge-pill badge-secondary">9</span>
+    </a>
+    
+    <a href='/tags/sovlabs/' class="nav-link">
+      sovlabs
+      <span class="badge badge-pill badge-secondary">8</span>
+    </a>
+    
+    <a href='/tags/veeam/' class="nav-link">
+      veeam
+      <span class="badge badge-pill badge-secondary">7</span>
+    </a>
+    
+    <a href='/tags/powershell/' class="nav-link">
+      powershell
+      <span class="badge badge-pill badge-secondary">6</span>
+    </a>
+    
+    <a href='/tags/log-insight/' class="nav-link">
+      log-insight
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/pks/' class="nav-link">
+      pks
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/vrops/' class="nav-link">
+      vrops
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/vro/' class="nav-link">
+      vro
+      <span class="badge badge-pill badge-secondary">4</span>
+    </a>
+    
+    <a href='/tags/docker/' class="nav-link">
+      docker
+      <span class="badge badge-pill badge-secondary">3</span>
+    </a>
+    
+    <a href='/tags/vmworld/' class="nav-link">
+      vmworld
+      <span class="badge badge-pill badge-secondary">3</span>
+    </a>
+    
+    <a href='/tags/featured/' class="nav-link">
+      featured
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/nsx-t/' class="nav-link">
+      nsx-t
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/powercli/' class="nav-link">
+      powercli
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/rancher/' class="nav-link">
+      rancher
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/thoughts/' class="nav-link">
+      thoughts
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/ansible/' class="nav-link">
+      ansible
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/authentication/' class="nav-link">
+      authentication
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/forums/' class="nav-link">
+      forums
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/homelab/' class="nav-link">
+      homelab
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/networking/' class="nav-link">
+      networking
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/security/' class="nav-link">
+      security
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/vmtn/' class="nav-link">
+      vmtn
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+  </nav>
+  
+</div>
+
+
+  </div>
+  
+  <footer class="mt-auto footer d-print-none">
+    <a class="to-top" href="#" title="Back to top">
+      <i class="fa fa-caret-up"></i>
+    </a>
+    <div class="container-fluid">
+      <div class="row justify-content-center">
+        <div class="col-md-4 col-xl-3">
+          <h5>Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved.</h5>
+I&#39;m happy for you to share content on this site, but please provide attribution.
+        </div>
+        <div class="col-md-4 col-xl-3">
+          <h5>Disclaimer</h5>
+Opinions expressed here are my own and may not reflect those of the company I work for, or the people I work with.
+        </div>
+        <div class="col-md-4 col-xl-3">
+          <h5>About This Site</h5>
+This blog was created using the <a href="https://gohugo.io/">Hugo</a> static site generator, using
+<a href="https://getbootstrap.com/">Bootstrap</a>, using the Silhouette Hugo theme, created by
+<a href='https://www.mattbutton.com'>Matt Button</a>
+        </div>
+      </div>
+      
+      <hr />
+      
+      <div class="d-flex justify-content-center icons">
+        <a class="py-2 px-2" href="https://github.com/chipzoller"><i class="fab fa-github"></i></a>
+<a class="py-2 px-2" href="https://twitter.com/chipzoller"><i class="fab fa-twitter"></i></a>
+<a class="py-2 px-2" href="https://www.linkedin.com/in/chipzoller/"><i class="fab fa-linkedin"></i></a>
+<a class="py-2 px-2" href='https://neonmirrors.net/index.xml'><i class="fas fa-rss"></i></a>
+
+      </div>
+    </div>
+  </footer>
+  
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script src="/js/syntax.js"></script>
+  <script src = '/js/index.js'></script>
+  
+  
+</body>
+</html>

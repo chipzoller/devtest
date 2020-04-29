@@ -1,0 +1,556 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  <meta property="og:title" content="Adding machine requestor to local administrators group in vRA 7" />
+<meta property="og:description" content="Adding the machine requestor in vRealize Automation to the local administrators group on Windows." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://neonmirrors.net/post/2016-12/adding-machine-requestor-to-local-admins-vra-ga-1/" />
+<meta property="article:published_time" content="2016-12-05T00:00:00+00:00" />
+<meta property="article:modified_time" content="2016-12-05T00:00:00+00:00" />
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Adding machine requestor to local administrators group in vRA 7"/>
+<meta name="twitter:description" content="Adding the machine requestor in vRealize Automation to the local administrators group on Windows."/>
+<meta name="twitter:site" content="@chipzoller"/>
+
+  
+  <title>
+Adding machine requestor to local administrators group in vRA 7 | Neon Mirrors
+</title>
+  
+  <link rel="icon" type="image/png" href='https://neonmirrors.net/images/favicon-16x16.png' sizes="16x16">
+  <link rel="icon" type="image/png" href='https://neonmirrors.net/images/favicon-32x32.png' sizes="32x32">  
+  
+  <link href="https://fonts.googleapis.com/css?family=Oswald:400" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">      
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel = 'stylesheet' href = 'https://neonmirrors.net/css/main.703162b863e7e1a93ee98f24b75e329848a814522f2d9f5735d41fbc7f023b3772f177c6ef8dbafccee65cfa8c1b8bb57e73d49284b5a0fdbbe772b8b29b07cb.css' integrity = 'sha512-cDFiuGPn4ak&#43;6Y8kt14ymEioFFIvLZ9XNdQfvH8COzdy8XfG7426/M7mXPqMG4u1fnPUkoS1oP2753K4spsHyw=='>
+  
+  
+<link rel="me" type="text/html" href="https://twitter.com/chipzoller"/> 
+<link rel="me" type="text/html" href="https://www.linkedin.com/in/chipzoller/"/> 
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+
+<link rel="alternate" type="application/rss+xml" href='https://neonmirrors.net/index.xml' />
+
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<meta name="author" content="Chip Zoller" />
+<meta name="copyright" content="Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved." />
+
+
+<meta name="description" content="Adding the machine requestor in vRealize Automation to the local administrators group on Windows.">
+
+
+
+
+<style type="text/css">
+  .feature-image {
+    background-image: url("https://neonmirrors.net/images/2016-12/adding-machine-requestor-to-local-admins-vra-ga-1/featured.jpg");
+    height: 500px;
+  }
+  
+  @media (max-width: 992px) {
+    .feature-image {
+      height: 350px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .feature-image {
+      height: 250px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .feature-image {
+      height: 200px;
+    }
+  }
+</style>
+
+        
+</head>
+<body >
+  <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark py-1 top-nav">
+    <div class="container">
+      <span class="internal">
+  <a class="navbar-brand pr-2" href="/">NEON MIRRORS</a>
+</span>
+
+      <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="navbar-collapse collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/categories/technology/">Technology</a>
+  
+</li>
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/categories/music/">Music</a>
+  
+</li>
+<li class="nav-item internal">
+  
+  <div class="nav-link nav-hassubmenu">Links
+    <div class="nav-submenu" >
+    
+      <a class="nav-link" href="https://chipzoller.gitbook.io/vspheremigration/">Ultimate vSphere VM Migration Guide</a>
+    
+    </div>
+    </div>
+  
+</li>
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/about/">About</a>
+  
+</li>
+
+        </ul>
+        <div class="social-icons d-none d-lg-block">
+          <a class="py-2 px-2" href="https://github.com/chipzoller"><i class="fab fa-github"></i></a>
+<a class="py-2 px-2" href="https://twitter.com/chipzoller"><i class="fab fa-twitter"></i></a>
+<a class="py-2 px-2" href="https://www.linkedin.com/in/chipzoller/"><i class="fab fa-linkedin"></i></a>
+<a class="py-2 px-2" href='https://neonmirrors.net/index.xml'><i class="fas fa-rss"></i></a>
+
+        </div>
+      </div>
+    </div>
+  </nav>
+  
+  
+<header class="feature-image d-print-none">
+</header>
+
+  
+  <div class="main">
+    
+<div class="container mt-4 post">
+  <h1>Adding machine requestor to local administrators group in vRA 7</h1>
+  <div class="mb-3 internal">
+  <small>
+    <strong>By Chip Zoller</strong>
+    | <i class="far fa-calendar-alt"></i>&nbsp;Dec 5, 2016&nbsp;
+    | <i class="fa fa-tags" title="Tags" aria-hidden="true"></i> <a href='/tags/vra/'>vra</a>, <a href='/tags/vrealize/'>vrealize</a><span class="d-lg-none">, <a href='#tags-section'>all tags</a></span>
+  </small>
+</div>
+
+  <div class="share-icons d-flex d-print-none">
+    <a href="https://twitter.com/intent/tweet?text=Adding%20machine%20requestor%20to%20local%20administrators%20group%20in%20vRA%207&url=https%3a%2f%2fneonmirrors.net%2fpost%2f2016-12%2fadding-machine-requestor-to-local-admins-vra-ga-1%2f&tw_p=tweetbutton" class="p-2" title="Share on Twitter" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Tweet</small></div>
+</a>
+
+<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fneonmirrors.net%2fpost%2f2016-12%2fadding-machine-requestor-to-local-admins-vra-ga-1%2f&t=Adding%20machine%20requestor%20to%20local%20administrators%20group%20in%20vRA%207" class="p-2" title="Share on Facebook" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+<script>
+  function shareViaLinkedin() {
+    window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent("https://neonmirrors.net/post/2016-12/adding-machine-requestor-to-local-admins-vra-ga-1/"), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+  }
+</script>
+<a href="#linkedinshare" id = "linkedinshare" class="p-2" title="Share on LinkedIn" rel="nofollow" onclick="shareViaLinkedin()">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+
+<a href="javascript:window.print()" title="Print this article" class="p-2" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fa fa-print fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Print</small></div>
+</a>
+
+  </div>
+  
+  <div class="mt-4 mb-4 main-content">
+    <p><em>This article is the first in a series of three which explore the vRealize Automation guest agent in depth. For the others, please see these links.</em></p>
+<h2 id="part-1-adding-machine-requestor-to-local-administrators-group-in-vra-7post2016-12adding-machine-requestor-to-local-admins-vra-ga-1">Part 1: <a href="/post/2016-12/adding-machine-requestor-to-local-admins-vra-ga-1/">Adding machine requestor to local administrators group in vRA 7</a></h2>
+<h2 id="part-2-running-in-guest-scripts-on-windows-vms-in-vra-7post2016-12running-in-guest-scripts-vra-ga-2">Part 2: <a href="/post/2016-12/running-in-guest-scripts-vra-ga-2">Running in-guest scripts on Windows VMs in vRA 7</a></h2>
+<h2 id="part-3-running-bash-commands-in-the-linux-guest-agent-in-vra-7post2016-12running-bash-in-linux-guest-agent-vra-ga-3">Part 3: <a href="/post/2016-12/running-bash-in-linux-guest-agent-vra-ga-3">Running Bash commands in the Linux guest agent in vRA 7</a></h2>
+<hr>
+<p><br>
+When I first started using vRA (it was still called vCAC at that point), there was this concept of a “guest agent” that got installed in a VM template. It allowed you to do some types of customization when that template got deployed as a VM, but what it did, how it worked, and how to use it was kind of cloudy. The more I read and spoke with other users, the more I realized they were in the same boat. I understood why after looking at the documentation. Installing it wasn’t straightforward, controlling it came via these things called “custom properties” that had cryptic names, and using it required that you fish for the right set of properties, create them correctly, and apply them correctly. While some of that still holds true today, much has changed. In this three-part blog series, I hope to dispel some of the myths and dissipate those mental clouds some no doubt still have by illustrating how to use the guest agent through demonstration of three of the most common use cases. The first will be an introduction to the agent as well as how to make the vRA requestor a local administrator; the second will show how to run commands and scripts on Windows templates; and the third will do the same but on Linux. Strap in, because it&rsquo;s time for a ride!</p>
+<p>In the first and second articles, we’ll be working with the guest agent on Windows. In the third, we’ll switch over to Linux. To start with, have a fresh Windows Server 2012 R2 template. Next, we’ll need to install the guest agent inside of this. The guest agent is a software application that comes bundled with vRA. It is an optional component, but a necessary one if you want to perform one of several post-provisioning customization actions. Things like mounting and formatting disks, applying custom network settings, running scripts, or changing local group memberships are all things that necessitate the guest agent. Basically, anything that requires actions be performed inside the deployed machine must be accomplished through the guest agent. Obtaining the guest agent is simple. You navigate to https://&lt;vRAFQDN&gt;:5480/i and download the appropriate Windows guest agent packages to your template. Starting in vRA 7.1, these have been moved to https://&lt;vRAFQDN&gt;/software/index.html</p>
+<p><img src="/images/2016-12/adding-machine-requestor-to-local-admins-vra-ga-1/image1.png" alt="Guest agent packages are located under Provisioning Utilities"></p>
+<p>However, a better way to get the guest agent installed and configured, is to use <a href="https://developercenter.vmware.com/samples?id=1136">Gary Coburn’s awesome PowerShell script</a>, which also installs the software bootstrap (aka, Application Services/Application Director) agent. The interactive script asks you several questions, and at the end you have the guest agent, application services agent, and Java. By the way, you must point the guest agent to your vRA Manager service in case that wasn’t clear (not the Web server). Now, be aware that when you check the list of Windows services, the guest agent will not be listed but the software agent will. This is normal and things will work as expected. The guest agent only gets registered when there is work for it to do, then unregistered when that work is done.</p>
+<p>Now that we have that done, we can shut down this VM and convert it to a template. Head into vRA and create a blueprint based on this template. Go to the machine component and let’s start creating some custom properties.</p>
+<p><img src="/images/2016-12/adding-machine-requestor-to-local-admins-vra-ga-1/image2.png" alt="Basic vSphere machine object"></p>
+<p><img src="/images/2016-12/adding-machine-requestor-to-local-admins-vra-ga-1/image3.png" alt="Custom properties tab on machine object"></p>
+<p>We need to create a couple of basic custom properties that tell vRA it needs to use the guest agent, since that’s what will drive these custom commands and scripts we run. We also want to create a custom property that tells the guest agent to wait to start any of its work only until <strong>after</strong> the general sysprep work has finished. Create the following custom properties and set their values to “True” (without double quotes).</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">VirtualMachine.Admin.UseGuestAgent
+VirtualMachine.Customize.WaitComplete
+</code></pre></div><p>Normally, when a requestor in vRealize Automation requests a machine (assuming Windows here), that user does not get added as a local administrator on the box, nor does that user make it into the Remote Desktop Users group (allowing them to RDP into the box). There are other ways to get that user the permissions he/she needs on their deployed machines, but that requires group policy changes which requires Active Directory changes, etc. I’m willing to bet this is something many of you want or need, right? Wouldn’t it be nice if, you know, vRA could do this for you? Even though this ability does (apparently, I guess) work, it doesn’t <strong>seem</strong> to work in the way you might want or expect. Let’s look into this vexatious issue.</p>
+<p>There is a custom property called <code>VirtualMachine.Admin.AddOwnerToAdmins</code> which has been documented in the custom property reference guide since version 6.0. However, there appears to be a contradiction of terms found in that guide starting in the reference document beginning with version <a href="http://pubs.vmware.com/vCAC-61/topic/com.vmware.ICbase/PDF/vcloud-automation-center-61-custom-property-reference.pdf">6.1</a> and continues <a href="http://pubs.vmware.com/vrealize-automation-71/topic/com.vmware.ICbase/PDF/vrealize-automation-71-custom-properties.pdf">to this day</a>. Speaking of the 7.1 document here, there are four occurrences of this property name, but only three of them fall in groupings of custom properties (pp. 19, 42, and 67). In the first two, the description given is:</p>
+<blockquote>
+<p>Set to True (default) to add the machine’s owner, as specified by the VirtualMachine.Admin.Owner property, to the local administrators group on the machine.</p>
+</blockquote>
+<p>But in the last description of the property, where they are listed alphabetically, an additional sentence is appended to that description:</p>
+<blockquote>
+<p>This property is not available for provisioning by cloning.</p>
+</blockquote>
+<p>What’s interesting is that this property with description (minus the last bit) is included in a category of custom properties that apply to clone workflows(!). So which is it, VMware? Does this or does this property not apply to clone workflows? In my testing with vRA 7.0.1 on a Windows Server 2012 R2 linked clone template, it appears to not work.</p>
+<p>Now, there is a <a href="https://kb.vmware.com/kb/2081190">KB article</a> out there which shows how you could get this to work by creating a custom script in your template and calling it via another set of custom properties. That should work, but it’s cumbersome and not elegant and inefficient, plus it has nothing to do with the property designed to handle the issue at hand. I’d prefer to “fix” the advertised functionality so it works as documented without the need to complicate things.</p>
+<p>The problem why this functionality doesn’t work as stated (whichever section in the manual is correct) isn’t entirely clear to me, but what is clear is that the work item being run by the guest agent doesn’t include any script or logic to add the user to the local administrators group. This is in spite of the fact that the needed custom properties do get passed down into the guest. You can verify this is the case by opening up the workitem.xml file located at C:\VRMGuestAgent\site and seeing all the properties that get applied to the deployed machine.</p>
+<p><img src="/images/2016-12/adding-machine-requestor-to-local-admins-vra-ga-1/image4.png" alt="Custom property payload"></p>
+<p>As you can see here, these are all the properties that begin with the value “virtualmachine.admin,” and we can clearly see the property in question is present. We also see the owner value (requestor) and that we should invoke the guest agent.</p>
+<p>When inspecting the guest agent log located at C:\VRMGuestAgent\GuestAgent.txt, we can see the items that are executed by the guest agent. While much of the log includes requests for work by the agent with none returned, eventually there will be some in the form of customization workflows such as what you see here.</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">2016-10-28 22:05:38 Application: [Information] Requesting work for agent ID e7480f42-f942-2f44-4af6-7cd4811ec6ff.
+2016-10-28 22:05:38 Application: [Information] Fetching a work item ...
+2016-10-28 22:05:38 Application: [Information] Fetched work item id=bc09a607-502a-4970-9ed3-bd7b35fd31ea
+2016-10-28 22:05:38 Application: [Information] WorkItem: task=CustomizeOS, id=bc09a607-502a-4970-9ed3-bd7b35fd31ea
+2016-10-28 22:05:38 Application: [Information] _number_of_instances -&gt; 1
+</code></pre></div><p>In the case of clone workflows, a “CustomizeOS” stage is being called. Each of these stages corresponds to a set of script files and a batch file which calls them as needed. All of this is found in the site directory at C:\VRMGuestAgent\site in folders named for each stage. If we go and look in the CustomizeOS directory, we see a .BAT file with the following contents.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">cscript diskpart_unassign.js
+<span class="nb">echo</span> wscript.sleep <span class="m">10000</span> &gt; wait.vbs
+wscript.exe wait.vbs
+cscript diskpart_prep.js
+wscript.exe wait.vbs
+cscript diskpart_exec.js
+wscript.exe wait.vbs
+cscript formatjs.js
+</code></pre></div><p>It’s pretty simple as you can observe. It’s using cscript to call a bunch of separate JavaScript files. These files are located in this same directory, so you can go see for yourself what is being done. In this case, however, the one we really need to be called, entitled “adduser.js,” isn’t listed. Before proceeding, however, a disclaimer is probably in order.</p>
+<p><strong>DISCLAIMER:  THIS IS ALMOST CERTAINLY NOT SUPPORTED BY VMWARE. USE AT YOUR OWN RISK.</strong></p>
+<p>Alright, now that you’re scared, let me put you at ease by saying this is an easy fix, shouldn’t break anything, and is simple to roll back if you don’t want or like it. Onward.</p>
+<p>In order to fix this, we need to make a change to a file in our Windows template. We only need to add two simple lines to a single file to activate this functionality. Navigate to C:\VRMGuestAgent\site\CustomizeOS and edit “10_customizeos.bat”. Before doing so, it’s a good idea to back up this file to the same directory naming it something like “10_customizeos.backup.” You saw the contents of this file above, so since we need “adduser.js” to run, let’s just append it to the bottom of the file. To keep in step and allow an amount of sleep established previously, add another line of <code>wscript.exe wait.vbs</code>. And, as you probably have figured by now, we simply need to add a line to invoke “adduser.js”. Your fully-edited .BAT file should look like this:</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">cscript diskpart_unassign.js
+<span class="nb">echo</span> wscript.sleep <span class="m">10000</span> &gt; wait.vbs
+wscript.exe wait.vbs
+cscript diskpart_prep.js
+wscript.exe wait.vbs
+cscript diskpart_exec.js
+wscript.exe wait.vbs
+cscript formatjs.js
+<span class="hl">wscript.exe wait.vbs
+</span><span class="hl">cscript adduser.js
+</span></code></pre></div><p>This is safe to add because, if you look at the adduser.js file, it essentially performs no action unless the relevant custom properties are found. The code block enabling this is right at the beginning:</p>
+<div class="highlight"><pre class="chroma"><code class="language-js" data-lang="js"><span class="c1">// stuff the owner into Administrators and Remote Desktop Users
+</span><span class="c1">// groups if the custom properties are there
+</span><span class="c1"></span><span class="k">if</span> <span class="p">(</span><span class="nx">bag</span><span class="p">.</span><span class="nx">exists</span><span class="p">(</span><span class="s2">&#34;virtualmachine.admin.addownertoadmins&#34;</span><span class="p">))</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">bag</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&#34;virtualmachine.admin.addownertoadmins&#34;</span><span class="p">).</span><span class="nx">toLowerCase</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&#34;true&#34;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">objGroup</span> <span class="o">=</span> <span class="nx">GetObject</span><span class="p">(</span><span class="s2">&#34;WinNT://&#34;</span> <span class="o">+</span> <span class="nx">comp</span> <span class="o">+</span> <span class="s2">&#34;/Administrators,group&#34;</span><span class="p">);</span>
+    <span class="nx">objGroup</span><span class="p">.</span><span class="nx">Add</span><span class="p">(</span><span class="s2">&#34;WinNT://&#34;</span> <span class="o">+</span> <span class="nx">owner</span> <span class="o">+</span> <span class="s2">&#34;,user&#34;</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="nx">bag</span><span class="p">.</span><span class="nx">exists</span><span class="p">(</span><span class="s2">&#34;virtualmachine.admin.allowlogin&#34;</span><span class="p">))</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">bag</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&#34;virtualmachine.admin.allowlogin&#34;</span><span class="p">).</span><span class="nx">toLowerCase</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&#34;true&#34;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">objGroup</span> <span class="o">=</span> <span class="nx">GetObject</span><span class="p">(</span><span class="s2">&#34;WinNT://&#34;</span> <span class="o">+</span> <span class="nx">comp</span> <span class="o">+</span> <span class="s2">&#34;/Remote Desktop Users,group&#34;</span><span class="p">);</span>
+    <span class="nx">objGroup</span><span class="p">.</span><span class="nx">Add</span><span class="p">(</span><span class="s2">&#34;WinNT://&#34;</span> <span class="o">+</span> <span class="nx">owner</span> <span class="o">+</span> <span class="s2">&#34;,user&#34;</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div><p>Note that the second “if” statement operates on a second custom property which you can use to add the machine owner to the Remote Desktop Users group. That property is called <code>VirtualMachine.Admin.AllowLogin</code> and must also be set somewhere on the machine in question.</p>
+<p>Once you’ve edited that .BAT file to add the necessary JavaScript file, you can shutdown your template and either snapshot it (if you’re using a linked clone workflow) or just go straight into your catalog and deploy.</p>
+<p><img src="/images/2016-12/adding-machine-requestor-to-local-admins-vra-ga-1/image5.png" alt="Test machine request form"></p>
+<p>Above, I added those two custom properties (the second and third fields you see here) to the machine and made it so they show in the request and are overrideable. This is especially useful if you want to toggle them easily between a True and False statement before deployment in the request form to ensure the behavior is working as expected.</p>
+<p>Deploy the machine, let the customization finish, and login to your box to make sure your owner is a member of the local administrators group.</p>
+<p><img src="/images/2016-12/adding-machine-requestor-to-local-admins-vra-ga-1/image6.png" alt="User added to local admins group"></p>
+<p>Bam! User ZOLLER\dennisend, which is just a regular old domain user, and, more importantly the requestor of this VM, has just been made a local administrator. Now you can just attach this custom property wherever you want (along with <code>VirtualMachine.Admin.UseGuestAgent</code>, the property to use the guest agent) and have your users become local admins.</p>
+<p>In the second part of the series, we’ll take a look at another important functionality provided by the guest agent:  running scripts inside the guest.</p>
+
+    
+    <div class="share-icons d-flex d-print-none">
+      <a href="https://twitter.com/intent/tweet?text=Adding%20machine%20requestor%20to%20local%20administrators%20group%20in%20vRA%207&url=https%3a%2f%2fneonmirrors.net%2fpost%2f2016-12%2fadding-machine-requestor-to-local-admins-vra-ga-1%2f&tw_p=tweetbutton" class="p-2" title="Share on Twitter" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Tweet</small></div>
+</a>
+
+<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fneonmirrors.net%2fpost%2f2016-12%2fadding-machine-requestor-to-local-admins-vra-ga-1%2f&t=Adding%20machine%20requestor%20to%20local%20administrators%20group%20in%20vRA%207" class="p-2" title="Share on Facebook" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+<script>
+  function shareViaLinkedin() {
+    window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent("https://neonmirrors.net/post/2016-12/adding-machine-requestor-to-local-admins-vra-ga-1/"), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+  }
+</script>
+<a href="#linkedinshare" id = "linkedinshare" class="p-2" title="Share on LinkedIn" rel="nofollow" onclick="shareViaLinkedin()">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+
+<a href="javascript:window.print()" title="Print this article" class="p-2" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fa fa-print fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Print</small></div>
+</a>
+
+    </div>
+  </div>
+  
+  
+</div>
+<div class="sidebar d-print-none d-xl-block internal">
+  
+  <h2>Chip Zoller</h2>
+  <div>
+    Technologist, perpetual student, teacher, continual incremental improvement.
+  </div>
+  <a href="/about/" class="btn btn-outline-secondary mt-3" role="button">Read More...</a>
+  <h2 class="mt-4">Featured Posts</h2>
+  
+  
+  <a href="/post/2019-10/authentication-and-authorization-in-k8s/" class="nav-link">Authentication and Authorization in Kubernetes</a>
+  
+  <a href="/post/2018-12/how-to-ask-for-help-on-tech-forums/" class="nav-link">How to Ask for Help on Tech Forums</a>
+  
+  <h2 class="mt-4">Recent Posts</h2>
+  <nav class="nav flex-column">
+    
+    <a href="/post/2020-04/getting-started-with-tkg/" class="nav-link">Getting Started with Tanzu Kubernetes Grid</a>
+    
+    <a href="/post/2020-04/capv-overview/" class="nav-link">Behind the Scenes with Cluster API Provider vSphere</a>
+    
+    <a href="/post/2020-01/buy-dont-build/" class="nav-link">Buy Don&#39;t Build</a>
+    
+    <a href="/post/2020-01/why-k8s-on-vms/" class="nav-link">Why Kubernetes on Virtual Machines?</a>
+    
+    <a href="/post/2020-01/2020-public-domain-day/" class="nav-link">2020 Public Domain Day</a>
+    
+    <a href="/post/2019-10/authentication-and-authorization-in-k8s/" class="nav-link">Authentication and Authorization in Kubernetes</a>
+    
+    <a href="/post/2019-10/pks-rancher-reg/" class="nav-link">pks-rancher-reg: Automated PKS Cluster Registration For Rancher</a>
+    
+    <a href="/post/2019-09/rancher-ha-on-pks/" class="nav-link">Rancher HA on Enterprise PKS</a>
+    
+  </nav>
+  
+  <h2 class="mt-4 text-capitalize" id="categories-section">categories</h2>
+  <nav class="nav">
+    
+    <a href='/categories/technology/' class="nav-link">
+      technology
+      <span class="badge badge-pill badge-secondary">53</span>
+    </a>
+    
+    <a href='/categories/music/' class="nav-link">
+      music
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+  </nav>
+  
+  <h2 class="mt-4 text-capitalize" id="tags-section">tags</h2>
+  <nav class="nav">
+    
+    <a href='/tags/vrealize/' class="nav-link">
+      vrealize
+      <span class="badge badge-pill badge-secondary">27</span>
+    </a>
+    
+    <a href='/tags/vra/' class="nav-link">
+      vra
+      <span class="badge badge-pill badge-secondary">22</span>
+    </a>
+    
+    <a href='/tags/vsphere/' class="nav-link">
+      vsphere
+      <span class="badge badge-pill badge-secondary">14</span>
+    </a>
+    
+    <a href='/tags/k8s/' class="nav-link">
+      k8s
+      <span class="badge badge-pill badge-secondary">9</span>
+    </a>
+    
+    <a href='/tags/sovlabs/' class="nav-link">
+      sovlabs
+      <span class="badge badge-pill badge-secondary">8</span>
+    </a>
+    
+    <a href='/tags/veeam/' class="nav-link">
+      veeam
+      <span class="badge badge-pill badge-secondary">7</span>
+    </a>
+    
+    <a href='/tags/powershell/' class="nav-link">
+      powershell
+      <span class="badge badge-pill badge-secondary">6</span>
+    </a>
+    
+    <a href='/tags/log-insight/' class="nav-link">
+      log-insight
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/pks/' class="nav-link">
+      pks
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/vrops/' class="nav-link">
+      vrops
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/vro/' class="nav-link">
+      vro
+      <span class="badge badge-pill badge-secondary">4</span>
+    </a>
+    
+    <a href='/tags/docker/' class="nav-link">
+      docker
+      <span class="badge badge-pill badge-secondary">3</span>
+    </a>
+    
+    <a href='/tags/vmworld/' class="nav-link">
+      vmworld
+      <span class="badge badge-pill badge-secondary">3</span>
+    </a>
+    
+    <a href='/tags/featured/' class="nav-link">
+      featured
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/nsx-t/' class="nav-link">
+      nsx-t
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/powercli/' class="nav-link">
+      powercli
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/rancher/' class="nav-link">
+      rancher
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/thoughts/' class="nav-link">
+      thoughts
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/ansible/' class="nav-link">
+      ansible
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/authentication/' class="nav-link">
+      authentication
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/forums/' class="nav-link">
+      forums
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/homelab/' class="nav-link">
+      homelab
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/networking/' class="nav-link">
+      networking
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/security/' class="nav-link">
+      security
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/vmtn/' class="nav-link">
+      vmtn
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+  </nav>
+  
+</div>
+
+
+  </div>
+  
+  <footer class="mt-auto footer d-print-none">
+    <a class="to-top" href="#" title="Back to top">
+      <i class="fa fa-caret-up"></i>
+    </a>
+    <div class="container-fluid">
+      <div class="row justify-content-center">
+        <div class="col-md-4 col-xl-3">
+          <h5>Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved.</h5>
+I&#39;m happy for you to share content on this site, but please provide attribution.
+        </div>
+        <div class="col-md-4 col-xl-3">
+          <h5>Disclaimer</h5>
+Opinions expressed here are my own and may not reflect those of the company I work for, or the people I work with.
+        </div>
+        <div class="col-md-4 col-xl-3">
+          <h5>About This Site</h5>
+This blog was created using the <a href="https://gohugo.io/">Hugo</a> static site generator, using
+<a href="https://getbootstrap.com/">Bootstrap</a>, using the Silhouette Hugo theme, created by
+<a href='https://www.mattbutton.com'>Matt Button</a>
+        </div>
+      </div>
+      
+      <hr />
+      
+      <div class="d-flex justify-content-center icons">
+        <a class="py-2 px-2" href="https://github.com/chipzoller"><i class="fab fa-github"></i></a>
+<a class="py-2 px-2" href="https://twitter.com/chipzoller"><i class="fab fa-twitter"></i></a>
+<a class="py-2 px-2" href="https://www.linkedin.com/in/chipzoller/"><i class="fab fa-linkedin"></i></a>
+<a class="py-2 px-2" href='https://neonmirrors.net/index.xml'><i class="fas fa-rss"></i></a>
+
+      </div>
+    </div>
+  </footer>
+  
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script src="/js/syntax.js"></script>
+  <script src = '/js/index.js'></script>
+  
+  
+</body>
+</html>

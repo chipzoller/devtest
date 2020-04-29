@@ -1,0 +1,739 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  <meta property="og:title" content="PowerCLI Core on Mac or Linux made easy, with help!" />
+<meta property="og:description" content="Installing PowerCLI Core and getting help with cmdlets." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://neonmirrors.net/post/2016-10/powercli-core-with-help/" />
+<meta property="article:published_time" content="2016-10-26T00:00:00+00:00" />
+<meta property="article:modified_time" content="2016-10-26T00:00:00+00:00" />
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="PowerCLI Core on Mac or Linux made easy, with help!"/>
+<meta name="twitter:description" content="Installing PowerCLI Core and getting help with cmdlets."/>
+<meta name="twitter:site" content="@chipzoller"/>
+
+  
+  <title>
+PowerCLI Core on Mac or Linux made easy, with help! | Neon Mirrors
+</title>
+  
+  <link rel="icon" type="image/png" href='https://neonmirrors.net/images/favicon-16x16.png' sizes="16x16">
+  <link rel="icon" type="image/png" href='https://neonmirrors.net/images/favicon-32x32.png' sizes="32x32">  
+  
+  <link href="https://fonts.googleapis.com/css?family=Oswald:400" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">      
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel = 'stylesheet' href = 'https://neonmirrors.net/css/main.703162b863e7e1a93ee98f24b75e329848a814522f2d9f5735d41fbc7f023b3772f177c6ef8dbafccee65cfa8c1b8bb57e73d49284b5a0fdbbe772b8b29b07cb.css' integrity = 'sha512-cDFiuGPn4ak&#43;6Y8kt14ymEioFFIvLZ9XNdQfvH8COzdy8XfG7426/M7mXPqMG4u1fnPUkoS1oP2753K4spsHyw=='>
+  
+  
+<link rel="me" type="text/html" href="https://twitter.com/chipzoller"/> 
+<link rel="me" type="text/html" href="https://www.linkedin.com/in/chipzoller/"/> 
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+
+<link rel="alternate" type="application/rss+xml" href='https://neonmirrors.net/index.xml' />
+
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<meta name="author" content="Chip Zoller" />
+<meta name="copyright" content="Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved." />
+
+
+<meta name="description" content="Installing PowerCLI Core and getting help with cmdlets.">
+
+
+
+
+<style type="text/css">
+  .feature-image {
+    background-image: url("https://neonmirrors.net/images/2016-10/powercli-core-with-help/featured.jpg");
+    height: 500px;
+  }
+  
+  @media (max-width: 992px) {
+    .feature-image {
+      height: 350px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .feature-image {
+      height: 250px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .feature-image {
+      height: 200px;
+    }
+  }
+</style>
+
+        
+</head>
+<body >
+  <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark py-1 top-nav">
+    <div class="container">
+      <span class="internal">
+  <a class="navbar-brand pr-2" href="/">NEON MIRRORS</a>
+</span>
+
+      <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="navbar-collapse collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/categories/technology/">Technology</a>
+  
+</li>
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/categories/music/">Music</a>
+  
+</li>
+<li class="nav-item internal">
+  
+  <div class="nav-link nav-hassubmenu">Links
+    <div class="nav-submenu" >
+    
+      <a class="nav-link" href="https://chipzoller.gitbook.io/vspheremigration/">Ultimate vSphere VM Migration Guide</a>
+    
+    </div>
+    </div>
+  
+</li>
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/about/">About</a>
+  
+</li>
+
+        </ul>
+        <div class="social-icons d-none d-lg-block">
+          <a class="py-2 px-2" href="https://github.com/chipzoller"><i class="fab fa-github"></i></a>
+<a class="py-2 px-2" href="https://twitter.com/chipzoller"><i class="fab fa-twitter"></i></a>
+<a class="py-2 px-2" href="https://www.linkedin.com/in/chipzoller/"><i class="fab fa-linkedin"></i></a>
+<a class="py-2 px-2" href='https://neonmirrors.net/index.xml'><i class="fas fa-rss"></i></a>
+
+        </div>
+      </div>
+    </div>
+  </nav>
+  
+  
+<header class="feature-image d-print-none">
+</header>
+
+  
+  <div class="main">
+    
+<div class="container mt-4 post">
+  <h1>PowerCLI Core on Mac or Linux made easy, with help!</h1>
+  <div class="mb-3 internal">
+  <small>
+    <strong>By Chip Zoller</strong>
+    | <i class="far fa-calendar-alt"></i>&nbsp;Oct 26, 2016&nbsp;
+    | <i class="fa fa-tags" title="Tags" aria-hidden="true"></i> <a href='/tags/powercli/'>powercli</a>, <a href='/tags/powershell/'>powershell</a><span class="d-lg-none">, <a href='#tags-section'>all tags</a></span>
+  </small>
+</div>
+
+  <div class="share-icons d-flex d-print-none">
+    <a href="https://twitter.com/intent/tweet?text=PowerCLI%20Core%20on%20Mac%20or%20Linux%20made%20easy%2c%20with%20help%21&url=https%3a%2f%2fneonmirrors.net%2fpost%2f2016-10%2fpowercli-core-with-help%2f&tw_p=tweetbutton" class="p-2" title="Share on Twitter" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Tweet</small></div>
+</a>
+
+<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fneonmirrors.net%2fpost%2f2016-10%2fpowercli-core-with-help%2f&t=PowerCLI%20Core%20on%20Mac%20or%20Linux%20made%20easy%2c%20with%20help%21" class="p-2" title="Share on Facebook" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+<script>
+  function shareViaLinkedin() {
+    window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent("https://neonmirrors.net/post/2016-10/powercli-core-with-help/"), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+  }
+</script>
+<a href="#linkedinshare" id = "linkedinshare" class="p-2" title="Share on LinkedIn" rel="nofollow" onclick="shareViaLinkedin()">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+
+<a href="javascript:window.print()" title="Print this article" class="p-2" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fa fa-print fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Print</small></div>
+</a>
+
+  </div>
+  
+  <div class="mt-4 mb-4 main-content">
+    <p>With the <a href="https://blogs.msdn.microsoft.com/powershell/2016/08/18/powershell-on-linux-and-open-source-2/">much-heralded release</a> of Microsoft’s <a href="https://github.com/PowerShell/PowerShell">PowerShell</a>, VMware’s <a href="http://blogs.vmware.com/PowerCLI/2016/10/powercli-core-fling-available.html">PowerCLI Core</a> in <a href="https://labs.vmware.com/flings/powercli-core">fling format</a> was released on October 17th.  This allows users of Mac and Linux to run PowerShell just like on Windows. While PowerCLI can be installed with instructions on the fling website, VMware also released a <a href="https://hub.docker.com/r/vmware/powerclicore/">Docker container</a> with the same. Containers are all the rage right now, and we at Sovereign are all over this technology to determine how to best leverage it for our customers, so in this blog post I’m going to illustrate how to get started with both Docker and PowerCLI Core.</p>
+<p>To begin with, let’s set some expectations straight. Docker and containers is a large and complex subject that deserves far more than a couple pages of prose can deliver. There are plenty of places to go that will help set you on the right path with containers, so I won’t attempt to usurp those efforts, but I will show how to go from zero to PowerCLI Core in a container. Let’s waste no time in getting started.</p>
+<p>First, let’s assume we’re using a Mac here and we want to get started with PowerCLI Core. We need Docker to do that, so head over to the <a href="https://www.docker.com/products/docker">Docker for Mac</a> page and download the DMG file. Do note that this version of Docker does require Mac OS X 10.10.3 or above. The previous way of running Docker on Mac entailed using the <a href="https://www.docker.com/products/docker-toolbox">Docker Toolbox</a>. These are essentially two different “products” and the use of Docker for Mac is preferred if you have at least 10.10.3. I won’t cover how to migrate from one to the other, as that is covered in the <a href="https://docs.docker.com/docker-for-mac/docker-toolbox/">Docker docs</a>. Anyhow, once you’ve installed Docker for Mac, you should get a neat new Docker icon in the upper-right-hand corner of your screen.</p>
+<p><img src="/images/2016-10/powercli-core-with-help/image1.png" alt="Docker for Mac menu"></p>
+<p>Once you have this, you should be able to start using Docker. Again, I’m cutting out a bunch of the technical fluff in how this technology works, but you can read for yourself how this is enabled in the docs above. If Docker is installed and running, the next step is to open a terminal and see if you can get a response from your Docker daemon. Run a <code>docker version</code> and see if you get a response. You should see the following (at the time of this writing):</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">chipzoller$ docker version
+Client:
+  Version:      1.12.1
+  API version:  1.24
+  Go version:   go1.7.1
+  Git commit:   6f9534c
+  Built:        Thu Sep  <span class="m">8</span> 10:31:18 <span class="m">2016</span>
+  OS/Arch:      darwin/amd64
+
+Server:
+  Version:      1.12.1
+  API version:  1.24
+  Go version:   go1.6.3
+  Git commit:   23cf638
+  Built:        Thu Aug <span class="m">18</span> 17:52:38 <span class="m">2016</span>
+  OS/Arch:      linux/amd64
+</code></pre></div><p>This response indicates the version of the server and client components, which is 1.12.1 in both cases. If you get that, great, you’re ready to continue; if you don’t, stop here and backtrack because something is wrong.</p>
+<p>So you have Docker up and running, and you can run a <code>docker</code> command to see the result. The next step is to pull the PowerCLI Core image. To do that, we issue <code>docker pull vmware/powerclicore</code>. This will download the PowerCLI Core container from the <a href="https://hub.docker.com/">Docker Hub</a>, basically the app store of containers.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">chipzoller$ docker pull vmware/powerclicore
+Using default tag: latest
+latest: Pulling from vmware/powerclicore
+a3ed95caeb02: Pull <span class="nb">complete</span>
+a2d834300dc9: Pull <span class="nb">complete</span>
+7eafb14df61e: Pull <span class="nb">complete</span>
+601be754f541: Pull <span class="nb">complete</span>
+5156fe387e43: Pull <span class="nb">complete</span>
+0a9fd9017398: Pull <span class="nb">complete</span>
+560f096f5fc1: Pull <span class="nb">complete</span>
+e7920e161c7c: Pull <span class="nb">complete</span>
+802da29d1e59: Pull <span class="nb">complete</span>
+81fb3358ce40: Pull <span class="nb">complete</span>
+c1569f996fdb: Pull <span class="nb">complete</span>
+071830831162: Pull <span class="nb">complete</span>
+Digest: sha256:fa5bd716a72ff4ae5bf8215d03e6a8a4620c763b7e2fb702760ca603aff02b87
+Status: Downloaded newer image <span class="k">for</span> vmware/powerclicore:latest
+</code></pre></div><p>Now that we’ve pulled the Docker container, let’s do a <code>docker images</code> to make sure the image is local, and to see other information regarding it.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">chipzoller$ docker images
+REPOSITORY            TAG                 IMAGE ID            CREATED             SIZE
+vmware/powerclicore   latest              5b8e0469930a        <span class="m">4</span> days ago          416.7 MB
+</code></pre></div><p>Once done, we should now be able to run that container. Let’s do so with:</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">docker run -it --entrypoint<span class="o">=</span>/usr/bin/powershell vmware/powerclicore
+</code></pre></div><p>Do mind the wordwrapping here as this is all a single command. Let’s step through this command piece by piece.</p>
+<ol>
+<li>
+<p><code>docker run</code> tells us to run an existing image in a container.</p>
+</li>
+<li>
+<p>The <code>-it</code> portion means we want to run it in an interactive fashion, and also attach a pseudo-TTY (i.e., terminal session) so we can pass commands into the container.</p>
+</li>
+<li>
+<p>The <code>-entrypoint</code> parameter indicates that we want to begin this container with the following command, or, in this case, application. Entrypoint is something usually relegated to a Dockerfile (the file used to compile a Docker image), but in this case, we specify it manually at container runtime.</p>
+</li>
+</ol>
+<p>In any case, this command tells Docker to run the vmware/powerclicore image as a container, fire-up PowerShell, and give us a familiar CLI so we can start using it. If all that was successful, you should see this:</p>
+<p><img src="/images/2016-10/powercli-core-with-help/image2.png" alt="PowerShell Core init screen"></p>
+<p>If you do not see this, then backtrack and figure out what went wrong. But otherwise, we should be greeted by a nice and shiny command prompt waiting to accept our every PowerCLI desires!</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">PS /powershell&gt;
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-ps1" data-lang="ps1"><span class="nb">PS </span><span class="p">/</span><span class="n">powershell</span><span class="p">&gt;</span> <span class="nb">connect-viserver</span> <span class="n">vcenter</span><span class="p">.</span><span class="n">zoller</span><span class="p">.</span><span class="n">com</span>
+
+<span class="n">Specify</span> <span class="n">Credential</span>
+<span class="n">Please</span> <span class="n">specify</span> <span class="n">server</span> <span class="n">credential</span>
+<span class="n">User</span><span class="err">:</span> <span class="n">chip</span><span class="nv">@zoller</span><span class="p">.</span><span class="n">com</span>
+<span class="n">Password</span> <span class="k">for</span> <span class="n">user</span> <span class="n">chip</span><span class="nv">@zoller</span><span class="p">.</span><span class="n">com</span><span class="err">:</span> <span class="p">***********</span>
+
+<span class="n">WARNING</span><span class="err">:</span> <span class="n">Invalid</span> <span class="n">server</span> <span class="n">certificate</span><span class="p">.</span> <span class="n">Use</span> <span class="nb">Set-PowerCLIConfiguration</span> <span class="n">to</span> <span class="nb">set </span><span class="n">the</span> <span class="n">value</span> <span class="k">for</span> <span class="n">the</span> <span class="n">InvalidCertificateAction</span> <span class="n">option</span> <span class="n">to</span> <span class="n">Prompt</span> <span class="k">if</span> <span class="n">you</span><span class="err">&#39;</span><span class="n">d</span> <span class="n">like</span> <span class="n">to</span> <span class="n">connect</span> <span class="n">once</span> <span class="n">or</span> <span class="n">to</span> <span class="n">add</span> <span class="n">a</span> <span class="n">permanent</span> <span class="n">exception</span> <span class="k">for</span>
+<span class="n">this</span> <span class="n">server</span><span class="p">.</span>
+<span class="nb">connect-viserver</span> <span class="err">:</span> <span class="n">10</span><span class="p">/</span><span class="n">24</span><span class="p">/</span><span class="n">2016</span> <span class="n">23</span><span class="err">:</span><span class="n">35</span><span class="err">:</span><span class="n">49</span>	<span class="nb">Connect-VIServer</span>		<span class="n">An</span> <span class="n">error</span> <span class="n">occurred</span> <span class="k">while</span> <span class="n">sending</span> <span class="n">the</span> <span class="n">request</span><span class="p">.</span>
+<span class="n">At</span> <span class="n">line</span><span class="err">:</span><span class="n">1</span> <span class="n">char</span><span class="err">:</span><span class="n">1</span>
+<span class="p">+</span> <span class="nb">connect-viserver</span> <span class="n">vcenter</span><span class="p">.</span><span class="n">zoller</span><span class="p">.</span><span class="n">com</span>
+<span class="p">+</span> <span class="p">~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</span>
+    <span class="p">+</span> <span class="n">CategoryInfo</span>          <span class="err">:</span> <span class="n">NotSpecified</span><span class="err">:</span> <span class="p">(</span><span class="err">:</span><span class="p">)</span> <span class="p">[</span><span class="nb">Connect-VIServer</span><span class="p">],</span> <span class="n">ViError</span>
+    <span class="p">+</span> <span class="n">FullyQualifiedErrorId</span> <span class="err">:</span> <span class="n">Client20_ConnectivityServiceImpl_Reconnect_Exception</span><span class="p">,</span><span class="n">VMware</span><span class="p">.</span><span class="n">VimAutomation</span><span class="p">.</span><span class="n">ViCore</span><span class="p">.</span><span class="n">Cmdlets</span><span class="p">.</span><span class="n">Commands</span><span class="p">.</span><span class="n">ConnectVIServer</span>
+</code></pre></div><p>Well, looks like it doesn’t like my self-signed certificate in the lab. Let’s override that so we can connect. Don’t remember the parameter to pass to <code>Connect-VIServer</code>? Don’t worry; I don’t either from time to time. Fortunately, that’s where the nice <code>Get-Help</code> cmdlet comes in, or as it’s known by its alias, just “help”.</p>
+<div class="highlight"><pre class="chroma"><code class="language-ps1" data-lang="ps1"><span class="nb">PS </span><span class="p">/</span><span class="n">powershell</span><span class="p">&gt;</span> <span class="n">help</span> <span class="nb">connect-viserver</span>
+<span class="nb">Get-Command</span> <span class="err">:</span> <span class="n">The</span> <span class="n">term</span> <span class="s1">&#39;less&#39;</span> <span class="n">is</span> <span class="n">not</span> <span class="n">recognized</span> <span class="n">as</span> <span class="n">the</span> <span class="n">name</span> <span class="n">of</span> <span class="n">a</span> <span class="n">cmdlet</span><span class="p">,</span> <span class="k">function</span><span class="p">,</span> <span class="n">script</span> <span class="n">file</span><span class="p">,</span> <span class="n">or</span> <span class="n">operable</span> <span class="n">program</span><span class="p">.</span> <span class="n">Check</span> <span class="n">the</span> <span class="n">spelling</span> <span class="n">of</span> <span class="n">the</span> <span class="n">name</span><span class="p">,</span> <span class="n">or</span> <span class="k">if</span> <span class="n">a</span> <span class="n">path</span> <span class="n">was</span> <span class="n">included</span><span class="p">,</span> <span class="n">verify</span> <span class="n">that</span> <span class="n">the</span> <span class="n">path</span> <span class="n">is</span> <span class="n">cor</span>
+<span class="n">rect</span> <span class="n">and</span> <span class="k">try</span> <span class="n">again</span><span class="p">.</span>
+<span class="n">At</span> <span class="n">line</span><span class="err">:</span><span class="n">16</span> <span class="n">char</span><span class="err">:</span><span class="n">21</span>
+<span class="p">+</span>     <span class="nv">$moreCommand</span> <span class="p">=</span> <span class="p">(</span><span class="nb">Get-Command</span> <span class="n">-CommandType</span> <span class="n">Application</span> <span class="n">less</span> <span class="p">|</span> <span class="n">Selec</span> <span class="p">...</span>
+<span class="p">+</span>                     <span class="p">~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</span>
+    <span class="p">+</span> <span class="n">CategoryInfo</span>          <span class="err">:</span> <span class="n">ObjectNotFound</span><span class="err">:</span> <span class="p">(</span><span class="n">less</span><span class="err">:</span><span class="n">String</span><span class="p">)</span> <span class="p">[</span><span class="nb">Get-Command</span><span class="p">],</span> <span class="n">CommandNotFoundException</span>
+    <span class="p">+</span> <span class="n">FullyQualifiedErrorId</span> <span class="err">:</span> <span class="n">CommandNotFoundException</span><span class="p">,</span><span class="n">Microsoft</span><span class="p">.</span><span class="n">PowerShell</span><span class="p">.</span><span class="n">Commands</span><span class="p">.</span><span class="n">GetCommandCommand</span>
+
+<span class="n">The</span> <span class="n">expression</span> <span class="n">after</span> <span class="s1">&#39;&amp;&#39;</span> <span class="k">in</span> <span class="n">a</span> <span class="n">pipeline</span> <span class="n">element</span> <span class="n">produced</span> <span class="n">an</span> <span class="n">object</span> <span class="n">that</span> <span class="n">was</span> <span class="n">not</span> <span class="n">valid</span><span class="p">.</span> <span class="n">It</span> <span class="n">must</span> <span class="n">result</span> <span class="k">in</span> <span class="n">a</span> <span class="n">command</span> <span class="n">name</span><span class="p">,</span> <span class="n">a</span> <span class="n">script</span> <span class="n">block</span><span class="p">,</span> <span class="n">or</span> <span class="n">a</span> <span class="n">CommandInfo</span> <span class="n">object</span><span class="p">.</span>
+<span class="n">At</span> <span class="n">line</span><span class="err">:</span><span class="n">23</span> <span class="n">char</span><span class="err">:</span><span class="n">21</span>
+<span class="p">+</span> <span class="p">}</span> <span class="k">else</span> <span class="p">{</span> <span class="nv">$input</span> <span class="p">|</span> <span class="p">&amp;</span> <span class="nv">$moreCommand</span> <span class="p">}</span>
+<span class="p">+</span>                     <span class="p">~~~~~~~~~~~~</span>
+    <span class="p">+</span> <span class="n">CategoryInfo</span>          <span class="err">:</span> <span class="n">InvalidOperation</span><span class="err">:</span> <span class="p">(</span><span class="err">:</span><span class="p">)</span> <span class="p">[],</span> <span class="n">RuntimeException</span>
+    <span class="p">+</span> <span class="n">FullyQualifiedErrorId</span> <span class="err">:</span> <span class="n">BadExpression</span>
+</code></pre></div><p>Struck out again. We can’t even display the help documentation because the “less” utility isn’t available somehow. We’ll come back to this in a moment.</p>
+<p>Let’s just fast-forward to connecting with a self-signed cert using</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">PS /powershell&gt; set-powercliconfiguration -InvalidCertificateAction Ignore
+</code></pre></div><p>In so doing, we should now be able to run those cmdlets we so love and adore. We’ll still need to <code>Connect-VIServer</code>, but that’s no big deal. Pass it credentials and you should be on your way. Run a simple <code>Get-VM</code> to make sure we’re good.</p>
+<div class="highlight"><pre class="chroma"><code class="language-ps1" data-lang="ps1"><span class="nb">PS </span><span class="p">/</span><span class="n">powershell</span><span class="p">&gt;</span> <span class="nb">get-vm</span> <span class="p">|</span> <span class="nb">ft
+</span><span class="nb"></span>
+<span class="n">Name</span>                 <span class="n">PowerState</span> <span class="n">Num</span> <span class="n">CPUs</span> <span class="n">MemoryGB</span>
+<span class="p">----</span>                 <span class="p">----------</span> <span class="p">--------</span> <span class="p">--------</span>
+<span class="n">Log</span> <span class="n">Insight</span>          <span class="n">PoweredOn</span>  <span class="n">2</span>        <span class="n">7</span><span class="p">.</span><span class="n">000</span>
+<span class="n">Pernix</span>               <span class="n">PoweredOn</span>  <span class="n">1</span>        <span class="n">4</span><span class="p">.</span><span class="n">000</span>
+<span class="n">vra7dem01</span>            <span class="n">PoweredOn</span>  <span class="n">2</span>        <span class="n">4</span><span class="p">.</span><span class="n">000</span>
+<span class="n">vra7vro01</span>            <span class="n">PoweredOn</span>  <span class="n">2</span>        <span class="n">4</span><span class="p">.</span><span class="n">000</span>
+<span class="n">Admiral</span>              <span class="n">PoweredOn</span>  <span class="n">1</span>        <span class="n">3</span><span class="p">.</span><span class="n">000</span>
+<span class="n">puppet</span>               <span class="n">PoweredOff</span> <span class="n">2</span>        <span class="n">5</span><span class="p">.</span><span class="n">000</span>
+<span class="n">vra7man01</span>            <span class="n">PoweredOn</span>  <span class="n">2</span>        <span class="n">4</span><span class="p">.</span><span class="n">000</span>
+</code></pre></div><p>Looks like we are, so now we can use PowerCLI on Mac just like we could on Windows. Hooray!</p>
+<p>One problem remains. We can’t access the help pages that we really need. Yes, sure, we can pull up the on-line help, but using the help cmdlet is so much easier because it delivers knowledge within PowerShell at the time we need it. Clearly, we must have a solution. If you refer back up the page, the error message we got was due to lack of the “less” utility. Why is that? Well, images in Docker are built from a manifest known as a Dockerfile. It just so happens this file is also available to us in the container. Let’s do a “dir” command to see what’s in this location.</p>
+<p><img src="/images/2016-10/powercli-core-with-help/image3.png" alt="Output of dir in a PowerShell session"></p>
+<p>Forgive the blurriness here, but I wanted to maintain the formatting to make it easier on the eyes. Ok, so here we can see the Dockerfile. Let’s do a common <code>cat</code> on it to view its contents.</p>
+<div class="highlight"><pre class="chroma"><code class="language-dockerfile" data-lang="dockerfile">PS /powershell&gt; cat ./Dockerfile<span class="err">
+</span><span class="err"></span><span class="k">FROM</span><span class="s"> ubuntu:14.04</span><span class="err">
+</span><span class="err"></span><span class="k">MAINTAINER</span><span class="s"> renoufa@vmware.com</span><span class="err">
+</span><span class="err">
+</span><span class="err"></span><span class="k">ARG</span> <span class="nv">POWERSHELL_RELEASE</span><span class="o">=</span>v6.0.0-alpha.10<span class="err">
+</span><span class="err"></span><span class="k">ARG</span> <span class="nv">POWERSHELL_PACKAGE</span><span class="o">=</span>powershell_6.0.0-alpha.10-1ubuntu1.14.04.1_amd64.deb<span class="err">
+</span><span class="err"></span><span class="k">ARG</span> <span class="nv">POWERCLI_PACKAGE</span><span class="o">=</span>PowerCLI.ViCore.4523941.zip<span class="err">
+</span><span class="err"></span><span class="k">ARG</span> <span class="nv">POWERCLI_VDS_PACKAGE</span><span class="o">=</span>PowerCLI.Vds.4523941.zip<span class="err">
+</span><span class="err">
+</span><span class="err"></span><span class="k">RUN</span> apt-get update <span class="o">&amp;&amp;</span> <span class="se">\
+</span><span class="se"></span>    apt-get install --no-install-recommends -yq <span class="se">\
+</span><span class="se"></span>    openssh-server <span class="se">\
+</span><span class="se"></span>    ca-certificates <span class="se">\
+</span><span class="se"></span>    curl <span class="se">\
+</span><span class="se"></span>    libunwind8 <span class="se">\
+</span><span class="se"></span>    libicu52 <span class="se">\
+</span><span class="se"></span>    unzip <span class="se">\
+</span><span class="se"></span>    wget <span class="se">\
+</span><span class="se"></span>    libcurl4-openssl-dev <span class="se">\
+</span><span class="se"></span>    git <span class="o">&amp;&amp;</span> <span class="se">\
+</span><span class="se"></span>    rm -rf /var/lib/apt/lists/*<span class="err">
+</span><span class="err">
+</span><span class="err"></span><span class="c"># Set the working directory to /powershell</span><span class="err">
+</span><span class="err"></span><span class="k">WORKDIR</span><span class="s"> /powershell</span><span class="err">
+</span><span class="err">
+</span><span class="err"></span><span class="c"># Install PowerShell package and clean up</span><span class="err">
+</span><span class="err"></span><span class="k">RUN</span> curl -SLO https://github.com/PowerShell/PowerShell/releases/download/<span class="nv">$POWERSHELL_RELEASE</span>/<span class="nv">$POWERSHELL_PACKAGE</span> <span class="se">\
+</span><span class="se"></span>    <span class="o">&amp;&amp;</span> dpkg -i <span class="nv">$POWERSHELL_PACKAGE</span> <span class="se">\
+</span><span class="se"></span>    <span class="o">&amp;&amp;</span> rm <span class="nv">$POWERSHELL_PACKAGE</span><span class="err">
+</span><span class="err">
+</span><span class="err"></span><span class="k">ADD</span> <span class="nv">$POWERCLI_PACKAGE</span> /powershell/<span class="err">
+</span><span class="err"></span><span class="k">ADD</span> <span class="nv">$POWERCLI_VDS_PACKAGE</span> /powershell/<span class="err">
+</span><span class="err">
+</span><span class="err"></span><span class="c"># Copy PowerCLI Profile Script to the docker image</span><span class="err">
+</span><span class="err"></span><span class="k">RUN</span> mkdir -p /root/.config/powershell/<span class="err">
+</span><span class="err"></span><span class="k">ADD</span> Start-PowerCLI.ps1 /root/.config/powershell/Microsoft.PowerShell_profile.ps1<span class="err">
+</span><span class="err">
+</span><span class="err"></span><span class="c"># Unzip PowerCLI modules into the modules folder</span><span class="err">
+</span><span class="err"></span><span class="k">RUN</span> mkdir -p ~/.local/share/powershell/Modules<span class="err">
+</span><span class="err"></span><span class="k">RUN</span> unzip /powershell/<span class="nv">$POWERCLI_PACKAGE</span> -d ~/.local/share/powershell/Modules<span class="err">
+</span><span class="err"></span><span class="k">RUN</span> unzip /powershell/<span class="nv">$POWERCLI_VDS_PACKAGE</span> -d ~/.local/share/powershell/Modules<span class="err">
+</span><span class="err">
+</span><span class="err"></span><span class="c"># Add PowerNSX Git - https://bitbucket.org/nbradford/powernsx/wiki/Home</span><span class="err">
+</span><span class="err"></span><span class="c"># RUN git clone https://bitbucket.org/nbradford/powernsx.git ~/.local/share/powershell/Modules/PowerNSX</span><span class="err">
+</span><span class="err">
+</span><span class="err"></span><span class="c"># Add Log Insight Module - https://github.com/lucdekens/LogInsight</span><span class="err">
+</span><span class="err"></span><span class="c"># RUN git clone https://github.com/lucdekens/LogInsight.git ~/.local/share/powershell/Modules/LogInsight</span><span class="err">
+</span><span class="err">
+</span><span class="err"></span><span class="c"># Add PowerVRA Module - https://github.com/jakkulabs/PowervRA</span><span class="err">
+</span><span class="err"></span><span class="c"># RUN git clone https://github.com/jakkulabs/PowervRA.git /tmp/PowerVRA</span><span class="err">
+</span><span class="err"></span><span class="c"># RUN mv /powershell/PowerVRA/PowervRA ~/.local/share/powershell/Modules/</span><span class="err">
+</span></code></pre></div><p>Ok, so we have a bunch of information here.  The main things to point out are at the top. The base layer is <code>FROM ubuntu:14.04</code>, meaning the image beings with Ubuntu version 14.04. The <code>RUN</code> commands show which commands get run in composing the image. We’re installing a bunch of packages with the Ubuntu package manger, apt-get, in this case, and less isn’t among them. Let’s get less and see if that works.</p>
+<div class="highlight"><pre class="chroma"><code class="language-ps1" data-lang="ps1"><span class="nb">PS </span><span class="p">/</span><span class="n">powershell</span><span class="p">&gt;</span> <span class="n">apt-get</span> <span class="n">install</span> <span class="n">less</span>
+<span class="n">apt-get</span> <span class="err">:</span> <span class="n">The</span> <span class="n">term</span> <span class="s1">&#39;apt-get&#39;</span> <span class="n">is</span> <span class="n">not</span> <span class="n">recognized</span> <span class="n">as</span> <span class="n">the</span> <span class="n">name</span> <span class="n">of</span> <span class="n">a</span> <span class="n">cmdlet</span><span class="p">,</span> <span class="k">function</span><span class="p">,</span> <span class="n">script</span> <span class="n">file</span><span class="p">,</span> <span class="n">or</span> <span class="n">operable</span> <span class="n">program</span><span class="p">.</span> <span class="n">Check</span> <span class="n">the</span> <span class="n">spelling</span> <span class="n">of</span> <span class="n">the</span> <span class="n">name</span><span class="p">,</span> <span class="n">or</span> <span class="k">if</span> <span class="n">a</span> <span class="n">path</span> <span class="n">was</span> <span class="n">included</span><span class="p">,</span> <span class="n">verify</span> <span class="n">that</span> <span class="n">the</span> <span class="n">path</span> <span class="n">is</span> <span class="n">corr</span>
+<span class="n">ect</span> <span class="n">and</span> <span class="k">try</span> <span class="n">again</span><span class="p">.</span>
+<span class="n">At</span> <span class="n">line</span><span class="err">:</span><span class="n">1</span> <span class="n">char</span><span class="err">:</span><span class="n">1</span>
+<span class="p">+</span> <span class="n">apt-get</span> <span class="n">install</span> <span class="n">less</span>
+<span class="p">+</span> <span class="p">~~~~~~~</span>
+    <span class="p">+</span> <span class="n">CategoryInfo</span>          <span class="err">:</span> <span class="n">ObjectNotFound</span><span class="err">:</span> <span class="p">(</span><span class="n">apt-get</span><span class="err">:</span><span class="n">String</span><span class="p">)</span> <span class="p">[],</span> <span class="n">CommandNotFoundException</span>
+    <span class="p">+</span> <span class="n">FullyQualifiedErrorId</span> <span class="err">:</span> <span class="n">CommandNotFoundException</span>
+</code></pre></div><p>No dice. Can we even run apt-get?</p>
+<div class="highlight"><pre class="chroma"><code class="language-ps1" data-lang="ps1"><span class="nb">PS </span><span class="p">/</span><span class="n">powershell</span><span class="p">&gt;</span> <span class="n">apt-get</span>
+<span class="n">apt-get</span> <span class="err">:</span> <span class="n">The</span> <span class="n">term</span> <span class="s1">&#39;apt-get&#39;</span> <span class="n">is</span> <span class="n">not</span> <span class="n">recognized</span> <span class="n">as</span> <span class="n">the</span> <span class="n">name</span> <span class="n">of</span> <span class="n">a</span> <span class="n">cmdlet</span><span class="p">,</span> <span class="k">function</span><span class="p">,</span> <span class="n">script</span> <span class="n">file</span><span class="p">,</span> <span class="n">or</span> <span class="n">operable</span> <span class="n">program</span><span class="p">.</span> <span class="n">Check</span> <span class="n">the</span> <span class="n">spelling</span> <span class="n">of</span> <span class="n">the</span> <span class="n">name</span><span class="p">,</span> <span class="n">or</span> <span class="k">if</span> <span class="n">a</span> <span class="n">path</span> <span class="n">was</span> <span class="n">included</span><span class="p">,</span> <span class="n">verify</span> <span class="n">that</span> <span class="n">the</span> <span class="n">path</span> <span class="n">is</span> <span class="n">corr</span>
+<span class="n">ect</span> <span class="n">and</span> <span class="k">try</span> <span class="n">again</span><span class="p">.</span>
+<span class="n">At</span> <span class="n">line</span><span class="err">:</span><span class="n">1</span> <span class="n">char</span><span class="err">:</span><span class="n">1</span>
+<span class="p">+</span> <span class="n">apt-get</span>
+<span class="p">+</span> <span class="p">~~~~~~~</span>
+    <span class="p">+</span> <span class="n">CategoryInfo</span>          <span class="err">:</span> <span class="n">ObjectNotFound</span><span class="err">:</span> <span class="p">(</span><span class="n">apt-get</span><span class="err">:</span><span class="n">String</span><span class="p">)</span> <span class="p">[],</span> <span class="n">CommandNotFoundException</span>
+    <span class="p">+</span> <span class="n">FullyQualifiedErrorId</span> <span class="err">:</span> <span class="n">CommandNotFoundException</span>
+</code></pre></div><p>Nope, we can’t. What if we get a bash shell?</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">PS /powershell&gt; bash
+root <span class="o">[</span> /powershell <span class="o">]</span><span class="c1"># yum</span>
+bash: yum: <span class="nb">command</span> not found
+root <span class="o">[</span> /powershell <span class="o">]</span><span class="c1"># apt-get</span>
+bash: apt-get: <span class="nb">command</span> not found
+</code></pre></div><p>What distro is this anyway, even if we started with the Ubuntu base layer?</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">root <span class="o">[</span> /powershell <span class="o">]</span><span class="c1"># cat /etc/*-release</span>
+<span class="nv">DISTRIB_ID</span><span class="o">=</span><span class="s2">&#34;VMware Photon&#34;</span>
+<span class="nv">DISTRIB_RELEASE</span><span class="o">=</span><span class="s2">&#34;1.0&#34;</span>
+<span class="nv">DISTRIB_CODENAME</span><span class="o">=</span>Photon
+<span class="nv">DISTRIB_DESCRIPTION</span><span class="o">=</span><span class="s2">&#34;VMware Photon 1.0&#34;</span>
+<span class="nv">NAME</span><span class="o">=</span><span class="s2">&#34;VMware Photon&#34;</span>
+<span class="nv">VERSION</span><span class="o">=</span><span class="s2">&#34;1.0&#34;</span>
+<span class="nv">ID</span><span class="o">=</span>photon
+<span class="nv">VERSION_ID</span><span class="o">=</span>1.0
+<span class="nv">PRETTY_NAME</span><span class="o">=</span><span class="s2">&#34;VMware Photon/Linux&#34;</span>
+<span class="nv">ANSI_COLOR</span><span class="o">=</span><span class="s2">&#34;1;34&#34;</span>
+<span class="nv">HOME_URL</span><span class="o">=</span><span class="s2">&#34;https://vmware.github.io/photon/&#34;</span>
+<span class="nv">BUG_REPORT_URL</span><span class="o">=</span><span class="s2">&#34;https://github.com/vmware/photon/issues&#34;</span>
+VMware Photon Linux 1.0
+<span class="nv">PHOTON_BUILD_NUMBER</span><span class="o">=</span>a6f0f63
+</code></pre></div><p>Ah, so we’re based on Photon 1.0 here. In Photon, we don’t use yum or apt-get, but instead <a href="https://github.com/vmware/photon/wiki/Frequently-Asked-Questions#q-where-can-i-get-the-latest-version-of-a-package">tdnf</a>. Let’s see what package we need to get less in Photon.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">root <span class="o">[</span> /powershell <span class="o">]</span><span class="c1"># tdnf whatprovides less</span>
+less-458-2.ph1.x86_64 : Text file viewer
+Repo	 : photon
+</code></pre></div><p>So we need the standard <code>less</code> package, not a package containing it. We can go ahead and install that with a <code>tdnf install -y less</code>. If you have Internet access, we should be able to pull down less from the public Photon repos. Let’s test that out and do a help on a familiar cmdlet to make sure the documentation shows up. To get back to a PS prompt, type <code>exit</code> to end the bash session, and press Enter to bring back the PS session we just left off.</p>
+<div class="highlight"><pre class="chroma"><code class="language-ps1" data-lang="ps1"><span class="nb">PS </span><span class="p">/</span><span class="n">powershell</span><span class="p">&gt;</span> <span class="n">help</span> <span class="nb">connect-viserver</span>
+
+<span class="n">NAME</span>
+    <span class="nb">Connect-VIServer</span>
+
+<span class="n">SYNOPSIS</span>
+    <span class="n">This</span> <span class="n">cmdlet</span> <span class="n">establishes</span> <span class="n">a</span> <span class="n">connection</span> <span class="n">to</span> <span class="n">a</span> <span class="n">vCenter</span> <span class="n">Server</span> <span class="n">system</span><span class="p">.</span>
+
+
+<span class="n">SYNTAX</span>
+    <span class="nb">Connect-VIServer</span> <span class="p">[</span><span class="n">-Server</span><span class="p">]</span> <span class="p">&lt;</span><span class="n">String</span><span class="p">[]&gt;</span> <span class="p">[</span><span class="n">-Port</span> <span class="p">&lt;</span><span class="n">Int32</span><span class="p">&gt;]</span> <span class="p">[</span><span class="n">-Protocol</span> <span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;]</span> <span class="p">[</span><span class="n">-Credential</span> <span class="p">&lt;</span><span class="n">PSCredential</span><span class="p">&gt;]</span> <span class="p">[</span><span class="n">-User</span> <span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;]</span> <span class="p">[</span><span class="n">-Password</span> <span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;]</span> <span class="p">[</span><span class="n">-Session</span> <span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;]</span> <span class="p">[</span><span class="n">-NotDefault</span><span class="p">]</span> <span class="p">[</span><span class="n">-SaveCredentials</span><span class="p">]</span> <span class="p">[</span><span class="n">-Al</span>
+    <span class="n">lLinked</span><span class="p">]</span> <span class="p">[</span><span class="n">-Force</span><span class="p">]</span> <span class="p">[&lt;</span><span class="n">CommonParameters</span><span class="p">&gt;]</span>
+
+    <span class="nb">Connect-VIServer</span> <span class="n">-Menu</span> <span class="p">[&lt;</span><span class="n">CommonParameters</span><span class="p">&gt;]</span>
+
+
+<span class="n">DESCRIPTION</span>
+    <span class="n">This</span> <span class="n">cmdlet</span> <span class="n">establishes</span> <span class="n">a</span> <span class="n">connection</span> <span class="n">to</span> <span class="n">a</span> <span class="n">vCenter</span> <span class="n">Server</span> <span class="n">system</span><span class="p">.</span> <span class="n">The</span> <span class="n">cmdlet</span> <span class="n">starts</span> <span class="n">a</span> <span class="n">new</span> <span class="n">session</span> <span class="n">or</span> <span class="n">re-establishes</span> <span class="n">a</span> <span class="n">previous</span> <span class="n">session</span> <span class="n">with</span> <span class="n">a</span> <span class="n">vCenter</span> <span class="n">Server</span> <span class="n">system</span> <span class="n">using</span> <span class="n">the</span> <span class="n">specified</span> <span class="n">parameters</span><span class="p">.</span>
+
+    <span class="n">When</span> <span class="n">you</span> <span class="n">attempt</span> <span class="n">to</span> <span class="n">connect</span> <span class="n">to</span> <span class="n">a</span> <span class="n">server</span><span class="p">,</span> <span class="n">the</span> <span class="n">server</span> <span class="n">checks</span> <span class="k">for</span> <span class="n">valid</span> <span class="n">certificates</span><span class="p">.</span> <span class="n">To</span> <span class="nb">set </span><span class="n">the</span> <span class="k">default</span> <span class="n">behavior</span> <span class="n">of</span> <span class="n">vSphere</span> <span class="n">PowerCLI</span> <span class="n">when</span> <span class="n">no</span> <span class="n">valid</span> <span class="n">certificates</span> <span class="n">are</span> <span class="n">recognized</span><span class="p">,</span> <span class="n">use</span> <span class="n">the</span> <span class="n">InvalidCertificat</span>
+    <span class="n">eAction</span> <span class="k">parameter</span> <span class="n">of</span> <span class="n">the</span> <span class="nb">Set-PowerCLIConfiguration</span> <span class="n">cmdlet</span><span class="p">.</span> <span class="k">For</span> <span class="n">more</span> <span class="n">information</span> <span class="n">about</span> <span class="n">invalid</span> <span class="n">certificates</span><span class="p">,</span> <span class="n">run</span> <span class="s1">&#39;Get-Help about_invalid_certificates&#39;</span><span class="p">.</span>  
+
+    <span class="n">You</span> <span class="n">can</span> <span class="n">have</span> <span class="n">more</span> <span class="n">than</span> <span class="n">one</span> <span class="n">connections</span> <span class="n">to</span> <span class="n">the</span> <span class="n">same</span> <span class="n">server</span><span class="p">.</span> <span class="n">To</span> <span class="n">disconnect</span> <span class="n">from</span> <span class="n">a</span> <span class="n">server</span><span class="p">,</span> <span class="n">you</span> <span class="n">need</span> <span class="n">to</span> <span class="n">close</span> <span class="n">all</span> <span class="n">active</span> <span class="n">connections</span> <span class="n">to</span> <span class="n">this</span> <span class="n">server</span><span class="p">.</span>
+    <span class="n">vSphere</span> <span class="n">PowerCLI</span> <span class="n">supports</span> <span class="n">working</span> <span class="n">with</span> <span class="n">multiple</span> <span class="k">default</span> <span class="n">servers</span><span class="p">.</span> <span class="k">If</span> <span class="n">you</span> <span class="nb">select </span><span class="n">this</span> <span class="n">option</span><span class="p">,</span> <span class="n">every</span> <span class="n">time</span> <span class="n">when</span> <span class="n">you</span> <span class="n">connect</span> <span class="n">to</span> <span class="n">a</span> <span class="n">different</span> <span class="n">server</span> <span class="n">using</span> <span class="nb">Connect-VIServer</span><span class="p">,</span> <span class="n">the</span> <span class="n">new</span> <span class="n">server</span> <span class="n">connection</span> <span class="n">is</span> <span class="n">stor</span>
+    <span class="n">ed</span> <span class="k">in</span> <span class="n">an</span> <span class="n">array</span> <span class="n">variable</span> <span class="n">together</span> <span class="n">with</span> <span class="n">the</span> <span class="n">previously</span> <span class="n">connected</span> <span class="n">servers</span><span class="p">,</span> <span class="n">unless</span> <span class="n">the</span> <span class="n">NotDefault</span> <span class="k">parameter</span> <span class="n">is</span> <span class="n">set</span><span class="p">.</span>  <span class="n">This</span> <span class="n">variable</span> <span class="n">is</span> <span class="n">named</span> <span class="nv">$DefaultVIServers</span> <span class="n">and</span> <span class="n">its</span> <span class="n">initial</span> <span class="n">value</span> <span class="n">is</span> <span class="n">an</span> <span class="n">empty</span> <span class="n">array</span><span class="p">.</span> <span class="n">When</span>
+     <span class="n">you</span> <span class="n">run</span> <span class="n">a</span> <span class="n">cmdlet</span> <span class="n">and</span> <span class="n">the</span> <span class="n">target</span> <span class="n">servers</span> <span class="n">cannot</span> <span class="n">be</span> <span class="n">determined</span> <span class="n">from</span> <span class="n">the</span> <span class="n">specified</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">the</span> <span class="n">cmdlet</span> <span class="n">runs</span> <span class="n">against</span> <span class="n">all</span> <span class="n">servers</span> <span class="n">stored</span> <span class="k">in</span> <span class="n">the</span> <span class="n">array</span> <span class="n">variable</span><span class="p">.</span> <span class="n">To</span> <span class="n">remove</span> <span class="n">a</span> <span class="n">server</span> <span class="n">from</span> <span class="n">the</span> <span class="nv">$DefaultVISe</span>
+    <span class="n">rvers</span> <span class="n">variable</span><span class="p">,</span> <span class="n">you</span> <span class="n">can</span> <span class="n">either</span> <span class="n">use</span> <span class="nb">Disconnect-Server</span> <span class="n">to</span> <span class="n">close</span> <span class="n">all</span> <span class="n">active</span> <span class="n">connections</span> <span class="n">to</span> <span class="n">the</span> <span class="n">server</span><span class="p">,</span> <span class="n">or</span> <span class="n">modify</span> <span class="n">the</span> <span class="n">value</span> <span class="n">of</span> <span class="nv">$DefaultVIServers</span> <span class="n">manually</span><span class="p">.</span>
+
+    <span class="k">If</span> <span class="n">you</span> <span class="n">choose</span> <span class="n">to</span> <span class="n">work</span> <span class="n">with</span> <span class="n">a</span> <span class="n">single</span> <span class="k">default</span> <span class="n">server</span><span class="p">,</span> <span class="n">when</span> <span class="n">you</span> <span class="n">run</span> <span class="n">a</span> <span class="n">cmdlet</span> <span class="n">and</span> <span class="n">the</span> <span class="n">target</span> <span class="n">servers</span> <span class="n">cannot</span> <span class="n">be</span> <span class="n">determined</span> <span class="n">from</span> <span class="n">the</span> <span class="n">specified</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">the</span> <span class="n">cmdlet</span> <span class="n">runs</span> <span class="n">against</span> <span class="n">the</span> <span class="n">last</span> <span class="n">connected</span> <span class="n">server</span><span class="p">.</span>
+     <span class="n">This</span> <span class="n">server</span> <span class="n">is</span> <span class="n">stored</span> <span class="k">in</span> <span class="n">the</span> <span class="nv">$defaultVIServer</span> <span class="n">variable</span><span class="p">,</span> <span class="n">which</span> <span class="n">is</span> <span class="n">updated</span> <span class="n">every</span> <span class="n">time</span> <span class="n">you</span> <span class="n">establish</span> <span class="n">a</span> <span class="n">new</span> <span class="n">connection</span><span class="p">.</span>
+
+    <span class="n">To</span> <span class="k">switch</span> <span class="n">between</span> <span class="n">single</span> <span class="n">and</span> <span class="n">multiple</span> <span class="k">default</span> <span class="n">servers</span> <span class="n">working</span> <span class="n">mode</span><span class="p">,</span> <span class="n">use</span> <span class="n">DefaultServerMode</span> <span class="k">parameter</span> <span class="n">of</span> <span class="n">the</span> <span class="nb">Set-PowerCLIConfiguration</span> <span class="n">cmdlet</span><span class="p">.</span> <span class="n">Working</span> <span class="n">with</span> <span class="n">multiple</span> <span class="k">default</span> <span class="n">servers</span> <span class="n">will</span> <span class="n">be</span> <span class="n">enabled</span> <span class="n">by</span> <span class="n">d</span>
+    <span class="n">efault</span> <span class="k">in</span> <span class="n">a</span> <span class="n">future</span> <span class="n">release</span><span class="p">.</span>
+
+
+<span class="n">RELATED</span> <span class="n">LINKS</span>
+    <span class="n">Online</span> <span class="n">version</span><span class="err">:</span> <span class="n">http</span><span class="err">:</span><span class="p">//</span><span class="n">www</span><span class="p">.</span><span class="n">vmware</span><span class="p">.</span><span class="n">com</span><span class="p">/</span><span class="n">support</span><span class="p">/</span><span class="n">developer</span><span class="p">/</span><span class="n">PowerCLI</span><span class="p">/</span><span class="n">PowerCLI63R1</span><span class="p">/</span><span class="n">html</span><span class="p">/</span><span class="nb">Connect-VIServer</span><span class="p">.</span><span class="n">html</span>
+    <span class="nb">Disconnect-VIServer</span>
+
+<span class="n">REMARKS</span>
+    <span class="n">To</span> <span class="n">see</span> <span class="n">the</span> <span class="n">examples</span><span class="p">,</span> <span class="n">type</span><span class="err">:</span> <span class="s2">&#34;get-help Connect-VIServer -examples&#34;</span><span class="p">.</span>
+    <span class="k">For</span> <span class="n">more</span> <span class="n">information</span><span class="p">,</span> <span class="n">type</span><span class="err">:</span> <span class="s2">&#34;get-help Connect-VIServer -detailed&#34;</span><span class="p">.</span>
+    <span class="k">For</span> <span class="n">technical</span> <span class="n">information</span><span class="p">,</span> <span class="n">type</span><span class="err">:</span> <span class="s2">&#34;get-help Connect-VIServer -full&#34;</span><span class="p">.</span>
+    <span class="k">For</span> <span class="n">online</span> <span class="n">help</span><span class="p">,</span> <span class="n">type</span><span class="err">:</span> <span class="s2">&#34;get-help Connect-VIServer -online&#34;</span>
+</code></pre></div><p>Grand! We now have not only</p>
+<ol>
+<li>A working Docker installation</li>
+<li>An image ready to be instantiated into a container</li>
+<li>PowerCLI Core up and running, but also the ability to view Get-Help pages for cmdlets.</li>
+</ol>
+<p>When we’re done with this PowerCLI session, we can simply type <code>exit</code> and our container will exit. Need that PowerCLI session again? Do a <code>docker ps –a</code> to show all containers, stopped or otherwise, and get the contain ID or name.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">chipzoller$ dps
+CONTAINER ID        IMAGE                 COMMAND                 CREATED             STATUS              PORTS               NAMES
+a3df64855465        vmware/powerclicore   <span class="s2">&#34;/usr/bin/powershell&#34;</span>   <span class="m">20</span> minutes ago      Up <span class="m">6</span> seconds                            determined_davinci
+</code></pre></div><p>The container ID here is a3df64855465, and the name provided (since we didn’t specify one at runtime) is called “determined_davinci”. We can use either of these to restart this container and get back into our PowerCLI session. In my case, the container ID begins with “a3”, so we can start the container up again with that. Let’s issue a <code>docker start a3</code> and then verify the container is up and running again with a <code>docker ps</code> command. If it’s running, we can re-attach to that container with a <code>docker attach a3</code> command.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">chipzoller$ docker attach a3
+PS /powershell&gt;
+</code></pre></div><p>And now we’re back to our PowerCLI session, so go fourth and PowerShell the masses with PowerCLI Core in a Docker container!</p>
+
+    
+    <div class="share-icons d-flex d-print-none">
+      <a href="https://twitter.com/intent/tweet?text=PowerCLI%20Core%20on%20Mac%20or%20Linux%20made%20easy%2c%20with%20help%21&url=https%3a%2f%2fneonmirrors.net%2fpost%2f2016-10%2fpowercli-core-with-help%2f&tw_p=tweetbutton" class="p-2" title="Share on Twitter" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Tweet</small></div>
+</a>
+
+<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fneonmirrors.net%2fpost%2f2016-10%2fpowercli-core-with-help%2f&t=PowerCLI%20Core%20on%20Mac%20or%20Linux%20made%20easy%2c%20with%20help%21" class="p-2" title="Share on Facebook" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+<script>
+  function shareViaLinkedin() {
+    window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent("https://neonmirrors.net/post/2016-10/powercli-core-with-help/"), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+  }
+</script>
+<a href="#linkedinshare" id = "linkedinshare" class="p-2" title="Share on LinkedIn" rel="nofollow" onclick="shareViaLinkedin()">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+
+<a href="javascript:window.print()" title="Print this article" class="p-2" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fa fa-print fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Print</small></div>
+</a>
+
+    </div>
+  </div>
+  
+  
+</div>
+<div class="sidebar d-print-none d-xl-block internal">
+  
+  <h2>Chip Zoller</h2>
+  <div>
+    Technologist, perpetual student, teacher, continual incremental improvement.
+  </div>
+  <a href="/about/" class="btn btn-outline-secondary mt-3" role="button">Read More...</a>
+  <h2 class="mt-4">Featured Posts</h2>
+  
+  
+  <a href="/post/2019-10/authentication-and-authorization-in-k8s/" class="nav-link">Authentication and Authorization in Kubernetes</a>
+  
+  <a href="/post/2018-12/how-to-ask-for-help-on-tech-forums/" class="nav-link">How to Ask for Help on Tech Forums</a>
+  
+  <h2 class="mt-4">Recent Posts</h2>
+  <nav class="nav flex-column">
+    
+    <a href="/post/2020-04/getting-started-with-tkg/" class="nav-link">Getting Started with Tanzu Kubernetes Grid</a>
+    
+    <a href="/post/2020-04/capv-overview/" class="nav-link">Behind the Scenes with Cluster API Provider vSphere</a>
+    
+    <a href="/post/2020-01/buy-dont-build/" class="nav-link">Buy Don&#39;t Build</a>
+    
+    <a href="/post/2020-01/why-k8s-on-vms/" class="nav-link">Why Kubernetes on Virtual Machines?</a>
+    
+    <a href="/post/2020-01/2020-public-domain-day/" class="nav-link">2020 Public Domain Day</a>
+    
+    <a href="/post/2019-10/authentication-and-authorization-in-k8s/" class="nav-link">Authentication and Authorization in Kubernetes</a>
+    
+    <a href="/post/2019-10/pks-rancher-reg/" class="nav-link">pks-rancher-reg: Automated PKS Cluster Registration For Rancher</a>
+    
+    <a href="/post/2019-09/rancher-ha-on-pks/" class="nav-link">Rancher HA on Enterprise PKS</a>
+    
+  </nav>
+  
+  <h2 class="mt-4 text-capitalize" id="categories-section">categories</h2>
+  <nav class="nav">
+    
+    <a href='/categories/technology/' class="nav-link">
+      technology
+      <span class="badge badge-pill badge-secondary">53</span>
+    </a>
+    
+    <a href='/categories/music/' class="nav-link">
+      music
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+  </nav>
+  
+  <h2 class="mt-4 text-capitalize" id="tags-section">tags</h2>
+  <nav class="nav">
+    
+    <a href='/tags/vrealize/' class="nav-link">
+      vrealize
+      <span class="badge badge-pill badge-secondary">27</span>
+    </a>
+    
+    <a href='/tags/vra/' class="nav-link">
+      vra
+      <span class="badge badge-pill badge-secondary">22</span>
+    </a>
+    
+    <a href='/tags/vsphere/' class="nav-link">
+      vsphere
+      <span class="badge badge-pill badge-secondary">14</span>
+    </a>
+    
+    <a href='/tags/k8s/' class="nav-link">
+      k8s
+      <span class="badge badge-pill badge-secondary">9</span>
+    </a>
+    
+    <a href='/tags/sovlabs/' class="nav-link">
+      sovlabs
+      <span class="badge badge-pill badge-secondary">8</span>
+    </a>
+    
+    <a href='/tags/veeam/' class="nav-link">
+      veeam
+      <span class="badge badge-pill badge-secondary">7</span>
+    </a>
+    
+    <a href='/tags/powershell/' class="nav-link">
+      powershell
+      <span class="badge badge-pill badge-secondary">6</span>
+    </a>
+    
+    <a href='/tags/log-insight/' class="nav-link">
+      log-insight
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/pks/' class="nav-link">
+      pks
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/vrops/' class="nav-link">
+      vrops
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/vro/' class="nav-link">
+      vro
+      <span class="badge badge-pill badge-secondary">4</span>
+    </a>
+    
+    <a href='/tags/docker/' class="nav-link">
+      docker
+      <span class="badge badge-pill badge-secondary">3</span>
+    </a>
+    
+    <a href='/tags/vmworld/' class="nav-link">
+      vmworld
+      <span class="badge badge-pill badge-secondary">3</span>
+    </a>
+    
+    <a href='/tags/featured/' class="nav-link">
+      featured
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/nsx-t/' class="nav-link">
+      nsx-t
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/powercli/' class="nav-link">
+      powercli
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/rancher/' class="nav-link">
+      rancher
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/thoughts/' class="nav-link">
+      thoughts
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/ansible/' class="nav-link">
+      ansible
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/authentication/' class="nav-link">
+      authentication
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/forums/' class="nav-link">
+      forums
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/homelab/' class="nav-link">
+      homelab
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/networking/' class="nav-link">
+      networking
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/security/' class="nav-link">
+      security
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/vmtn/' class="nav-link">
+      vmtn
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+  </nav>
+  
+</div>
+
+
+  </div>
+  
+  <footer class="mt-auto footer d-print-none">
+    <a class="to-top" href="#" title="Back to top">
+      <i class="fa fa-caret-up"></i>
+    </a>
+    <div class="container-fluid">
+      <div class="row justify-content-center">
+        <div class="col-md-4 col-xl-3">
+          <h5>Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved.</h5>
+I&#39;m happy for you to share content on this site, but please provide attribution.
+        </div>
+        <div class="col-md-4 col-xl-3">
+          <h5>Disclaimer</h5>
+Opinions expressed here are my own and may not reflect those of the company I work for, or the people I work with.
+        </div>
+        <div class="col-md-4 col-xl-3">
+          <h5>About This Site</h5>
+This blog was created using the <a href="https://gohugo.io/">Hugo</a> static site generator, using
+<a href="https://getbootstrap.com/">Bootstrap</a>, using the Silhouette Hugo theme, created by
+<a href='https://www.mattbutton.com'>Matt Button</a>
+        </div>
+      </div>
+      
+      <hr />
+      
+      <div class="d-flex justify-content-center icons">
+        <a class="py-2 px-2" href="https://github.com/chipzoller"><i class="fab fa-github"></i></a>
+<a class="py-2 px-2" href="https://twitter.com/chipzoller"><i class="fab fa-twitter"></i></a>
+<a class="py-2 px-2" href="https://www.linkedin.com/in/chipzoller/"><i class="fab fa-linkedin"></i></a>
+<a class="py-2 px-2" href='https://neonmirrors.net/index.xml'><i class="fas fa-rss"></i></a>
+
+      </div>
+    </div>
+  </footer>
+  
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script src="/js/syntax.js"></script>
+  <script src = '/js/index.js'></script>
+  
+  
+</body>
+</html>

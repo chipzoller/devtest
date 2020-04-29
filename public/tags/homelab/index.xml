@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>homelab on Neon Mirrors</title>
+    <link>https://neonmirrors.net/tags/homelab/</link>
+    <description>Recent content in homelab on Neon Mirrors</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <copyright>Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved.</copyright>
+    <lastBuildDate>Fri, 15 Jul 2016 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://neonmirrors.net/tags/homelab/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Synology DiskStation:  The Magical Crash</title>
+      <link>https://neonmirrors.net/post/2016-07/synology-and-the-magical-crash/</link>
+      <pubDate>Fri, 15 Jul 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2016-07/synology-and-the-magical-crash/</guid>
+      <description>I’m inside, at my desk on a Sunday morning having just had some coffee and not in the best of spirits despite looking out the window at a beautifully sunny day on a well-coiffed lawn. I look to my left and patiently wait for a vertical row of four green, blinking lights to calm themselves. It’s definitely a moment of anxiety for me, because at this moment, I am having to rebuild and start anew with my 4-bay Synology DS412+, the NAS I’ve been using in my home lab for the past few years.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,500 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  <meta property="og:title" content="Automating vSphere Tagging in vRA with SovLabs" />
+<meta property="og:description" content="Using SovLabs vSphere Tagging module to automate tag assignment through vRealize Automation." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://neonmirrors.net/post/2017-12/automating-vsphere-tagging-in-vra-with-sovlabs/" />
+<meta property="article:published_time" content="2017-12-31T00:00:00+00:00" />
+<meta property="article:modified_time" content="2017-12-31T00:00:00+00:00" />
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Automating vSphere Tagging in vRA with SovLabs"/>
+<meta name="twitter:description" content="Using SovLabs vSphere Tagging module to automate tag assignment through vRealize Automation."/>
+<meta name="twitter:site" content="@chipzoller"/>
+
+  
+  <title>
+Automating vSphere Tagging in vRA with SovLabs | Neon Mirrors
+</title>
+  
+  <link rel="icon" type="image/png" href='https://neonmirrors.net/images/favicon-16x16.png' sizes="16x16">
+  <link rel="icon" type="image/png" href='https://neonmirrors.net/images/favicon-32x32.png' sizes="32x32">  
+  
+  <link href="https://fonts.googleapis.com/css?family=Oswald:400" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">      
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel = 'stylesheet' href = 'https://neonmirrors.net/css/main.703162b863e7e1a93ee98f24b75e329848a814522f2d9f5735d41fbc7f023b3772f177c6ef8dbafccee65cfa8c1b8bb57e73d49284b5a0fdbbe772b8b29b07cb.css' integrity = 'sha512-cDFiuGPn4ak&#43;6Y8kt14ymEioFFIvLZ9XNdQfvH8COzdy8XfG7426/M7mXPqMG4u1fnPUkoS1oP2753K4spsHyw=='>
+  
+  
+<link rel="me" type="text/html" href="https://twitter.com/chipzoller"/> 
+<link rel="me" type="text/html" href="https://www.linkedin.com/in/chipzoller/"/> 
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+
+<link rel="alternate" type="application/rss+xml" href='https://neonmirrors.net/index.xml' />
+
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<meta name="author" content="Chip Zoller" />
+<meta name="copyright" content="Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved." />
+
+
+<meta name="description" content="Using SovLabs vSphere Tagging module to automate tag assignment through vRealize Automation.">
+
+
+
+
+<style type="text/css">
+  .feature-image {
+    background-image: url("https://neonmirrors.net/images/2017-12/automating-vsphere-tagging-in-vra-with-sovlabs/featured.jpg");
+    height: 500px;
+  }
+  
+  @media (max-width: 992px) {
+    .feature-image {
+      height: 350px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .feature-image {
+      height: 250px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .feature-image {
+      height: 200px;
+    }
+  }
+</style>
+
+        
+</head>
+<body >
+  <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark py-1 top-nav">
+    <div class="container">
+      <span class="internal">
+  <a class="navbar-brand pr-2" href="/">NEON MIRRORS</a>
+</span>
+
+      <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="navbar-collapse collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/categories/technology/">Technology</a>
+  
+</li>
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/categories/music/">Music</a>
+  
+</li>
+<li class="nav-item internal">
+  
+  <div class="nav-link nav-hassubmenu">Links
+    <div class="nav-submenu" >
+    
+      <a class="nav-link" href="https://chipzoller.gitbook.io/vspheremigration/">Ultimate vSphere VM Migration Guide</a>
+    
+    </div>
+    </div>
+  
+</li>
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/about/">About</a>
+  
+</li>
+
+        </ul>
+        <div class="social-icons d-none d-lg-block">
+          <a class="py-2 px-2" href="https://github.com/chipzoller"><i class="fab fa-github"></i></a>
+<a class="py-2 px-2" href="https://twitter.com/chipzoller"><i class="fab fa-twitter"></i></a>
+<a class="py-2 px-2" href="https://www.linkedin.com/in/chipzoller/"><i class="fab fa-linkedin"></i></a>
+<a class="py-2 px-2" href='https://neonmirrors.net/index.xml'><i class="fas fa-rss"></i></a>
+
+        </div>
+      </div>
+    </div>
+  </nav>
+  
+  
+<header class="feature-image d-print-none">
+</header>
+
+  
+  <div class="main">
+    
+<div class="container mt-4 post">
+  <h1>Automating vSphere Tagging in vRA with SovLabs</h1>
+  <div class="mb-3 internal">
+  <small>
+    <strong>By Chip Zoller</strong>
+    | <i class="far fa-calendar-alt"></i>&nbsp;Dec 31, 2017&nbsp;
+    | <i class="fa fa-tags" title="Tags" aria-hidden="true"></i> <a href='/tags/sovlabs/'>sovlabs</a>, <a href='/tags/vra/'>vra</a>, <a href='/tags/vrealize/'>vrealize</a><span class="d-lg-none">, <a href='#tags-section'>all tags</a></span>
+  </small>
+</div>
+
+  <div class="share-icons d-flex d-print-none">
+    <a href="https://twitter.com/intent/tweet?text=Automating%20vSphere%20Tagging%20in%20vRA%20with%20SovLabs&url=https%3a%2f%2fneonmirrors.net%2fpost%2f2017-12%2fautomating-vsphere-tagging-in-vra-with-sovlabs%2f&tw_p=tweetbutton" class="p-2" title="Share on Twitter" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Tweet</small></div>
+</a>
+
+<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fneonmirrors.net%2fpost%2f2017-12%2fautomating-vsphere-tagging-in-vra-with-sovlabs%2f&t=Automating%20vSphere%20Tagging%20in%20vRA%20with%20SovLabs" class="p-2" title="Share on Facebook" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+<script>
+  function shareViaLinkedin() {
+    window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent("https://neonmirrors.net/post/2017-12/automating-vsphere-tagging-in-vra-with-sovlabs/"), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+  }
+</script>
+<a href="#linkedinshare" id = "linkedinshare" class="p-2" title="Share on LinkedIn" rel="nofollow" onclick="shareViaLinkedin()">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+
+<a href="javascript:window.print()" title="Print this article" class="p-2" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fa fa-print fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Print</small></div>
+</a>
+
+  </div>
+  
+  <div class="mt-4 mb-4 main-content">
+    <p>vRealize Automation is a very metadata-driven system through capabilities called custom properties. These properties—which are nothing more than key-value pairs—can be applied at multiple levels throughout vRA and cause it to behave in different ways. The same sort of metadata drives a lot of decision within vSphere which are external to vRA. But applying these tags at a vSphere level has been somewhat of a challenge in the past when driven through vRA because there is no out-of-the-box support for vSphere tags. vSphere tags are useful in a whole variety of ways. Some examples include attaching descriptive labels to objects that identify ownership, application, or customer. Others include things like identifying backup jobs and policies around which they’re based. Being able to incorporate these vSphere tags into vRA can therefore be very important and something I see more and more customers adopting within vSphere and looking to harness in vRA. Recently, the SovLabs group have taken up the yoke and produced a vSphere Tagging module for vRA which allows super simple assignment of those vSphere tags that involves no custom vRO code or mucking around with fragile plug-ins of any sort. So in this article, I’m going to illustrate how this module can be leveraged to apply vSphere tags through vRA and the power and flexibility afforded you in doing so.</p>
+<p>Unlike a lot of the SovLabs functionality which are easily configured through XaaS Catalog items like adding an Active Directory configuration or a Satellite configuration shown below, the vSphere tagging utility is really driven through custom properties (like all of SovLabs’ modules) and doesn’t require configuration. The only thing necessary to get started is a vCenter endpoint.</p>
+<p>After selecting the catalog item, we need to provide information on the vCenter Server endpoint where tagging will be applied. Why not just configure the vRO vCenter plug-in, you ask? A moment of departure is necessary at this juncture.</p>
+<p><img src="/images/2017-12/automating-vsphere-tagging-in-vra-with-sovlabs/image3.png" alt="Add SovLabs vCenter Endpoint catalog item"></p>
+<p>This endpoint is created internally to the SovLabs configuration and in no way relies upon the pre-existing vRO vCenter plug-in. That’s a convenient thing because to do vSphere tagging without SovLabs requires configuring the vCenter plug-in, configuring vAPI plug-in, and then patching together workflows on your own. Not exactly simple and elegant. One of the great things the SovLabs team has done when designing and building their solutions is that they embed the entire Java SDK for vSphere within their own plug-in (hence the size). This has the benefit of zero reliance upon any other vRO plug-ins allowing them to “own” the configuration and connection from start to finish. So, essentially, when configuring this vCenter endpoint requested through the catalog, you’re enabling an internal connection that is self-contained.</p>
+<p>Anyhow, configure the vCenter endpoint with the requested fields. I’m using an embedded PSC model so I’ll check the box. And if you want to save this credential for later use, check that box as well.</p>
+<p><img src="/images/2017-12/automating-vsphere-tagging-in-vra-with-sovlabs/image4.png" alt="SovLabs vCenter Endpoint request form"></p>
+<p>Once that request completes successfully, you’re ready to roll! Time to create some tags.</p>
+<p>The tagging functionality, as mentioned earlier, is entirely driven through the presence of custom properties on attached items within vRA. The module will watch for a custom property with a specific name and, if that name is present, it will attempt to assign tags based on its value.</p>
+<p>The magic custom property that enables tagging is called <code>SovLabs_CreateTags_VMW_&lt;something&gt;</code>. The <code>&lt;something&gt;</code> part can literally be anything you wish and is only a descriptor to aid you in your organization. The value of this property is the tagging information itself which can be specified in a number of ways and includes the tag name, category name, and other properties. To show how easily it can be to assign an existing tag called “Infrastructure” which belongs to the category “Department”, we create the following custom property on a machine in our blueprint.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">SovLabs_CreateTags_VMW_MyTest  <span class="o">[</span>“Infrastructure” , “Department”<span class="o">]</span>
+</code></pre></div><p><img src="/images/2017-12/automating-vsphere-tagging-in-vra-with-sovlabs/image5.png" alt="Custom properties tab"></p>
+<p>Submit the request, wait for it to complete, then check the resulting VM. You’d get the following.</p>
+<p><img src="/images/2017-12/automating-vsphere-tagging-in-vra-with-sovlabs/image6.png" alt="vSphere tags assigned to VM"></p>
+<p>Boom. It’s that simple. The presence of the “magic” custom property name invokes the tagging functionality, and the value of that property has information on the tag(s) to be applied. Nothing else you need to do.</p>
+<p>What if you want to assign multiple tags in one go? No problem, there are a couple ways. You could create multiple custom properties each beginning with the necessary prefix. You could create a property group and put those properties within it. Or you can just use the one custom property and add multiple entries within the same value like this:</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh"><span class="o">[[</span>“Infrastructure” , “Department”<span class="o">]</span>, <span class="o">[</span>“Oracle” , “Application”<span class="o">]]</span>
+</code></pre></div><p>I’m using an array of arrays here, but the SovLabs engine allows several different ways to pass in the values as described in the <a href="http://docs.sovlabs.com/vRA7x/current.html">docs</a> including JSON. But again, pretty simple, right? The SovLabs tagging module also allows you to create both tags and categories and assign them. How do you do that? Simple. Just like you assign tags. If the tag or the category is not found, it automatically creates it for you, then assigns it. In the above example, if Infrastructure/Department had existed and the tag group “Application” existed but not the tag of “Oracle”, then the module would know to create “Oracle” for you. You can even set the description for that tag in the value for your custom property. And when creating a tag category, you can also set the cardinality of that category right through the module as either single or multiple with a simple true/false in your value.</p>
+<p><img src="/images/2017-12/automating-vsphere-tagging-in-vra-with-sovlabs/image7.png" alt="vSphere tag category creation"></p>
+<p>Hopefully by now you’ve seen and understand how simple vSphere tagging can be with the SovLabs module, but that’s only the beginning as far as the flexibility it allows. Because everything in SovLabs uses a <a href="http://docs.sovlabs.com/framework/sovlabs-template-engine.html">template engine</a> and the behavior is essentially controlled by custom properties, you have a lot of power at your fingertips for creating vSphere tags.</p>
+<p>Let’s say you need to assign a tag to every VM that results from a given business group, but you have multiple business groups and multiple blueprints, so you can’t hardcode custom properties at the blueprint level. That’s no problem. We can set the value of the property that creates tags to be an external custom property. For example, I can create a custom property on the business group level called <code>SovLabs.Tagging.Department</code> and provide it the value of <code>Infrastructure</code>.</p>
+<p><img src="/images/2017-12/automating-vsphere-tagging-in-vra-with-sovlabs/image8.png" alt="Custom property assigned"></p>
+<p>I want every blueprint that comes out of this business group to get the tag called “Infrastructure”. So in my blueprint, I can create the following custom property that is for universal tagging by business group like so.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">SovLabs_CreateTags_VMW_BusGroup  <span class="o">[</span>“<span class="o">{{</span>SovLabs.Tagging.Department<span class="o">}}</span>” , “Department”<span class="o">]</span>
+</code></pre></div><p><img src="/images/2017-12/automating-vsphere-tagging-in-vra-with-sovlabs/image9.png" alt="Custom property assigned to create tags"></p>
+<p>Each time this blueprint is provisioned, it pulls whatever the value is at runtime for <code>SovLabs.Tagging.Department</code> and sets that as the name of the tag found within the tag category called “Department”. The end result is that, for this deployment, I still get a tag named “Infrastructure” assigned to the VM.</p>
+<p>This functionality coupled with the ability to template everything in SovLabs makes it extremely flexible and powerful capable of solving almost any use case when it comes to tag assignment. So not only is setup super simple and doesn’t require you to mess with vRO plug-ins in any way, but configuration is equally simple through a combination of a single vRA catalog request and custom property assignment. It’s up to you to think of the possibilities of how you can now use vSphere tagging in a very streamlined and flexible way. I hope you’ve found this useful, now the only thing left is to go forth and tag to your heart’s delight!</p>
+
+    
+    <div class="share-icons d-flex d-print-none">
+      <a href="https://twitter.com/intent/tweet?text=Automating%20vSphere%20Tagging%20in%20vRA%20with%20SovLabs&url=https%3a%2f%2fneonmirrors.net%2fpost%2f2017-12%2fautomating-vsphere-tagging-in-vra-with-sovlabs%2f&tw_p=tweetbutton" class="p-2" title="Share on Twitter" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Tweet</small></div>
+</a>
+
+<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fneonmirrors.net%2fpost%2f2017-12%2fautomating-vsphere-tagging-in-vra-with-sovlabs%2f&t=Automating%20vSphere%20Tagging%20in%20vRA%20with%20SovLabs" class="p-2" title="Share on Facebook" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+<script>
+  function shareViaLinkedin() {
+    window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent("https://neonmirrors.net/post/2017-12/automating-vsphere-tagging-in-vra-with-sovlabs/"), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+  }
+</script>
+<a href="#linkedinshare" id = "linkedinshare" class="p-2" title="Share on LinkedIn" rel="nofollow" onclick="shareViaLinkedin()">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+
+<a href="javascript:window.print()" title="Print this article" class="p-2" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fa fa-print fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Print</small></div>
+</a>
+
+    </div>
+  </div>
+  
+  
+</div>
+<div class="sidebar d-print-none d-xl-block internal">
+  
+  <h2>Chip Zoller</h2>
+  <div>
+    Technologist, perpetual student, teacher, continual incremental improvement.
+  </div>
+  <a href="/about/" class="btn btn-outline-secondary mt-3" role="button">Read More...</a>
+  <h2 class="mt-4">Featured Posts</h2>
+  
+  
+  <a href="/post/2019-10/authentication-and-authorization-in-k8s/" class="nav-link">Authentication and Authorization in Kubernetes</a>
+  
+  <a href="/post/2018-12/how-to-ask-for-help-on-tech-forums/" class="nav-link">How to Ask for Help on Tech Forums</a>
+  
+  <h2 class="mt-4">Recent Posts</h2>
+  <nav class="nav flex-column">
+    
+    <a href="/post/2020-04/getting-started-with-tkg/" class="nav-link">Getting Started with Tanzu Kubernetes Grid</a>
+    
+    <a href="/post/2020-04/capv-overview/" class="nav-link">Behind the Scenes with Cluster API Provider vSphere</a>
+    
+    <a href="/post/2020-01/buy-dont-build/" class="nav-link">Buy Don&#39;t Build</a>
+    
+    <a href="/post/2020-01/why-k8s-on-vms/" class="nav-link">Why Kubernetes on Virtual Machines?</a>
+    
+    <a href="/post/2020-01/2020-public-domain-day/" class="nav-link">2020 Public Domain Day</a>
+    
+    <a href="/post/2019-10/authentication-and-authorization-in-k8s/" class="nav-link">Authentication and Authorization in Kubernetes</a>
+    
+    <a href="/post/2019-10/pks-rancher-reg/" class="nav-link">pks-rancher-reg: Automated PKS Cluster Registration For Rancher</a>
+    
+    <a href="/post/2019-09/rancher-ha-on-pks/" class="nav-link">Rancher HA on Enterprise PKS</a>
+    
+  </nav>
+  
+  <h2 class="mt-4 text-capitalize" id="categories-section">categories</h2>
+  <nav class="nav">
+    
+    <a href='/categories/technology/' class="nav-link">
+      technology
+      <span class="badge badge-pill badge-secondary">53</span>
+    </a>
+    
+    <a href='/categories/music/' class="nav-link">
+      music
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+  </nav>
+  
+  <h2 class="mt-4 text-capitalize" id="tags-section">tags</h2>
+  <nav class="nav">
+    
+    <a href='/tags/vrealize/' class="nav-link">
+      vrealize
+      <span class="badge badge-pill badge-secondary">27</span>
+    </a>
+    
+    <a href='/tags/vra/' class="nav-link">
+      vra
+      <span class="badge badge-pill badge-secondary">22</span>
+    </a>
+    
+    <a href='/tags/vsphere/' class="nav-link">
+      vsphere
+      <span class="badge badge-pill badge-secondary">14</span>
+    </a>
+    
+    <a href='/tags/k8s/' class="nav-link">
+      k8s
+      <span class="badge badge-pill badge-secondary">9</span>
+    </a>
+    
+    <a href='/tags/sovlabs/' class="nav-link">
+      sovlabs
+      <span class="badge badge-pill badge-secondary">8</span>
+    </a>
+    
+    <a href='/tags/veeam/' class="nav-link">
+      veeam
+      <span class="badge badge-pill badge-secondary">7</span>
+    </a>
+    
+    <a href='/tags/powershell/' class="nav-link">
+      powershell
+      <span class="badge badge-pill badge-secondary">6</span>
+    </a>
+    
+    <a href='/tags/log-insight/' class="nav-link">
+      log-insight
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/pks/' class="nav-link">
+      pks
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/vrops/' class="nav-link">
+      vrops
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/vro/' class="nav-link">
+      vro
+      <span class="badge badge-pill badge-secondary">4</span>
+    </a>
+    
+    <a href='/tags/docker/' class="nav-link">
+      docker
+      <span class="badge badge-pill badge-secondary">3</span>
+    </a>
+    
+    <a href='/tags/vmworld/' class="nav-link">
+      vmworld
+      <span class="badge badge-pill badge-secondary">3</span>
+    </a>
+    
+    <a href='/tags/featured/' class="nav-link">
+      featured
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/nsx-t/' class="nav-link">
+      nsx-t
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/powercli/' class="nav-link">
+      powercli
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/rancher/' class="nav-link">
+      rancher
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/thoughts/' class="nav-link">
+      thoughts
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/ansible/' class="nav-link">
+      ansible
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/authentication/' class="nav-link">
+      authentication
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/forums/' class="nav-link">
+      forums
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/homelab/' class="nav-link">
+      homelab
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/networking/' class="nav-link">
+      networking
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/security/' class="nav-link">
+      security
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/vmtn/' class="nav-link">
+      vmtn
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+  </nav>
+  
+</div>
+
+
+  </div>
+  
+  <footer class="mt-auto footer d-print-none">
+    <a class="to-top" href="#" title="Back to top">
+      <i class="fa fa-caret-up"></i>
+    </a>
+    <div class="container-fluid">
+      <div class="row justify-content-center">
+        <div class="col-md-4 col-xl-3">
+          <h5>Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved.</h5>
+I&#39;m happy for you to share content on this site, but please provide attribution.
+        </div>
+        <div class="col-md-4 col-xl-3">
+          <h5>Disclaimer</h5>
+Opinions expressed here are my own and may not reflect those of the company I work for, or the people I work with.
+        </div>
+        <div class="col-md-4 col-xl-3">
+          <h5>About This Site</h5>
+This blog was created using the <a href="https://gohugo.io/">Hugo</a> static site generator, using
+<a href="https://getbootstrap.com/">Bootstrap</a>, using the Silhouette Hugo theme, created by
+<a href='https://www.mattbutton.com'>Matt Button</a>
+        </div>
+      </div>
+      
+      <hr />
+      
+      <div class="d-flex justify-content-center icons">
+        <a class="py-2 px-2" href="https://github.com/chipzoller"><i class="fab fa-github"></i></a>
+<a class="py-2 px-2" href="https://twitter.com/chipzoller"><i class="fab fa-twitter"></i></a>
+<a class="py-2 px-2" href="https://www.linkedin.com/in/chipzoller/"><i class="fab fa-linkedin"></i></a>
+<a class="py-2 px-2" href='https://neonmirrors.net/index.xml'><i class="fas fa-rss"></i></a>
+
+      </div>
+    </div>
+  </footer>
+  
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script src="/js/syntax.js"></script>
+  <script src = '/js/index.js'></script>
+  
+  
+</body>
+</html>

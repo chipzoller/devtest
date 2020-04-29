@@ -1,0 +1,637 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  <meta property="og:title" content="HTTPS Ingress with Enterprise PKS" />
+<meta property="og:description" content="Configuring HTTPS Ingress controllers with Enterprise PKS." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://neonmirrors.net/post/2019-09/https-ingress-with-pks/" />
+<meta property="article:published_time" content="2019-09-03T00:00:00+00:00" />
+<meta property="article:modified_time" content="2019-09-03T00:00:00+00:00" />
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="HTTPS Ingress with Enterprise PKS"/>
+<meta name="twitter:description" content="Configuring HTTPS Ingress controllers with Enterprise PKS."/>
+<meta name="twitter:site" content="@chipzoller"/>
+
+  
+  <title>
+HTTPS Ingress with Enterprise PKS | Neon Mirrors
+</title>
+  
+  <link rel="icon" type="image/png" href='https://neonmirrors.net/images/favicon-16x16.png' sizes="16x16">
+  <link rel="icon" type="image/png" href='https://neonmirrors.net/images/favicon-32x32.png' sizes="32x32">  
+  
+  <link href="https://fonts.googleapis.com/css?family=Oswald:400" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">      
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel = 'stylesheet' href = 'https://neonmirrors.net/css/main.703162b863e7e1a93ee98f24b75e329848a814522f2d9f5735d41fbc7f023b3772f177c6ef8dbafccee65cfa8c1b8bb57e73d49284b5a0fdbbe772b8b29b07cb.css' integrity = 'sha512-cDFiuGPn4ak&#43;6Y8kt14ymEioFFIvLZ9XNdQfvH8COzdy8XfG7426/M7mXPqMG4u1fnPUkoS1oP2753K4spsHyw=='>
+  
+  
+<link rel="me" type="text/html" href="https://twitter.com/chipzoller"/> 
+<link rel="me" type="text/html" href="https://www.linkedin.com/in/chipzoller/"/> 
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+
+<link rel="alternate" type="application/rss+xml" href='https://neonmirrors.net/index.xml' />
+
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<meta name="author" content="Chip Zoller" />
+<meta name="copyright" content="Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved." />
+
+
+<meta name="description" content="Configuring HTTPS Ingress controllers with Enterprise PKS.">
+
+
+
+
+<style type="text/css">
+  .feature-image {
+    background-image: url("https://neonmirrors.net/images/2019-09/https-ingress-with-pks/featured.jpg");
+    height: 500px;
+  }
+  
+  @media (max-width: 992px) {
+    .feature-image {
+      height: 350px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .feature-image {
+      height: 250px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .feature-image {
+      height: 200px;
+    }
+  }
+</style>
+
+        
+</head>
+<body >
+  <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark py-1 top-nav">
+    <div class="container">
+      <span class="internal">
+  <a class="navbar-brand pr-2" href="/">NEON MIRRORS</a>
+</span>
+
+      <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="navbar-collapse collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/categories/technology/">Technology</a>
+  
+</li>
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/categories/music/">Music</a>
+  
+</li>
+<li class="nav-item internal">
+  
+  <div class="nav-link nav-hassubmenu">Links
+    <div class="nav-submenu" >
+    
+      <a class="nav-link" href="https://chipzoller.gitbook.io/vspheremigration/">Ultimate vSphere VM Migration Guide</a>
+    
+    </div>
+    </div>
+  
+</li>
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/about/">About</a>
+  
+</li>
+
+        </ul>
+        <div class="social-icons d-none d-lg-block">
+          <a class="py-2 px-2" href="https://github.com/chipzoller"><i class="fab fa-github"></i></a>
+<a class="py-2 px-2" href="https://twitter.com/chipzoller"><i class="fab fa-twitter"></i></a>
+<a class="py-2 px-2" href="https://www.linkedin.com/in/chipzoller/"><i class="fab fa-linkedin"></i></a>
+<a class="py-2 px-2" href='https://neonmirrors.net/index.xml'><i class="fas fa-rss"></i></a>
+
+        </div>
+      </div>
+    </div>
+  </nav>
+  
+  
+<header class="feature-image d-print-none">
+</header>
+
+  
+  <div class="main">
+    
+<div class="container mt-4 post">
+  <h1>HTTPS Ingress with Enterprise PKS</h1>
+  <div class="mb-3 internal">
+  <small>
+    <strong>By Chip Zoller</strong>
+    | <i class="far fa-calendar-alt"></i>&nbsp;Sep 3, 2019&nbsp;
+    | <i class="fa fa-tags" title="Tags" aria-hidden="true"></i> <a href='/tags/k8s/'>k8s</a>, <a href='/tags/pks/'>pks</a>, <a href='/tags/networking/'>networking</a>, <a href='/tags/nsx-t/'>nsx-t</a><span class="d-lg-none">, <a href='#tags-section'>all tags</a></span>
+  </small>
+</div>
+
+  <div class="share-icons d-flex d-print-none">
+    <a href="https://twitter.com/intent/tweet?text=HTTPS%20Ingress%20with%20Enterprise%20PKS&url=https%3a%2f%2fneonmirrors.net%2fpost%2f2019-09%2fhttps-ingress-with-pks%2f&tw_p=tweetbutton" class="p-2" title="Share on Twitter" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Tweet</small></div>
+</a>
+
+<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fneonmirrors.net%2fpost%2f2019-09%2fhttps-ingress-with-pks%2f&t=HTTPS%20Ingress%20with%20Enterprise%20PKS" class="p-2" title="Share on Facebook" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+<script>
+  function shareViaLinkedin() {
+    window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent("https://neonmirrors.net/post/2019-09/https-ingress-with-pks/"), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+  }
+</script>
+<a href="#linkedinshare" id = "linkedinshare" class="p-2" title="Share on LinkedIn" rel="nofollow" onclick="shareViaLinkedin()">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+
+<a href="javascript:window.print()" title="Print this article" class="p-2" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fa fa-print fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Print</small></div>
+</a>
+
+  </div>
+  
+  <div class="mt-4 mb-4 main-content">
+    <p>Kubernetes is an awesome technology, in my humble opinion, and one of the best ways to adopt it and begin to use it in a production-worthy manner is with VMware’s Enterprise PKS. By using Enterprise PKS, you get some truly great additional value by leveraging NSX-T for the networking and security components. One of those things that comes in so handy is the ingress controller capabilities of NSX-T in which you don’t need to go roll your own. You can simply POST a manifest directly to the API server that specifies and ingress and you immediately begin to use it. There are plenty of posts that cover that and so Google is your friend. However, when it comes to using TLS with those ingress controllers in Enterprise PKS, that isn&rsquo;t covered very much. There is also one very important caveat of which to be aware that took me a solid day of troubleshooting to find. I’m going to go from start to finish with Kubernetes TLS ingresses here.</p>
+<h2 id="ingress-with-http">Ingress with HTTP</h2>
+<p>In Enterprise PKS, a NodePort service type is not supported, and that’s just fine because you really don’t want to use that very much in the first place. NSX-T gives us the ability to use the types LoadBalancer and Ingress through integration with the NCP, something that you couldn’t otherwise get unless you used a cloud provider. Creating a simple Ingress can be as straightforward as the following manifest.</p>
+<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>extensions/v1beta1<span class="w">
+</span><span class="w"></span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>Ingress<span class="w">
+</span><span class="w"></span><span class="k">metadata</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>hello-ingress<span class="w">
+</span><span class="w"></span><span class="k">spec</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="k">rules</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span>- <span class="k">host</span><span class="p">:</span><span class="w"> </span>czhello.sovsystems.com<span class="w">
+</span><span class="w">    </span><span class="k">http</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span><span class="k">paths</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span>- <span class="k">backend</span><span class="p">:</span><span class="w">
+</span><span class="w">          </span><span class="k">serviceName</span><span class="p">:</span><span class="w"> </span>hello-service<span class="w">
+</span><span class="w">          </span><span class="k">servicePort</span><span class="p">:</span><span class="w"> </span><span class="m">80</span><span class="w">
+</span></code></pre></div><p>You specify the apiVersion, kind, metadata, and the spec for the Ingress. This in turn routes traffic to the Kubernetes Service object which, according to the manifest, stipulates one named <code>hello-service</code> that exposes a port 80. That service, in turn, uses a label selector to know which backend Pods are eligible to receive the traffic. When you submit this to the API server with a <code>kubectl create -f &lt;file.yaml&gt;</code>, you’d get returned a successful creation (hopefully). By inspecting the Ingress object you just created, you should see the IP address of that Ingress controller returned.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ kubectl get ing
+NAME            HOSTS                    ADDRESS                    PORTS     AGE
+hello-ingress   czhello.sovsystems.com   10.50.0.31,100.64.128.51   80, <span class="m">443</span>   5h21m
+</code></pre></div><p>The first address is the one pulled from the floating IP pool you designated in PKS. This is the address you’ll use to set your DNS record because it should be routable. And this is how you will get services inside your Kubernetes cluster. By the way, if you haven’t seen my (admittedly biased) cool project in which I completely automate that process, <a href="/post/2019-04/optimize-vmwarepks/">read this</a>.</p>
+<p>The second address is something you can disregard as it is not externally routable and only returned by the NCP as “a matter of form”. If you’re curious to know what it is, it’s the uplink interface between the T1 router created by the NCP and the T0 router that pre-existed.</p>
+<p>This Ingress controller is a Layer-7 load balancer that NSX-T instantiates for you not when you posted that manifest, but when the cluster was built through a normal <code>pks create-cluster</code> command. To identify which one is in use, send a <code>pks cluster &lt;cluster_name&gt;</code> and look at the UUID field.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ pks cluster czk8s19
+
+Name:                     czk8s19
+Plan Name:                dev-tiny
+<span class="hl">UUID:                     8ed38d4a-317e-47b7-8d04-570cbb3fad5e
+</span>Last Action:              CREATE
+Last Action State:        succeeded
+Last Action Description:  Instance provisioning completed
+Kubernetes Master Host:   czk8s19.sovsystems.com
+Kubernetes Master Port:   <span class="m">8443</span>
+Worker Nodes:             <span class="m">1</span>
+Kubernetes Master IP<span class="o">(</span>s<span class="o">)</span>:  10.50.0.29
+Network Profile Name:
+</code></pre></div><p>This UUID is essentially the identifier used all throughout NSX-T to tie objects back to this specific instance. The Kubernetes Master IP (s) there is probably familiar to you at this point. But both that address and the one returned by the Ingress are actually serviced by the same NSX-T load balancer.</p>
+<p><img src="/images/2019-09/https-ingress-with-pks/image2.png" alt="NSX-T load balancers"></p>
+<p>Fun fact here:  Do you see the “S” and “M” icons in those gray circles? These indicate the size of the load balancer created for us by the PKS network profile. By default, PKS will only create a small load balancer unless we tell it otherwise. I’ll save that for another blog.</p>
+<p>If we look at the virtual servers, we’ll see both of them.</p>
+<p><img src="/images/2019-09/https-ingress-with-pks/image3.png" alt="NSX-T virtual servers"></p>
+<p>The first entry you should recognize as the VIP for the control plane, and the two beneath it are the entries for your Ingress controller–one for HTTP and the other for HTTPS.</p>
+<p>If you then follow the HTTP virtual server and navigate to “LB Rules” (this tab may not come up if you follow the link) and under the “Phase” drop-down, select “Http forwarding” to see the rule that was auto-populated for you.</p>
+<p><img src="/images/2019-09/https-ingress-with-pks/image4.png" alt="NSX-T load balancer rules"></p>
+<p>This rule is what is forwarding traffic to your service based on the header match in your HTTP GET request, and so therefore this value (“czhello.sovsystems.com”) needs to exist as a DNS record that maps to the IP provided by the Ingress controller. When it does, you should be able to access your service from outside your cluster in a browser or REST client.</p>
+<p>Great stuff. So what about if we need secure HTTP with a specific certificate? This is the fun part.</p>
+<h2 id="ingress-with-https">Ingress with HTTPS</h2>
+<p>If we want to use HTTPS for our Ingress, that means we have to present a certificate to the client accessing the service, otherwise there’s nothing really secure about. So the question becomes “how do we present a certificate”? Well, NSX-T does that, again, automatically as soon as PKS builds your cluster. And it tells you this in the HTTPS virtual server.</p>
+<p>Click on the HTTPS virtual server and navigate to the “LB Profiles” tab and look under “Client Side SSL”.</p>
+<p><img src="/images/2019-09/https-ingress-with-pks/image5.png" alt="NSX-T load balancer profiles"></p>
+<p>The entry for “Default Certificate” is the cert that the load balancer will present for traffic accessing that endpoint. Clicking on that takes you to actually view the auto-generated certificate at System =&gt; Certificates.</p>
+<p><img src="/images/2019-09/https-ingress-with-pks/image6.png" alt="NSX-T load balancer certificate"></p>
+<p>This is a self-signed certificate that the Ingress controller will present automatically. And maybe that’s fine for some lab or PoC workloads, but it’s not going to do it for production workloads because it won’t be trusted when a client hits the addressed assigned by the rule. Obviously not ideal. That plus, depending on what your service is, it may not even work at all. We clearly need a way to present a custom certificate over which we have some control. Fortunately, we can do this in Kubernetes and have the NCP take care of business for us. However, there are some special considerations here to get this to actually work correctly.</p>
+<p>The first thing we need is that custom certificate. Whether you use a wildcard cert signed by a third-party or a common-name cert signed by your enterprise certificate authority (CA), we need a cert. In this article, I’m going to show you the process when it comes to the latter situation–an internal, enterprise certificate authority signing a common-name or single-host certificate. Our CA is one built on the Windows Server platform and the root cert is trusted locally on a Windows workstation.</p>
+<p>There are many, many ways to generate certificates in this situation and so I’m not going to provide an exhaustive step-by-step guide, but I will point you in this case to <a href="https://kb.vmware.com/s/article/2146215">VMware’s Certificate Generation Utility for VMware Validated Designs</a>. This KB involves preparing a Windows-based workstation with a couple of packages and then running a custom PowerShell script which performs all the work. The KB has a good list of steps. It’s important to point out that although we aren’t using the VVD, the utility can be used in a general purpose for lots of other applications. If you feel more comfortable using openssl directly, go for it.</p>
+<p>In my <code>default.txt</code> file inside the working directory of the CertGenVVD utility, I’ve populated it with the following.</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">ORG=Sovereign
+OU=IT
+LOC=Norcross
+ST=Georgia
+CC=US
+CN=SovSystems
+keysize=2048
+</code></pre></div><p>And in the ConfigFiles subdirectory, I’ve created a file called <code>czhello.txt</code> which contains these lines.</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">[CERT]
+NAME=default
+ORG=default
+OU=default
+LOC=default
+ST=default
+CC=default
+CN=czhello.sovsystems.com
+keysize=default
+[SAN]
+czhello.sovsystems.com
+</code></pre></div><p>I am overriding only the CN field but also, <strong>extremely importantly</strong>, I am adding an entry to the SAN the value of which <em><strong>must</strong></em> be the FQDN of the service that is also in the common name (CN) field. This is something specific to how the NCP and NSX-T work. The CN must be what we intend to create as an Ingress object in Kubernetes, but the SAN must have that and only that value. Short names, IP address, etc. will not work.</p>
+<p>With that file written, we’ll run the script with a simple <code>.\CertGenVVD-3.0.4.ps1 –MSCASigned</code></p>
+<p>If that completed successfully, we should have a new subdirectory called “SignedByMSCACerts” which contains a RootCA folder containing, well, the root CA cert, but also a subdirectory called “czhello”. Inside of this directory we have a number of files but we only need to be concerned with a couple:  czhello.cer and czhello.key. These files represent the certificate (in PEM format) and the private key. Hang onto them as we’ll come back.</p>
+<p>Go back to NSX-T and the certificates page. Let’s import that CA certificate.</p>
+<p><img src="/images/2019-09/https-ingress-with-pks/image7.png" alt="Import CA certificate into NSX-T"></p>
+<p>Paste the contents of your Root64.cer file into the box provided, give it a name, and leave the “Service Certificate” slider to “Yes”.</p>
+<p><img src="/images/2019-09/https-ingress-with-pks/image8.png" alt="Import service certificate into NSX-T"></p>
+<p>Click Import. Your cert should now be saved in NSX-T Manager.</p>
+<p><img src="/images/2019-09/https-ingress-with-pks/image9.png" alt="List of certificates in NSX-T"></p>
+<p>I imported the same cert twice for the two possible types because my managers are using custom certs signed by the same internal CA.</p>
+<p>Alright, now with that done, head into your Kubernetes cluster and let me tell you a secret.</p>
+<p>As we have not uploaded our newfangled certificate to NSX-T Manager, we must therefore let Kubernetes via the NCP do that job for us. And we do that in a two-step process.</p>
+<ol>
+<li>Save the certificate and key files to place accessible.</li>
+<li>Create a Kubernetes secret that stores the certificate.</li>
+<li>Write an Ingress manifest that references the secret.</li>
+</ol>
+<p>I trust you can figure out step one, so with that in mind let’s create our secret. From a <code>kubectl</code> session, issue a similar command:</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">kubectl create secret tls czhello-secret --key<span class="o">=</span>czhello.key --cert<span class="o">=</span>czhello.crt
+</code></pre></div><p>Verify the secret has been created.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ kubectl describe secret czhello-secret
+Name:         czhello-secret
+Namespace:    default
+Labels:       &lt;none&gt;
+Annotations:  &lt;none&gt;
+
+Type:  kubernetes.io/tls
+
+<span class="nv">Data</span>
+<span class="o">====</span>
+tls.crt:  <span class="m">2066</span> bytes
+tls.key:  <span class="m">1676</span> bytes
+</code></pre></div><p>While the <code>kubectl describe</code> command will give you above output, you can perform a <code>kubectl get</code> as well.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ kubectl get secret
+NAME                  TYPE                                  DATA   AGE
+czhello-secret        kubernetes.io/tls                     <span class="m">2</span>      27h
+</code></pre></div><p>If you want to validate that your certificate is being saved, output the result to YAML or JSON.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ kubectl get secret czhello-secret -o yaml
+apiVersion: v1
+data:
+  tls.crt: LS0tLS1CR&lt;redacted&gt;
+  tls.key: LS0tLS1CR&lt;redacted&gt;
+kind: Secret
+metadata:
+  creationTimestamp: <span class="s2">&#34;2019-08-18T17:16:39Z&#34;</span>
+  name: czhello-secret
+  namespace: default
+  resourceVersion: <span class="s2">&#34;2678&#34;</span>
+  selfLink: /api/v1/namespaces/default/secrets/czhello-secret
+  uid: f109428f-c1db-11e9-9c81-0050568ceab9
+type: kubernetes.io/tls
+</code></pre></div><p>The output will be much longer because Kubernetes will convert the PEM-encoded data of your certificate and its key to base64 and that gets returned by the tls.crt and tls.key entries. By doing a base64 decode, you can return the PEM data and then paste it into a certificate decoder like the one at <a href="https://www.sslshopper.com/certificate-decoder.html">SSL Shopper</a>.</p>
+<p><img src="/images/2019-09/https-ingress-with-pks/image10.png" alt="Decoded certificate"></p>
+<p>If everything checks out, we’re ready to apply this to an Ingress manifest. Ensure first that you’ve deleted any Ingresses you may have. Not to worry if you have one, because, remember, that IP is already known and it doesn’t change. The NCP will return back to the <code>kubectl</code> command the same IP(s) it did previously.</p>
+<p>Create a new manifest or edit your previous one. We’re going to add the secret at the bottom. It should look like this.</p>
+<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>extensions/v1beta1<span class="w">
+</span><span class="w"></span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>Ingress<span class="w">
+</span><span class="w"></span><span class="k">metadata</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>hello-ingress<span class="w">
+</span><span class="w"></span><span class="k">spec</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="k">rules</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span>- <span class="k">host</span><span class="p">:</span><span class="w"> </span>czhello.sovsystems.com<span class="w">
+</span><span class="w">    </span><span class="k">http</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span><span class="k">paths</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span>- <span class="k">backend</span><span class="p">:</span><span class="w">
+</span><span class="w">          </span><span class="k">serviceName</span><span class="p">:</span><span class="w"> </span>hello-service<span class="w">
+</span><span class="w">          </span><span class="k">servicePort</span><span class="p">:</span><span class="w"> </span><span class="m">80</span><span class="w">
+</span><span class="w">  </span><span class="k">tls</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span>- <span class="k">hosts</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span>- czhello.sovsystems.com<span class="w">
+</span><span class="w">    </span><span class="k">secretName</span><span class="p">:</span><span class="w"> </span>czhello-secret<span class="w">
+</span></code></pre></div><p>You’ll notice the bottom we’ve added the <code>tls</code> entry to the <code>spec</code> section. The <code>hosts</code> entry is what our CN and SAN had in the certificate and that which NSX-T will use as its matching rule for the header. The <code>secretName</code> is the name of the secret we just created with the type TLS.</p>
+<p>Apply this file like you normally would and let’s see what happens.</p>
+<p>Go back and check the HTTPS virtual server inside NSX-T Manager.</p>
+<p><img src="/images/2019-09/https-ingress-with-pks/image11.png" alt="Certificate applied to NSX-T load balancer profile"></p>
+<p>We have the same default certificate, but we also have a new certificate that it’s referencing. Now go back to the Certificates page.</p>
+<p><img src="/images/2019-09/https-ingress-with-pks/image12.png" alt="Certificate uploaded to NSX-T"></p>
+<p>We’ve got a new certificate that’s been uploaded! This is the one referenced in the ID and we can see all the details as well including that it was signed by our internal CA.</p>
+<p>Finally, if you hit this service in a browser, you should see your new, custom certificate being presented back to you.</p>
+<p><img src="/images/2019-09/https-ingress-with-pks/image13.png" alt="Certificate presented to client"></p>
+<p>Lock is green, cert is good to go!</p>
+<p><img src="/images/2019-09/https-ingress-with-pks/image14.png" alt="Certificate path"></p>
+<p>And with that, you should be ready to start creating meaningful services for your applications, and then getting traffic inside Kubernetes to reach them.</p>
+<h2 id="additional-links">Additional Links</h2>
+<p>For a few more links that talk about PKS and related networking or security constructs, I recommend these articles.</p>
+<ul>
+<li><a href="https://blogs.vmware.com/networkvirtualization/2019/06/kubernetes-and-vmware-enterprise-pks-networking-security-operations-with-nsx-t-data-center.html/">Kubernetes and VMware Enterprise PKS Networking &amp; Security Operations with NSX-T Data Center</a></li>
+<li><a href="https://orchestration.io/2018/11/20/https-ingress-with-vmware-pks/">HTTPS Ingress with VMware PKS</a></li>
+<li><a href="https://docs.vmware.com/en/VMware-Cloud-PKS/services/com.vmware.cloudpks.using.doc/GUID-8064D327-FB48-462D-8980-6CE541FD0041.html">Configuring Ingress in VMware Cloud PKS</a></li>
+</ul>
+
+    
+    <div class="share-icons d-flex d-print-none">
+      <a href="https://twitter.com/intent/tweet?text=HTTPS%20Ingress%20with%20Enterprise%20PKS&url=https%3a%2f%2fneonmirrors.net%2fpost%2f2019-09%2fhttps-ingress-with-pks%2f&tw_p=tweetbutton" class="p-2" title="Share on Twitter" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Tweet</small></div>
+</a>
+
+<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fneonmirrors.net%2fpost%2f2019-09%2fhttps-ingress-with-pks%2f&t=HTTPS%20Ingress%20with%20Enterprise%20PKS" class="p-2" title="Share on Facebook" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+<script>
+  function shareViaLinkedin() {
+    window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent("https://neonmirrors.net/post/2019-09/https-ingress-with-pks/"), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+  }
+</script>
+<a href="#linkedinshare" id = "linkedinshare" class="p-2" title="Share on LinkedIn" rel="nofollow" onclick="shareViaLinkedin()">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+
+<a href="javascript:window.print()" title="Print this article" class="p-2" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fa fa-print fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Print</small></div>
+</a>
+
+    </div>
+  </div>
+  
+  
+</div>
+<div class="sidebar d-print-none d-xl-block internal">
+  
+  <h2>Chip Zoller</h2>
+  <div>
+    Technologist, perpetual student, teacher, continual incremental improvement.
+  </div>
+  <a href="/about/" class="btn btn-outline-secondary mt-3" role="button">Read More...</a>
+  <h2 class="mt-4">Featured Posts</h2>
+  
+  
+  <a href="/post/2019-10/authentication-and-authorization-in-k8s/" class="nav-link">Authentication and Authorization in Kubernetes</a>
+  
+  <a href="/post/2018-12/how-to-ask-for-help-on-tech-forums/" class="nav-link">How to Ask for Help on Tech Forums</a>
+  
+  <h2 class="mt-4">Recent Posts</h2>
+  <nav class="nav flex-column">
+    
+    <a href="/post/2020-04/getting-started-with-tkg/" class="nav-link">Getting Started with Tanzu Kubernetes Grid</a>
+    
+    <a href="/post/2020-04/capv-overview/" class="nav-link">Behind the Scenes with Cluster API Provider vSphere</a>
+    
+    <a href="/post/2020-01/buy-dont-build/" class="nav-link">Buy Don&#39;t Build</a>
+    
+    <a href="/post/2020-01/why-k8s-on-vms/" class="nav-link">Why Kubernetes on Virtual Machines?</a>
+    
+    <a href="/post/2020-01/2020-public-domain-day/" class="nav-link">2020 Public Domain Day</a>
+    
+    <a href="/post/2019-10/authentication-and-authorization-in-k8s/" class="nav-link">Authentication and Authorization in Kubernetes</a>
+    
+    <a href="/post/2019-10/pks-rancher-reg/" class="nav-link">pks-rancher-reg: Automated PKS Cluster Registration For Rancher</a>
+    
+    <a href="/post/2019-09/rancher-ha-on-pks/" class="nav-link">Rancher HA on Enterprise PKS</a>
+    
+  </nav>
+  
+  <h2 class="mt-4 text-capitalize" id="categories-section">categories</h2>
+  <nav class="nav">
+    
+    <a href='/categories/technology/' class="nav-link">
+      technology
+      <span class="badge badge-pill badge-secondary">53</span>
+    </a>
+    
+    <a href='/categories/music/' class="nav-link">
+      music
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+  </nav>
+  
+  <h2 class="mt-4 text-capitalize" id="tags-section">tags</h2>
+  <nav class="nav">
+    
+    <a href='/tags/vrealize/' class="nav-link">
+      vrealize
+      <span class="badge badge-pill badge-secondary">27</span>
+    </a>
+    
+    <a href='/tags/vra/' class="nav-link">
+      vra
+      <span class="badge badge-pill badge-secondary">22</span>
+    </a>
+    
+    <a href='/tags/vsphere/' class="nav-link">
+      vsphere
+      <span class="badge badge-pill badge-secondary">14</span>
+    </a>
+    
+    <a href='/tags/k8s/' class="nav-link">
+      k8s
+      <span class="badge badge-pill badge-secondary">9</span>
+    </a>
+    
+    <a href='/tags/sovlabs/' class="nav-link">
+      sovlabs
+      <span class="badge badge-pill badge-secondary">8</span>
+    </a>
+    
+    <a href='/tags/veeam/' class="nav-link">
+      veeam
+      <span class="badge badge-pill badge-secondary">7</span>
+    </a>
+    
+    <a href='/tags/powershell/' class="nav-link">
+      powershell
+      <span class="badge badge-pill badge-secondary">6</span>
+    </a>
+    
+    <a href='/tags/log-insight/' class="nav-link">
+      log-insight
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/pks/' class="nav-link">
+      pks
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/vrops/' class="nav-link">
+      vrops
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/vro/' class="nav-link">
+      vro
+      <span class="badge badge-pill badge-secondary">4</span>
+    </a>
+    
+    <a href='/tags/docker/' class="nav-link">
+      docker
+      <span class="badge badge-pill badge-secondary">3</span>
+    </a>
+    
+    <a href='/tags/vmworld/' class="nav-link">
+      vmworld
+      <span class="badge badge-pill badge-secondary">3</span>
+    </a>
+    
+    <a href='/tags/featured/' class="nav-link">
+      featured
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/nsx-t/' class="nav-link">
+      nsx-t
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/powercli/' class="nav-link">
+      powercli
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/rancher/' class="nav-link">
+      rancher
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/thoughts/' class="nav-link">
+      thoughts
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/ansible/' class="nav-link">
+      ansible
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/authentication/' class="nav-link">
+      authentication
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/forums/' class="nav-link">
+      forums
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/homelab/' class="nav-link">
+      homelab
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/networking/' class="nav-link">
+      networking
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/security/' class="nav-link">
+      security
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/vmtn/' class="nav-link">
+      vmtn
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+  </nav>
+  
+</div>
+
+
+  </div>
+  
+  <footer class="mt-auto footer d-print-none">
+    <a class="to-top" href="#" title="Back to top">
+      <i class="fa fa-caret-up"></i>
+    </a>
+    <div class="container-fluid">
+      <div class="row justify-content-center">
+        <div class="col-md-4 col-xl-3">
+          <h5>Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved.</h5>
+I&#39;m happy for you to share content on this site, but please provide attribution.
+        </div>
+        <div class="col-md-4 col-xl-3">
+          <h5>Disclaimer</h5>
+Opinions expressed here are my own and may not reflect those of the company I work for, or the people I work with.
+        </div>
+        <div class="col-md-4 col-xl-3">
+          <h5>About This Site</h5>
+This blog was created using the <a href="https://gohugo.io/">Hugo</a> static site generator, using
+<a href="https://getbootstrap.com/">Bootstrap</a>, using the Silhouette Hugo theme, created by
+<a href='https://www.mattbutton.com'>Matt Button</a>
+        </div>
+      </div>
+      
+      <hr />
+      
+      <div class="d-flex justify-content-center icons">
+        <a class="py-2 px-2" href="https://github.com/chipzoller"><i class="fab fa-github"></i></a>
+<a class="py-2 px-2" href="https://twitter.com/chipzoller"><i class="fab fa-twitter"></i></a>
+<a class="py-2 px-2" href="https://www.linkedin.com/in/chipzoller/"><i class="fab fa-linkedin"></i></a>
+<a class="py-2 px-2" href='https://neonmirrors.net/index.xml'><i class="fas fa-rss"></i></a>
+
+      </div>
+    </div>
+  </footer>
+  
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script src="/js/syntax.js"></script>
+  <script src = '/js/index.js'></script>
+  
+  
+</body>
+</html>

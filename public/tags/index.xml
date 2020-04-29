@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on Neon Mirrors</title>
+    <link>https://neonmirrors.net/tags/</link>
+    <description>Recent content in Tags on Neon Mirrors</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <copyright>Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved.</copyright>
+    <lastBuildDate>Sat, 11 Apr 2020 08:24:25 -0400</lastBuildDate>
+    
+	<atom:link href="https://neonmirrors.net/tags/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>k8s</title>
+      <link>https://neonmirrors.net/tags/k8s/</link>
+      <pubDate>Sat, 11 Apr 2020 08:24:25 -0400</pubDate>
+      
+      <guid>https://neonmirrors.net/tags/k8s/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>vsphere</title>
+      <link>https://neonmirrors.net/tags/vsphere/</link>
+      <pubDate>Sat, 11 Apr 2020 08:24:25 -0400</pubDate>
+      
+      <guid>https://neonmirrors.net/tags/vsphere/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>thoughts</title>
+      <link>https://neonmirrors.net/tags/thoughts/</link>
+      <pubDate>Sat, 25 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/tags/thoughts/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>authentication</title>
+      <link>https://neonmirrors.net/tags/authentication/</link>
+      <pubDate>Wed, 30 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/tags/authentication/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>featured</title>
+      <link>https://neonmirrors.net/tags/featured/</link>
+      <pubDate>Wed, 30 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/tags/featured/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>security</title>
+      <link>https://neonmirrors.net/tags/security/</link>
+      <pubDate>Wed, 30 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/tags/security/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>pks</title>
+      <link>https://neonmirrors.net/tags/pks/</link>
+      <pubDate>Tue, 15 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/tags/pks/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>rancher</title>
+      <link>https://neonmirrors.net/tags/rancher/</link>
+      <pubDate>Tue, 15 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/tags/rancher/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>nsx-t</title>
+      <link>https://neonmirrors.net/tags/nsx-t/</link>
+      <pubDate>Wed, 25 Sep 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/tags/nsx-t/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>networking</title>
+      <link>https://neonmirrors.net/tags/networking/</link>
+      <pubDate>Tue, 03 Sep 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/tags/networking/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>docker</title>
+      <link>https://neonmirrors.net/tags/docker/</link>
+      <pubDate>Fri, 09 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/tags/docker/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>powershell</title>
+      <link>https://neonmirrors.net/tags/powershell/</link>
+      <pubDate>Wed, 03 Apr 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/tags/powershell/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>vra</title>
+      <link>https://neonmirrors.net/tags/vra/</link>
+      <pubDate>Wed, 20 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/tags/vra/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>vrealize</title>
+      <link>https://neonmirrors.net/tags/vrealize/</link>
+      <pubDate>Wed, 20 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/tags/vrealize/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ansible</title>
+      <link>https://neonmirrors.net/tags/ansible/</link>
+      <pubDate>Thu, 03 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/tags/ansible/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>log insight</title>
+      <link>https://neonmirrors.net/tags/log-insight/</link>
+      <pubDate>Thu, 03 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/tags/log-insight/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>vro</title>
+      <link>https://neonmirrors.net/tags/vro/</link>
+      <pubDate>Thu, 03 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/tags/vro/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>vrops</title>
+      <link>https://neonmirrors.net/tags/vrops/</link>
+      <pubDate>Thu, 03 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/tags/vrops/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>forums</title>
+      <link>https://neonmirrors.net/tags/forums/</link>
+      <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/tags/forums/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>vmtn</title>
+      <link>https://neonmirrors.net/tags/vmtn/</link>
+      <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/tags/vmtn/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>sovlabs</title>
+      <link>https://neonmirrors.net/tags/sovlabs/</link>
+      <pubDate>Wed, 05 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/tags/sovlabs/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>veeam</title>
+      <link>https://neonmirrors.net/tags/veeam/</link>
+      <pubDate>Thu, 02 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/tags/veeam/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>vmworld</title>
+      <link>https://neonmirrors.net/tags/vmworld/</link>
+      <pubDate>Mon, 11 Sep 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/tags/vmworld/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>powercli</title>
+      <link>https://neonmirrors.net/tags/powercli/</link>
+      <pubDate>Wed, 26 Oct 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/tags/powercli/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>homelab</title>
+      <link>https://neonmirrors.net/tags/homelab/</link>
+      <pubDate>Fri, 15 Jul 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/tags/homelab/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

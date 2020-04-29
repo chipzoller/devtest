@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>vro on Neon Mirrors</title>
+    <link>https://neonmirrors.net/tags/vro/</link>
+    <description>Recent content in vro on Neon Mirrors</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <copyright>Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved.</copyright>
+    <lastBuildDate>Thu, 03 Jan 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://neonmirrors.net/tags/vro/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Drop-Down Lists in vRealize Automation, from Static to Dynamic to External</title>
+      <link>https://neonmirrors.net/post/2018-05/drop-down-lists-in-vra/</link>
+      <pubDate>Tue, 15 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2018-05/drop-down-lists-in-vra/</guid>
+      <description>Today, I wanted to spend some time returning to a basic principle of vRealize Automation (vRA) which is central to creating customized request forms and limiting blueprint sprawl. This is also a subject which is often requested from users. Unfortunately, those unfamiliar with vRA often think this type of customization requires other forms of complex, expensive integrations or even worse, long professional services engagements. Specifically what I’m talking about is the ability to generate drop-down lists when requesting a catalog item, as well as make those drop-downs dynamic in nature.</description>
+    </item>
+    
+    <item>
+      <title>What is Sovlabs?</title>
+      <link>https://neonmirrors.net/post/2018-03/what-is-sovlabs/</link>
+      <pubDate>Sun, 18 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2018-03/what-is-sovlabs/</guid>
+      <description>I realized that although I have covered several of the SovLabs modules already with some fine use cases, I might have jumped the gun a little and not fully explained what this SovLabs business is and how I got to those points. I often receive the question “is it a vRO plug-in?” and so realize a little introduction is in order. To answer that question, the answer is Yes* but also No*.</description>
+    </item>
+    
+    <item>
+      <title>Getting users in an AD Group through vRA</title>
+      <link>https://neonmirrors.net/post/2018-02/getting-users-in-ad-group-through-vra/</link>
+      <pubDate>Sat, 24 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2018-02/getting-users-in-ad-group-through-vra/</guid>
+      <description>Have you ever needed or wanted to dynamically get the users within an Active Directory group through vRA? The process I hoped would already exist but, unfortunately as I found out, the existing vRO Active Directory plug-in does not contain a pre-built workflow or action to handle this. As I typically do, I find my own way, but my trials and tribulations can easily be to your benefit as you’ll see.</description>
+    </item>
+    
+    <item>
+      <title>vRO 5.5 DNS Reverts</title>
+      <link>https://neonmirrors.net/post/2015-10/vco-55-dns-reverts/</link>
+      <pubDate>Thu, 08 Oct 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2015-10/vco-55-dns-reverts/</guid>
+      <description>vRealize Orchestrator is VMware’s automation and workflow engine that unlocks the true power of vRealize Automation enabling things like custom machine provisioning/de-provisioning steps and any external systems that may need to be called.
+For those still using vCenter Orchestrator 5.5, the appliance sees to have one strange issue that might impact those making changes to the underlying infrastructure. The appliance has an odd tendency to revert DNS to the previously provisioned values even after changing them in the configurator.</description>
+    </item>
+    
+  </channel>
+</rss>

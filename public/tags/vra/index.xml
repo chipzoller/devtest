@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>vra on Neon Mirrors</title>
+    <link>https://neonmirrors.net/tags/vra/</link>
+    <description>Recent content in vra on Neon Mirrors</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <copyright>Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved.</copyright>
+    <lastBuildDate>Wed, 20 Mar 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://neonmirrors.net/tags/vra/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Installing vRealize Automation software components as a specific user</title>
+      <link>https://neonmirrors.net/post/2019-03/installing-vra-software-components-as-specific-user/</link>
+      <pubDate>Wed, 20 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2019-03/installing-vra-software-components-as-specific-user/</guid>
+      <description>Since I’ve been working with software components in vRealize Automation (vRA), one of the difficulties I see come up time and time again in Windows environments is the need to run a specific command or component with specific credentials. This is quite common even outside of the scope of vRA. There are multiple ways to go about doing this when talking about PowerShell and I won’t cover them all here. But sometimes, for one reason or not, those methods don’t work—especially when dealing with some specific programs that require elevation.</description>
+    </item>
+    
+    <item>
+      <title>New Features in Sovlabs Property Toolkit: Entity Assignment</title>
+      <link>https://neonmirrors.net/post/2018-12/new-features-in-sovlabs-property-toolkit/</link>
+      <pubDate>Wed, 05 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2018-12/new-features-in-sovlabs-property-toolkit/</guid>
+      <description>It’s no secret that I’ve been a huge proponent of the SovLabs Property Toolkit module. So much so that my new motto is, “don’t leave home without it.” I’ve written fairly extensively about some of its power in articles here and here, but today I’m really excited. No, SUPER excited because the guys and gals at SovLabs have just added a whole bunch of new features that make this indispensable to anyone running vRA.</description>
+    </item>
+    
+    <item>
+      <title>Veeam Backup-as-a-Service, Part 1</title>
+      <link>https://neonmirrors.net/post/2018-08/veeam-baas-part-1/</link>
+      <pubDate>Thu, 02 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2018-08/veeam-baas-part-1/</guid>
+      <description>Today I want to introduce and provide a walk-through on how to use what I think is one of the coolest modules SovLabs has produced to date for vRealize Automation: Backup-as-a-Service (or BaaS for short). BaaS is one of those pie-in-the-sky dreams for many CMP owners and operators and, frankly, the aim of lots of other companies hoping to give a real self-service-type experience to users inside a CMP. Unfortunately, due to the complexity of it, they all come up pretty short—until SovLabs entered the game, that is.</description>
+    </item>
+    
+    <item>
+      <title>Drop-Down Lists in vRealize Automation, from Static to Dynamic to External</title>
+      <link>https://neonmirrors.net/post/2018-05/drop-down-lists-in-vra/</link>
+      <pubDate>Tue, 15 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2018-05/drop-down-lists-in-vra/</guid>
+      <description>Today, I wanted to spend some time returning to a basic principle of vRealize Automation (vRA) which is central to creating customized request forms and limiting blueprint sprawl. This is also a subject which is often requested from users. Unfortunately, those unfamiliar with vRA often think this type of customization requires other forms of complex, expensive integrations or even worse, long professional services engagements. Specifically what I’m talking about is the ability to generate drop-down lists when requesting a catalog item, as well as make those drop-downs dynamic in nature.</description>
+    </item>
+    
+    <item>
+      <title>Using vRA Software Components and binding any custom property</title>
+      <link>https://neonmirrors.net/post/2018-04/using-vra-software-components-and-binding/</link>
+      <pubDate>Sun, 29 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2018-04/using-vra-software-components-and-binding/</guid>
+      <description>Software components (SCs) are pretty neat in vRA (although you pay a pretty penny for them), but they have some serious shortcomings. One of the really cool abilities of them is to “bind” or let a property (variable, really) assume the value of something else inside that blueprint. This makes scripts much more dynamic, but one of those shortcomings is not all properties are available to bind. In this article, I’ll give you an easy workaround that makes binding to any custom property which gets passed into the machine a possibility.</description>
+    </item>
+    
+    <item>
+      <title>Making vRA Email Easy with Custom Notifications</title>
+      <link>https://neonmirrors.net/post/2018-03/making-vra-email-easy-with-custom-notifications/</link>
+      <pubDate>Wed, 21 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2018-03/making-vra-email-easy-with-custom-notifications/</guid>
+      <description>Email is one of those things that most of us take for granted these days. We just expect email works, that it is flexible, and that it’s adaptable to our situation. Within vRA, we can also get email in and out based on a variety of scenarios. But when it comes to customizing how that looks and works, it’s a little tricky. As a result, many folks don’t even bother mucking around with it because of how complex it is what with manually uploading new email templates to the appliance, restarting services, customizing XML files, or writing vRO code and event broker subscriptions and doing all the plumbing work yourself.</description>
+    </item>
+    
+    <item>
+      <title>SovLabs Property Toolkit Part 2: Dynamic Custom Property Assignment</title>
+      <link>https://neonmirrors.net/post/2018-03/sovlabs-property-toolkit-part-2/</link>
+      <pubDate>Wed, 21 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2018-03/sovlabs-property-toolkit-part-2/</guid>
+      <description>Welcome back to another installment of the exploration of the SovLabs modules! A while back, I went through and introduced the Property Toolkit module via a use case of dynamically building custom properties based on the presence of other custom properties. I illustrated this in the form of placement in vCenter folders. In this article, however, I want to dive into another feature of this amazingly powerful module: dynamic property sets.</description>
+    </item>
+    
+    <item>
+      <title>What is Sovlabs?</title>
+      <link>https://neonmirrors.net/post/2018-03/what-is-sovlabs/</link>
+      <pubDate>Sun, 18 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2018-03/what-is-sovlabs/</guid>
+      <description>I realized that although I have covered several of the SovLabs modules already with some fine use cases, I might have jumped the gun a little and not fully explained what this SovLabs business is and how I got to those points. I often receive the question “is it a vRO plug-in?” and so realize a little introduction is in order. To answer that question, the answer is Yes* but also No*.</description>
+    </item>
+    
+    <item>
+      <title>Getting users in an AD Group through vRA</title>
+      <link>https://neonmirrors.net/post/2018-02/getting-users-in-ad-group-through-vra/</link>
+      <pubDate>Sat, 24 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2018-02/getting-users-in-ad-group-through-vra/</guid>
+      <description>Have you ever needed or wanted to dynamically get the users within an Active Directory group through vRA? The process I hoped would already exist but, unfortunately as I found out, the existing vRO Active Directory plug-in does not contain a pre-built workflow or action to handle this. As I typically do, I find my own way, but my trials and tribulations can easily be to your benefit as you’ll see.</description>
+    </item>
+    
+    <item>
+      <title>Deploying End Point Operations Agents through vRA</title>
+      <link>https://neonmirrors.net/post/2018-01/deploying-epops-agents-through-vra/</link>
+      <pubDate>Tue, 02 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2018-01/deploying-epops-agents-through-vra/</guid>
+      <description>vRealize Automation is useful for deploying a variety of different items as-a-service, from simple IaaS to databases to container hosts and, of course applications. And most of these have been demonstrated to date. One other piece that is often forgotten about is monitoring agents on these systems, or maybe it’s done as a manual process after the fact (which defeats the purpose of cloud automation). In the past, I’ve provided a few blueprints that automates this process for the Log Insight agents for Windows and Linux.</description>
+    </item>
+    
+    <item>
+      <title>Automating vSphere Tagging in vRA with SovLabs</title>
+      <link>https://neonmirrors.net/post/2017-12/automating-vsphere-tagging-in-vra-with-sovlabs/</link>
+      <pubDate>Sun, 31 Dec 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2017-12/automating-vsphere-tagging-in-vra-with-sovlabs/</guid>
+      <description>vRealize Automation is a very metadata-driven system through capabilities called custom properties. These properties—which are nothing more than key-value pairs—can be applied at multiple levels throughout vRA and cause it to behave in different ways. The same sort of metadata drives a lot of decision within vSphere which are external to vRA. But applying these tags at a vSphere level has been somewhat of a challenge in the past when driven through vRA because there is no out-of-the-box support for vSphere tags.</description>
+    </item>
+    
+    <item>
+      <title>Replicating vRA Templates Easily with Veeam</title>
+      <link>https://neonmirrors.net/post/2017-11/replicating-vra-templates-easily-with-veeam/</link>
+      <pubDate>Thu, 02 Nov 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2017-11/replicating-vra-templates-easily-with-veeam/</guid>
+      <description>For those who use vRealize Automation (vRA), you’re probably all too familiar with vSphere templates and how they are the crux of your service catalog. Unless you’re creating machine deployments anew from another build tool, you’re probably using them, and it’s likely you have at least two, sometimes many more. Using the Clone workflow, those vSphere templates become the new VMs in your deployments. That part is all well and good, but do you fall into the category of having several templates?</description>
+    </item>
+    
+    <item>
+      <title>Custom Naming in vRA with zero custom coding</title>
+      <link>https://neonmirrors.net/post/2017-10/custom-naming-in-vra-with-zero-custom-coding/</link>
+      <pubDate>Mon, 02 Oct 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2017-10/custom-naming-in-vra-with-zero-custom-coding/</guid>
+      <description>Everyone’s got one, everyone needs them, and most people struggle with them. I’m talking about custom machine names, of course. Just like organizations themselves, naming schemes can be, and are about, as varied as possible. Some companies have fairly straightforward names with maybe two elements while others have extremely dynamic requirements that factor in five or six elements. Whatever your naming scheme might be, anyone who has used vRealize Automation (vRA) appreciates the difficulty of getting their naming scheme out of deployed machines.</description>
+    </item>
+    
+    <item>
+      <title>vRA and The Problem of the vCenter Folder</title>
+      <link>https://neonmirrors.net/post/2017-09/vra-and-the-problem-of-the-vcenter-folder/</link>
+      <pubDate>Mon, 18 Sep 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2017-09/vra-and-the-problem-of-the-vcenter-folder/</guid>
+      <description>Between speaking with customers, architecting and deploying solutions, and helping others out with their issues on the VMware Communities forums, I encounter a lot of problems and get a lot of info on how customers do business with their CMPs. One of the requests that keeps coming up over and over again is how to deal with putting vRA’s workloads into the correct folder structure that has already been established in an enterprise.</description>
+    </item>
+    
+    <item>
+      <title>Automate Log Insight agent installation from vRA</title>
+      <link>https://neonmirrors.net/post/2017-08/automate-log-insight-agent-installation-from-vra/</link>
+      <pubDate>Fri, 25 Aug 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2017-08/automate-log-insight-agent-installation-from-vra/</guid>
+      <description>Hi, all, short blog post today to inform you of some new community content. Logging is a pretty important thing these days (well, almost all days), and being able to implement that into your CMP is equally as important. VMware&amp;rsquo;s Log Insight solution is a fantastic platform for aggregating, analyzing, and searching for logs, which offers the best integration with other VMware products from any others on the market. Log Insight can consume logs from a variety of sources over several protocols.</description>
+    </item>
+    
+    <item>
+      <title>4 Free Community Veeam Tools and Utilities</title>
+      <link>https://neonmirrors.net/post/2017-06/four-free-veeam-tools/</link>
+      <pubDate>Wed, 21 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2017-06/four-free-veeam-tools/</guid>
+      <description>I wrote last about attending VeeamON 2017 in New Orleans and you can view that here. As I was deep in various sessions or talking with peers and Veeam folks, several things stuck out in my mind as current gaps or “nice-to-haves” when it comes to Veeam. So after putting pen to paper, I identified four things I thought could really help other users out. I’m glad to say that all of these have been brought to fruition and have now been released to the community for all to use!</description>
+    </item>
+    
+    <item>
+      <title>Photon Docker Container Hosts in vRA 7.2</title>
+      <link>https://neonmirrors.net/post/2017-01/photon-docker-container-hosts-vra72/</link>
+      <pubDate>Tue, 10 Jan 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2017-01/photon-docker-container-hosts-vra72/</guid>
+      <description>vRealize Automation 7.2 was released in late November with the much-heralded release of container support. You can read about it in the official announcement blog here and a post from Jad here, but other features also accompanied containers including support for Azure, ServiceNow integration, and others. Since containers has been and continues to be such a hot topic, I wanted to explore this feature in depth and I’ll be writing several posts that cover all aspects of Docker and containers through vRA, so stay tuned here for more posts.</description>
+    </item>
+    
+    <item>
+      <title>Running Bash commands in the Linux guest agent in vRA 7</title>
+      <link>https://neonmirrors.net/post/2016-12/running-bash-in-linux-guest-agent-vra-ga-3/</link>
+      <pubDate>Mon, 19 Dec 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2016-12/running-bash-in-linux-guest-agent-vra-ga-3/</guid>
+      <description>This article is the third in a series of three which explore the vRealize Automation guest agent in depth. For the others, please see these links.
+Part 1: Adding machine requestor to local administrators group in vRA 7 Part 2: Running in-guest scripts on Windows VMs in vRA 7 Part 3: Running Bash commands in the Linux guest agent in vRA 7  
+Welcome back! Taking the first and second part of my three-part series on exploring the vRA guest agent as a starting point, in this article we’ll look at the Linux guest agent and how to use it to run commands and scripts like we showed on Windows in part two.</description>
+    </item>
+    
+    <item>
+      <title>Running in-guest scripts on Windows VMs in vRA 7</title>
+      <link>https://neonmirrors.net/post/2016-12/running-in-guest-scripts-vra-ga-2/</link>
+      <pubDate>Mon, 12 Dec 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2016-12/running-in-guest-scripts-vra-ga-2/</guid>
+      <description>This article is the second in a series of three which explore the vRealize Automation guest agent in depth. For the others, please see these links.
+Part 1: Adding machine requestor to local administrators group in vRA 7 Part 2: Running in-guest scripts on Windows VMs in vRA 7 Part 3: Running Bash commands in the Linux guest agent in vRA 7  
+In the last article, we looked at getting started with the guest agent on Windows.</description>
+    </item>
+    
+    <item>
+      <title>Docker Engine on Windows and Linux through vRealize Automation</title>
+      <link>https://neonmirrors.net/post/2016-12/docker-engine-blueprints-for-vra/</link>
+      <pubDate>Tue, 06 Dec 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2016-12/docker-engine-blueprints-for-vra/</guid>
+      <description>Docker is a topic that seems all the rage today, and people and organizations are scrambling to understand the technology in order to power their next-generation apps with methodologies such as continuous delivery and micro-services. In order to make standing up Docker easier for those with vRealize Automation, I’ve made a couple of software blueprints that can be dropped on top of your existing machine blueprints which allow you to provision Docker hosts on both Linux and Windows!</description>
+    </item>
+    
+    <item>
+      <title>Adding machine requestor to local administrators group in vRA 7</title>
+      <link>https://neonmirrors.net/post/2016-12/adding-machine-requestor-to-local-admins-vra-ga-1/</link>
+      <pubDate>Mon, 05 Dec 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2016-12/adding-machine-requestor-to-local-admins-vra-ga-1/</guid>
+      <description>This article is the first in a series of three which explore the vRealize Automation guest agent in depth. For the others, please see these links.
+Part 1: Adding machine requestor to local administrators group in vRA 7 Part 2: Running in-guest scripts on Windows VMs in vRA 7 Part 3: Running Bash commands in the Linux guest agent in vRA 7  
+When I first started using vRA (it was still called vCAC at that point), there was this concept of a “guest agent” that got installed in a VM template.</description>
+    </item>
+    
+    <item>
+      <title>Using the vRealize Certificate Generation Tool</title>
+      <link>https://neonmirrors.net/post/2015-11/using-vrealize-cert-generation-tool/</link>
+      <pubDate>Wed, 18 Nov 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2015-11/using-vrealize-cert-generation-tool/</guid>
+      <description>Most of us have felt the pain in some way of dealing with certificate management in enterprise environments. I suspect for most people, this is one of the least fun tasks in either the virtualization world or IT in general. Let’s face it, it just isn’t something we look forward to doing. Most products out there have a reasonable if not good way of coping with installing, changing, or renewing of certificates.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>featured on Neon Mirrors</title>
+    <link>https://neonmirrors.net/tags/featured/</link>
+    <description>Recent content in featured on Neon Mirrors</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <copyright>Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved.</copyright>
+    <lastBuildDate>Wed, 30 Oct 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://neonmirrors.net/tags/featured/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Authentication and Authorization in Kubernetes</title>
+      <link>https://neonmirrors.net/post/2019-10/authentication-and-authorization-in-k8s/</link>
+      <pubDate>Wed, 30 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2019-10/authentication-and-authorization-in-k8s/</guid>
+      <description>Kubernetes is designed to be secured by default, and many of the built-in technologies and concepts are designed to ensure that is the case. Often times, the first exposure users will have to Kubernetes security will be to authentication and authorization: simply getting inside the cluster and being permitted to do something. In this blog post, I want to focus on human user/operator access to Kubernetes and the mechanisms at your disposal to ensure you get it right the first try.</description>
+    </item>
+    
+    <item>
+      <title>How to Ask for Help on Tech Forums</title>
+      <link>https://neonmirrors.net/post/2018-12/how-to-ask-for-help-on-tech-forums/</link>
+      <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2018-12/how-to-ask-for-help-on-tech-forums/</guid>
+      <description>All of us need help at some point, and it’s only too common to reach out to others to ask for help. Before you do that, however, you need to understand some basic rules. These rules exist not only to maintain a sense of courtesy and respect, but to ultimately get you the best help possible. While most of this wisdom is applicable to any online technology forum, it is specifically geared to the VMware Technology Network (VMTN), VMware’s official online community.</description>
+    </item>
+    
+  </channel>
+</rss>

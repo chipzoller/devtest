@@ -1,0 +1,535 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  <meta property="og:title" content="Upgrading vSphere through migration" />
+<meta property="og:description" content="How to upgrade vSphere by migrating to a new instance rather than upgrading in-place." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://neonmirrors.net/post/2017-11/upgrading-vsphere-through-migration/" />
+<meta property="article:published_time" content="2017-11-27T00:00:00+00:00" />
+<meta property="article:modified_time" content="2017-11-27T00:00:00+00:00" />
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Upgrading vSphere through migration"/>
+<meta name="twitter:description" content="How to upgrade vSphere by migrating to a new instance rather than upgrading in-place."/>
+<meta name="twitter:site" content="@chipzoller"/>
+
+  
+  <title>
+Upgrading vSphere through migration | Neon Mirrors
+</title>
+  
+  <link rel="icon" type="image/png" href='https://neonmirrors.net/images/favicon-16x16.png' sizes="16x16">
+  <link rel="icon" type="image/png" href='https://neonmirrors.net/images/favicon-32x32.png' sizes="32x32">  
+  
+  <link href="https://fonts.googleapis.com/css?family=Oswald:400" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">      
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel = 'stylesheet' href = 'https://neonmirrors.net/css/main.703162b863e7e1a93ee98f24b75e329848a814522f2d9f5735d41fbc7f023b3772f177c6ef8dbafccee65cfa8c1b8bb57e73d49284b5a0fdbbe772b8b29b07cb.css' integrity = 'sha512-cDFiuGPn4ak&#43;6Y8kt14ymEioFFIvLZ9XNdQfvH8COzdy8XfG7426/M7mXPqMG4u1fnPUkoS1oP2753K4spsHyw=='>
+  
+  
+<link rel="me" type="text/html" href="https://twitter.com/chipzoller"/> 
+<link rel="me" type="text/html" href="https://www.linkedin.com/in/chipzoller/"/> 
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+
+<link rel="alternate" type="application/rss+xml" href='https://neonmirrors.net/index.xml' />
+
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<meta name="author" content="Chip Zoller" />
+<meta name="copyright" content="Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved." />
+
+
+<meta name="description" content="How to upgrade vSphere by migrating to a new instance rather than upgrading in-place.">
+
+
+
+
+<style type="text/css">
+  .feature-image {
+    background-image: url("https://neonmirrors.net/images/2017-11/upgrading-vsphere-through-migration/featured.jpg");
+    height: 500px;
+  }
+  
+  @media (max-width: 992px) {
+    .feature-image {
+      height: 350px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .feature-image {
+      height: 250px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .feature-image {
+      height: 200px;
+    }
+  }
+</style>
+
+        
+</head>
+<body >
+  <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark py-1 top-nav">
+    <div class="container">
+      <span class="internal">
+  <a class="navbar-brand pr-2" href="/">NEON MIRRORS</a>
+</span>
+
+      <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="navbar-collapse collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/categories/technology/">Technology</a>
+  
+</li>
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/categories/music/">Music</a>
+  
+</li>
+<li class="nav-item internal">
+  
+  <div class="nav-link nav-hassubmenu">Links
+    <div class="nav-submenu" >
+    
+      <a class="nav-link" href="https://chipzoller.gitbook.io/vspheremigration/">Ultimate vSphere VM Migration Guide</a>
+    
+    </div>
+    </div>
+  
+</li>
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/about/">About</a>
+  
+</li>
+
+        </ul>
+        <div class="social-icons d-none d-lg-block">
+          <a class="py-2 px-2" href="https://github.com/chipzoller"><i class="fab fa-github"></i></a>
+<a class="py-2 px-2" href="https://twitter.com/chipzoller"><i class="fab fa-twitter"></i></a>
+<a class="py-2 px-2" href="https://www.linkedin.com/in/chipzoller/"><i class="fab fa-linkedin"></i></a>
+<a class="py-2 px-2" href='https://neonmirrors.net/index.xml'><i class="fas fa-rss"></i></a>
+
+        </div>
+      </div>
+    </div>
+  </nav>
+  
+  
+<header class="feature-image d-print-none">
+</header>
+
+  
+  <div class="main">
+    
+<div class="container mt-4 post">
+  <h1>Upgrading vSphere through migration</h1>
+  <div class="mb-3 internal">
+  <small>
+    <strong>By Chip Zoller</strong>
+    | <i class="far fa-calendar-alt"></i>&nbsp;Nov 27, 2017&nbsp;
+    | <i class="fa fa-tags" title="Tags" aria-hidden="true"></i> <a href='/tags/vsphere/'>vsphere</a><span class="d-lg-none">, <a href='#tags-section'>all tags</a></span>
+  </small>
+</div>
+
+  <div class="share-icons d-flex d-print-none">
+    <a href="https://twitter.com/intent/tweet?text=Upgrading%20vSphere%20through%20migration&url=https%3a%2f%2fneonmirrors.net%2fpost%2f2017-11%2fupgrading-vsphere-through-migration%2f&tw_p=tweetbutton" class="p-2" title="Share on Twitter" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Tweet</small></div>
+</a>
+
+<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fneonmirrors.net%2fpost%2f2017-11%2fupgrading-vsphere-through-migration%2f&t=Upgrading%20vSphere%20through%20migration" class="p-2" title="Share on Facebook" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+<script>
+  function shareViaLinkedin() {
+    window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent("https://neonmirrors.net/post/2017-11/upgrading-vsphere-through-migration/"), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+  }
+</script>
+<a href="#linkedinshare" id = "linkedinshare" class="p-2" title="Share on LinkedIn" rel="nofollow" onclick="shareViaLinkedin()">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+
+<a href="javascript:window.print()" title="Print this article" class="p-2" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fa fa-print fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Print</small></div>
+</a>
+
+  </div>
+  
+  <div class="mt-4 mb-4 main-content">
+    <h2 id="introduction">Introduction</h2>
+<p>The topic of vSphere upgrades is a hot one with every new release of VMware’s flagship platform. Architectures change, new features are introduced, old ones are removed, and so everyone is scrambling to figure out how to move to the next version and what process they should use. There are generally two approaches when it comes to vSphere upgrades: in-place upgrade or migrate. In the in-place upgrade process, the existing vCenter Server is preserved and transformed into the new version while in the migration method, new resources are provisioned using the new version which then take over from the old resources. Primarily the new resources consist of the vCenter Server and its accoutrement while ESXi hosts are simply moved over to it and then upgraded. Therefore, both strategies see ESXi hosts being upgraded in-place. While there are pros and cons to each approach, I want to explore the migration method in particular since this is a question I often get from customers and the community at large. In addition, the in-place upgrade approach is fairly well documented with steps and procedures from VMware while the migration method receives little, if any, attention. Let’s go through the process of the migration method and discuss how it works, what’s involved, and the gotchas of which to be cognizant.</p>
+<h2 id="why-migrate">Why Migrate?</h2>
+<p>Upgrading vSphere is no simple task regardless how you go about it. Although VMware has done a good job of making this process easier and more reliable, there are still a number of things you as an engineer or administrator are responsible for doing to ensure it ultimately succeeds. Before deciding if you want to go straight to a migration rather than in-place upgrade, we need to lay out the pros and cons of each. Here’s a table which has the most salient points.</p>
+<p><img src="/images/2017-11/upgrading-vsphere-through-migration/table.png" alt="In-place Upgrade vs Migrate Pros and Cons"></p>
+<p>The in-place upgrade has advantages like preserving performance data because the vCenter database is kept intact. Since it’s the same vCenter, the identity is carried forward as are all the settings. It can sometimes be quicker to upgrade since you’re not standing up a new vCenter, and if you’re moving from Windows to the appliance there’s a handy migration utility that streamlines this process. Lastly, any solutions or other third-party applications you have which rely on vCenter continue to work (if they’re compatible).</p>
+<p>However, there are some serious drawbacks to consider as well. Going with an in-place upgrade means settings which may not be optimal on the new version are carried forward rather than altered. In preserving the configurations, you may also be moving things along which were mistakes or not according to best practice to begin with. There’s a much higher risk of failure due to things like <a href="https://kb.vmware.com/s/article/2147558">database</a> issues, which are rampant, <a href="https://kb.vmware.com/s/article/2147895">underlying OS issues</a>, and the fact that in any enterprise software development, the majority of the efforts in QA are focused on testing net new deployments. It’s only understandable that vendors focus on predictable deployment patterns rather than trying to model millions of possible permutations of different versions crossed with different settings—it’s a matrix from hell. An in-place upgrade has a higher risk of breaking as future patches and updates are made to the software then scabbed on. A combination of legacy settings and non-optimizations create somewhat of a ticking time bomb for any further updates owing again to the possibilities when in the developing and test phases. And last, an in-place upgrade won’t allow you to change your vCenter architecture. It’s very common to see vCenter deployments that, due to time, budget, personnel, or other constraints were slung together and not well planned and thought out. Perhaps the architecture was wrong on day one, or maybe your company has simply grown organically or through investitures and you now find the need for multiple vCenters and a more resilient architecture. In-place upgrades don’t allow you to change what you have, merely stand pat and bump up to the latest release.</p>
+<p>When it comes to the migration path, you still have some negatives that should be understood. In a migration, since this is a new vCenter, there’s more planning that is involved as you understand dependencies and port elements over. This translates to more time spent on the overall upgrade process. And because this is a lift-and-shift operation, you’ll lose historical data in the vCenter database as well as be required to repoint any external applications that talk to vCenter. More on all this in the Moving to Migrate section.</p>
+<p>The positive aspects of a migration as opposed to an in-place upgrade are extremely compelling, however. This is a fresh, clean slate, so you have the opportunity to right past wrongs, fix non-optimal settings, and conform to best practices without having to worry about transporting and then readopting a bunch of junk from prior versions. If your present vCenter environment has been upgraded from at least one major version in the past (for example, from vSphere 4.1 to vSphere 5.0), this is usually a clear signal to break with in-place upgrades and opt for a migration. The migration process is much more controlled and so you can take the time to be thorough and fix issues as they arise without worrying about downtime. The risk of failure is very slight because everything is new and fresh so no worrying about database corruption or rogue tables killing your upgrade. Since this is essentially a new environment, future patches and upgrades are much more likely to go without incident because you are on a common, known-good platform. And, lastly, you can learn from prior mistakes, assess the needs of your company, and correct upon earlier architectures by designing a new one and putting it into play. When the time comes and you’re satisfied, you can then begin to bring things over piece by piece until the legacy environment is entirely vacant and deprecated, then dispose of it forever.</p>
+<p>Weigh each option carefully to determine if the pros column outweighs the cons column in your case. And for some, an in-place upgrade is the only possibility due to a variety of reasons. However, keep in mind the ultimate goal with any upgrade is not only to satisfy the primary objective of moving to the later version, but to ensure the platform remains stable, reliable, secure, and performant. Pursuant to those goals, it has been my experience that a lift-and-shift migrate, while having some leg work involved, ultimately produces the best result in the long run and sets you up for a more stable vSphere.</p>
+<h2 id="moving-to-migrate">Moving to Migrate</h2>
+<p>In a vSphere migration process, there are three large steps that occur and, while they sound simple, are actually complex in the implications that arise from such a movement.</p>
+<ol>
+<li>Stand up new vCenter on new version</li>
+<li>Move ESXi hosts to new vCenter</li>
+<li>Upgrade ESXi hosts</li>
+</ol>
+<p>Leading up to these steps is much planning in figuring out how exactly to do this. The devil, as they say, is in the details. Because this is essentially a new vCenter infrastructure design, we have the opportunity to adjust what might not have worked so well in the past and adopt a clean and new architecture that better suits our needs. Some questions to ask and then answer include:</p>
+<ol>
+<li>What type of vCenter platform will I use?</li>
+<li>What will the size of my inventory be?</li>
+<li>How will this grow in the foreseeable future?</li>
+<li>Will I use an external PSC?</li>
+<li>Do I need to link additional vCenter?</li>
+</ol>
+<p>Obviously, the answers to these questions will be specific to your needs and that of the business and so are out of scope for this particular article, with one exception being the vCenter platform. Because <a href="https://blogs.vmware.com/vsphere/2017/08/farewell-vcenter-server-windows.html">Windows-based vCenters are going away</a>, the appliance should be the only thing on your radar. The point being that you are planning for a greenfield deployment as if your existing datacenter was a new one entirely. Once you’ve settled on a vCenter architecture, we have to get from the current state to the new state. This is where the next batch of planning comes in. Because of the complexities of vCenter and the various features it enables (which you may be using), there are a whole host of things that must be moved and due diligence done before swinging hosts. An exhaustive list is not possible, but here are the 10 major things you should check and plan to either move or recreate. Keep in mind that although this list is tailored towards a migration, several items are universal irrespective of which upgrade method you elect.</p>
+<h2 id="10-things-to-check-before-migrating">10 Things to Check Before Migrating</h2>
+<hr>
+<h3 id="1-custom-roles-and-permissions">1. Custom roles and permissions</h3>
+<p>Any roles you’ve cloned and customized in your existing vCenter will not be moved with hosts and so must be recreated. Also, if you’ve applied those custom roles to specific objects in the vCenter hierarchy, those will need to be documented and recreated. Even if not using custom roles, existing out-of-the-box roles that are applied at granular levels inside vCenter will need to be recreated.</p>
+<h3 id="2-distributed-switch">2. Distributed Switch</h3>
+<p>The vDS is a vCenter-only construct and will have to be dealt with first. While you can backup and restore that vDS via the web client, hosts will have to be migrated to a vSS first before vCenter will allow you to disconnect them. This is a topic unto itself, but you will need two uplinks as a minimum to perform such a migration as well as some careful planning. It can be done with VMs online, but the point being you have to get to a vSS first, then reverse the process later.</p>
+<h3 id="3-folders-resource-pools-computedatastore-clusters">3. Folders, Resource Pools, Compute/Datastore Clusters</h3>
+<p>Once again, these are all vCenter constructs and will not follow the hosts. Any vSphere folders, resource pools, compute or datastore clusters will need to be recreated on the destination. Other vCenter-specific resources include storage policies, customization specs, host profiles, vSphere tags, DRS rules, and licenses. While some of these objects have native, GUI-driven exportation abilities like host profiles as shown below, others like vSphere folders will require you drop down to <a href="https://www.vmware.com/support/developer/PowerCLI/">PowerCLI</a> and do some scripting. In most cases, there are existing PowerShell scripts you can leverage to help, but you’ll need to consider these before swinging hosts.</p>
+<p><img src="/images/2017-11/upgrading-vsphere-through-migration/image1.png" alt="Right-click context menu on host profile"></p>
+<h3 id="4-esxi-version-compatibility">4. ESXi version compatibility</h3>
+<p>In vSphere 6.5, for example, vCenter 6.5 cannot manage hosts below 5.5 and so before committing to this process, you need to ensure the existing ESXi hosts will support being connected to the next version of vCenter prior to them being upgraded.</p>
+<h3 id="5-hardware-support-compute-storage-network">5. Hardware support (compute, storage, network)</h3>
+<p>Further to #4, you must check your hosts, storage, and network against the <a href="https://www.vmware.com/resources/compatibility/search.php">HCL</a> to ensure they will support being upgraded to the target new version. This is something that is overlooked far too often and leads to major issues. Vendors are the ones who usually do compatibility testing on their platforms, and so not all servers will support the latest version. In order to be in a safe place if you need support, all hardware must be validated against the HCL. Also, don’t forget about your physical network and storage equipment. These must be validated every bit as much as your ESXi hosts.</p>
+<h3 id="6-firmware-updates">6. Firmware updates</h3>
+<p>And further to #5 is the matter of firmware updates for the said physical equipment. Although you may have validated that your servers and storage are indeed supported with the latest version of vSphere, they may not be running a compatible or supported version of the underlying firmware. This can be critically important if you wish to avoid outages and instability in your vSphere platform. Every piece of hardware on the <a href="https://www.vmware.com/resources/compatibility/search.php">HCL</a> contains corresponding validated firmware that forms the support statement.</p>
+<p><img src="/images/2017-11/upgrading-vsphere-through-migration/image2.png" alt="VMware HCL"></p>
+<h3 id="7-vsan-nsx-and-other-vmware-solutions">7. vSAN, NSX, and other VMware solutions</h3>
+<p>This is a very broad topic, but if you’re running vSAN or NSX then there are specific validation that must take place there. Any other VMware solutions you may have such as vROps, vRA, SRM, Log Insight, Infrastructure Navigator, Horizon View, etc. must all be checked for their individual levels of support and interoperation with the new version. Use the <a href="https://www.vmware.com/resources/compatibility/sim/interop_matrix.php">Interoperability Matrix</a> to check these solutions, and then use the <a href="https://kb.vmware.com/s/article/2147289">KB</a> for proper upgrade order in the case of vSphere 6.5. For example, if you are using NSX, you may need to upgrade it before you perform the migration. Also, while not so much a concern any longer since vCenter 6.5 now has <a href="https://blogs.vmware.com/vsphere/2016/12/vmware-vsphere-update-manager-6-5-now-embedded-vcenter-server-appliance.html">it baked in</a>, is Update Manager. Some shops are very particular about their VUM installations. This is something else you must leave in the dust, so make preparations to migrate any builds, patches, and baselines to the new vCenter. Lastly, if using Auto Deploy then you’ll want to take that into consideration as well since it has some special requirements.</p>
+<h3 id="8-plug-ins">8. Plug-ins</h3>
+<p>Also a broad topic but any third-party plug-ins you might have, for example with your storage vendor, will need to be validated, possibly upgraded, then migrated or reregistered against the new vCenter. Check vCenter for a list of these under Administration -&gt; Solutions heading at Client Plug-Ins and vCenter Server Extensions. For deeper insight into what is registered and where it is, see <a href="https://www.virtuallyghetto.com/2010/07/how-to-unregister-vcenter.html">William Lam’s article</a> on using the vCenter MOB. Check with each respective vendor to figure out what that process may be and if you’ll need to perform any sort of backup or restore procedure for the data that may have been created or managed by those plug-ins.</p>
+<h3 id="9-seat-data">9. SEAT data</h3>
+<p>Stats, Events, Alarms, and Tasks (SEAT) data will be left behind in your existing vCenter because this is all stored in the database and does not travel with the hosts. Stats are the performance statistics when you open the performance charts on an object. Events are any event on any object accessible from the Tasks and Events pane. Alarms are any existing, active alarms as well as those you have customized plus those created automatically by other solutions or plug-ins. Tasks are any records of activities performed manually or programmatically and serve as an audit log. If you’re using something like vROps, most of this information will be preserved there, but if not, be cognizant that you must give this up once hosts are swung.</p>
+<h3 id="10-backup-replication-and-monitoring">10. Backup, replication, and monitoring</h3>
+<p>Very important and often overlooked. Special applications such as backup, replication, and monitoring will need to be validated for support and functionality, but will also need to be reconfigured or updated once the resources for which they are responsible are moved elsewhere. vCenter tracks objects by several internal IDs, the main one being the MoRef ID (Managed Object Reference). This tracking system assigns a unique ID to each VM, host, folder, etc., and it is very often this ID that such applications key off of when associating their inventories. For example, in the case of Veeam Backup &amp; Replication, when swinging hosts and their VMs over to a new vCenter, each object will have a new MoRef generated for it. If you merely reconfigure the jobs to point to the new vCenter, Veeam will see new IDs and therefore think they are brand new VMs even though they’re actually the same. Veeam has address this challenge specifically in a <a href="https://www.veeam.com/kb2136">KB</a>, but you’ll want to understand what will happen in this case and how your monitoring or replication applications will behave. Between points #6 and #10 here are the biggest and most complex things to investigate and can make or break if a migration is right for you. Anything and everything that talks to or through vCenter Server must be accounted for, documented, and investigated.</p>
+<h2 id="resources-and-links">Resources and Links</h2>
+<p>I’ve covered lots of different material and provided several links, but I want to list the most important ones you can use as reference material when deciding on an upgrade path. Let these links be your guiding star and read them thoroughly and carefully. While several are for vSphere 6.5, they are generic documents that are updated with each major release.</p>
+<p>Also included are release notes to the latest versions of vSphere as of the time of writing. Something that people rarely do is read release notes and instead plunge head first into an upgrade/migration. I can’t stress enough the importance of reading and then re-reading release notes. Bookmark them and check back frequently when planning your path because VMware always updates them as new issues are discovered and workarounds found.</p>
+<ul>
+<li><a href="https://www.vmware.com/resources/compatibility/search.php">VMware Compatibility Guide</a></li>
+<li><a href="https://www.vmware.com/resources/compatibility/sim/interop_matrix.php">VMware Product Interoperability Matrices</a></li>
+<li><a href="https://kb.vmware.com/s/article/2147289">Update sequence for vSphere 6.5</a></li>
+<li><a href="https://docs.vmware.com/en/VMware-vSphere/6.5/com.vmware.vsphere.upgrade.doc/GUID-18B7B4BB-C24A-49CD-AE76-13285157B29F.html">vSphere 6.5 Upgrade Documentation</a></li>
+<li><a href="https://kb.vmware.com/s/article/2147686">Best practices for upgrading to vCenter Server 6.5</a></li>
+<li><a href="https://docs.vmware.com/en/VMware-vSphere/6.5/rn/vsphere-vcenter-server-651-release-notes.html">vCenter 6.5 U1 Release Notes</a></li>
+<li><a href="https://docs.vmware.com/en/VMware-vSphere/6.5/rn/vsphere-esxi-651-release-notes.html">ESXi 6.5 U1 Release Notes</a></li>
+</ul>
+
+    
+    <div class="share-icons d-flex d-print-none">
+      <a href="https://twitter.com/intent/tweet?text=Upgrading%20vSphere%20through%20migration&url=https%3a%2f%2fneonmirrors.net%2fpost%2f2017-11%2fupgrading-vsphere-through-migration%2f&tw_p=tweetbutton" class="p-2" title="Share on Twitter" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Tweet</small></div>
+</a>
+
+<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fneonmirrors.net%2fpost%2f2017-11%2fupgrading-vsphere-through-migration%2f&t=Upgrading%20vSphere%20through%20migration" class="p-2" title="Share on Facebook" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+<script>
+  function shareViaLinkedin() {
+    window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent("https://neonmirrors.net/post/2017-11/upgrading-vsphere-through-migration/"), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+  }
+</script>
+<a href="#linkedinshare" id = "linkedinshare" class="p-2" title="Share on LinkedIn" rel="nofollow" onclick="shareViaLinkedin()">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+
+<a href="javascript:window.print()" title="Print this article" class="p-2" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fa fa-print fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Print</small></div>
+</a>
+
+    </div>
+  </div>
+  
+  
+</div>
+<div class="sidebar d-print-none d-xl-block internal">
+  
+  <h2>Chip Zoller</h2>
+  <div>
+    Technologist, perpetual student, teacher, continual incremental improvement.
+  </div>
+  <a href="/about/" class="btn btn-outline-secondary mt-3" role="button">Read More...</a>
+  <h2 class="mt-4">Featured Posts</h2>
+  
+  
+  <a href="/post/2019-10/authentication-and-authorization-in-k8s/" class="nav-link">Authentication and Authorization in Kubernetes</a>
+  
+  <a href="/post/2018-12/how-to-ask-for-help-on-tech-forums/" class="nav-link">How to Ask for Help on Tech Forums</a>
+  
+  <h2 class="mt-4">Recent Posts</h2>
+  <nav class="nav flex-column">
+    
+    <a href="/post/2020-04/getting-started-with-tkg/" class="nav-link">Getting Started with Tanzu Kubernetes Grid</a>
+    
+    <a href="/post/2020-04/capv-overview/" class="nav-link">Behind the Scenes with Cluster API Provider vSphere</a>
+    
+    <a href="/post/2020-01/buy-dont-build/" class="nav-link">Buy Don&#39;t Build</a>
+    
+    <a href="/post/2020-01/why-k8s-on-vms/" class="nav-link">Why Kubernetes on Virtual Machines?</a>
+    
+    <a href="/post/2020-01/2020-public-domain-day/" class="nav-link">2020 Public Domain Day</a>
+    
+    <a href="/post/2019-10/authentication-and-authorization-in-k8s/" class="nav-link">Authentication and Authorization in Kubernetes</a>
+    
+    <a href="/post/2019-10/pks-rancher-reg/" class="nav-link">pks-rancher-reg: Automated PKS Cluster Registration For Rancher</a>
+    
+    <a href="/post/2019-09/rancher-ha-on-pks/" class="nav-link">Rancher HA on Enterprise PKS</a>
+    
+  </nav>
+  
+  <h2 class="mt-4 text-capitalize" id="categories-section">categories</h2>
+  <nav class="nav">
+    
+    <a href='/categories/technology/' class="nav-link">
+      technology
+      <span class="badge badge-pill badge-secondary">53</span>
+    </a>
+    
+    <a href='/categories/music/' class="nav-link">
+      music
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+  </nav>
+  
+  <h2 class="mt-4 text-capitalize" id="tags-section">tags</h2>
+  <nav class="nav">
+    
+    <a href='/tags/vrealize/' class="nav-link">
+      vrealize
+      <span class="badge badge-pill badge-secondary">27</span>
+    </a>
+    
+    <a href='/tags/vra/' class="nav-link">
+      vra
+      <span class="badge badge-pill badge-secondary">22</span>
+    </a>
+    
+    <a href='/tags/vsphere/' class="nav-link">
+      vsphere
+      <span class="badge badge-pill badge-secondary">14</span>
+    </a>
+    
+    <a href='/tags/k8s/' class="nav-link">
+      k8s
+      <span class="badge badge-pill badge-secondary">9</span>
+    </a>
+    
+    <a href='/tags/sovlabs/' class="nav-link">
+      sovlabs
+      <span class="badge badge-pill badge-secondary">8</span>
+    </a>
+    
+    <a href='/tags/veeam/' class="nav-link">
+      veeam
+      <span class="badge badge-pill badge-secondary">7</span>
+    </a>
+    
+    <a href='/tags/powershell/' class="nav-link">
+      powershell
+      <span class="badge badge-pill badge-secondary">6</span>
+    </a>
+    
+    <a href='/tags/log-insight/' class="nav-link">
+      log-insight
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/pks/' class="nav-link">
+      pks
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/vrops/' class="nav-link">
+      vrops
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/vro/' class="nav-link">
+      vro
+      <span class="badge badge-pill badge-secondary">4</span>
+    </a>
+    
+    <a href='/tags/docker/' class="nav-link">
+      docker
+      <span class="badge badge-pill badge-secondary">3</span>
+    </a>
+    
+    <a href='/tags/vmworld/' class="nav-link">
+      vmworld
+      <span class="badge badge-pill badge-secondary">3</span>
+    </a>
+    
+    <a href='/tags/featured/' class="nav-link">
+      featured
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/nsx-t/' class="nav-link">
+      nsx-t
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/powercli/' class="nav-link">
+      powercli
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/rancher/' class="nav-link">
+      rancher
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/thoughts/' class="nav-link">
+      thoughts
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/ansible/' class="nav-link">
+      ansible
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/authentication/' class="nav-link">
+      authentication
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/forums/' class="nav-link">
+      forums
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/homelab/' class="nav-link">
+      homelab
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/networking/' class="nav-link">
+      networking
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/security/' class="nav-link">
+      security
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/vmtn/' class="nav-link">
+      vmtn
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+  </nav>
+  
+</div>
+
+
+  </div>
+  
+  <footer class="mt-auto footer d-print-none">
+    <a class="to-top" href="#" title="Back to top">
+      <i class="fa fa-caret-up"></i>
+    </a>
+    <div class="container-fluid">
+      <div class="row justify-content-center">
+        <div class="col-md-4 col-xl-3">
+          <h5>Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved.</h5>
+I&#39;m happy for you to share content on this site, but please provide attribution.
+        </div>
+        <div class="col-md-4 col-xl-3">
+          <h5>Disclaimer</h5>
+Opinions expressed here are my own and may not reflect those of the company I work for, or the people I work with.
+        </div>
+        <div class="col-md-4 col-xl-3">
+          <h5>About This Site</h5>
+This blog was created using the <a href="https://gohugo.io/">Hugo</a> static site generator, using
+<a href="https://getbootstrap.com/">Bootstrap</a>, using the Silhouette Hugo theme, created by
+<a href='https://www.mattbutton.com'>Matt Button</a>
+        </div>
+      </div>
+      
+      <hr />
+      
+      <div class="d-flex justify-content-center icons">
+        <a class="py-2 px-2" href="https://github.com/chipzoller"><i class="fab fa-github"></i></a>
+<a class="py-2 px-2" href="https://twitter.com/chipzoller"><i class="fab fa-twitter"></i></a>
+<a class="py-2 px-2" href="https://www.linkedin.com/in/chipzoller/"><i class="fab fa-linkedin"></i></a>
+<a class="py-2 px-2" href='https://neonmirrors.net/index.xml'><i class="fas fa-rss"></i></a>
+
+      </div>
+    </div>
+  </footer>
+  
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script src="/js/syntax.js"></script>
+  <script src = '/js/index.js'></script>
+  
+  
+</body>
+</html>

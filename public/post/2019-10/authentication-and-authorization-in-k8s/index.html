@@ -1,0 +1,647 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  <meta property="og:title" content="Authentication and Authorization in Kubernetes" />
+<meta property="og:description" content="Leveraging authN and authZ in K8s." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://neonmirrors.net/post/2019-10/authentication-and-authorization-in-k8s/" />
+<meta property="article:published_time" content="2019-10-30T00:00:00+00:00" />
+<meta property="article:modified_time" content="2019-10-30T00:00:00+00:00" />
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Authentication and Authorization in Kubernetes"/>
+<meta name="twitter:description" content="Leveraging authN and authZ in K8s."/>
+<meta name="twitter:site" content="@chipzoller"/>
+
+  
+  <title>
+Authentication and Authorization in Kubernetes | Neon Mirrors
+</title>
+  
+  <link rel="icon" type="image/png" href='https://neonmirrors.net/images/favicon-16x16.png' sizes="16x16">
+  <link rel="icon" type="image/png" href='https://neonmirrors.net/images/favicon-32x32.png' sizes="32x32">  
+  
+  <link href="https://fonts.googleapis.com/css?family=Oswald:400" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">      
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel = 'stylesheet' href = 'https://neonmirrors.net/css/main.703162b863e7e1a93ee98f24b75e329848a814522f2d9f5735d41fbc7f023b3772f177c6ef8dbafccee65cfa8c1b8bb57e73d49284b5a0fdbbe772b8b29b07cb.css' integrity = 'sha512-cDFiuGPn4ak&#43;6Y8kt14ymEioFFIvLZ9XNdQfvH8COzdy8XfG7426/M7mXPqMG4u1fnPUkoS1oP2753K4spsHyw=='>
+  
+  
+<link rel="me" type="text/html" href="https://twitter.com/chipzoller"/> 
+<link rel="me" type="text/html" href="https://www.linkedin.com/in/chipzoller/"/> 
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+
+<link rel="alternate" type="application/rss+xml" href='https://neonmirrors.net/index.xml' />
+
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<meta name="author" content="Chip Zoller" />
+<meta name="copyright" content="Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved." />
+
+
+<meta name="description" content="Leveraging authN and authZ in K8s.">
+
+
+
+
+<style type="text/css">
+  .feature-image {
+    background-image: url("https://neonmirrors.net/images/2019-10/authentication-and-authorization-in-k8s/featured.jpg");
+    height: 500px;
+  }
+  
+  @media (max-width: 992px) {
+    .feature-image {
+      height: 350px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .feature-image {
+      height: 250px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .feature-image {
+      height: 200px;
+    }
+  }
+</style>
+
+        
+</head>
+<body >
+  <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark py-1 top-nav">
+    <div class="container">
+      <span class="internal">
+  <a class="navbar-brand pr-2" href="/">NEON MIRRORS</a>
+</span>
+
+      <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="navbar-collapse collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/categories/technology/">Technology</a>
+  
+</li>
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/categories/music/">Music</a>
+  
+</li>
+<li class="nav-item internal">
+  
+  <div class="nav-link nav-hassubmenu">Links
+    <div class="nav-submenu" >
+    
+      <a class="nav-link" href="https://chipzoller.gitbook.io/vspheremigration/">Ultimate vSphere VM Migration Guide</a>
+    
+    </div>
+    </div>
+  
+</li>
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/about/">About</a>
+  
+</li>
+
+        </ul>
+        <div class="social-icons d-none d-lg-block">
+          <a class="py-2 px-2" href="https://github.com/chipzoller"><i class="fab fa-github"></i></a>
+<a class="py-2 px-2" href="https://twitter.com/chipzoller"><i class="fab fa-twitter"></i></a>
+<a class="py-2 px-2" href="https://www.linkedin.com/in/chipzoller/"><i class="fab fa-linkedin"></i></a>
+<a class="py-2 px-2" href='https://neonmirrors.net/index.xml'><i class="fas fa-rss"></i></a>
+
+        </div>
+      </div>
+    </div>
+  </nav>
+  
+  
+<header class="feature-image d-print-none">
+</header>
+
+  
+  <div class="main">
+    
+<div class="container mt-4 post">
+  <h1>Authentication and Authorization in Kubernetes</h1>
+  <div class="mb-3 internal">
+  <small>
+    <strong>By Chip Zoller</strong>
+    | <i class="far fa-calendar-alt"></i>&nbsp;Oct 30, 2019&nbsp;
+    | <i class="fa fa-tags" title="Tags" aria-hidden="true"></i> <a href='/tags/k8s/'>k8s</a>, <a href='/tags/security/'>security</a>, <a href='/tags/authentication/'>authentication</a>, <a href='/tags/featured/'>featured</a><span class="d-lg-none">, <a href='#tags-section'>all tags</a></span>
+  </small>
+</div>
+
+  <div class="share-icons d-flex d-print-none">
+    <a href="https://twitter.com/intent/tweet?text=Authentication%20and%20Authorization%20in%20Kubernetes&url=https%3a%2f%2fneonmirrors.net%2fpost%2f2019-10%2fauthentication-and-authorization-in-k8s%2f&tw_p=tweetbutton" class="p-2" title="Share on Twitter" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Tweet</small></div>
+</a>
+
+<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fneonmirrors.net%2fpost%2f2019-10%2fauthentication-and-authorization-in-k8s%2f&t=Authentication%20and%20Authorization%20in%20Kubernetes" class="p-2" title="Share on Facebook" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+<script>
+  function shareViaLinkedin() {
+    window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent("https://neonmirrors.net/post/2019-10/authentication-and-authorization-in-k8s/"), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+  }
+</script>
+<a href="#linkedinshare" id = "linkedinshare" class="p-2" title="Share on LinkedIn" rel="nofollow" onclick="shareViaLinkedin()">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+
+<a href="javascript:window.print()" title="Print this article" class="p-2" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fa fa-print fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Print</small></div>
+</a>
+
+  </div>
+  
+  <div class="mt-4 mb-4 main-content">
+    <p>Kubernetes is designed to be secured by default, and many of the built-in technologies and concepts are designed to ensure that is the case. Often times, the first exposure users will have to Kubernetes security will be to authentication and authorization:  simply getting inside the cluster and being permitted to do something. In this blog post, I want to focus on human user/operator access to Kubernetes and the mechanisms at your disposal to ensure you get it right the first try.</p>
+<h2 id="up-in-the-club">Up In The Club</h2>
+<p>Although these words sound and look similar and people often conflate the two, they mean very different things. &ldquo;Authentication&rdquo; can be described as the process of verifying the identity of a user or process. Simply put, are you who you claim to be? To provide an analogy, assume you were trying to get into a nightclub where access was controlled via a list held by a bouncer outside the front door. The list said who was allowed in and where in the club they could go based on their status and/or pass. You must present a valid picture ID in order to gain entry. This ID serves as a form of authentication. If I, Chip, walked up to the bouncer and produced a photo ID that clearly showed someone who looked very different from me, I would not be authentic. That is to say, I am not who I present myself to be. Meanwhile, my friend, Dave, presents his government-issued ID where his appearance matches the photo. Dave is determined to be authentic. He is, therefore, authenticated.</p>
+<p>As the next step, the bouncer must determine what we can do. This is known as authorization. Being who you claim to be isn&rsquo;t enough. You also must have a set of permissions or capabilities assigned to you. Getting back to the analogy, our bouncer checks his list and sees that Dave isn&rsquo;t on it. &ldquo;Hang on,&rdquo; you say, &ldquo;but he presented an ID!&rdquo; He did, and the bouncer used it to establish that Dave wasn&rsquo;t lying about his identity. However, Dave doesn&rsquo;t have any capabilities inside the club and so can effectively do nothing. Dave is therefore not authorized. Jimmy, on the other hand, presented his valid passport and is on the list for having VIP access. Jimmy is therefore both authenticated as well as authorized. While Dave and I sulk back home to watch reruns on TV, Jimmy is partying it up in the club living his best life. Knowing the difference between the two is critical to understanding how access is granted.</p>
+<p>In Kubernetes, authentication (often shortened to &ldquo;AuthN&rdquo;) is allowed for two different types: service accounts and users. Service accounts are designed to be used by Pods and the applications running inside them should they need access to Kubernetes itself while users are set aside for human operators. Kubernetes provides provisions for service accounts yet none for users. To quote the <a href="https://kubernetes.io/docs/reference/access-authn-authz/authentication/">documentation</a>:</p>
+<blockquote>
+<p><em>Normal users are assumed to be managed by an outside, independent service. […] In this regard, Kubernetes does not have objects which represent normal user accounts. Normal users cannot be added to a cluster through an API call.</em></p>
+</blockquote>
+<p>In other words, creation and management of users and managing their authentication is outside the purview of Kubernetes. So then how do we get normal people to use Kubernetes? And the answer is some identity system like certificates or an external provider like Active Directory. Because these are the two leading ways to provide authentication, let&rsquo;s look at how we can use them to provide user access.</p>
+<h2 id="authenticating-dave">Authenticating Dave</h2>
+<p>First, let&rsquo;s consider certificates. Certificates, specifically asymmetric cryptography, give us a way to prove that someone (or something) is who they claim to be based on a central authority. And we can use them to provide user access to Kubernetes. In this method, Kubernetes is using either its own self-signed certificate which is used to sign external requests, or maybe you&rsquo;re delegating its signing based upon an external certificate authority (CA) you maintain separately. Whatever the case is, the process is similar:</p>
+<ol>
+<li>User (or administrator on behalf of user) creates a private key.</li>
+<li>User/administrator generates a certificate signing request (CSR).</li>
+<li>Administrator approves the request and signs it with their CA.</li>
+<li>Administrator provides the resulting certificate back to the user.</li>
+<li>User presents their key and certificate pair to prove their identity.</li>
+</ol>
+<p>Let&rsquo;s go through these steps to illustrate the process. In this example, I&rsquo;m using a cluster built by <a href="https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm/">kubeadm</a> and have cluster-wide administration privileges. I also have access to the popular <a href="https://www.openssl.org/">openssl</a> utility.</p>
+<p>First, I need to create a private key for my new developer, whom we&rsquo;ll call dave. Dave is working on the QA team. Since I&rsquo;m the administrator, I&rsquo;m simply going to provide Dave his credentials so he can start using the cluster we&rsquo;ve provided.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">openssl genrsa -out dave.key <span class="m">2048</span>
+</code></pre></div><p>This produces a key file by the name of <code>dave.key</code> using a modulus of 2,048 bits.</p>
+<p>Next, we need to create a signing request. This request is going to identify our user and encode within it other metadata that can be used to control certain behavior. For this demo, I&rsquo;m keeping it to the bare minimum and providing Dave&rsquo;s name only.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">openssl req -new -key dave.key -out dave.csr -subj <span class="s2">&#34;/CN=dave&#34;</span>
+</code></pre></div><p>The result of this will be a file called <code>dave.csr</code> which we&rsquo;ll have to submit to our signing certificate authority. Now, in order for this to work, it has to be signed by a CA which Kubernetes trusts, similar to how our government-issued ID lends us credence. After all, it&rsquo;d be pretty pointless (and insecure) if I created my own ID inside Photoshop, for example, and printed it out on my ink jet printer then slapped it on some card stock. Kubernetes, like other systems, works on a similar basis of implicit trust. So if Dave is going to be authorized, we need to sign his CSR with an authority trusted by Kubernetes. For this, we&rsquo;re going to use the certificate authority built-in to Kubernetes itself.</p>
+<p>The next step is to submit this CSR to Kubernetes and sign it. You can do this one of a couple ways. You can use the <code>openssl</code> utility along with direct access to the Kubernetes certificate and key files to sign the CSR (requiring access to the control plane), or you can leverage Kubernetes from a platform perspective to do this for you since it has a <code>csr</code> API resource along with primitives to approve them. This assumes your kube-apiserver has been started with the flags <code>--cluster-signing-cert-file</code> and <code>--cluster-signing-key-file</code> which, if it was provisioned with kubeadm, it does by default. This is what we&rsquo;ll use.</p>
+<p>Create a script called <code>dave.sh</code> and paste the contents into it as follows:</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">cat <span class="s">&lt;&lt;EOF | kubectl apply -f -
+</span><span class="s">apiVersion: certificates.k8s.io/v1beta1
+</span><span class="s">kind: CertificateSigningRequest
+</span><span class="s">metadata:
+</span><span class="s">  name: dave
+</span><span class="s">spec:
+</span><span class="s">  request: $(cat dave.csr | base64 | tr -d &#39;\n&#39;)
+</span><span class="s">  usages:
+</span><span class="s">  - client auth
+</span><span class="s">EOF</span>
+</code></pre></div><p>In this script, we&rsquo;re creating a simple Kubernetes YAML manifest which allows the certificate to be used to authenticate a client and base64 encodes the contents of the CSR. Make it executable and run the script. You should see the following output.</p>
+<p><code>certificatesigningrequest.certificates.k8s.io/dave created</code></p>
+<p>Use <code>kubectl</code> to check on the status of the new CSR.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ kubectl get csr
+NAME   AGE   REQUESTOR          CONDITION
+dave   65s   kubernetes-admin   Pending
+</code></pre></div><p>We can see the CSR has been submitted and is awaiting approval, so let&rsquo;s go ahead and approve it since we were the ones who created it and trust that it&rsquo;ll be used by Dave.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ kubectl certificate approve dave
+certificatesigningrequest.certificates.k8s.io/dave approved
+</code></pre></div><p>Now once it&rsquo;s approved, we can download the certificate.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">kubectl get csr dave -o <span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.status.certificate}&#39;</span> <span class="p">|</span> base64 -d &gt; dave.crt
+</code></pre></div><p>Here we&rsquo;re fetching the approved CSR from Kubernetes and stripping out the certificate portion, base64 decoding it, and outputting the result to file called <code>dave.crt</code>. On your filesystem at this point, you should have <code>dave.key</code> and <code>dave.crt</code> representing the private key and certificate files, respectively.</p>
+<p>Once you have these files, you can send them to Dave for use in his <code>kubeconfig</code> file. Alternatively, you can generate that file for him so he can begin to be productive immediately. Let&rsquo;s do that so as to go through the process from end to end. Hang on, though, as we have only completed the <em><strong>authentication</strong></em> component. Dave still can&rsquo;t actually do anything even though he has a &ldquo;good&rdquo; certificate in his hands. We now turn towards the <em><strong>authorization</strong></em> side.</p>
+<h2 id="authorizing-dave">Authorizing Dave</h2>
+<p>As I hope I&rsquo;ve made clear up to this point, authentication is nothing without having the ability to perform one or more tasks. This is where authorization comes into play. Authorization in Kubernetes describes a set of privileges and pairs them with a set of resources. A privilege might be to read something or to delete something. These are obviously two very different actions and one does not imply the other. A resource is the thing on which you can perform an operation, for example a Pod or a Secret. By mixing privileges and resources you can craft a very specific role for a user which then serves as their basis for authorization. I could, for example, craft a bespoke role that gives one or more users or service accounts the rights to delete Pods but only read Secrets. Any other action on any other type of resource would not be permitted. And I could scope that to an entire cluster or just a single namespace depending on my wishes.</p>
+<p>In this example, since Dave is a QA engineer who needs access to perform a variety of tasks on a variety of different resources, we want to give him that ability. But we want to isolate him to a single namespace and not give him power to, for example, delete Deployments in other namespaces. In Kubernetes, we need two objects for this to happen. First, we need a Role. And second, we need a RoleBinding.</p>
+<p>A Role in Kubernetes describes the union of actions with resources. Here is an example role to consider.</p>
+<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>rbac.authorization.k8s.io/v1<span class="w">
+</span><span class="w"></span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>Role<span class="w">
+</span><span class="w"></span><span class="k">metadata</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>example<span class="w">
+</span><span class="w"></span><span class="k">rules</span><span class="p">:</span><span class="w">
+</span><span class="w"></span>- <span class="k">apiGroups</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span>- <span class="s2">&#34;&#34;</span><span class="w">
+</span><span class="w">  </span><span class="k">resources</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span>- pods<span class="w">
+</span><span class="w">  </span><span class="k">verbs</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span>- get<span class="w">
+</span><span class="w">    </span>- list<span class="w">
+</span><span class="w">    </span>- watch<span class="w">
+</span><span class="w"></span>- <span class="k">apiGroups</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span>- apps<span class="w">
+</span><span class="w">  </span><span class="k">resources</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span>- deployments<span class="w">
+</span><span class="w">  </span><span class="k">verbs</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span>- create<span class="w">
+</span><span class="w">    </span>- delete<span class="w">
+</span><span class="w">    </span>- patch<span class="w">
+</span><span class="w">    </span>- update<span class="w">
+</span></code></pre></div><p>This Role definition says you can perform a get, list, and watch on Pods but a create, delete, patch, and update on Deployments. Now, in reality, this probably isn&rsquo;t highly useful unless it were much more permissive, but for illustration purposes it&rsquo;ll do. Roles grow with size and complexity as you permit them to do more. And as there are no default allow permissions anywhere in Kubernetes, if a user needs to perform an action on a resource it must be explicitly granted by a role.</p>
+<p>The last part of this is to assign the user to a role through a RoleBinding object. Kubernetes patterns itself on a principle of loose decoupling just like the applications it serves to run, and by separating the role from the binding of that role, great flexibility can be achieved while producing modular components. Our RoleBinding will specify the who (Dave) with the what (the Role).</p>
+<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>rbac.authorization.k8s.io/v1<span class="w">
+</span><span class="w"></span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>RoleBinding<span class="w">
+</span><span class="w"></span><span class="k">metadata</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>dave-qa-admin<span class="w">
+</span><span class="w">  </span><span class="k">namespace</span><span class="p">:</span><span class="w"> </span>qa<span class="w">
+</span><span class="w"></span><span class="k">roleRef</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="k">apiGroup</span><span class="p">:</span><span class="w"> </span>rbac.authorization.k8s.io<span class="w">
+</span><span class="w">  </span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>ClusterRole<span class="w">
+</span><span class="w">  </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>admin<span class="w">
+</span><span class="w"></span><span class="k">subjects</span><span class="p">:</span><span class="w">
+</span><span class="w"></span>- <span class="k">apiGroup</span><span class="p">:</span><span class="w"> </span>rbac.authorization.k8s.io<span class="w">
+</span><span class="w">  </span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>User<span class="w">
+</span><span class="w">  </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>dave<span class="w">
+</span></code></pre></div><p>As you can see from the YAML I&rsquo;ve created, our RoleBinding links the subject Dave with the ClusterRole named admin in the namespace called qa. Kubernetes has several roles that come default and admin is one of them. It is a ClusterRole rather than a Role. By creating a RoleBinding that references a ClusterRole, we can grant namespace-scoped permissions from a cluster-wide set of capabilities. We could have also created a Role with similar permissions, but for that we would have had to write a brand new one. Using the default ClusterRole named admin allows us to grant Dave administrative abilities over his namespace and nothing else.</p>
+<p>Once the RoleBinding is complete we should be able to verify it.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ kubectl -n qa get rolebinding
+NAME            AGE
+dave-qa-admin   5h5m
+</code></pre></div><p>Now that we have that, let&rsquo;s test and ensure Dave will indeed have the needed abilities before we send him on his way. We can do this with the impersonation abilities of <code>kubectl</code>.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ kubectl auth can-i get po --as dave --namespace qa
+Yes
+</code></pre></div><p>Good, so Dave is able to get Pods (aliased as <code>po</code> shown above) in his namespace. Is he able to do the same in the Production namespace?</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ kubectl auth can-i get po --as dave --namespace production
+No
+</code></pre></div><p>Good, that&rsquo;s what we want. Let&rsquo;s see if he can perform actions on resources which are not even namespaced objects.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ kubectl auth can-i get no --as dave --namespace qa
+Warning: resource <span class="s1">&#39;nodes&#39;</span> is not namespace scoped
+No
+</code></pre></div><p>The warning message states that nodes (<code>no</code> in aliased form) are not namespaced and so anything outside of qa–even if it doesn&rsquo;t belong to a namespace at all–Dave cannot interact with. Let&rsquo;s try one more, this time with <a href="https://kubernetes.io/docs/concepts/policy/limit-range/">LimitRanges</a>.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ kubectl auth can-i delete limitrange --as dave --namespace qa
+No
+</code></pre></div><p>Excellent. Even as the admin we probably don&rsquo;t want Dave to touch LimitRanges as they can impact other objects and policies.</p>
+<p>Now that we&rsquo;re sure Dave has only the abilities he needs to do his job, we can send him something to begin his work.</p>
+<h2 id="giving-dave-the-keys">Giving Dave The Keys</h2>
+<p>Although, as stated earlier, we could easily send Dave his signed certificate and private key and let him figure it out for himself, it would probably take a bit of time and not to mention frustration on his part, which, at some point, would likely result in a phone call from his manager. Instead, let&rsquo;s give him a single file which encapsulates all he needs including his certificate, key, and Kubernetes server and namespace. That one file is the kubeconfig, which describes one or more credentials, one or more clusters, and a context which is a binding of those two.</p>
+<p>These are the following four steps we&rsquo;ll perform to generate Dave&rsquo;s kubeconfig so he can get connected.</p>
+<ol>
+<li>Set credentials</li>
+<li>Set cluster information</li>
+<li>Set a context binding credential with cluster and setting the right namespace</li>
+<li>Use the context as the default</li>
+</ol>
+<p>First, let&rsquo;s set the credentials using the key pair we have. We&rsquo;re going to embed them in the kubeconfig so Dave doesn&rsquo;t need them separately.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ kubectl --kubeconfig<span class="o">=</span>dave-kubeconfig config set-credentials dave --client-certificate<span class="o">=</span>dave.crt --client-key<span class="o">=</span>dave.key --embed-certs
+User <span class="s2">&#34;dave&#34;</span> set.
+</code></pre></div><p>Next, we define the Kubernetes cluster where Dave will connect and specify the CA that was used to issue the certificates for all the control plane components such as kube-apiserver. Just like setting the credentials above, we&rsquo;ll also embed this cert in the kubeconfig.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ kubectl --kubeconfig<span class="o">=</span>dave-kubeconfig config set-cluster lexvk8s10 --server<span class="o">=</span>https://192.168.1.210:6443 --certificate-authority<span class="o">=</span>/etc/kubernetes/pki/ca.crt --embed-certs
+Cluster <span class="s2">&#34;lexvk8s10&#34;</span> set.
+</code></pre></div><p>We now set the context which binds the user credential to the cluster and puts them in the correct namespace.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ kubectl --kubeconfig<span class="o">=</span>dave-kubeconfig config set-context dave-qa-lexvk8s10 --user<span class="o">=</span>dave --cluster<span class="o">=</span>lexvk8s10 --namespace<span class="o">=</span>qa
+Context <span class="s2">&#34;dave-qa-lexvk8s10&#34;</span> modified.
+</code></pre></div><p>Lastly, we set this context to active in the kubeconfig so Dave doesn&rsquo;t have to select it.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ kubectl --kubeconfig<span class="o">=</span>dave-kubeconfig config use-context dave-qa-lexvk8s10
+Switched to context <span class="s2">&#34;dave-qa-lexvk8s10&#34;</span>.
+</code></pre></div><p>Excellent. So now we should have the file <code>dave-kubeconfig</code> which contains all the necessary information to get connected. As the last and final step, let&rsquo;s give it a whirl to ensure that all the pieces work together and Dave has confirmed access using this file we&rsquo;re about to send.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ kubectl --kubeconfig<span class="o">=</span>dave-kubeconfig get po
+NAME      READY   STATUS    RESTARTS   AGE
+busybox   1/1     Running   <span class="m">0</span>          10s
+</code></pre></div><p>So far, so good. This is something we expect him to be able to do. Let&rsquo;s try something he&rsquo;s not supposed to do.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ kubectl --kubeconfig<span class="o">=</span>dave-kubeconfig delete limits qa-pod-defaults
+Error from server <span class="o">(</span>Forbidden<span class="o">)</span>: limitranges <span class="s2">&#34;qa-pod-defaults&#34;</span> is forbidden: User <span class="s2">&#34;dave&#34;</span> cannot delete resource <span class="s2">&#34;limitranges&#34;</span> in API group <span class="s2">&#34;&#34;</span> in the namespace <span class="s2">&#34;qa&#34;</span>
+</code></pre></div><p>Perfect, just as we want. We now have all the plumbing in place which has been tested and have a single file ready for Dave that we know works with the permissions we&rsquo;ve designed. At this point, all we need to do is put that file in his hand (or his <code>.kube</code> directory as it were) and tell him to get busy.</p>
+<p>&ldquo;No so fast,&rdquo; I can hear you say. &ldquo;You said we could use Active Directory!&rdquo; Ah, yes, indeed I did. I suppose I&rsquo;ll have to make good on that.</p>
+<h2 id="users-from-active-directory">Users From Active Directory</h2>
+<p>In this article, I&rsquo;ve shown how you can use certificate-based authentication to get Dave connected. That may be fine for some small use cases, but in a real production environment spanning multiple Kubernetes clusters, you&rsquo;re far more likely to use an existing, authoritative identity source for your users rather than managing them in piecemeal fashion by manually issuing certificates. Kubernetes has the ability to delegate authentication to an external source via <a href="https://en.wikipedia.org/wiki/OpenID_Connect">OpenID Connect</a>. That external source can be backed by something such as Google accounts or Active Directory. In such a case, Active Directory acts as the provider while Kubernetes speaks to an OIDC broker like UAA. For example, VMware Enterprise PKS has this ability out-of-the-box and is enabled by little more than a check box on the PKS tile. Once configured, any Kubernetes clusters deployed by PKS automatically have the kube-apiserver configured with the necessary flags and pointed to the correct location. If using vanilla Kubernetes, however, the process is much more laborious and a complete setup is far outside the scope of this article.</p>
+<p>The flow of authentication and authorization would then look something like this.</p>
+<p><img src="/images/2019-10/authentication-and-authorization-in-k8s/image1.png" alt="Kubernetes OIDC flow"></p>
+<p>What this effectively means is that you can skip the entire first section on Authentication and go right to Authorization. The main caveat during configuring of Role/ClusterRole and Binding/ClusterRoleBinding is to use the correct name for the user based on what Active Directory is configured to use for the sAMAccountName attribute.</p>
+<p>Let me quickly show this. I have an account called chiptest to which I want to grant view-only permissions inside my cluster. The first step is to create my binding as outlined earlier specifying the <code>--username=chiptest</code> flag. Once that&rsquo;s created, all I need to do is then call out to PKS to populate my kubeconfig file for me with the authentication info needed for Kubernetes to grant me access.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ pks get-kubeconfig czk8s01 -a czpks.sovsystems.com -k -u chiptest
+Password: ***********
+Fetching kubeconfig <span class="k">for</span> cluster czk8s01 and user chiptest.
+You can now use the kubeconfig <span class="k">for</span> user chiptest:
+<span class="nv">$kubectl</span> config use-context czk8s01
+</code></pre></div><p>Above you can see I have a cluster called czk8s01 where I&rsquo;ve created my ClusterRoleBinding specifying a username of <code>chiptest</code>.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ kubectl get clusterrolebinding
+NAME                                                   AGE
+admin-cluster-admin                                    15d
+chiptest-viewonly                                      11m
+</code></pre></div><p>After running the <code>pks get-kubeconfig</code> command, my kubeconfig file has been updated with the username and the various fields required in an OIDC auth type, and the context is set to use that username with the czk8s01 cluster. If you&rsquo;d like to see what that looks like, try and <code>cat</code> out the kubeconfig file and search for those entries. I won&rsquo;t paste them here because it&rsquo;s quite large.</p>
+<p>Once you&rsquo;re satisfied, try to use kubectl to perform operations which are and are not allowed. My chiptest account was granted view-only permissions (another default ClusterRole) so I shouldn&rsquo;t be able to do things like create any Deployment resources.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ kubectl create deployment nginx --image nginx
+Error from server <span class="o">(</span>Forbidden<span class="o">)</span>: deployments.apps is forbidden: User <span class="s2">&#34;chiptest&#34;</span> cannot create resource <span class="s2">&#34;deployments&#34;</span> in API group <span class="s2">&#34;apps&#34;</span> in the namespace <span class="s2">&#34;default&#34;</span>
+</code></pre></div><p>Fair enough. But can I get other resources?</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ kubectl get ns
+NAME              STATUS   AGE
+default           Active   15d
+kube-node-lease   Active   15d
+kube-public       Active   15d
+kube-system       Active   15d
+pks-system        Active   15d
+</code></pre></div><p>There we go.</p>
+<p>You can see that using PKS we can integrate directly with Active Directory and let it handle the authentication for us. This not only cuts out a huge amount of time and work for us, but it also greatly simplifies managing access into our clusters because there are less resources for us to maintain to ensure consistency across clusters and environments.</p>
+<h2 id="wrapping-up">Wrapping Up</h2>
+<p>That was probably a lot to take in at one time, but hopefully it all makes sense. If you&rsquo;re working with Kubernetes or are planning to take the Certified Kubernetes Administrator (CKA) exam, you definitely should plan on going through these motions a few times to ensure you have it down cold as it could show up. If you&rsquo;re simply interested in getting this done quickly, I&rsquo;ve wrapped all these commands up into a crude script which will automate the process. The script you can find out in my <a href="https://github.com/chipzoller/BlogScripts/tree/master/KubernetesAuthNAuthZ">GitHub repo</a>.</p>
+<p>Good luck and I hope this blog post was informative and helpful. I always like to hear feedback, good or bad, from readers, so feel free to drop me a line on GitHub or Twitter (@chipzoller).</p>
+
+    
+    <div class="share-icons d-flex d-print-none">
+      <a href="https://twitter.com/intent/tweet?text=Authentication%20and%20Authorization%20in%20Kubernetes&url=https%3a%2f%2fneonmirrors.net%2fpost%2f2019-10%2fauthentication-and-authorization-in-k8s%2f&tw_p=tweetbutton" class="p-2" title="Share on Twitter" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Tweet</small></div>
+</a>
+
+<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fneonmirrors.net%2fpost%2f2019-10%2fauthentication-and-authorization-in-k8s%2f&t=Authentication%20and%20Authorization%20in%20Kubernetes" class="p-2" title="Share on Facebook" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+<script>
+  function shareViaLinkedin() {
+    window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent("https://neonmirrors.net/post/2019-10/authentication-and-authorization-in-k8s/"), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+  }
+</script>
+<a href="#linkedinshare" id = "linkedinshare" class="p-2" title="Share on LinkedIn" rel="nofollow" onclick="shareViaLinkedin()">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+
+<a href="javascript:window.print()" title="Print this article" class="p-2" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fa fa-print fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Print</small></div>
+</a>
+
+    </div>
+  </div>
+  
+  
+</div>
+<div class="sidebar d-print-none d-xl-block internal">
+  
+  <h2>Chip Zoller</h2>
+  <div>
+    Technologist, perpetual student, teacher, continual incremental improvement.
+  </div>
+  <a href="/about/" class="btn btn-outline-secondary mt-3" role="button">Read More...</a>
+  <h2 class="mt-4">Featured Posts</h2>
+  
+  
+  <a href="/post/2019-10/authentication-and-authorization-in-k8s/" class="nav-link">Authentication and Authorization in Kubernetes</a>
+  
+  <a href="/post/2018-12/how-to-ask-for-help-on-tech-forums/" class="nav-link">How to Ask for Help on Tech Forums</a>
+  
+  <h2 class="mt-4">Recent Posts</h2>
+  <nav class="nav flex-column">
+    
+    <a href="/post/2020-04/getting-started-with-tkg/" class="nav-link">Getting Started with Tanzu Kubernetes Grid</a>
+    
+    <a href="/post/2020-04/capv-overview/" class="nav-link">Behind the Scenes with Cluster API Provider vSphere</a>
+    
+    <a href="/post/2020-01/buy-dont-build/" class="nav-link">Buy Don&#39;t Build</a>
+    
+    <a href="/post/2020-01/why-k8s-on-vms/" class="nav-link">Why Kubernetes on Virtual Machines?</a>
+    
+    <a href="/post/2020-01/2020-public-domain-day/" class="nav-link">2020 Public Domain Day</a>
+    
+    <a href="/post/2019-10/authentication-and-authorization-in-k8s/" class="nav-link">Authentication and Authorization in Kubernetes</a>
+    
+    <a href="/post/2019-10/pks-rancher-reg/" class="nav-link">pks-rancher-reg: Automated PKS Cluster Registration For Rancher</a>
+    
+    <a href="/post/2019-09/rancher-ha-on-pks/" class="nav-link">Rancher HA on Enterprise PKS</a>
+    
+  </nav>
+  
+  <h2 class="mt-4 text-capitalize" id="categories-section">categories</h2>
+  <nav class="nav">
+    
+    <a href='/categories/technology/' class="nav-link">
+      technology
+      <span class="badge badge-pill badge-secondary">53</span>
+    </a>
+    
+    <a href='/categories/music/' class="nav-link">
+      music
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+  </nav>
+  
+  <h2 class="mt-4 text-capitalize" id="tags-section">tags</h2>
+  <nav class="nav">
+    
+    <a href='/tags/vrealize/' class="nav-link">
+      vrealize
+      <span class="badge badge-pill badge-secondary">27</span>
+    </a>
+    
+    <a href='/tags/vra/' class="nav-link">
+      vra
+      <span class="badge badge-pill badge-secondary">22</span>
+    </a>
+    
+    <a href='/tags/vsphere/' class="nav-link">
+      vsphere
+      <span class="badge badge-pill badge-secondary">14</span>
+    </a>
+    
+    <a href='/tags/k8s/' class="nav-link">
+      k8s
+      <span class="badge badge-pill badge-secondary">9</span>
+    </a>
+    
+    <a href='/tags/sovlabs/' class="nav-link">
+      sovlabs
+      <span class="badge badge-pill badge-secondary">8</span>
+    </a>
+    
+    <a href='/tags/veeam/' class="nav-link">
+      veeam
+      <span class="badge badge-pill badge-secondary">7</span>
+    </a>
+    
+    <a href='/tags/powershell/' class="nav-link">
+      powershell
+      <span class="badge badge-pill badge-secondary">6</span>
+    </a>
+    
+    <a href='/tags/log-insight/' class="nav-link">
+      log-insight
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/pks/' class="nav-link">
+      pks
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/vrops/' class="nav-link">
+      vrops
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/vro/' class="nav-link">
+      vro
+      <span class="badge badge-pill badge-secondary">4</span>
+    </a>
+    
+    <a href='/tags/docker/' class="nav-link">
+      docker
+      <span class="badge badge-pill badge-secondary">3</span>
+    </a>
+    
+    <a href='/tags/vmworld/' class="nav-link">
+      vmworld
+      <span class="badge badge-pill badge-secondary">3</span>
+    </a>
+    
+    <a href='/tags/featured/' class="nav-link">
+      featured
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/nsx-t/' class="nav-link">
+      nsx-t
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/powercli/' class="nav-link">
+      powercli
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/rancher/' class="nav-link">
+      rancher
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/thoughts/' class="nav-link">
+      thoughts
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/ansible/' class="nav-link">
+      ansible
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/authentication/' class="nav-link">
+      authentication
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/forums/' class="nav-link">
+      forums
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/homelab/' class="nav-link">
+      homelab
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/networking/' class="nav-link">
+      networking
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/security/' class="nav-link">
+      security
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/vmtn/' class="nav-link">
+      vmtn
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+  </nav>
+  
+</div>
+
+
+  </div>
+  
+  <footer class="mt-auto footer d-print-none">
+    <a class="to-top" href="#" title="Back to top">
+      <i class="fa fa-caret-up"></i>
+    </a>
+    <div class="container-fluid">
+      <div class="row justify-content-center">
+        <div class="col-md-4 col-xl-3">
+          <h5>Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved.</h5>
+I&#39;m happy for you to share content on this site, but please provide attribution.
+        </div>
+        <div class="col-md-4 col-xl-3">
+          <h5>Disclaimer</h5>
+Opinions expressed here are my own and may not reflect those of the company I work for, or the people I work with.
+        </div>
+        <div class="col-md-4 col-xl-3">
+          <h5>About This Site</h5>
+This blog was created using the <a href="https://gohugo.io/">Hugo</a> static site generator, using
+<a href="https://getbootstrap.com/">Bootstrap</a>, using the Silhouette Hugo theme, created by
+<a href='https://www.mattbutton.com'>Matt Button</a>
+        </div>
+      </div>
+      
+      <hr />
+      
+      <div class="d-flex justify-content-center icons">
+        <a class="py-2 px-2" href="https://github.com/chipzoller"><i class="fab fa-github"></i></a>
+<a class="py-2 px-2" href="https://twitter.com/chipzoller"><i class="fab fa-twitter"></i></a>
+<a class="py-2 px-2" href="https://www.linkedin.com/in/chipzoller/"><i class="fab fa-linkedin"></i></a>
+<a class="py-2 px-2" href='https://neonmirrors.net/index.xml'><i class="fas fa-rss"></i></a>
+
+      </div>
+    </div>
+  </footer>
+  
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script src="/js/syntax.js"></script>
+  <script src = '/js/index.js'></script>
+  
+  
+</body>
+</html>

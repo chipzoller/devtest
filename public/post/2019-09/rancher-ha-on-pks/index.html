@@ -1,0 +1,785 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  <meta property="og:title" content="Rancher HA on Enterprise PKS" />
+<meta property="og:description" content="Rancher HA on Enterprise PKS" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://neonmirrors.net/post/2019-09/rancher-ha-on-pks/" />
+<meta property="article:published_time" content="2019-09-25T00:00:00+00:00" />
+<meta property="article:modified_time" content="2019-09-25T00:00:00+00:00" />
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Rancher HA on Enterprise PKS"/>
+<meta name="twitter:description" content="Rancher HA on Enterprise PKS"/>
+<meta name="twitter:site" content="@chipzoller"/>
+
+  
+  <title>
+Rancher HA on Enterprise PKS | Neon Mirrors
+</title>
+  
+  <link rel="icon" type="image/png" href='https://neonmirrors.net/images/favicon-16x16.png' sizes="16x16">
+  <link rel="icon" type="image/png" href='https://neonmirrors.net/images/favicon-32x32.png' sizes="32x32">  
+  
+  <link href="https://fonts.googleapis.com/css?family=Oswald:400" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">      
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel = 'stylesheet' href = 'https://neonmirrors.net/css/main.703162b863e7e1a93ee98f24b75e329848a814522f2d9f5735d41fbc7f023b3772f177c6ef8dbafccee65cfa8c1b8bb57e73d49284b5a0fdbbe772b8b29b07cb.css' integrity = 'sha512-cDFiuGPn4ak&#43;6Y8kt14ymEioFFIvLZ9XNdQfvH8COzdy8XfG7426/M7mXPqMG4u1fnPUkoS1oP2753K4spsHyw=='>
+  
+  
+<link rel="me" type="text/html" href="https://twitter.com/chipzoller"/> 
+<link rel="me" type="text/html" href="https://www.linkedin.com/in/chipzoller/"/> 
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+
+<link rel="alternate" type="application/rss+xml" href='https://neonmirrors.net/index.xml' />
+
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<meta name="author" content="Chip Zoller" />
+<meta name="copyright" content="Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved." />
+
+
+<meta name="description" content="Rancher HA on Enterprise PKS">
+
+
+
+
+<style type="text/css">
+  .feature-image {
+    background-image: url("https://neonmirrors.net/images/2019-09/rancher-ha-on-pks/featured.jpg");
+    height: 500px;
+  }
+  
+  @media (max-width: 992px) {
+    .feature-image {
+      height: 350px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .feature-image {
+      height: 250px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .feature-image {
+      height: 200px;
+    }
+  }
+</style>
+
+        
+</head>
+<body >
+  <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark py-1 top-nav">
+    <div class="container">
+      <span class="internal">
+  <a class="navbar-brand pr-2" href="/">NEON MIRRORS</a>
+</span>
+
+      <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="navbar-collapse collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/categories/technology/">Technology</a>
+  
+</li>
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/categories/music/">Music</a>
+  
+</li>
+<li class="nav-item internal">
+  
+  <div class="nav-link nav-hassubmenu">Links
+    <div class="nav-submenu" >
+    
+      <a class="nav-link" href="https://chipzoller.gitbook.io/vspheremigration/">Ultimate vSphere VM Migration Guide</a>
+    
+    </div>
+    </div>
+  
+</li>
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/about/">About</a>
+  
+</li>
+
+        </ul>
+        <div class="social-icons d-none d-lg-block">
+          <a class="py-2 px-2" href="https://github.com/chipzoller"><i class="fab fa-github"></i></a>
+<a class="py-2 px-2" href="https://twitter.com/chipzoller"><i class="fab fa-twitter"></i></a>
+<a class="py-2 px-2" href="https://www.linkedin.com/in/chipzoller/"><i class="fab fa-linkedin"></i></a>
+<a class="py-2 px-2" href='https://neonmirrors.net/index.xml'><i class="fas fa-rss"></i></a>
+
+        </div>
+      </div>
+    </div>
+  </nav>
+  
+  
+<header class="feature-image d-print-none">
+</header>
+
+  
+  <div class="main">
+    
+<div class="container mt-4 post">
+  <h1>Rancher HA on Enterprise PKS</h1>
+  <div class="mb-3 internal">
+  <small>
+    <strong>By Chip Zoller</strong>
+    | <i class="far fa-calendar-alt"></i>&nbsp;Sep 25, 2019&nbsp;
+    | <i class="fa fa-tags" title="Tags" aria-hidden="true"></i> <a href='/tags/k8s/'>k8s</a>, <a href='/tags/rancher/'>rancher</a>, <a href='/tags/pks/'>pks</a>, <a href='/tags/nsx-t/'>nsx-t</a><span class="d-lg-none">, <a href='#tags-section'>all tags</a></span>
+  </small>
+</div>
+
+  <div class="share-icons d-flex d-print-none">
+    <a href="https://twitter.com/intent/tweet?text=Rancher%20HA%20on%20Enterprise%20PKS&url=https%3a%2f%2fneonmirrors.net%2fpost%2f2019-09%2francher-ha-on-pks%2f&tw_p=tweetbutton" class="p-2" title="Share on Twitter" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Tweet</small></div>
+</a>
+
+<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fneonmirrors.net%2fpost%2f2019-09%2francher-ha-on-pks%2f&t=Rancher%20HA%20on%20Enterprise%20PKS" class="p-2" title="Share on Facebook" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+<script>
+  function shareViaLinkedin() {
+    window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent("https://neonmirrors.net/post/2019-09/rancher-ha-on-pks/"), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+  }
+</script>
+<a href="#linkedinshare" id = "linkedinshare" class="p-2" title="Share on LinkedIn" rel="nofollow" onclick="shareViaLinkedin()">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+
+<a href="javascript:window.print()" title="Print this article" class="p-2" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fa fa-print fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Print</small></div>
+</a>
+
+  </div>
+  
+  <div class="mt-4 mb-4 main-content">
+    <p><a href="https://rancher.com/">Rancher</a> is a container orchestration and management tool that has been around for several years at this point and performs a variety of different functions. In more recent days, it has been refactored to completely adopt Kubernetes. In this blog, I am going to focus on how to build an enterprise-grade, highly-available, and secure installation of Rancher Server on top of VMware Enterprise PKS. I’ll respond to the burning question of ‘why Rancher on PKS in the first place?’, the use case which sparked this journey, architecture, and then a complete installation guide. It is a lot to cover, so let’s dive right in.</p>
+<h2 id="rancher-on-pks-but-why">Rancher on PKS? But Why???</h2>
+<p>Ok, I understand this may seem like an unusual combination, particularly because these two solutions are often seen as competitive. They both have the ability to deploy Kubernetes clusters to a variety of different cloud providers and on-premises to stacks such as vSphere. And they each have definite strengths and weaknesses, but one area where the two don’t overlap is in the management space. Enterprise PKS uses BOSH to deploy Kubernetes clusters, then continues to leverage it for its lifecycle events–scaling, healing, upgrades, etc. Rancher uses its own drivers for the various cloud PaaS solutions and even on-premises with vSphere to do similar tasks. But one thing Rancher is also capable of doing is importing externally-provisioned clusters and then gaining visibility into them, which is something PKS does not do today. One of the exciting announcements out of VMworld 2019 was the introduction of a product under the Tanzu label called <a href="https://blogs.vmware.com/cloudnative/2019/08/26/vmware-tanzu-mission-control">Mission Control</a> which will seek to do exactly that. And so when this does become GA, it will likely change the game of Kubernetes management (and provide a little competition to Rancher which their CEO acknowledged in a <a href="https://rancher.com/blog/2019/and-then-there-were-three/">recent blog post</a>). Until that point, however, Rancher represents some good technology to manage and aggregate a number of disparate Kubernetes clusters into a single system.</p>
+<h2 id="whats-the-use-case">What’s the Use Case?</h2>
+<p>Like most topics on which I write, this one was spawned out of a customer project. And since I could find no guide on the topic specific to Enterprise PKS, I decided to create my own. This particular customer is planning on rolling out Kubernetes at the edge to multiple hundreds of sites around the world on bare metal, small form factor hardware. They need a way to combine all those clusters into a single tool for the purposes of management, visibility, and application deployment. They also run Enterprise PKS in their main data centers to deploy Kubernetes clusters for other business uses as well. Given that these sites are all connected back to their various data centers around the world, they need them aggregated in a tool that can also run on-premises but still must be highly available, secure, and performant. Using Enterprise PKS for the underlying, purpose-built Kubernetes cluster and then layering Rancher Server in HA mode on top of that cluster gives us the best of both of those worlds–networking and security through NSX-T, cluster lifecycle maintenance through BOSH, replicated image registry through Harbor, and single-portal management of dispersed, disparate, Kubernetes clusters across the edge with Rancher.</p>
+<h2 id="architecture">Architecture</h2>
+<p>Let’s start off by looking at a high-level picture of the architecture here.</p>
+<p><img src="/images/2019-09/rancher-ha-on-pks/image2.png" alt="High-level architecture"></p>
+<p>From a conceptual view, we have a vSphere stack at the bottom which is hosting this environment in our on-premises SDDC. Next, we’ve built a 3-master and 3-worker Kubernetes cluster via PKS. The workers host Rancher pods as well as nginx pods in addition to many other system pods (not shown). And above that we’re using a load balancer provided by NSX-T which supplies two main virtual servers: one for the control plane access and the other for ingress access.</p>
+<p>Unfortunately, as I recently discovered after lots of trial and ultimately failure, NSX-T’s L7 load balancer does not support the necessary headers that Rancher requires in order to function. More specifically, Rancher <a href="https://rancher.com/docs/rancher/v2.x/en/installation/single-node/single-node-install-external-lb/">requires four headers</a> to be passed in an HTTP request to the pods. These headers serve to identify the source of the inbound request and to ensure that proper TLS termination has occurred external to the application. One of those headers, <code>X-Forwarded-Proto</code>, which tells Rancher the protocol used to communicate with the load balancer, cannot be passed by NSX-T’s load balancer. Due to this, we must use a third-party ingress controller, and <a href="https://kubernetes.github.io/ingress-nginx/">nginx</a> is one of the most popular implementations out there having extensive support for tons of client options and passes these four headers out of the box.</p>
+<p>If we step down one level and into the Kubernetes space, the design looks something like the below. Keep in mind that we’re looking specifically at the workers but are abstracting away the physical layers such as the nodes.</p>
+<p><img src="/images/2019-09/rancher-ha-on-pks/image3.png" alt="Kubernetes app architecture"></p>
+<p>Outside requests come into the cluster via the nginx controller Service of type LoadBalancer. From the list of endpoints built by this service, one of the nginx controllers is selected which in turn matches the rules from the ingress controller. The request is forwarded onto the Rancher Service and ultimately to a pod which matches the label selectors on that service.</p>
+<p>This will make more sense as we go through the installation process step-by-step.</p>
+<h2 id="installation">Installation</h2>
+<p>With the architecture, in mind, let’s get started putting these pieces together. There are six main steps that are required with lots of pieces to each, and I’ll go through them in detail.</p>
+<h3 id="1-provision-new-custom-pks-cluster">1. Provision new custom PKS cluster</h3>
+<p>In this first step, we will create a plan tailor made to Rancher and then build a cluster dedicated to run Rancher in HA mode. We’ll also make a customized load balancer profile to reference in the build.</p>
+<h3 id="2-prepare-cluster-with-helm">2. Prepare cluster with Helm</h3>
+<p>Once the cluster is built, we’ll need to prep it so we can install packages with Helm as we’ll be using this software to install the ingress controller as well as Rancher itself.</p>
+<h3 id="3-generate-certificates-and-secrets">3. Generate certificates and secrets</h3>
+<p>This is an enterprise-ready deployment, and that means using custom certificates. So we need to create those certificates and make them available to Kubernetes for use by its various API resources.</p>
+<h3 id="4-create-and-configure-ingress">4. Create and configure Ingress</h3>
+<p>Since we cannot use NSX-T as the Ingress controller itself, we’ll have to provision another type and configure it appropriately. We’ll then use a Layer-4 load balancer from NSX-T to send traffic to the ingress.</p>
+<h3 id="5-install-rancher">5. Install Rancher</h3>
+<p>Next, we actually get to install Rancher using Helm.</p>
+<h3 id="6-configure-infrastructure">6. Configure Infrastructure</h3>
+<p>Once everything is in place, we need to perform a few post-deployment configuration tasks before we’re finally good to go.</p>
+<h2 id="1-provision-new-custom-pks-cluster-1">1. Provision New Custom PKS Cluster</h2>
+<p>First thing we need to do is set up the PKS infrastructure so we can deploy the Kubernetes cluster where everything will live. We need to do two primary things: create a new plan, and optionally create a medium-sized load balancer. Our plan needs to specify three masters to be highly available at the control plane level, and three workers to be highly available at the workload level. In this case, since we’re preparing for a large number of clusters to be on-boarded into Rancher, we may want to go ahead and specify a medium-sized load balancer or otherwise PKS will give us a small one. This load balancer will be providing virtual servers for both the control plane/API access as well as getting traffic into Rancher.</p>
+<p>Inside the PKS tile, I’m creating a new plan with the following configuration.</p>
+<p><img src="/images/2019-09/rancher-ha-on-pks/image4.png" alt="PKS plan config"></p>
+<p>Create the plan to your specifications but remember the master and worker count. If putting this into production, I would probably recommend increasing the size of the persistent disk for the master. Since each master node is a converged node with the control plane components as well as etcd, and Rancher will leverage the Kubernetes cluster’s etcd installation as effectively its data store, we want to ensure there is adequate space.</p>
+<p>The add-ons section towards the bottom you can use to auto-load any Kubernetes manifests you wish it to run as part of the cluster build process. I’m using my handy <a href="/post/2019-08/pks-dns/">pks-dns</a> utility to automatically create DNS records for the control plane once it’s up. If you’ve not checked it out, I highly recommend giving it a spin.</p>
+<p>Lastly, it’s important you enable the “Allow Privileged” mode on this cluster to allow the Rancher agent to run correctly.</p>
+<p>Now, with the plan saved and the changes committed, you should be able to run a <code>pks plans</code> and show this new plan.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ pks plans
+
+Name        ID                                     Description
+dev-small   8A0E21A8-8072-4D80-B365-D1F502085560   <span class="m">1</span> master<span class="p">;</span> <span class="m">2</span> workers <span class="o">(</span>max 4<span class="o">)</span>
+dev-large   58375a45-17f7-4291-acf1-455bfdc8e371   <span class="m">1</span> master<span class="p">;</span> <span class="m">4</span> workers <span class="o">(</span>max 8<span class="o">)</span>
+prod-large  241118e5-69b2-4ef9-b47f-4d2ab071aff5   <span class="m">3</span> masters<span class="p">;</span> <span class="m">10</span> workers <span class="o">(</span><span class="m">20</span> max<span class="o">)</span>
+dev-tiny    2fa824527-318d-4253-9f8e-0025863b8c8a  <span class="m">1</span> master<span class="p">;</span> <span class="m">1</span> worker <span class="o">(</span>max 2<span class="o">)</span><span class="p">;</span> auto-adds DNS record upon completion.
+rancher     fa824527-318d-4253-9f8e-0025863b8c8a   Deploys HA configuration with <span class="m">3</span> workers <span class="k">for</span> testing Rancher HA builds.
+</code></pre></div><p>With this, we can now create a custom load balancer plan. Currently, the only way to do so is via the pks CLI tool or the API by creating a custom JSON spec file. Save the following into a file called <code>lb-medium.json</code>. Replace the values for <code>name</code> and <code>description</code> as you see fit.</p>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+    <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;lb-medium&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;description&#34;</span><span class="p">:</span> <span class="s2">&#34;Network profile for medium NSX-T load balancer&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;parameters&#34;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&#34;lb_size&#34;</span><span class="p">:</span> <span class="s2">&#34;medium&#34;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div><p>Run the following command to create a new network profile:</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ pks create-network-profile lb-medium.json
+</code></pre></div><p>Check again and ensure the plan exists.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ pks network-profiles
+
+Name       Description
+lb-medium  Network profile <span class="k">for</span> medium NSX-T load balancer
+</code></pre></div><p>Now create a new PKS cluster with your plan and medium load balancer.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ pks create-cluster czpksrancher05 -e czpksrancher05.sovsystems.com -p rancher --network-profile lb-medium
+</code></pre></div><p>It’ll take a few minutes to build your cluster, so now’s a good time for a snack. You can perform a watch on the cluster creation process to see when it’s done.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ watch -n <span class="m">5</span> pks cluster czpksrancher05
+Every 5.0s: pks cluster czpksrancher05
+
+Name:                     czpksrancher05
+Plan Name:                rancher
+UUID:                     3373eb33-8c8e-4c11-a7a8-4b25fe17722d
+Last Action:              CREATE
+Last Action State:        in progress
+Last Action Description:  Instance provisioning in progress
+Kubernetes Master Host:   czpksrancher05.sovsystems.com
+Kubernetes Master Port:   <span class="m">8443</span>
+Worker Nodes:             <span class="m">3</span>
+Kubernetes Master IP<span class="o">(</span>s<span class="o">)</span>:  In Progress
+Network Profile Name:     lb-medium
+</code></pre></div><p>Once the cluster has been created, if you’ve used my pks-dns tool, your DNS record should have already been created for you as well. Let’s see.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ nslookup czpksrancher05
+Server:         10.10.30.13
+Address:        10.10.30.13#53
+
+Name:   czpksrancher05.sovsystems.com
+Address: 10.50.0.71
+</code></pre></div><p>Nice. No work necessary to get that done, and so now we can access this cluster. Let’s populate our kubeconfig first.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ pks get-credentials czpksrancher05
+</code></pre></div><p>And verify we have access.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ kubectl cluster-info
+Kubernetes master is running at https://czpksrancher05.sovsystems.com:8443
+CoreDNS is running at https://czpksrancher05.sovsystems.com:8443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+</code></pre></div><h2 id="2-prepare-cluster-with-helm-1">2. Prepare Cluster with Helm</h2>
+<p>Now that we can access our cluster, we need to prep it with Helm. <a href="https://helm.sh/">Helm</a> is a tool that’s used to deploy whole applications to Kubernetes in a packaged format called a chart. These charts are a bundling of all the various Kubernetes manifests that are needed to fully deploy an application. There are plenty of articles out there which describe Helm and how to <a href="http://www.nuvolisystems.com/the-beginners-guide-to-helm-the-package-manager-for-kubernetes/">get started</a>, so I won’t cover that. I assume here you’ve already gone through those and have the helm binary added to your PATH. We need to create the necessary objects in Kubernetes for Tiller, the server-side component of Helm, to operate. This includes a ServiceAccount, ClusterRoleBinding, and then to initialize Helm.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ kubectl -n kube-system create serviceaccount tiller
+serviceaccount/tiller created
+</code></pre></div><p>Create the binding for the Tiller account as a cluster admin. Once you’ve finished this install guide, you can just remove the binding if you like. Generally, it’s not a good idea to bind service accounts to the cluster-admin role unless they truly need cluster-wide access. We could have also restricted Tiller to deploy into a single namespace if we wanted. Fortunately, the elimination of Tiller is <a href="https://helm.sh/blog/helm-3-preview-pt2/">planned for Helm 3</a> which will further simplify deployment of Helm charts and increase security.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount<span class="o">=</span>kube-system:tiller
+clusterrolebinding.rbac.authorization.k8s.io/tiller created
+</code></pre></div><p>Next, initialize Helm using the service account. This will create a Tiller pod in the kube-system namespace.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ helm init --service-account tiller
+<span class="nv">$HELM_HOME</span> has been configured at /home/chip/.helm.
+
+Tiller <span class="o">(</span>the Helm server-side component<span class="o">)</span> has been installed into your Kubernetes Cluster.
+</code></pre></div><p>You should now be able to check and see that a new Tiller pod was created and is running.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ kubectl -n kube-system get po -l <span class="nv">app</span><span class="o">=</span>helm
+NAME                            READY   STATUS    RESTARTS   AGE
+tiller-deploy-5d6cc99fc-sv6z6   1/1     Running   <span class="m">0</span>          5m25s
+</code></pre></div><p>A <code>helm version</code> will ensure the client-side <code>helm</code> binary can communicate with the newly-created Tiller pod.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ helm version
+Client: <span class="p">&amp;</span>version.Version<span class="o">{</span>SemVer:<span class="s2">&#34;v2.14.3&#34;</span>, GitCommit:<span class="s2">&#34;0e7f3b6637f7af8fcfddb3d2941fcc7cbebb0085&#34;</span>, GitTreeState:<span class="s2">&#34;clean&#34;</span><span class="o">}</span>
+Server: <span class="p">&amp;</span>version.Version<span class="o">{</span>SemVer:<span class="s2">&#34;v2.14.3&#34;</span>, GitCommit:<span class="s2">&#34;0e7f3b6637f7af8fcfddb3d2941fcc7cbebb0085&#34;</span>, GitTreeState:<span class="s2">&#34;clean&#34;</span><span class="o">}</span>
+</code></pre></div><p>That’s it for the second step. Next we need to do some certificate work.</p>
+<h2 id="3-generate-certificates-and-secrets-1">3. Generate Certificates and Secrets</h2>
+<p>We now have to create our custom certificates and make them available to Kubernetes. In this case, I’m using certificates signed by an internal enterprise certificate authority (CA) although you could just as well use a wildcard certificate signed by a third-party root CA. Rancher can use both of these certificates as well as self-signed if you wish (although other steps are needed). Since this is an enterprise-class deployment, we need an established chain of trust so we’re going with our enterprise CA.</p>
+<p>This process of creating certificates can be varied and so I won’t cover all possibilities, I’ll simply say that I’m going to use the same <a href="https://kb.vmware.com/s/article/2146215">certificate generation utility</a> that I used <a href="/post/2019-09/https-ingress-with-pks/">here</a> to create my certificates. But regardless, we need a hostname by which we’ll gain access to the Rancher application running inside our cluster. Don’t confuse this with the external hostname we used when creating the PKS cluster as they’re two separate addresses and entirely separate concerns. I’m going to call this Rancher installation &ldquo;czrancherblog&rdquo; and so will generate and sign my certificates appropriately.</p>
+<p>Through the magic of the Internet, we can fast forward through the generation process until we end up with our certificate, key, and root CA certificate files.</p>
+<p><img src="/images/2019-09/rancher-ha-on-pks/image5.png" alt="Generated certificates"></p>
+<p>Ensure these files are accessible to the system from where you’re running <code>kubectl</code> and proceed.</p>
+<p>We are going to create a new namespace for Rancher to exist. And inside that namespace we need to create two secrets: one for the root CA certificate that was used to sign our host certificate, and the actual generated certificate and its corresponding private key.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ kubectl create ns cattle-system
+namespace/cattle-system created
+</code></pre></div><p>Before creating the first secret, ensure the root CA certificate is named “cacerts.pem”. It must be named exactly this or else the Rancher pods will fail to start.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ kubectl -n cattle-system create secret generic tls-ca --from-file<span class="o">=</span>cacerts.pem
+secret/tls-ca created
+</code></pre></div><p>Next, create the TLS secret that will hold the host certificate for our “czrancherblog” site. The nginx ingress controller pods, created in the next stage, will need this secret in order to present the correct certificate to client requests.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ kubectl -n cattle-system create secret tls czrancherblog-secret --cert<span class="o">=</span>czrancherblog.cer --key<span class="o">=</span>czrancherblog.key
+secret/czrancherblog-secret created
+</code></pre></div><p>Verify both your secrets now exist.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ kubectl -n cattle-system get secret
+NAME                   TYPE                                  DATA   AGE
+czrancherblog-secret   kubernetes.io/tls                     <span class="m">2</span>      2m7s
+default-token-4b7xj    kubernetes.io/service-account-token   <span class="m">3</span>      5m1s
+tls-ca                 Opaque                                <span class="m">1</span>      3m26s
+</code></pre></div><p>You’ll notice that, in so creating these secrets, you’ve actually created two different <em><strong>types</strong></em> of secrets. The <code>tls-ca</code> secret is an Opaque secret and the <code>czrancherblog-secret</code> is a TLS secret. If you compare the two, you’ll notice that the <code>tls-ca</code> secret lists a base64-encoded certificate for <code>cacerts.pem</code> in the data section whereas the <code>czrancherblog-secret</code> secret lists two of them, one per file. You’ll also notice that regardless of the input files you provided, their values (after having been base64 encoded to obfuscate them) have been listed for tls.crt and tls.key.</p>
+<p>We’re done with certificates, so time to move on to the nginx ingress piece.</p>
+<h2 id="4-create-and-configure-ingress-1">4. Create and Configure Ingress</h2>
+<p>With our secrets and namespace created, let’s install the nginx-ingress controller. As mentioned earlier, although Enterprise PKS can and will use NSX-T as an ingress controller out of the box, Rancher has some special needs to which it currently cannot cater. We’ll need to use something else in this case, and nginx has a hugely popular and extremely mature ingress controller. Note that in this case, I’m using <a href="https://github.com/kubernetes/ingress-nginx">kubernetes/ingress-nginx</a> and not the <a href="https://github.com/nginxinc/kubernetes-ingress">nginxinc/kubernetes-ingress</a>. Although they do have <a href="https://github.com/nginxinc/kubernetes-ingress/blob/master/docs/nginx-ingress-controllers.md">several differences</a>, for our purposes either will do just fine.</p>
+<p>From your terminal, run the following Helm command to install from the stable repo the kubernetes/ingress-nginx controller:</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">helm install stable/nginx-ingress --name nginx --namespace cattle-system --set controller.kind<span class="o">=</span>DaemonSet
+</code></pre></div><p>In this command, we’re instructing Helm to put the nginx objects in the <code>cattle-system</code> namespace as well as to run the pods as a DaemonSet rather than a Deployment. We want every Kubernetes node to get one controller so failure of a node doesn’t eliminate the ingress data path to our Rancher pods. Rancher will accomplish a similar task but using a deployment with pod anti-affinity rules (similar to how vSphere DRS works).</p>
+<p>Once the command completes, you’ll get a whole bunch of return from Helm including all the objects it creates. A couple of the API objects to point out are the ConfigMap, which stores the configuration of the nginx controller, and the services.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh"><span class="o">==</span>&gt; v1/Service
+NAME                                 TYPE          CLUSTER-IP     EXTERNAL-IP  PORT<span class="o">(</span>S<span class="o">)</span>                     AGE
+nginx-nginx-ingress-controller       LoadBalancer  10.100.200.48  &lt;pending&gt;    80:32013/TCP,443:32051/TCP  0s
+nginx-nginx-ingress-default-backend  ClusterIP     10.100.200.45  &lt;none&gt;       80/TCP                      0s
+</code></pre></div><p>The first one called <code>nginx-nginx-ingress-controller</code> is of type LoadBalancer. This will actually be the entry point into the Rancher cluster from an application perspective. If you look at the External-IP column you’ll notice it has initially reported only a <code>&lt;pending&gt;</code> status. Give your Kubernetes cluster a few moments to pull the images and then check the services for this namespace once again.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ kubectl -n cattle-system get svc
+NAME                                  TYPE           CLUSTER-IP      EXTERNAL-IP                 PORT<span class="o">(</span>S<span class="o">)</span>                      AGE
+nginx-nginx-ingress-controller        LoadBalancer   10.100.200.48   10.50.0.79,100.64.128.125   80:32013/TCP,443:32051/TCP   6m35s
+nginx-nginx-ingress-default-backend   ClusterIP      10.100.200.45   &lt;none&gt;                      80/TCP                       6m35s
+</code></pre></div><p>This time, you’ll notice it has two IPs assigned as the NSX Container Plug-In (NCP) has noticed this object creation and has communicated with NSX-T manager to create a new virtual server for us using the medium load balancer specified for this cluster.</p>
+<p><img src="/images/2019-09/rancher-ha-on-pks/image6.png" alt="NSX-T ingress controller"></p>
+<p>If you hop over to the Server Pools tab in the NSX-T manager UI and find the one referenced here, you can inspect the Pool Members tab and see that it has automatically added the endpoints referenced by that service.</p>
+<p><img src="/images/2019-09/rancher-ha-on-pks/image7.png" alt="NSX-T ingress controller, server pools"></p>
+<p>The Name column here is truncated, but the IPs are visible. Let’s double-check Kubernetes and make sure this lines up.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ kubectl -n cattle-system get po -o wide -L app
+NAME                                                  READY   IP           NODE                                   APP
+nginx-nginx-ingress-controller-wjn2x                  1/1     10.11.54.2   9aa90453-2aff-4655-a366-0ea8e366de4a   nginx-ingress
+nginx-nginx-ingress-controller-wkgms                  1/1     10.11.54.3   f35d32a0-4dd3-42e4-995b-5daffe36dfee   nginx-ingress
+nginx-nginx-ingress-controller-wpbtp                  1/1     10.11.54.4   e832528a-899c-4018-8d12-a54790aa4e15   nginx-ingress
+nginx-nginx-ingress-default-backend-8fc6b98c6-6r2jh   1/1     10.11.54.5   f35d32a0-4dd3-42e4-995b-5daffe36dfee   nginx-ingress
+</code></pre></div><p>The output has been slightly modified to eliminate unnecessary columns, but you can clearly see the pods, their status, and the IP addresses in addition to the nodes on which they’re running.</p>
+<p>With the IP address of the new virtual server in hand, we need to next create a DNS record that corresponds to the hostname of our Rancher HA installation. I have decided to call mine “czrancherblog” so I’ll create an A record in DNS that points czrancherblog to 10.50.0.79. Now, ensure you have resolution.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ nslookup czrancherblog
+Server:         10.10.30.13
+Address:        10.10.30.13#53
+
+Name:   czrancherblog.sovsystems.com
+Address: 10.50.0.79
+</code></pre></div><p>The last step in this phase is to create the ingress controller in Kubernetes. Although we have the service of type LoadBalancer, we need the ingress resource to route traffic to the Rancher service. That service doesn’t yet exist, but it will very shortly.</p>
+<p>Create a new manifest called <code>ingress.yaml</code> with the following content and apply it with <code>kubectl create -f ingress.yaml</code>:</p>
+<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>extensions/v1beta1<span class="w">
+</span><span class="w"></span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>Ingress<span class="w">
+</span><span class="w"></span><span class="k">metadata</span><span class="p">:</span><span class="w">
+</span><span class="w"> </span><span class="k">annotations</span><span class="p">:</span><span class="w">
+</span><span class="w">   </span><span class="k">kubernetes.io/ingress.class</span><span class="p">:</span><span class="w"> </span>nginx<span class="w">
+</span><span class="w"> </span><span class="k">namespace</span><span class="p">:</span><span class="w"> </span>cattle-system<span class="w">
+</span><span class="w"> </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>rancher-ingress<span class="w">
+</span><span class="w"></span><span class="k">spec</span><span class="p">:</span><span class="w">
+</span><span class="w"> </span><span class="k">rules</span><span class="p">:</span><span class="w">
+</span><span class="w"> </span>- <span class="k">host</span><span class="p">:</span><span class="w"> </span>czrancherblog.sovsystems.com<span class="w">
+</span><span class="w">   </span><span class="k">http</span><span class="p">:</span><span class="w">
+</span><span class="w">     </span><span class="k">paths</span><span class="p">:</span><span class="w">
+</span><span class="w">     </span>- <span class="k">backend</span><span class="p">:</span><span class="w">
+</span><span class="w">         </span><span class="k">serviceName</span><span class="p">:</span><span class="w"> </span>rancher<span class="w">
+</span><span class="w">         </span><span class="k">servicePort</span><span class="p">:</span><span class="w"> </span><span class="m">80</span><span class="w">
+</span><span class="w"> </span><span class="k">tls</span><span class="p">:</span><span class="w">
+</span><span class="w"> </span>- <span class="k">hosts</span><span class="p">:</span><span class="w">
+</span><span class="w">   </span>- czrancherblog.sovsystems.com<span class="w">
+</span><span class="w">   </span><span class="k">secretName</span><span class="p">:</span><span class="w"> </span>czrancherblog-secret<span class="w">
+</span></code></pre></div><p>Let’s explain a few points of this manifest. From the top, our kind is Ingress. Next, we have an annotation. This line is effectively doing two things: instructs the NCP to <em><strong>not</strong></em> tell NSX-T to create and configure any objects, and tells the nginx controller <em><strong>to</strong></em> route traffic to the name of the yet-to-be-created service called <code>rancher</code> over port 80. Lastly, it uses the TLS secret we created containing the certificate and its private key to apply to the controller when any traffic comes into the system from a request having the host value of czrancherblog.sovsystems.com.</p>
+<p>Although we expect nothing will happen, let’s still put that address in a web browser to see what we get returned.</p>
+<p><img src="/images/2019-09/rancher-ha-on-pks/image8.png" alt="503 error"></p>
+<p>We get a couple of important pieces of information back from this attempt. First, is the obvious “503 Service Temporarily Unavailable” message, which as I mentioned is to be expected considering that traffic is not going past the nginx controller. Secondly, we get a nice green lock icon in our browser showing us that the TLS secret we created containing the certificate was accepted and applied to the host rule.</p>
+<p><img src="/images/2019-09/rancher-ha-on-pks/image9.png" alt="Rancher certificate"></p>
+<p>So far, so good. Let’s press onward.</p>
+<h2 id="5-install-rancher-1">5. Install Rancher</h2>
+<p>Now comes the moment we’ve been waiting for…actually installing Rancher. With everything prepped and ready to go, we can press on.</p>
+<p>Add the Rancher stable repository to Helm and perform an update to pull the latest charts.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ helm repo add rancher-stable https://releases.rancher.com/server-charts/stable
+<span class="s2">&#34;rancher-stable&#34;</span> has been added to your repositories
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ helm repo list
+NAME            URL
+stable          https://kubernetes-charts.storage.googleapis.com
+<span class="nb">local</span>           http://127.0.0.1:8879/charts
+rancher-stable  https://releases.rancher.com/server-charts/stable
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ helm repo update
+Hang tight <span class="k">while</span> we grab the latest from your chart repositories...
+...Skip <span class="nb">local</span> chart repository
+...Successfully got an update from the <span class="s2">&#34;rancher-stable&#34;</span> chart repository
+...Successfully got an update from the <span class="s2">&#34;stable&#34;</span> chart repository
+Update Complete.
+</code></pre></div><p>Why didn’t we need to add a repository before installing the nginx ingress? That chart actually comes from the default “stable” repository hosted by Google, hence there was no custom repository to add. In the case of Rancher, we must add either the stable or latest repository to access the charts they curate.</p>
+<p>If you’ve gotten a successful update from the repo, it’s time to get Rancher spun up. Install the latest chart from the stable repo and check the output.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ helm install rancher-stable/rancher --name rancher --namespace cattle-system --set <span class="nv">hostname</span><span class="o">=</span>czrancherblog.sovsystems.com --set ingress.tls.source<span class="o">=</span>secret --set <span class="nv">privateCA</span><span class="o">=</span><span class="nb">true</span>
+
+NAME:   rancher
+LAST DEPLOYED: Sun Sep  <span class="m">8</span> 18:11:18 <span class="m">2019</span>
+NAMESPACE: cattle-system
+STATUS: DEPLOYED
+
+RESOURCES:
+<span class="o">==</span>&gt; v1/ClusterRoleBinding
+NAME     AGE
+rancher  <span class="nv">1s</span>
+
+<span class="o">==</span>&gt; v1/Deployment
+NAME     READY  UP-TO-DATE  AVAILABLE  AGE
+rancher  0/3    <span class="m">0</span>           <span class="m">0</span>          <span class="nv">1s</span>
+
+<span class="o">==</span>&gt; v1/Pod<span class="o">(</span>related<span class="o">)</span>
+NAME                      READY  STATUS             RESTARTS  AGE
+rancher-6b774d9468-2svww  0/1    ContainerCreating  <span class="m">0</span>         0s
+rancher-6b774d9468-5n8n7  0/1    Pending            <span class="m">0</span>         0s
+rancher-6b774d9468-dsq4t  0/1    Pending            <span class="m">0</span>         <span class="nv">0s</span>
+
+<span class="o">==</span>&gt; v1/Service
+NAME     TYPE       CLUSTER-IP     EXTERNAL-IP  PORT<span class="o">(</span>S<span class="o">)</span>  AGE
+rancher  ClusterIP  10.100.200.15  &lt;none&gt;       80/TCP   <span class="nv">1s</span>
+
+<span class="o">==</span>&gt; v1/ServiceAccount
+NAME     SECRETS  AGE
+rancher  <span class="m">1</span>        <span class="nv">1s</span>
+
+<span class="o">==</span>&gt; v1beta1/Ingress
+NAME     HOSTS                         ADDRESS  PORTS  AGE
+rancher  czrancherblog.sovsystems.com  80, <span class="m">443</span>  1s
+
+
+NOTES:
+Rancher Server has been installed.
+
+NOTE: Rancher may take several minutes to fully initialize. Please standby <span class="k">while</span> Certificates are being issued and Ingress comes up.
+
+Check out our docs at https://rancher.com/docs/rancher/v2.x/en/
+
+Browse to https://czrancherblog.sovsystems.com
+
+Happy Containering!
+</code></pre></div><p>Great, so the chart deployed a ton of Kubernetes objects for us. However, notice the last object there which is yet another Ingress. We don’t need this since we’re letting nginx handle that for us, so let’s delete it.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ kubectl -n cattle-system delete ing rancher
+ingress.extensions <span class="s2">&#34;rancher&#34;</span> deleted
+</code></pre></div><p>Grab a snack or drink and check the pods to make sure they’re now up and running.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ kubectl -n cattle-system get po -l <span class="nv">app</span><span class="o">=</span>rancher
+NAME                       READY   STATUS    RESTARTS   AGE
+rancher-6b774d9468-2svww   1/1     Running   <span class="m">2</span>          5m32s
+rancher-6b774d9468-5n8n7   1/1     Running   <span class="m">2</span>          5m32s
+rancher-6b774d9468-dsq4t   1/1     Running   <span class="m">0</span>          5m32s
+</code></pre></div><p>Most excellent, everything is up. And don’t panic if you see something other than zero in the RESTARTS column. Kubernetes is designed to be eventually consistent with its controllers and watch loops and will take the appropriate action until actual state reaches desired state.</p>
+<p>Now, after all this, let’s check our webpage again and see what we get.</p>
+<p><img src="/images/2019-09/rancher-ha-on-pks/image10.png" alt="Rancher homepage"></p>
+<p>And as we hoped for, we are now into our Rancher cluster! Let’s set that initial password and also the server URL on the next screen. It should automatically populate with the hostname we gave it, but if not do that now.</p>
+<p>That’s it for this step. Let’s go to the final one for a few configuration things.</p>
+<h2 id="6-configure-infrastructure-1">6. Configure Infrastructure</h2>
+<p>Now that we’ve got everything up and running, let’s do a few more things.</p>
+<p>First, you might have noticed that your “local” cluster entry is stuck in a Provisioning state waiting for the hostname to be set. This is normally automatically resolved after a few minutes, but in the case it isn’t, perform these easy steps.</p>
+<p><img src="/images/2019-09/rancher-ha-on-pks/image11.png" alt="Local cluster stuck at &ldquo;Provisioning&rdquo;"></p>
+<p>The quick fix is to click the settings button on the far right to edit this cluster.</p>
+<p><img src="/images/2019-09/rancher-ha-on-pks/image12.png" alt="Edit the cluster"></p>
+<p>Now just click save without making any changes.</p>
+<p><img src="/images/2019-09/rancher-ha-on-pks/image13.png" alt="Save the cluster"></p>
+<p>Go back to the main page and it should be up.</p>
+<p><img src="/images/2019-09/rancher-ha-on-pks/image14.png" alt="Local cluster in &ldquo;Active&rdquo; state"></p>
+<p>Enter the cluster again to ensure your nodes are reporting status.</p>
+<p><img src="/images/2019-09/rancher-ha-on-pks/image15.png" alt="Local cluster reporting stats"></p>
+<p>Grand.</p>
+<p>Next, we need to distribute our underlying PKS Kubernetes nodes across hosts. If your plan involved multiple availability zones, you may be good already, but if it didn’t like mine, you’ll want some way to ensure your masters as well as your workers are spread across ESXi hosts. If you’ve heard of my <a href="/post/2019-04/optimize-vmwarepks/">Optimize-VMwarePKS</a> project, which I highly recommend you check out, that’ll take care of the masters for you automatically, but we also need to separate the workers as well. Remember, we need high availability of not only the API and control plane but also of the data plane for Rancher. That means failure of any hypervisor should not impact the accessibility of our application.</p>
+<p>Once you run Optimize-VMware-PKS with the <code>-ProcessDRSRules</code> flag, it should detect the masters for this cluster and create the DRS anti-affinity rule. Now, you’ll need to manually create a new one for the worker nodes.</p>
+<p><img src="/images/2019-09/rancher-ha-on-pks/image16.png" alt="Anti-affinity rule for control plane"></p>
+<p>Create a new anti-affinity rule for the workers and add all of them. It can be difficult to find them in the list given that BOSH deploys them with a UUID instead of an actual name, so you can either find them in your vSphere VMs and Templates inventory view (assuming you ran Optimize-VMwarePKS with the <code>-ProcessFolders</code> flag) or you can get the names from BOSH CLI after referencing the deployment.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ bosh -d service-instance_3373eb33-8c8e-4c11-a7a8-4b25fe17722d vms
+Using environment <span class="s1">&#39;czpcfbosh.sovsystems.com&#39;</span> as client <span class="s1">&#39;ops_manager&#39;</span>
+
+Task 55540. Done
+
+Deployment <span class="s1">&#39;service-instance_3373eb33-8c8e-4c11-a7a8-4b25fe17722d&#39;</span>
+
+Instance                                     Process State  AZ   IPs        VM CID                                   VM Type      Active
+master/00be5bab-649d-4226-a535-b2a8b15582ee  running        AZ1  10.50.8.3  vm-a8a0c53e-3358-46a9-b0ff-2996e8c94c26  medium.disk  <span class="nb">true</span>
+master/1ac3d2df-6a94-48d9-89e7-867c1f18bc1b  running        AZ1  10.50.8.2  vm-a6e54e16-e216-4ae3-8a99-db9100cf40c8  medium.disk  <span class="nb">true</span>
+master/c866e776-aba3-49c5-afe0-8bf7a128829e  running        AZ1  10.50.8.4  vm-33eea584-ff26-45ed-bce3-0630fe74f88a  medium.disk  <span class="nb">true</span>
+worker/113d6856-6b4e-43ef-92ad-1fb5b610d28d  running        AZ1  10.50.8.6  vm-5508aaec-4253-4458-b2de-26675a1f049f  medium.disk  <span class="nb">true</span>
+worker/c0d00231-4afb-4a4a-9a38-668281d9411e  running        AZ1  10.50.8.5  vm-e4dfc491-d69f-4404-8ab9-81d2f1f4bd0d  medium.disk  <span class="nb">true</span>
+worker/ff67a937-8fea-4c13-8917-3d92533eaade  running        AZ1  10.50.8.7  vm-dcc29000-16c2-4f5a-b8f4-a5420f425400  medium.disk  <span class="nb">true</span>
+
+<span class="m">6</span> vms
+
+Succeeded
+</code></pre></div><p>Whichever method you choose, ensure the rule is created.</p>
+<p><img src="/images/2019-09/rancher-ha-on-pks/image17.png" alt="Anti-affinity rule for workers"></p>
+<p>Now you have anti-affinity rules for masters as well as workers ensuring that you have high availability on multiple fronts. If you wish to test that, fail a worker node (or master for that matter), or delete a Rancher pod and see a new one created by Kubernetes. Rancher should remain up and available.</p>
+<h2 id="final-words">Final Words</h2>
+<p>You’ve seen how we can go to zero to a fully-functional Rancher Server that’s highly available, and you’ve also taken some steps to ensure it’s distributed securely on the underlying infrastructure. There’s one important consideration to keep in mind when running Rancher on Enterprise PKS, and that has to do with Kubernetes namespaces. When Rancher is installed on Kubernetes, it integrates fairly deeply with it from a platform perspective by creating CRDs and other objects. When a user creates a new project or imports a new cluster, for example, Kubernetes will respond by creating a new namespace under the covers. In other Kubernetes environments this may be perfectly fine, but with Enterprise PKS a new namespace means new Tier-1 router, new logical segment, new pod IP block, etc. With a large number of imported clusters and projects, these namespaces could quickly exhaust NSX-T objects like pod IP blocks if your PKS hasn’t been designed up front with a sufficient number. It’s something to keep in mind if you’re thinking about running Rancher in production on top of Enterprise PKS. And today, there’s no way to tell the NCP to disregard these namespace creation commands so it doesn’t spawn objects inside NSX-T.</p>
+<p>I hope you’ve found this useful instruction on building and integrating Rancher with Enterprise PKS. If you have any feedback to provide on this process, I’m always available in one of any number of places including <a href="https://twitter.com/chipzoller/">Twitter</a> and <a href="https://www.linkedin.com/in/chipzoller/">LinkedIn</a>.</p>
+
+    
+    <div class="share-icons d-flex d-print-none">
+      <a href="https://twitter.com/intent/tweet?text=Rancher%20HA%20on%20Enterprise%20PKS&url=https%3a%2f%2fneonmirrors.net%2fpost%2f2019-09%2francher-ha-on-pks%2f&tw_p=tweetbutton" class="p-2" title="Share on Twitter" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Tweet</small></div>
+</a>
+
+<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fneonmirrors.net%2fpost%2f2019-09%2francher-ha-on-pks%2f&t=Rancher%20HA%20on%20Enterprise%20PKS" class="p-2" title="Share on Facebook" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+<script>
+  function shareViaLinkedin() {
+    window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent("https://neonmirrors.net/post/2019-09/rancher-ha-on-pks/"), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+  }
+</script>
+<a href="#linkedinshare" id = "linkedinshare" class="p-2" title="Share on LinkedIn" rel="nofollow" onclick="shareViaLinkedin()">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+
+<a href="javascript:window.print()" title="Print this article" class="p-2" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fa fa-print fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Print</small></div>
+</a>
+
+    </div>
+  </div>
+  
+  
+</div>
+<div class="sidebar d-print-none d-xl-block internal">
+  
+  <h2>Chip Zoller</h2>
+  <div>
+    Technologist, perpetual student, teacher, continual incremental improvement.
+  </div>
+  <a href="/about/" class="btn btn-outline-secondary mt-3" role="button">Read More...</a>
+  <h2 class="mt-4">Featured Posts</h2>
+  
+  
+  <a href="/post/2019-10/authentication-and-authorization-in-k8s/" class="nav-link">Authentication and Authorization in Kubernetes</a>
+  
+  <a href="/post/2018-12/how-to-ask-for-help-on-tech-forums/" class="nav-link">How to Ask for Help on Tech Forums</a>
+  
+  <h2 class="mt-4">Recent Posts</h2>
+  <nav class="nav flex-column">
+    
+    <a href="/post/2020-04/getting-started-with-tkg/" class="nav-link">Getting Started with Tanzu Kubernetes Grid</a>
+    
+    <a href="/post/2020-04/capv-overview/" class="nav-link">Behind the Scenes with Cluster API Provider vSphere</a>
+    
+    <a href="/post/2020-01/buy-dont-build/" class="nav-link">Buy Don&#39;t Build</a>
+    
+    <a href="/post/2020-01/why-k8s-on-vms/" class="nav-link">Why Kubernetes on Virtual Machines?</a>
+    
+    <a href="/post/2020-01/2020-public-domain-day/" class="nav-link">2020 Public Domain Day</a>
+    
+    <a href="/post/2019-10/authentication-and-authorization-in-k8s/" class="nav-link">Authentication and Authorization in Kubernetes</a>
+    
+    <a href="/post/2019-10/pks-rancher-reg/" class="nav-link">pks-rancher-reg: Automated PKS Cluster Registration For Rancher</a>
+    
+    <a href="/post/2019-09/rancher-ha-on-pks/" class="nav-link">Rancher HA on Enterprise PKS</a>
+    
+  </nav>
+  
+  <h2 class="mt-4 text-capitalize" id="categories-section">categories</h2>
+  <nav class="nav">
+    
+    <a href='/categories/technology/' class="nav-link">
+      technology
+      <span class="badge badge-pill badge-secondary">53</span>
+    </a>
+    
+    <a href='/categories/music/' class="nav-link">
+      music
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+  </nav>
+  
+  <h2 class="mt-4 text-capitalize" id="tags-section">tags</h2>
+  <nav class="nav">
+    
+    <a href='/tags/vrealize/' class="nav-link">
+      vrealize
+      <span class="badge badge-pill badge-secondary">27</span>
+    </a>
+    
+    <a href='/tags/vra/' class="nav-link">
+      vra
+      <span class="badge badge-pill badge-secondary">22</span>
+    </a>
+    
+    <a href='/tags/vsphere/' class="nav-link">
+      vsphere
+      <span class="badge badge-pill badge-secondary">14</span>
+    </a>
+    
+    <a href='/tags/k8s/' class="nav-link">
+      k8s
+      <span class="badge badge-pill badge-secondary">9</span>
+    </a>
+    
+    <a href='/tags/sovlabs/' class="nav-link">
+      sovlabs
+      <span class="badge badge-pill badge-secondary">8</span>
+    </a>
+    
+    <a href='/tags/veeam/' class="nav-link">
+      veeam
+      <span class="badge badge-pill badge-secondary">7</span>
+    </a>
+    
+    <a href='/tags/powershell/' class="nav-link">
+      powershell
+      <span class="badge badge-pill badge-secondary">6</span>
+    </a>
+    
+    <a href='/tags/log-insight/' class="nav-link">
+      log-insight
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/pks/' class="nav-link">
+      pks
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/vrops/' class="nav-link">
+      vrops
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/vro/' class="nav-link">
+      vro
+      <span class="badge badge-pill badge-secondary">4</span>
+    </a>
+    
+    <a href='/tags/docker/' class="nav-link">
+      docker
+      <span class="badge badge-pill badge-secondary">3</span>
+    </a>
+    
+    <a href='/tags/vmworld/' class="nav-link">
+      vmworld
+      <span class="badge badge-pill badge-secondary">3</span>
+    </a>
+    
+    <a href='/tags/featured/' class="nav-link">
+      featured
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/nsx-t/' class="nav-link">
+      nsx-t
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/powercli/' class="nav-link">
+      powercli
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/rancher/' class="nav-link">
+      rancher
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/thoughts/' class="nav-link">
+      thoughts
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/ansible/' class="nav-link">
+      ansible
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/authentication/' class="nav-link">
+      authentication
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/forums/' class="nav-link">
+      forums
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/homelab/' class="nav-link">
+      homelab
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/networking/' class="nav-link">
+      networking
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/security/' class="nav-link">
+      security
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/vmtn/' class="nav-link">
+      vmtn
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+  </nav>
+  
+</div>
+
+
+  </div>
+  
+  <footer class="mt-auto footer d-print-none">
+    <a class="to-top" href="#" title="Back to top">
+      <i class="fa fa-caret-up"></i>
+    </a>
+    <div class="container-fluid">
+      <div class="row justify-content-center">
+        <div class="col-md-4 col-xl-3">
+          <h5>Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved.</h5>
+I&#39;m happy for you to share content on this site, but please provide attribution.
+        </div>
+        <div class="col-md-4 col-xl-3">
+          <h5>Disclaimer</h5>
+Opinions expressed here are my own and may not reflect those of the company I work for, or the people I work with.
+        </div>
+        <div class="col-md-4 col-xl-3">
+          <h5>About This Site</h5>
+This blog was created using the <a href="https://gohugo.io/">Hugo</a> static site generator, using
+<a href="https://getbootstrap.com/">Bootstrap</a>, using the Silhouette Hugo theme, created by
+<a href='https://www.mattbutton.com'>Matt Button</a>
+        </div>
+      </div>
+      
+      <hr />
+      
+      <div class="d-flex justify-content-center icons">
+        <a class="py-2 px-2" href="https://github.com/chipzoller"><i class="fab fa-github"></i></a>
+<a class="py-2 px-2" href="https://twitter.com/chipzoller"><i class="fab fa-twitter"></i></a>
+<a class="py-2 px-2" href="https://www.linkedin.com/in/chipzoller/"><i class="fab fa-linkedin"></i></a>
+<a class="py-2 px-2" href='https://neonmirrors.net/index.xml'><i class="fas fa-rss"></i></a>
+
+      </div>
+    </div>
+  </footer>
+  
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script src="/js/syntax.js"></script>
+  <script src = '/js/index.js'></script>
+  
+  
+</body>
+</html>

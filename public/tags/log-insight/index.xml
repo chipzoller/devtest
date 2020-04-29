@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>log insight on Neon Mirrors</title>
+    <link>https://neonmirrors.net/tags/log-insight/</link>
+    <description>Recent content in log insight on Neon Mirrors</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <copyright>Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved.</copyright>
+    <lastBuildDate>Thu, 03 Jan 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://neonmirrors.net/tags/log-insight/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Deploying VMware Agents with Ansible</title>
+      <link>https://neonmirrors.net/post/2019-01/deploying-vmware-agents-with-ansible/</link>
+      <pubDate>Thu, 03 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2019-01/deploying-vmware-agents-with-ansible/</guid>
+      <description>Although there are numerous deployment and config management tools out there, none have had as much traction and continued success as Ansible. Purchased by Red Hat in October 2015, Ansible continues to gain steam in every corner. One of the great things about it and keys to its success is its agentless design. Rather that installing and maintaining a persistent agent inside your managed node, Ansible uses SSH/WinRM to conduct its operations.</description>
+    </item>
+    
+    <item>
+      <title>Detecting PSC Replication Failure with Log Insight</title>
+      <link>https://neonmirrors.net/post/2017-11/detecting-psc-repl-failure-with-vrli/</link>
+      <pubDate>Wed, 29 Nov 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2017-11/detecting-psc-repl-failure-with-vrli/</guid>
+      <description>In vSphere 6, the Platform Services Controller (PSC) contains a number of pieces of functionality including the SSO components, certificates, licensing, and other core parts that make vCenter function. Because of its importance, it is possible to join external PSCs that share the same SSO domain in a replication topology whereby their states are kept synchronized. When a change is made to, for example, a vSphere tag, that change is asynchronously replicated to the other member(s).</description>
+    </item>
+    
+    <item>
+      <title>Automate Log Insight agent installation from vRA</title>
+      <link>https://neonmirrors.net/post/2017-08/automate-log-insight-agent-installation-from-vra/</link>
+      <pubDate>Fri, 25 Aug 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2017-08/automate-log-insight-agent-installation-from-vra/</guid>
+      <description>Hi, all, short blog post today to inform you of some new community content. Logging is a pretty important thing these days (well, almost all days), and being able to implement that into your CMP is equally as important. VMware&amp;rsquo;s Log Insight solution is a fantastic platform for aggregating, analyzing, and searching for logs, which offers the best integration with other VMware products from any others on the market. Log Insight can consume logs from a variety of sources over several protocols.</description>
+    </item>
+    
+    <item>
+      <title>Log Insight and Alerting When There Are No More Logs for Insight</title>
+      <link>https://neonmirrors.net/post/2017-07/log-insight-and-alerting/</link>
+      <pubDate>Mon, 17 Jul 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2017-07/log-insight-and-alerting/</guid>
+      <description>Logging is an extremely important and, in some cases, essential part of a successful data center. That’s why you use a tool like Log Insight to aggregate, query, and alert on them. There are a variety of reasons why having your systems report their logs are crucial. They could be things like compliance: you are bound by law or maybe just company policy to keep log data for a certain period of time.</description>
+    </item>
+    
+    <item>
+      <title>Real-world troubleshooting with Log Insight</title>
+      <link>https://neonmirrors.net/post/2016-07/real-world-troubleshooting-with-vrli/</link>
+      <pubDate>Thu, 28 Jul 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2016-07/real-world-troubleshooting-with-vrli/</guid>
+      <description>Having some sort of log aggregation tool is an extremely important addition to any sort of management or monitoring system, so much so that it can mean the difference between violating SLAs, losing customers, or lengthier outages, and not. Log Insight is a product in the vRealize Suite which is this kind of tool and is way more capable than performing log searches on just vSphere components. Here is one such example of how I used VMware’s Log Insight to solve a real-world production issue in our internal lab.</description>
+    </item>
+    
+  </channel>
+</rss>

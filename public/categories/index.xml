@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories on Neon Mirrors</title>
+    <link>https://neonmirrors.net/categories/</link>
+    <description>Recent content in Categories on Neon Mirrors</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <copyright>Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved.</copyright>
+    <lastBuildDate>Sat, 11 Apr 2020 08:24:25 -0400</lastBuildDate>
+    
+	<atom:link href="https://neonmirrors.net/categories/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Technology</title>
+      <link>https://neonmirrors.net/categories/technology/</link>
+      <pubDate>Sat, 11 Apr 2020 08:24:25 -0400</pubDate>
+      
+      <guid>https://neonmirrors.net/categories/technology/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Music</title>
+      <link>https://neonmirrors.net/categories/music/</link>
+      <pubDate>Sat, 04 Jan 2020 10:23:20 -0500</pubDate>
+      
+      <guid>https://neonmirrors.net/categories/music/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

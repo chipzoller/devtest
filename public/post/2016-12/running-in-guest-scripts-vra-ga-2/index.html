@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  <meta property="og:title" content="Running in-guest scripts on Windows VMs in vRA 7" />
+<meta property="og:description" content="Running in-guest scripts via the guest agent on Windows VMs in vRealize Automation 7." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://neonmirrors.net/post/2016-12/running-in-guest-scripts-vra-ga-2/" />
+<meta property="article:published_time" content="2016-12-12T00:00:00+00:00" />
+<meta property="article:modified_time" content="2016-12-12T00:00:00+00:00" />
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Running in-guest scripts on Windows VMs in vRA 7"/>
+<meta name="twitter:description" content="Running in-guest scripts via the guest agent on Windows VMs in vRealize Automation 7."/>
+<meta name="twitter:site" content="@chipzoller"/>
+
+  
+  <title>
+Running in-guest scripts on Windows VMs in vRA 7 | Neon Mirrors
+</title>
+  
+  <link rel="icon" type="image/png" href='https://neonmirrors.net/images/favicon-16x16.png' sizes="16x16">
+  <link rel="icon" type="image/png" href='https://neonmirrors.net/images/favicon-32x32.png' sizes="32x32">  
+  
+  <link href="https://fonts.googleapis.com/css?family=Oswald:400" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">      
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel = 'stylesheet' href = 'https://neonmirrors.net/css/main.703162b863e7e1a93ee98f24b75e329848a814522f2d9f5735d41fbc7f023b3772f177c6ef8dbafccee65cfa8c1b8bb57e73d49284b5a0fdbbe772b8b29b07cb.css' integrity = 'sha512-cDFiuGPn4ak&#43;6Y8kt14ymEioFFIvLZ9XNdQfvH8COzdy8XfG7426/M7mXPqMG4u1fnPUkoS1oP2753K4spsHyw=='>
+  
+  
+<link rel="me" type="text/html" href="https://twitter.com/chipzoller"/> 
+<link rel="me" type="text/html" href="https://www.linkedin.com/in/chipzoller/"/> 
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+
+<link rel="alternate" type="application/rss+xml" href='https://neonmirrors.net/index.xml' />
+
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<meta name="author" content="Chip Zoller" />
+<meta name="copyright" content="Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved." />
+
+
+<meta name="description" content="Running in-guest scripts via the guest agent on Windows VMs in vRealize Automation 7.">
+
+
+
+
+<style type="text/css">
+  .feature-image {
+    background-image: url("https://neonmirrors.net/images/2016-12/running-in-guest-scripts-vra-ga-2/featured.jpg");
+    height: 500px;
+  }
+  
+  @media (max-width: 992px) {
+    .feature-image {
+      height: 350px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .feature-image {
+      height: 250px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .feature-image {
+      height: 200px;
+    }
+  }
+</style>
+
+        
+</head>
+<body >
+  <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark py-1 top-nav">
+    <div class="container">
+      <span class="internal">
+  <a class="navbar-brand pr-2" href="/">NEON MIRRORS</a>
+</span>
+
+      <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="navbar-collapse collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/categories/technology/">Technology</a>
+  
+</li>
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/categories/music/">Music</a>
+  
+</li>
+<li class="nav-item internal">
+  
+  <div class="nav-link nav-hassubmenu">Links
+    <div class="nav-submenu" >
+    
+      <a class="nav-link" href="https://chipzoller.gitbook.io/vspheremigration/">Ultimate vSphere VM Migration Guide</a>
+    
+    </div>
+    </div>
+  
+</li>
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/about/">About</a>
+  
+</li>
+
+        </ul>
+        <div class="social-icons d-none d-lg-block">
+          <a class="py-2 px-2" href="https://github.com/chipzoller"><i class="fab fa-github"></i></a>
+<a class="py-2 px-2" href="https://twitter.com/chipzoller"><i class="fab fa-twitter"></i></a>
+<a class="py-2 px-2" href="https://www.linkedin.com/in/chipzoller/"><i class="fab fa-linkedin"></i></a>
+<a class="py-2 px-2" href='https://neonmirrors.net/index.xml'><i class="fas fa-rss"></i></a>
+
+        </div>
+      </div>
+    </div>
+  </nav>
+  
+  
+<header class="feature-image d-print-none">
+</header>
+
+  
+  <div class="main">
+    
+<div class="container mt-4 post">
+  <h1>Running in-guest scripts on Windows VMs in vRA 7</h1>
+  <div class="mb-3 internal">
+  <small>
+    <strong>By Chip Zoller</strong>
+    | <i class="far fa-calendar-alt"></i>&nbsp;Dec 12, 2016&nbsp;
+    | <i class="fa fa-tags" title="Tags" aria-hidden="true"></i> <a href='/tags/vra/'>vra</a>, <a href='/tags/vrealize/'>vrealize</a><span class="d-lg-none">, <a href='#tags-section'>all tags</a></span>
+  </small>
+</div>
+
+  <div class="share-icons d-flex d-print-none">
+    <a href="https://twitter.com/intent/tweet?text=Running%20in-guest%20scripts%20on%20Windows%20VMs%20in%20vRA%207&url=https%3a%2f%2fneonmirrors.net%2fpost%2f2016-12%2frunning-in-guest-scripts-vra-ga-2%2f&tw_p=tweetbutton" class="p-2" title="Share on Twitter" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Tweet</small></div>
+</a>
+
+<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fneonmirrors.net%2fpost%2f2016-12%2frunning-in-guest-scripts-vra-ga-2%2f&t=Running%20in-guest%20scripts%20on%20Windows%20VMs%20in%20vRA%207" class="p-2" title="Share on Facebook" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+<script>
+  function shareViaLinkedin() {
+    window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent("https://neonmirrors.net/post/2016-12/running-in-guest-scripts-vra-ga-2/"), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+  }
+</script>
+<a href="#linkedinshare" id = "linkedinshare" class="p-2" title="Share on LinkedIn" rel="nofollow" onclick="shareViaLinkedin()">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+
+<a href="javascript:window.print()" title="Print this article" class="p-2" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fa fa-print fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Print</small></div>
+</a>
+
+  </div>
+  
+  <div class="mt-4 mb-4 main-content">
+    <p><em>This article is the second in a series of three which explore the vRealize Automation guest agent in depth. For the others, please see these links.</em></p>
+<h2 id="part-1-adding-machine-requestor-to-local-administrators-group-in-vra-7post2016-12adding-machine-requestor-to-local-admins-vra-ga-1">Part 1: <a href="/post/2016-12/adding-machine-requestor-to-local-admins-vra-ga-1/">Adding machine requestor to local administrators group in vRA 7</a></h2>
+<h2 id="part-2-running-in-guest-scripts-on-windows-vms-in-vra-7post2016-12running-in-guest-scripts-vra-ga-2">Part 2: <a href="/post/2016-12/running-in-guest-scripts-vra-ga-2">Running in-guest scripts on Windows VMs in vRA 7</a></h2>
+<h2 id="part-3-running-bash-commands-in-the-linux-guest-agent-in-vra-7post2016-12running-bash-in-linux-guest-agent-vra-ga-3">Part 3: <a href="/post/2016-12/running-bash-in-linux-guest-agent-vra-ga-3">Running Bash commands in the Linux guest agent in vRA 7</a></h2>
+<hr>
+<p><br>
+In the last article, we looked at getting started with the guest agent on Windows. We showed how to get it installed, how to create custom properties to invoke it, and lastly how to perform a slight modification to get your machine requestor into the local administrators group and the RDP users group. In this article, we’ll extend that knowledge to show how to run scripts and shell commands inside the guest.</p>
+<p>Very often, users want to do some sort of post-provisioning action on their deployed VMs inside vRealize Automation. This can range anywhere from further configuring and tweaking the OS to installing custom software packages. vRA already has a fine mechanism for installing software components in VMs that works very well. This is enabled via the functionality formerly known as Application Services or Application Director. What’s nice about this is you can take your existing scripts and turn them into software blueprints, then simply drag-and-drop them on the design canvas onto machine templates. The downside, however, is this feature is only available to users who have purchased the very expensive Enterprise license. Another popular way of installing software is with a tool such as Puppet or Chef, and, in fact, we have a <a href="https://solutionexchange.vmware.com/store/products/puppet-enterprise-for-vrealize-automation">SovLabs module</a> for Puppet which makes this an extremely easy process. But all of these methods require an additional purchase and/or additional infrastructure. Fortunately, there exists a method to install software via scripts with nothing else other than vRA and some work with custom properties. It’s not as feature rich as a Puppet or App Services, but it works and can work well. Today, I’ll show you how this is possible and how you can make this an easily manageable and extensible process.</p>
+<p>We’ll be demonstrating this on Windows in the present article with another to follow on Linux. Remember that the first thing we need to start with, aside from a Windows server VM with the guest agent installed, is to create the two basic custom properties that invoke the guest agent. As a reminder, those are:</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">VirtualMachine.Admin.UseGuestAgent
+VirtualMachine.Customize.WaitComplete
+</code></pre></div><p>Next is how we make this process elegant, simple, and, most importantly, scalable and maintainable. The premise here is we want to not have to manage files inside of our template. We don’t want to be in the business of starting up, tweaking, shutting down, snapshotting again, our template. Instead, we just want to use maybe one template in our estate and perform any customizations from vRA’s perspective. In order to do this, we really need an external location where our scripts reside like an NFS or SMB share on a file server. In this example, I’m going to use a file server in my lab where I’ll store my scripts. Actually, I’m using my <a href="https://www.synology.com/">Synology</a> Diskstation, but you can use anything. Here’s the overall workflow of how this pieces together:</p>
+<ol>
+<li>
+<p>We have an SMB file server where our, in this case, PowerShell scripts are stored. This means we have one location in which to curate and manage any scripts we want to call, avoiding the template file management complexity.</p>
+</li>
+<li>
+<p>We’ll first have the guest agent call out from the provisioned machine and mount this remote share so we have access to those scripts.</p>
+</li>
+<li>
+<p>We are now free to execute any scripts we see fit residing in this remote location, and, we will proceed to execute one of those scripts as an example.</p>
+</li>
+</ol>
+<p>Ok, so now you have the idea of the overall process here. I mentioned the two basic properties we need to get started, so make sure those are present on your template. Next, let’s make sure we have a script out in our script repo. In my case, as I said, I’m using an SMB share as my repo stored on my Diskstation. I have a script in a share entitled “userdata” which is named “psscript.ps1.” Original, I know, but bear with me. This script is simple, only for demonstration purposes, and it writes some text to a file. It’s a simple one-liner that contains:</p>
+<div class="highlight"><pre class="chroma"><code class="language-ps1" data-lang="ps1"><span class="nb">New-Item</span> <span class="n">C:</span><span class="p">\</span><span class="n">scripts</span><span class="p">\</span><span class="n">testfile</span><span class="p">.</span><span class="n">txt</span> <span class="n">-ItemType</span> <span class="n">File</span> <span class="n">-Value</span> <span class="s2">&#34;Hello, world!&#34;</span>
+</code></pre></div><p>Pretty simple and self-explanatory, right? It just creates a file inside C:\scripts called “testfile.txt” and writes the familiar “Hello world” statement.</p>
+<p>Now, we have our two starter properties, let’s create the logic that will mount this share. For that, we need to create two (really one, but two to be nice and neat, which I like) properties. The two we create are as follows:</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">VirtualMachine.Software0.Name
+VirtualMachine.Software0.ScriptPath
+</code></pre></div><p>The property that ends in “Name” you should call something that indicates this is a simple mounting script. In my case, to make things simple and repeatable, I’m calling this name “Mount.” And the property ending in “ScriptPath” we will add a command line that mounts our repo. The Name property is only a label, so it doesn’t matter what you put here because the guest agent will essentially ignore it. It’s more just metadata to tell you, the administrator, what this script’s purpose is. But for the ScriptPath property, this is important. Since we’re on Windows here, we’ll just use the net use command to make this happen. Now, we can certainly hard code this here, so something like <code>net use \\myserver.domain.com\repo /user:myuser MYPASSWORD</code>, but we want to make this easy to manage, maintain, and extend if necessary. If you don’t care about any of that, by all means, go ahead and hardcode that to the exact command you want with all the parameters, but in this article I’m going to assume an enterprise stance here and make this more manageable. To do this, refer back up to our net use command above. We essentially have three parameters to make this command work:  A path to the repo; a username; and a password. One of the nice things about using the guest agent with the ScriptPath property is that we can create <strong>other</strong> properties in our blueprint and pass those as parameters to our scripts/commands. Let’s do exactly that. I’ll create those three parameters as custom properties on this same machine. Here’s what I’ve done.</p>
+<p><img src="/images/2016-12/running-in-guest-scripts-vra-ga-2/image1.png" alt="Custom properties set on a machine"></p>
+<p>I’ve created properties that begin with “Mount.” and then the parameter name. These can be anything, but we want to make sure we can, at a glance, understand what we have. I have <code>Mount.Path</code>, <code>Mount.Username</code>, and <code>Mount.Password</code>. Now that we have those, let’s create that <code>net use</code> command and pass those custom properties into the correct places. <code>VirtualMachine.Software0.ScriptPath</code> now reads the following:</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">net use <span class="se">\\</span><span class="o">{</span>Mount.Path<span class="o">}</span> /user:<span class="o">{</span>Mount.Username<span class="o">}</span> <span class="o">[</span>Mount.Password<span class="o">]</span>
+</code></pre></div><p>The proper way to pass these custom properties into our other property is with single braces (AKA curly brace). Hang on, <code>Mount.Password</code> is in brackets (AKA square brackets). What’s that about? Here’s where some explanation is required. But before that, to make things simple, assuming your script repo doesn’t need authentication, you can stop here and omit the bit about the password. Only in the case where your repo does require authentication should you read on.</p>
+<p>Since we specified the <code>Mount.Password</code> custom property in the screenshot above as an encrypted value, we have to somehow unencrypt that value when passing it into the <code>net use</code> command. We can’t send a secured string value into the password parameter directly, because it would come across as a bunch gobbledygook. If you’re on vRA 7.1, fortunately there is a new property that can take care of this for us. That property, found on page 44 of the <a href="http://pubs.vmware.com/vrealize-automation-71/topic/com.vmware.ICbase/PDF/vrealize-automation-71-custom-properties.pdf">custom property reference documentation</a>, is called <code>VirtualMachine.ScriptPath.Decrypt</code>. We need to create this additional property on our machine and set it to True in order to convert that property from an encrypted value to a decrypted value, so go ahead and add that to your blueprint now. You can read the description of that property in the documentation if you wish, but basically we have to pass an encrypted property enclosed in brackets in order for it to be decrypted appropriately. What if you’re not on 7.1 yet and are on 7.0? Well, I have good news for you! Even though this isn’t documented in the <a href="http://pubs.vmware.com/vra-70/topic/com.vmware.ICbase/PDF/vrealize-automation-70-custom-properties.pdf">corresponding 7.0 custom property reference documentation</a>, this property <em>does</em> work just like it does in 7.1. In my lab, I’m using 7.0.1, and I can confirm setting the property does, in fact, work. The code that I discovered that clued me into this property in the first place is found in the template where the guest agent is installed. If you want to verify for yourself, navigate to C:\VRMGuestAgent\site\InstallSoftware and open the file called installsoftware.js. There, you’ll see a code block that has the following:</p>
+<div class="highlight"><pre class="chroma"><code class="language-js" data-lang="js"><span class="k">if</span><span class="p">(</span><span class="nx">bag</span><span class="p">.</span><span class="nx">exists</span><span class="p">(</span><span class="s2">&#34;VirtualMachine.ScriptPath.Decrypt&#34;</span><span class="p">))</span>
+</code></pre></div><p>I’ve obviously omitted a whole bunch of code, but you get the idea. The installsoftware.js file, which gets called by a .BAT file as part of the provisioning, looks for this property and converts it to an unencrypted value. Bingo!</p>
+<p>Now we have that, going back up the page, we need to specify our <code>Mount.Password</code> property in brackets so it gets unencrypted. Great. We can do that as I’ve shown.</p>
+<p>So once you’ve put those properties together, let’s move on and actually run our test script out on our file server repo. The first Software0 set of properties is handling our mount, so we are mounting the share, now we have to create another two properties to actually call the script. We do that again and repeat the same custom property sets but with “1” added to them. It’ll look like this:</p>
+<p><img src="/images/2016-12/running-in-guest-scripts-vra-ga-2/image2.png" alt="Custom properties to run a PS1 script"></p>
+<p>We’re doing the same thing as above, only this time we create <code>VirtualMachine.Software1.Name</code> and <code>ScriptPath</code>. For the <code>ScriptPath</code> property, we need to call PowerShell directly and give it our script as a parameter. We also want to bypass the PowerShell execution policy by use of the <code>–ExecutionPolicy Bypass</code> piece. Then, you can see we are re-using our <code>Mount.Path</code> property we used above, which is totally fine and, indeed, preferable to avoid hardcoding anything. Once that’s done, you should have something like this for all the properties on that blueprint:</p>
+<p><img src="/images/2016-12/running-in-guest-scripts-vra-ga-2/image3.png" alt="Combined custom properties on a blueprint"></p>
+<p>If everything looks good, let’s request the catalog item and see what we get.</p>
+<p><img src="/images/2016-12/running-in-guest-scripts-vra-ga-2/image4.png" alt="Request test catalog item"></p>
+<p><img src="/images/2016-12/running-in-guest-scripts-vra-ga-2/image5.png" alt="Detailed execution steps"></p>
+<p>The request was successful in all stages, so if we check C:\scripts we should see a testfile.txt.</p>
+<p><img src="/images/2016-12/running-in-guest-scripts-vra-ga-2/image6.png" alt="File created in guest"></p>
+<p>Bam! We’ve got everything working! Let’s ensure we haven’t stored that password anywhere. To do so, inspect the guest agent log located at C:\VRMGuestAgent\GuestAgent.txt and search for any commands that begin with “vrm.software.command.”</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">2016-10-29 21:56:18 Application: [Information] vrm.software.command -&gt; net use \\diskstation.zoller.com\userdata /user:admin [Mount.Password]
+</code></pre></div><p>Nice! We see the custom properties we passed as parameters got translated correctly, and, most critically, the password has NOT been translated but instead decrypted by the agent and passed directly into our command. The second instance of vrm.software.command shows the actual command used to run our test script:</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">2016-10-29 21:56:49 Application: [Information] vrm.software.command -&gt; powershell.exe -ExecutionPolicy Bypass \\diskstation.zoller.com\userdata\psscript.ps1
+</code></pre></div><p>By the way, checking GuestAgent.txt is a good way to troubleshoot your scripts to see what actually attempted to run versus what you thought would run when using those custom properties. So there you have it; we’ve gotten remote mounts to work even with encrypted passwords, and executed a script out on our file share.</p>
+<p>This is all well and good, but I promised a way to make this scalable and easier to manage. Creating all these properties every time and on every blueprint is error prone and wasteful of time. There’s a better way to do this. Remember above we created all these properties—10 in our example—on the machine within our template? Remember how kind of a pain that was? How about we specify them once and reuse them in a building block manner throughout the rest of our estate? Property Groups are here to the rescue!</p>
+<p>Property Groups will allow us to take a number of individual properties and stash them in a group. Then, whenever we need those properties, we simply add the group. Let’s do just that. Make sure you have all your custom properties written down, and head over to Administration -&gt; Property Dictionary -&gt; Property Groups. Here, we want to create a new group of properties. Now, this is where we need to exercise some cleanliness and order. Remember where we had to increment the Software name part of a property to be either 0 or 1 or, if you had more scripts to run, even higher? We need to make sure those stay unique numbers or else we won’t get everything run. Since our model is essentially “Repo,” which contains logic to mount our software repo and the properties used later, and “SoftwareX,” which actually called the script out on that repo, we want to name our property groups in a way which preserves the number sequence of our scripts and gives us a way to find those groups when others are added over time. Here’s what I’ve done.</p>
+<p><img src="/images/2016-12/running-in-guest-scripts-vra-ga-2/image7.png" alt="Property group with multiple custom properties added"></p>
+<p>Name is always going to follow the pattern:  Scripts – SoftwareN – Software Name. “Scripts” will be static, SoftwareN will contain an incremented number starting at 0 for your repo and followed by any other number of software packages, and then “Mount Repo” substitute whatever describes your script.</p>
+<p>Go ahead and port those individual properties into property groups now. The Mount Repo group has 8 of those properties, so your second property group should have the remaining 2.</p>
+<p><img src="/images/2016-12/running-in-guest-scripts-vra-ga-2/image8.png" alt="Script execution custom property group"></p>
+<p>One thing you might have noticed is that I’m choosing only to show the <code>VirtualMachine.SoftwareN.Name</code> in the request. This is so we can tell, at request time, what software packages or scripts will run when we click the button. This is helpful so you don’t have to constantly toggle between the catalog and the designer canvas to figure out what is supposed to run on a given catalog item. Anyhow, now you’ve recreated all those individual properties as groups, let’s go make some changes to our blueprint.</p>
+<p>First, let’s remove all the individual properties from the machine. You’ll, unfortunately, have to click them one-by-one and click delete as there’s no shift-click functionality here. Once that’s done, you might think we just go to the Property Groups tab under the larger “Properties” tab and add them there. We can certainly do that if those scripts only apply to that machine in your blueprint. If you have multiple machines within that blueprint and you want those properties to apply to all, however, then a better place is on the blueprint itself. Click the gear icon in the upper-left-hand corner of the screen by the name of your blueprint.</p>
+<p><img src="/images/2016-12/running-in-guest-scripts-vra-ga-2/image9.png" alt="Edit blueprint"></p>
+<p>Click the “Properties” tab here and then “Property Groups.” Add in those two property groups you just created. You should have something like this:</p>
+<p><img src="/images/2016-12/running-in-guest-scripts-vra-ga-2/image10.png" alt="Property groups attached to blueprint"></p>
+<p>You can click the “View Merged Properties” button to see a summation of all the properties within those groups just to make sure you didn’t miss any. Once that’s done, save your blueprint and head over to your catalog to check out the result.</p>
+<p><img src="/images/2016-12/running-in-guest-scripts-vra-ga-2/image11.png" alt="Request form with custom properties shown"></p>
+<p>Here you can now see the names of those software properties show up, which is a nice reminder of what is going to be run by the guest agent. Hover over the property name to display the truncated portions. Request the catalog item and make sure your reconfigured blueprint deploys just as it did before. Again, use the guest agent log to determine what commands did run. If you recreated everything as you did before, then you should have a successful deploy with your two scripts having run.</p>
+<p>We’ve seen in this article how to use the guest agent to run both scripts and shell commands; how to pass encrypted properties such as passwords; how to use other custom properties as parameters; and a system of organization so we can reuse them in a very building block fashion that is easy to maintain and extend. Now all that’s left is for you to use your imagination to extend this system to your needs!</p>
+
+    
+    <div class="share-icons d-flex d-print-none">
+      <a href="https://twitter.com/intent/tweet?text=Running%20in-guest%20scripts%20on%20Windows%20VMs%20in%20vRA%207&url=https%3a%2f%2fneonmirrors.net%2fpost%2f2016-12%2frunning-in-guest-scripts-vra-ga-2%2f&tw_p=tweetbutton" class="p-2" title="Share on Twitter" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Tweet</small></div>
+</a>
+
+<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fneonmirrors.net%2fpost%2f2016-12%2frunning-in-guest-scripts-vra-ga-2%2f&t=Running%20in-guest%20scripts%20on%20Windows%20VMs%20in%20vRA%207" class="p-2" title="Share on Facebook" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+<script>
+  function shareViaLinkedin() {
+    window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent("https://neonmirrors.net/post/2016-12/running-in-guest-scripts-vra-ga-2/"), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+  }
+</script>
+<a href="#linkedinshare" id = "linkedinshare" class="p-2" title="Share on LinkedIn" rel="nofollow" onclick="shareViaLinkedin()">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+
+<a href="javascript:window.print()" title="Print this article" class="p-2" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fa fa-print fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Print</small></div>
+</a>
+
+    </div>
+  </div>
+  
+  
+</div>
+<div class="sidebar d-print-none d-xl-block internal">
+  
+  <h2>Chip Zoller</h2>
+  <div>
+    Technologist, perpetual student, teacher, continual incremental improvement.
+  </div>
+  <a href="/about/" class="btn btn-outline-secondary mt-3" role="button">Read More...</a>
+  <h2 class="mt-4">Featured Posts</h2>
+  
+  
+  <a href="/post/2019-10/authentication-and-authorization-in-k8s/" class="nav-link">Authentication and Authorization in Kubernetes</a>
+  
+  <a href="/post/2018-12/how-to-ask-for-help-on-tech-forums/" class="nav-link">How to Ask for Help on Tech Forums</a>
+  
+  <h2 class="mt-4">Recent Posts</h2>
+  <nav class="nav flex-column">
+    
+    <a href="/post/2020-04/getting-started-with-tkg/" class="nav-link">Getting Started with Tanzu Kubernetes Grid</a>
+    
+    <a href="/post/2020-04/capv-overview/" class="nav-link">Behind the Scenes with Cluster API Provider vSphere</a>
+    
+    <a href="/post/2020-01/buy-dont-build/" class="nav-link">Buy Don&#39;t Build</a>
+    
+    <a href="/post/2020-01/why-k8s-on-vms/" class="nav-link">Why Kubernetes on Virtual Machines?</a>
+    
+    <a href="/post/2020-01/2020-public-domain-day/" class="nav-link">2020 Public Domain Day</a>
+    
+    <a href="/post/2019-10/authentication-and-authorization-in-k8s/" class="nav-link">Authentication and Authorization in Kubernetes</a>
+    
+    <a href="/post/2019-10/pks-rancher-reg/" class="nav-link">pks-rancher-reg: Automated PKS Cluster Registration For Rancher</a>
+    
+    <a href="/post/2019-09/rancher-ha-on-pks/" class="nav-link">Rancher HA on Enterprise PKS</a>
+    
+  </nav>
+  
+  <h2 class="mt-4 text-capitalize" id="categories-section">categories</h2>
+  <nav class="nav">
+    
+    <a href='/categories/technology/' class="nav-link">
+      technology
+      <span class="badge badge-pill badge-secondary">53</span>
+    </a>
+    
+    <a href='/categories/music/' class="nav-link">
+      music
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+  </nav>
+  
+  <h2 class="mt-4 text-capitalize" id="tags-section">tags</h2>
+  <nav class="nav">
+    
+    <a href='/tags/vrealize/' class="nav-link">
+      vrealize
+      <span class="badge badge-pill badge-secondary">27</span>
+    </a>
+    
+    <a href='/tags/vra/' class="nav-link">
+      vra
+      <span class="badge badge-pill badge-secondary">22</span>
+    </a>
+    
+    <a href='/tags/vsphere/' class="nav-link">
+      vsphere
+      <span class="badge badge-pill badge-secondary">14</span>
+    </a>
+    
+    <a href='/tags/k8s/' class="nav-link">
+      k8s
+      <span class="badge badge-pill badge-secondary">9</span>
+    </a>
+    
+    <a href='/tags/sovlabs/' class="nav-link">
+      sovlabs
+      <span class="badge badge-pill badge-secondary">8</span>
+    </a>
+    
+    <a href='/tags/veeam/' class="nav-link">
+      veeam
+      <span class="badge badge-pill badge-secondary">7</span>
+    </a>
+    
+    <a href='/tags/powershell/' class="nav-link">
+      powershell
+      <span class="badge badge-pill badge-secondary">6</span>
+    </a>
+    
+    <a href='/tags/log-insight/' class="nav-link">
+      log-insight
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/pks/' class="nav-link">
+      pks
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/vrops/' class="nav-link">
+      vrops
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/vro/' class="nav-link">
+      vro
+      <span class="badge badge-pill badge-secondary">4</span>
+    </a>
+    
+    <a href='/tags/docker/' class="nav-link">
+      docker
+      <span class="badge badge-pill badge-secondary">3</span>
+    </a>
+    
+    <a href='/tags/vmworld/' class="nav-link">
+      vmworld
+      <span class="badge badge-pill badge-secondary">3</span>
+    </a>
+    
+    <a href='/tags/featured/' class="nav-link">
+      featured
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/nsx-t/' class="nav-link">
+      nsx-t
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/powercli/' class="nav-link">
+      powercli
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/rancher/' class="nav-link">
+      rancher
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/thoughts/' class="nav-link">
+      thoughts
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/ansible/' class="nav-link">
+      ansible
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/authentication/' class="nav-link">
+      authentication
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/forums/' class="nav-link">
+      forums
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/homelab/' class="nav-link">
+      homelab
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/networking/' class="nav-link">
+      networking
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/security/' class="nav-link">
+      security
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/vmtn/' class="nav-link">
+      vmtn
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+  </nav>
+  
+</div>
+
+
+  </div>
+  
+  <footer class="mt-auto footer d-print-none">
+    <a class="to-top" href="#" title="Back to top">
+      <i class="fa fa-caret-up"></i>
+    </a>
+    <div class="container-fluid">
+      <div class="row justify-content-center">
+        <div class="col-md-4 col-xl-3">
+          <h5>Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved.</h5>
+I&#39;m happy for you to share content on this site, but please provide attribution.
+        </div>
+        <div class="col-md-4 col-xl-3">
+          <h5>Disclaimer</h5>
+Opinions expressed here are my own and may not reflect those of the company I work for, or the people I work with.
+        </div>
+        <div class="col-md-4 col-xl-3">
+          <h5>About This Site</h5>
+This blog was created using the <a href="https://gohugo.io/">Hugo</a> static site generator, using
+<a href="https://getbootstrap.com/">Bootstrap</a>, using the Silhouette Hugo theme, created by
+<a href='https://www.mattbutton.com'>Matt Button</a>
+        </div>
+      </div>
+      
+      <hr />
+      
+      <div class="d-flex justify-content-center icons">
+        <a class="py-2 px-2" href="https://github.com/chipzoller"><i class="fab fa-github"></i></a>
+<a class="py-2 px-2" href="https://twitter.com/chipzoller"><i class="fab fa-twitter"></i></a>
+<a class="py-2 px-2" href="https://www.linkedin.com/in/chipzoller/"><i class="fab fa-linkedin"></i></a>
+<a class="py-2 px-2" href='https://neonmirrors.net/index.xml'><i class="fas fa-rss"></i></a>
+
+      </div>
+    </div>
+  </footer>
+  
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script src="/js/syntax.js"></script>
+  <script src = '/js/index.js'></script>
+  
+  
+</body>
+</html>

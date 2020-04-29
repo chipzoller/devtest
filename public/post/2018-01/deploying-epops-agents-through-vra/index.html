@@ -1,0 +1,506 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  <meta property="og:title" content="Deploying End Point Operations Agents through vRA" />
+<meta property="og:description" content="Custom software components to deploy End Point Operations agents through vRA." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://neonmirrors.net/post/2018-01/deploying-epops-agents-through-vra/" />
+<meta property="article:published_time" content="2018-01-02T00:00:00+00:00" />
+<meta property="article:modified_time" content="2018-01-02T00:00:00+00:00" />
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Deploying End Point Operations Agents through vRA"/>
+<meta name="twitter:description" content="Custom software components to deploy End Point Operations agents through vRA."/>
+<meta name="twitter:site" content="@chipzoller"/>
+
+  
+  <title>
+Deploying End Point Operations Agents through vRA | Neon Mirrors
+</title>
+  
+  <link rel="icon" type="image/png" href='https://neonmirrors.net/images/favicon-16x16.png' sizes="16x16">
+  <link rel="icon" type="image/png" href='https://neonmirrors.net/images/favicon-32x32.png' sizes="32x32">  
+  
+  <link href="https://fonts.googleapis.com/css?family=Oswald:400" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">      
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel = 'stylesheet' href = 'https://neonmirrors.net/css/main.703162b863e7e1a93ee98f24b75e329848a814522f2d9f5735d41fbc7f023b3772f177c6ef8dbafccee65cfa8c1b8bb57e73d49284b5a0fdbbe772b8b29b07cb.css' integrity = 'sha512-cDFiuGPn4ak&#43;6Y8kt14ymEioFFIvLZ9XNdQfvH8COzdy8XfG7426/M7mXPqMG4u1fnPUkoS1oP2753K4spsHyw=='>
+  
+  
+<link rel="me" type="text/html" href="https://twitter.com/chipzoller"/> 
+<link rel="me" type="text/html" href="https://www.linkedin.com/in/chipzoller/"/> 
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+
+<link rel="alternate" type="application/rss+xml" href='https://neonmirrors.net/index.xml' />
+
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<meta name="author" content="Chip Zoller" />
+<meta name="copyright" content="Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved." />
+
+
+<meta name="description" content="Custom software components to deploy End Point Operations agents through vRA.">
+
+
+
+
+<style type="text/css">
+  .feature-image {
+    background-image: url("https://neonmirrors.net/images/2018-01/deploying-epops-agents-through-vra/featured.jpg");
+    height: 500px;
+  }
+  
+  @media (max-width: 992px) {
+    .feature-image {
+      height: 350px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .feature-image {
+      height: 250px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .feature-image {
+      height: 200px;
+    }
+  }
+</style>
+
+        
+</head>
+<body >
+  <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark py-1 top-nav">
+    <div class="container">
+      <span class="internal">
+  <a class="navbar-brand pr-2" href="/">NEON MIRRORS</a>
+</span>
+
+      <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="navbar-collapse collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/categories/technology/">Technology</a>
+  
+</li>
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/categories/music/">Music</a>
+  
+</li>
+<li class="nav-item internal">
+  
+  <div class="nav-link nav-hassubmenu">Links
+    <div class="nav-submenu" >
+    
+      <a class="nav-link" href="https://chipzoller.gitbook.io/vspheremigration/">Ultimate vSphere VM Migration Guide</a>
+    
+    </div>
+    </div>
+  
+</li>
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/about/">About</a>
+  
+</li>
+
+        </ul>
+        <div class="social-icons d-none d-lg-block">
+          <a class="py-2 px-2" href="https://github.com/chipzoller"><i class="fab fa-github"></i></a>
+<a class="py-2 px-2" href="https://twitter.com/chipzoller"><i class="fab fa-twitter"></i></a>
+<a class="py-2 px-2" href="https://www.linkedin.com/in/chipzoller/"><i class="fab fa-linkedin"></i></a>
+<a class="py-2 px-2" href='https://neonmirrors.net/index.xml'><i class="fas fa-rss"></i></a>
+
+        </div>
+      </div>
+    </div>
+  </nav>
+  
+  
+<header class="feature-image d-print-none">
+</header>
+
+  
+  <div class="main">
+    
+<div class="container mt-4 post">
+  <h1>Deploying End Point Operations Agents through vRA</h1>
+  <div class="mb-3 internal">
+  <small>
+    <strong>By Chip Zoller</strong>
+    | <i class="far fa-calendar-alt"></i>&nbsp;Jan 2, 2018&nbsp;
+    | <i class="fa fa-tags" title="Tags" aria-hidden="true"></i> <a href='/tags/vrops/'>vrops</a>, <a href='/tags/vrealize/'>vrealize</a>, <a href='/tags/vra/'>vra</a><span class="d-lg-none">, <a href='#tags-section'>all tags</a></span>
+  </small>
+</div>
+
+  <div class="share-icons d-flex d-print-none">
+    <a href="https://twitter.com/intent/tweet?text=Deploying%20End%20Point%20Operations%20Agents%20through%20vRA&url=https%3a%2f%2fneonmirrors.net%2fpost%2f2018-01%2fdeploying-epops-agents-through-vra%2f&tw_p=tweetbutton" class="p-2" title="Share on Twitter" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Tweet</small></div>
+</a>
+
+<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fneonmirrors.net%2fpost%2f2018-01%2fdeploying-epops-agents-through-vra%2f&t=Deploying%20End%20Point%20Operations%20Agents%20through%20vRA" class="p-2" title="Share on Facebook" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+<script>
+  function shareViaLinkedin() {
+    window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent("https://neonmirrors.net/post/2018-01/deploying-epops-agents-through-vra/"), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+  }
+</script>
+<a href="#linkedinshare" id = "linkedinshare" class="p-2" title="Share on LinkedIn" rel="nofollow" onclick="shareViaLinkedin()">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+
+<a href="javascript:window.print()" title="Print this article" class="p-2" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fa fa-print fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Print</small></div>
+</a>
+
+  </div>
+  
+  <div class="mt-4 mb-4 main-content">
+    <p>vRealize Automation is useful for deploying a variety of different items as-a-service, from simple IaaS to databases to container hosts and, of course applications. And most of these have been demonstrated to date. One other piece that is often forgotten about is monitoring agents on these systems, or maybe it’s done as a manual process after the fact (which defeats the purpose of cloud automation). In the past, I’ve provided a few blueprints that automates this process for the Log Insight agents for <a href="https://code.vmware.com/samples/2799/log-insight-agent-for-windows">Windows</a> and <a href="https://code.vmware.com/samples/2798/log-insight-agent-for-linux">Linux</a>. But in this blog post, I’m making available the last two types of monitoring agents from VMware: End Point Operations.</p>
+<p>For those not familiar, End Point Operations (or EpOps for short) is a functionality provided with vRealize Operations Manager (vROps) and originally came from VMware’s Hyperic offering. EpOps agents are software packages installed within the guest OS that connect to and report back to the vROps cluster information about guest-specific stats and metrics, including things like application metrics if enabled through one or more management packs. There are several blogs that cover EpOps and how to install and configure it, so I won’t start from scratch here. What I’ve done is take these agents and build software blueprints that allow you to integrate them into your existing machine blueprints and automate their deployment, configuration, and even uninstallation from within vRealize Automation. These blueprints are being offered to the community freely on Samples Exchange and were built and tested on vROps 6.5, 6.6, and 6.6.1 with vRA 7.2 and 7.3. As with all software components, you require a vRealize Automation Enterprise license to use them. Let’s walk through these blueprints and how they work.</p>
+<p>After importation through CloudClient or API, you’ll see several properties that are required.</p>
+<p><img src="/images/2018-01/deploying-epops-agents-through-vra/image3.png" alt="Properties on a software component"></p>
+<p>They’re all fairly self-explanatory and I’ve made sure to list helpful descriptions to guide you through their configuration. This blueprint assumes the EpOps agent is stored on a SMB share reachable over the network from the deployed VM. It also requires you have a vROps instance ready to go and can provide the cert thumbprint as well as credentials with which the agent has permission to register itself. Be sure to list the share path in the correct format if this is Linux or Windows blueprint as there is a difference (the description helps). On the Actions page, there’s nothing you need to configure, but do note that I’ve built Install, Configure, Start, AND Uninstall phases. The uninstall phase is significant as this phase will unregister the EpOps agent from vROps as well as any of its child items upon destruction of the VM. That’s super helpful as it avoid you from having to go into vROps and clearing out offline agents from the Inventory Explorer. More on this later.</p>
+<p>Once you’ve configured the software component, add it to a blueprint. I’ll illustrate on a CentOS 7 blueprint in my lab. Drag it onto a machine blueprint that is configured.</p>
+<p><img src="/images/2018-01/deploying-epops-agents-through-vra/image4.png" alt="EpOps Linux agent software component added to machine object"></p>
+<p>No properties need to be set at this point unless you want them to be by setting an override in the component. Entitle the catalog item and start a provision.</p>
+<p><img src="/images/2018-01/deploying-epops-agents-through-vra/image5.png" alt="vRA deployment request"></p>
+<p>This one was successful in my case. By clicking on the ellipsis button, you can see information on each state.</p>
+<p><img src="/images/2018-01/deploying-epops-agents-through-vra/image6.png" alt="Software component logs, Install"></p>
+<p>In the case of Linux, cifs-utils will be downloaded so the SMB share can be mounted.</p>
+<p><img src="/images/2018-01/deploying-epops-agents-through-vra/image7.png" alt="Software component logs, Configure"></p>
+<p>For Configure, the software component will change the runas user to root. Otherwise, the agent will fail to start after reboot because it tries to run it as a local user called “epops.”</p>
+<p><img src="/images/2018-01/deploying-epops-agents-through-vra/image8.png" alt="Software component logs, Start"></p>
+<p>At start, the agent will register itself with the vROps cluster and start up. It checks to ensure this process happened successfully. If not, it considers installation to be failed, so ensure your vROps is up and running before trying to build.</p>
+<p>Once the provision is successful, you’ll see it show up in your inventory.</p>
+<p><img src="/images/2018-01/deploying-epops-agents-through-vra/image9.png" alt="EpOps agent reporting in"></p>
+<p><img src="/images/2018-01/deploying-epops-agents-through-vra/image10.png" alt="Summary screen of agent"></p>
+<p>Cool, so there’s the new agent all ready to go. Now you can add other objects inside the guest you wish to monitor. Let’s set up a monitor for the Java process.</p>
+<p><img src="/images/2018-01/deploying-epops-agents-through-vra/image11.png" alt="Java process summary screen"></p>
+<p>It’s show up and is sending data. Rinse and repeat for whatever you want to see. Now, let’s destroy this deployment and see what happens.</p>
+<p><img src="/images/2018-01/deploying-epops-agents-through-vra/image12.png" alt="vRA destroy deployment action"></p>
+<p>Before the machine is deleted from vCenter, the uninstall phase of the component runs.</p>
+<p><img src="/images/2018-01/deploying-epops-agents-through-vra/image13.png" alt="Software component logs, Uninstall"></p>
+<p>In order to recycle the code from the Windows blueprint, the Linux blueprint will pull down and install PowerShell Core and run the same script. The PowerShell has the agent call out via REST to vROps and discover itself in inventory, then any items that might have been monitored for that same system and remove them all. This assumes the hostname of the machine matches what is in vROps’ inventory, which it should since EpOps agents register their own hostnames. So not only did this destroy the agent and its entry in vROps, but also the Java monitor we put in place.</p>
+<p><img src="/images/2018-01/deploying-epops-agents-through-vra/image14.png" alt="vROps inventory objects removed related to machine"></p>
+<p><img src="/images/2018-01/deploying-epops-agents-through-vra/image15.png" alt="vROps inventory view"></p>
+<p>As you can see, no more agent, and no more monitors. How’s that for cleaning up after itself?! Very convenient in that all portions of the agent lifecycle are managed for you automatically.</p>
+<p>Both Windows and Linux software components work exactly the same and, as shown, even reuse the same PowerShell for the uninstall phase. This PowerShell code proved to be tricky under Linux since I developed it with a much earlier version of <a href="https://github.com/PowerShell/PowerShell">PS Core</a> and in the process discovered a bug which was subsequently fixed in <a href="https://github.com/PowerShell/PowerShell/blob/master/CHANGELOG.md">beta 9</a>. I thought it was pretty cool I could contribute in some small way to improving PowerShell Core!</p>
+<p>I hope you find these blueprints useful and will provide any feedback you might have. They are intended as a work in progress as I know there are some things that could (and will) be better, so please feel free to leave some feedback if you find them useful or, if not, what isn’t working for you.</p>
+<h3 id="epops-agent-for-windows-blueprinthttpscodevmwarecomsamples3483end-point-operations-agent-for-windowshsample"><a href="https://code.vmware.com/samples/3483/end-point-operations-agent-for-windows?h=Sample">EpOps Agent for Windows Blueprint</a></h3>
+<h3 id="epops-agent-for-linux-blueprinthttpscodevmwarecomsamples3482end-point-operations-agent-for-linuxhsample"><a href="https://code.vmware.com/samples/3482/end-point-operations-agent-for-linux?h=Sample">EpOps Agent for Linux Blueprint</a></h3>
+
+    
+    <div class="share-icons d-flex d-print-none">
+      <a href="https://twitter.com/intent/tweet?text=Deploying%20End%20Point%20Operations%20Agents%20through%20vRA&url=https%3a%2f%2fneonmirrors.net%2fpost%2f2018-01%2fdeploying-epops-agents-through-vra%2f&tw_p=tweetbutton" class="p-2" title="Share on Twitter" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Tweet</small></div>
+</a>
+
+<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fneonmirrors.net%2fpost%2f2018-01%2fdeploying-epops-agents-through-vra%2f&t=Deploying%20End%20Point%20Operations%20Agents%20through%20vRA" class="p-2" title="Share on Facebook" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+<script>
+  function shareViaLinkedin() {
+    window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent("https://neonmirrors.net/post/2018-01/deploying-epops-agents-through-vra/"), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+  }
+</script>
+<a href="#linkedinshare" id = "linkedinshare" class="p-2" title="Share on LinkedIn" rel="nofollow" onclick="shareViaLinkedin()">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+
+<a href="javascript:window.print()" title="Print this article" class="p-2" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fa fa-print fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Print</small></div>
+</a>
+
+    </div>
+  </div>
+  
+  
+</div>
+<div class="sidebar d-print-none d-xl-block internal">
+  
+  <h2>Chip Zoller</h2>
+  <div>
+    Technologist, perpetual student, teacher, continual incremental improvement.
+  </div>
+  <a href="/about/" class="btn btn-outline-secondary mt-3" role="button">Read More...</a>
+  <h2 class="mt-4">Featured Posts</h2>
+  
+  
+  <a href="/post/2019-10/authentication-and-authorization-in-k8s/" class="nav-link">Authentication and Authorization in Kubernetes</a>
+  
+  <a href="/post/2018-12/how-to-ask-for-help-on-tech-forums/" class="nav-link">How to Ask for Help on Tech Forums</a>
+  
+  <h2 class="mt-4">Recent Posts</h2>
+  <nav class="nav flex-column">
+    
+    <a href="/post/2020-04/getting-started-with-tkg/" class="nav-link">Getting Started with Tanzu Kubernetes Grid</a>
+    
+    <a href="/post/2020-04/capv-overview/" class="nav-link">Behind the Scenes with Cluster API Provider vSphere</a>
+    
+    <a href="/post/2020-01/buy-dont-build/" class="nav-link">Buy Don&#39;t Build</a>
+    
+    <a href="/post/2020-01/why-k8s-on-vms/" class="nav-link">Why Kubernetes on Virtual Machines?</a>
+    
+    <a href="/post/2020-01/2020-public-domain-day/" class="nav-link">2020 Public Domain Day</a>
+    
+    <a href="/post/2019-10/authentication-and-authorization-in-k8s/" class="nav-link">Authentication and Authorization in Kubernetes</a>
+    
+    <a href="/post/2019-10/pks-rancher-reg/" class="nav-link">pks-rancher-reg: Automated PKS Cluster Registration For Rancher</a>
+    
+    <a href="/post/2019-09/rancher-ha-on-pks/" class="nav-link">Rancher HA on Enterprise PKS</a>
+    
+  </nav>
+  
+  <h2 class="mt-4 text-capitalize" id="categories-section">categories</h2>
+  <nav class="nav">
+    
+    <a href='/categories/technology/' class="nav-link">
+      technology
+      <span class="badge badge-pill badge-secondary">53</span>
+    </a>
+    
+    <a href='/categories/music/' class="nav-link">
+      music
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+  </nav>
+  
+  <h2 class="mt-4 text-capitalize" id="tags-section">tags</h2>
+  <nav class="nav">
+    
+    <a href='/tags/vrealize/' class="nav-link">
+      vrealize
+      <span class="badge badge-pill badge-secondary">27</span>
+    </a>
+    
+    <a href='/tags/vra/' class="nav-link">
+      vra
+      <span class="badge badge-pill badge-secondary">22</span>
+    </a>
+    
+    <a href='/tags/vsphere/' class="nav-link">
+      vsphere
+      <span class="badge badge-pill badge-secondary">14</span>
+    </a>
+    
+    <a href='/tags/k8s/' class="nav-link">
+      k8s
+      <span class="badge badge-pill badge-secondary">9</span>
+    </a>
+    
+    <a href='/tags/sovlabs/' class="nav-link">
+      sovlabs
+      <span class="badge badge-pill badge-secondary">8</span>
+    </a>
+    
+    <a href='/tags/veeam/' class="nav-link">
+      veeam
+      <span class="badge badge-pill badge-secondary">7</span>
+    </a>
+    
+    <a href='/tags/powershell/' class="nav-link">
+      powershell
+      <span class="badge badge-pill badge-secondary">6</span>
+    </a>
+    
+    <a href='/tags/log-insight/' class="nav-link">
+      log-insight
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/pks/' class="nav-link">
+      pks
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/vrops/' class="nav-link">
+      vrops
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/vro/' class="nav-link">
+      vro
+      <span class="badge badge-pill badge-secondary">4</span>
+    </a>
+    
+    <a href='/tags/docker/' class="nav-link">
+      docker
+      <span class="badge badge-pill badge-secondary">3</span>
+    </a>
+    
+    <a href='/tags/vmworld/' class="nav-link">
+      vmworld
+      <span class="badge badge-pill badge-secondary">3</span>
+    </a>
+    
+    <a href='/tags/featured/' class="nav-link">
+      featured
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/nsx-t/' class="nav-link">
+      nsx-t
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/powercli/' class="nav-link">
+      powercli
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/rancher/' class="nav-link">
+      rancher
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/thoughts/' class="nav-link">
+      thoughts
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/ansible/' class="nav-link">
+      ansible
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/authentication/' class="nav-link">
+      authentication
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/forums/' class="nav-link">
+      forums
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/homelab/' class="nav-link">
+      homelab
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/networking/' class="nav-link">
+      networking
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/security/' class="nav-link">
+      security
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/vmtn/' class="nav-link">
+      vmtn
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+  </nav>
+  
+</div>
+
+
+  </div>
+  
+  <footer class="mt-auto footer d-print-none">
+    <a class="to-top" href="#" title="Back to top">
+      <i class="fa fa-caret-up"></i>
+    </a>
+    <div class="container-fluid">
+      <div class="row justify-content-center">
+        <div class="col-md-4 col-xl-3">
+          <h5>Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved.</h5>
+I&#39;m happy for you to share content on this site, but please provide attribution.
+        </div>
+        <div class="col-md-4 col-xl-3">
+          <h5>Disclaimer</h5>
+Opinions expressed here are my own and may not reflect those of the company I work for, or the people I work with.
+        </div>
+        <div class="col-md-4 col-xl-3">
+          <h5>About This Site</h5>
+This blog was created using the <a href="https://gohugo.io/">Hugo</a> static site generator, using
+<a href="https://getbootstrap.com/">Bootstrap</a>, using the Silhouette Hugo theme, created by
+<a href='https://www.mattbutton.com'>Matt Button</a>
+        </div>
+      </div>
+      
+      <hr />
+      
+      <div class="d-flex justify-content-center icons">
+        <a class="py-2 px-2" href="https://github.com/chipzoller"><i class="fab fa-github"></i></a>
+<a class="py-2 px-2" href="https://twitter.com/chipzoller"><i class="fab fa-twitter"></i></a>
+<a class="py-2 px-2" href="https://www.linkedin.com/in/chipzoller/"><i class="fab fa-linkedin"></i></a>
+<a class="py-2 px-2" href='https://neonmirrors.net/index.xml'><i class="fas fa-rss"></i></a>
+
+      </div>
+    </div>
+  </footer>
+  
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script src="/js/syntax.js"></script>
+  <script src = '/js/index.js'></script>
+  
+  
+</body>
+</html>

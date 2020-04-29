@@ -1,0 +1,532 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  <meta property="og:title" content="Why Kubernetes on Virtual Machines?" />
+<meta property="og:description" content="The case for Kubernetes on virtual machines as opposed to bare metal." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://neonmirrors.net/post/2020-01/why-k8s-on-vms/" />
+<meta property="article:published_time" content="2020-01-17T18:35:21-05:00" />
+<meta property="article:modified_time" content="2020-01-17T18:35:21-05:00" />
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Why Kubernetes on Virtual Machines?"/>
+<meta name="twitter:description" content="The case for Kubernetes on virtual machines as opposed to bare metal."/>
+<meta name="twitter:site" content="@chipzoller"/>
+
+  
+  <title>
+Why Kubernetes on Virtual Machines? | Neon Mirrors
+</title>
+  
+  <link rel="icon" type="image/png" href='https://neonmirrors.net/images/favicon-16x16.png' sizes="16x16">
+  <link rel="icon" type="image/png" href='https://neonmirrors.net/images/favicon-32x32.png' sizes="32x32">  
+  
+  <link href="https://fonts.googleapis.com/css?family=Oswald:400" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">      
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel = 'stylesheet' href = 'https://neonmirrors.net/css/main.703162b863e7e1a93ee98f24b75e329848a814522f2d9f5735d41fbc7f023b3772f177c6ef8dbafccee65cfa8c1b8bb57e73d49284b5a0fdbbe772b8b29b07cb.css' integrity = 'sha512-cDFiuGPn4ak&#43;6Y8kt14ymEioFFIvLZ9XNdQfvH8COzdy8XfG7426/M7mXPqMG4u1fnPUkoS1oP2753K4spsHyw=='>
+  
+  
+<link rel="me" type="text/html" href="https://twitter.com/chipzoller"/> 
+<link rel="me" type="text/html" href="https://www.linkedin.com/in/chipzoller/"/> 
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+
+<link rel="alternate" type="application/rss+xml" href='https://neonmirrors.net/index.xml' />
+
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<meta name="author" content="Chip Zoller" />
+<meta name="copyright" content="Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved." />
+
+
+<meta name="description" content="The case for Kubernetes on virtual machines as opposed to bare metal.">
+
+
+
+
+<style type="text/css">
+  .feature-image {
+    background-image: url("https://neonmirrors.net/images/2020-01/why-k8s-on-vms/featured.jpg");
+    height: 500px;
+  }
+  
+  @media (max-width: 992px) {
+    .feature-image {
+      height: 350px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .feature-image {
+      height: 250px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .feature-image {
+      height: 200px;
+    }
+  }
+</style>
+
+        
+</head>
+<body >
+  <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark py-1 top-nav">
+    <div class="container">
+      <span class="internal">
+  <a class="navbar-brand pr-2" href="/">NEON MIRRORS</a>
+</span>
+
+      <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="navbar-collapse collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/categories/technology/">Technology</a>
+  
+</li>
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/categories/music/">Music</a>
+  
+</li>
+<li class="nav-item internal">
+  
+  <div class="nav-link nav-hassubmenu">Links
+    <div class="nav-submenu" >
+    
+      <a class="nav-link" href="https://chipzoller.gitbook.io/vspheremigration/">Ultimate vSphere VM Migration Guide</a>
+    
+    </div>
+    </div>
+  
+</li>
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/about/">About</a>
+  
+</li>
+
+        </ul>
+        <div class="social-icons d-none d-lg-block">
+          <a class="py-2 px-2" href="https://github.com/chipzoller"><i class="fab fa-github"></i></a>
+<a class="py-2 px-2" href="https://twitter.com/chipzoller"><i class="fab fa-twitter"></i></a>
+<a class="py-2 px-2" href="https://www.linkedin.com/in/chipzoller/"><i class="fab fa-linkedin"></i></a>
+<a class="py-2 px-2" href='https://neonmirrors.net/index.xml'><i class="fas fa-rss"></i></a>
+
+        </div>
+      </div>
+    </div>
+  </nav>
+  
+  
+<header class="feature-image d-print-none">
+</header>
+
+  
+  <div class="main">
+    
+<div class="container mt-4 post">
+  <h1>Why Kubernetes on Virtual Machines?</h1>
+  <div class="mb-3 internal">
+  <small>
+    <strong>By Chip Zoller</strong>
+    | <i class="far fa-calendar-alt"></i>&nbsp;Jan 17, 2020&nbsp;
+    | <i class="fa fa-tags" title="Tags" aria-hidden="true"></i> <a href='/tags/k8s/'>k8s</a>, <a href='/tags/vsphere/'>vsphere</a><span class="d-lg-none">, <a href='#tags-section'>all tags</a></span>
+  </small>
+</div>
+
+  <div class="share-icons d-flex d-print-none">
+    <a href="https://twitter.com/intent/tweet?text=Why%20Kubernetes%20on%20Virtual%20Machines%3f&url=https%3a%2f%2fneonmirrors.net%2fpost%2f2020-01%2fwhy-k8s-on-vms%2f&tw_p=tweetbutton" class="p-2" title="Share on Twitter" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Tweet</small></div>
+</a>
+
+<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fneonmirrors.net%2fpost%2f2020-01%2fwhy-k8s-on-vms%2f&t=Why%20Kubernetes%20on%20Virtual%20Machines%3f" class="p-2" title="Share on Facebook" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+<script>
+  function shareViaLinkedin() {
+    window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent("https://neonmirrors.net/post/2020-01/why-k8s-on-vms/"), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+  }
+</script>
+<a href="#linkedinshare" id = "linkedinshare" class="p-2" title="Share on LinkedIn" rel="nofollow" onclick="shareViaLinkedin()">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+
+<a href="javascript:window.print()" title="Print this article" class="p-2" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fa fa-print fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Print</small></div>
+</a>
+
+  </div>
+  
+  <div class="mt-4 mb-4 main-content">
+    <p>One of the arguments or debates (depending on how generous you are) that continues to rage in the world of Kubernetes is the old &ldquo;bare metal versus virtual machines&rdquo; subject. Some people seem to be all in on bare metal while you have those staunch opponents (as well as some hilarious memes) who advise not even attempting it.</p>
+<p><img src="/images/2020-01/why-k8s-on-vms/k8s-meme.jpg" alt="Kubernetes bare metal meme"></p>
+<p>The reality, of course, is an &ldquo;it depends&rdquo; moment, with pros and cons on each side. That being said, I&rsquo;ve compiled a list of the most compelling reasons to argue for Kubernetes on virtual machines.</p>
+<ol>
+<li><strong>No cloud provider, no storage/network options</strong></li>
+</ol>
+<p>When running Kubernetes on bare metal, you don&rsquo;t have the option of a cloud provider interface (CPI) which handles a lot of the underpinning infrastructure. In the case of AWS, for example, that CPI could produce an ELB if you asked for a service of type LoadBalancer. And on vSphere that might produce new VMs for you in a specific resource pool. There&rsquo;s also no storage and network options outside of the generic CNIs and CPIs out there. For storage, that means much more difficulty as you have to provide shared storage and hope that vendor has something available.</p>
+<ol start="2">
+<li><strong>No fleet management, node scale. Automating bare metal very difficult.</strong></li>
+</ol>
+<p>You&rsquo;re on your own when it comes to managing that fleet of physical nodes because it&rsquo;s an entirely physical, manual process. Scaling out to new workers means you have to physically have unused servers just standing by, which means greatly increased capex costs. And automating the bootstrapping process of those physical nodes is also very challenging as there aren&rsquo;t a whole lot of good tools that can do it end-to-end style. All of these things you need when running Kubernetes in production, and so you&rsquo;ve got to recreate the wheel. With VMs? Just clone from a template and you&rsquo;re done. There&rsquo;s countless ways to automate that process with just about any tool you can imagine.</p>
+<ol start="3">
+<li><strong>Hardware issues, firmware, drivers, tuning. Linux distro compatibility.</strong></li>
+</ol>
+<p>With bare metal, your OS sits on a server and K8s on top of that. So the OS itself sees actual, real physical hardware. That means any of that hardware which fails impacts K8s. And it&rsquo;s a nightmare verifying compatibility of firmware, drivers, and tuning those for your distro. You have to verify the support for that whole matrix of combinations. Even a single NIC revision could create problems. On virtual machines, the precise physical details are abstracted away from you as the hypervisor presents a set of consistent, virtualized resources.</p>
+<ol start="4">
+<li><strong>No built-in monitoring for bare metal, not too many solutions out there for that.</strong></li>
+</ol>
+<p>Bare metal has no integrated monitoring, and it&rsquo;s often up to the vendor. Even then, it&rsquo;s a bolt-on, often times costly, and may be a fragmented approach. Even third-party software isn&rsquo;t so great at watching disparate systems at the hardware level. This is already solved with tons of tools in a virtualized environment like vSphere, in addition to lots of third-party management packs and tools to enhance it even further.</p>
+<ol start="5">
+<li><strong>Procurement process and installation. Heterogeneous hardware.</strong></li>
+</ol>
+<p>Someone has to buy, install, and configure that bare metal hardware which runs your K8s cluster. How fast is your procurement process? Typically it&rsquo;s at best a few weeks. The alternative is having servers in a rack literally doing nothing in hopes of later joining the cluster. How much does that cost? What about heterogeneous hardware where that Gen 10 server on which you built your entire farm is end-of-life and the vendor won&rsquo;t sell you any more? With virtualization, no problem. Nodes are VMs, just a collection of files, and the hypervisor abstracts the physical server details to a set of virtualized hardware. With technology like Enhanced vMotion Compatibility (EVC), you can pool that disparate hardware in the same group even. And VMs can be cloned and started in matter of minutes.</p>
+<ol start="6">
+<li><strong>Persistent storage on bare metal way more difficult.</strong></li>
+</ol>
+<p>Persistent storage on Kubernetes is challenging anyhow, and more and more workloads are coming into K8s with that need. 7 out of 10 applications that run in containers are stateful applications (source: Datadog). On bare metal, you&rsquo;ve got way fewer choices. Want external storage? Now you&rsquo;re adding more NICs or HBAs into the equation (see point 3). You&rsquo;re also going to find a third-party CSI to interface with it, and the options are limited. On VMs, that CPI or CSI intercepts calls for PVs and PVCs and translates them into virtual disks. You can even consume storage policies inside your K8s cluster just like your VMs do. And, obviously, all of those workloads can land on exactly the same storage backend.</p>
+<ol start="7">
+<li><strong>Config management</strong></li>
+</ol>
+<p>You&rsquo;ve got a fleet of physical servers, so how are you going to manage their configuration? You&rsquo;ll need some config management tool for that. Factor in firmware and driver updates, you&rsquo;re making that much more complex all of a sudden. Can you test that? If virtualized, your nodes are templates, and what you do to one template can simply be cloned off to many more. You might still use a config management tool, but you could also just remaster that one template and roll it out instead.</p>
+<ol start="8">
+<li><strong>Patching process on hardware, must kill workloads</strong></li>
+</ol>
+<p>Kubernetes has no concept of or ability to move pods to other nodes. When you patch physical hardware running K8s, you&rsquo;ve got to kill those workloads to allow kube-scheduler to schedule them to another node. Maybe not so bad. But what if you&rsquo;re running over one hundred pods on that node? And what if there are StatefulSets running there? That can have a big resource impact across the cluster. With VMs, simply vMotion or live migrate that node to another host while you take the first one down for maintenance. Looking at a platform like VxRail and you can patch the hardware AND hypervisors in one fell, automatic swoop while you eat dinner. Simple.</p>
+<ol start="9">
+<li><strong>Security isolation and multi-tenancy. Blast radius.</strong></li>
+</ol>
+<p>With physical machines, you&rsquo;re more likely to use some really large boxes if your justification is being able to squeeze every last ounce of resource utilization out of them. That&rsquo;s a big blast radius if it fails. What about running multi-tenant workloads there? Very likely you can&rsquo;t afford to have many clusters due to cost and technical complexity, so you&rsquo;re opting for one or two really large ones. Namespaces are only a form of soft multi-tenancy, so now you&rsquo;re wasting resources to increase security. Or you&rsquo;re throwing more money to add even more clusters. There goes your argument about VMs taking too much overhead to run!</p>
+<ol start="10">
+<li><strong>No dynamic resource utilization (DRS)</strong></li>
+</ol>
+<p>On bare metal, there is no DRS-like functionality, so what&rsquo;s on that box stays there until K8s kills it. This can produce some real hot spots in your datacenter. Contrast that with virtualization on vSphere, and DRS moves those nodes to other hosts to optimize their resource impact.</p>
+<ol start="11">
+<li><strong>No failure recovery of hardware.</strong></li>
+</ol>
+<p>When a node dies if it&rsquo;s a physical server, it&rsquo;s dead until you intervene. That means potentially a big chunk of your resources are gone. If it&rsquo;s a control plane node, you&rsquo;re either down or vulnerable. If it&rsquo;s a worker node and was running pods with persistent storage, it&rsquo;ll be at least 6 minutes until K8s can reschedule that on another node. It&rsquo;s 5 minutes for it to even declare that hosed up server as dead. On VMs with vSphere, HA can restart that control plane/worker on a surviving host in under a minute, which is even before K8s knows anything happened. And if using something like Enterprise PKS (which deploys K8s clusters as VMs) and the node is just wholesale deleted, BOSH can deploy a new one for you in less time than it takes for Kubernetes to notice.</p>
+<ol start="12">
+<li><strong>No extra availbility features.</strong></li>
+</ol>
+<p>If you&rsquo;ve gone the route of physical K8s, a box is a box. You do everything you can to prevent a reduction in availability, but there&rsquo;s only so much you can do. Those boxes aren&rsquo;t aware of each other and their roles outside of what K8s knows, but K8s can&rsquo;t power on your server. Well, on vSphere you have HA restart priorities, orchestrated restarts, and proactive HA along with anti-affinity rules and fault domains to ensure you have the absolute best chance of remaining available. And these aren&rsquo;t things you have to script or program into a config management system. They come out-of-the-box and most can be enabled with a couple of clicks.</p>
+<ol start="13">
+<li><strong>Availability of snapshots.</strong></li>
+</ol>
+<p>What if you want to test a new/updated package? Since you&rsquo;re using hardware, what about testing an updated driver? Or a library that had a critical vulnerability? Hope you&rsquo;ve got some stand-by test systems out there and an automated roll-back plan. On virtual machines, just about every platform has some concept of snapshots where you can revert if things go haywire. Not so on physical gear. Better test carefully.
+<br>
+<br>
+<br>
+As you can see, that&rsquo;s a lot, and there are probably more if I try harder. In my opinion, although there are benefits you can realize when using physical servers for your Kubernetes cluster, those benefits are <em><strong>far</strong></em> eclipsed by the flexibility, security, and resource scheduling abilities you gain when running as virtual machines. Look no further than, well, every public cloud provider in the world. No matter if it&rsquo;s their PaaS solution or something else, on the backend those Kubernetes nodes are all virtual machines. It would quite honestly be near impossible to automate bare metal in the same way VMs are with these platforms. So, given all of this, why use bare metal?</p>
+
+    
+    <div class="share-icons d-flex d-print-none">
+      <a href="https://twitter.com/intent/tweet?text=Why%20Kubernetes%20on%20Virtual%20Machines%3f&url=https%3a%2f%2fneonmirrors.net%2fpost%2f2020-01%2fwhy-k8s-on-vms%2f&tw_p=tweetbutton" class="p-2" title="Share on Twitter" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Tweet</small></div>
+</a>
+
+<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fneonmirrors.net%2fpost%2f2020-01%2fwhy-k8s-on-vms%2f&t=Why%20Kubernetes%20on%20Virtual%20Machines%3f" class="p-2" title="Share on Facebook" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+<script>
+  function shareViaLinkedin() {
+    window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent("https://neonmirrors.net/post/2020-01/why-k8s-on-vms/"), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+  }
+</script>
+<a href="#linkedinshare" id = "linkedinshare" class="p-2" title="Share on LinkedIn" rel="nofollow" onclick="shareViaLinkedin()">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+
+<a href="javascript:window.print()" title="Print this article" class="p-2" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fa fa-print fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Print</small></div>
+</a>
+
+    </div>
+  </div>
+  
+  
+</div>
+<div class="sidebar d-print-none d-xl-block internal">
+  
+  <h2>Chip Zoller</h2>
+  <div>
+    Technologist, perpetual student, teacher, continual incremental improvement.
+  </div>
+  <a href="/about/" class="btn btn-outline-secondary mt-3" role="button">Read More...</a>
+  <h2 class="mt-4">Featured Posts</h2>
+  
+  
+  <a href="/post/2019-10/authentication-and-authorization-in-k8s/" class="nav-link">Authentication and Authorization in Kubernetes</a>
+  
+  <a href="/post/2018-12/how-to-ask-for-help-on-tech-forums/" class="nav-link">How to Ask for Help on Tech Forums</a>
+  
+  <h2 class="mt-4">Recent Posts</h2>
+  <nav class="nav flex-column">
+    
+    <a href="/post/2020-04/getting-started-with-tkg/" class="nav-link">Getting Started with Tanzu Kubernetes Grid</a>
+    
+    <a href="/post/2020-04/capv-overview/" class="nav-link">Behind the Scenes with Cluster API Provider vSphere</a>
+    
+    <a href="/post/2020-01/buy-dont-build/" class="nav-link">Buy Don&#39;t Build</a>
+    
+    <a href="/post/2020-01/why-k8s-on-vms/" class="nav-link">Why Kubernetes on Virtual Machines?</a>
+    
+    <a href="/post/2020-01/2020-public-domain-day/" class="nav-link">2020 Public Domain Day</a>
+    
+    <a href="/post/2019-10/authentication-and-authorization-in-k8s/" class="nav-link">Authentication and Authorization in Kubernetes</a>
+    
+    <a href="/post/2019-10/pks-rancher-reg/" class="nav-link">pks-rancher-reg: Automated PKS Cluster Registration For Rancher</a>
+    
+    <a href="/post/2019-09/rancher-ha-on-pks/" class="nav-link">Rancher HA on Enterprise PKS</a>
+    
+  </nav>
+  
+  <h2 class="mt-4 text-capitalize" id="categories-section">categories</h2>
+  <nav class="nav">
+    
+    <a href='/categories/technology/' class="nav-link">
+      technology
+      <span class="badge badge-pill badge-secondary">53</span>
+    </a>
+    
+    <a href='/categories/music/' class="nav-link">
+      music
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+  </nav>
+  
+  <h2 class="mt-4 text-capitalize" id="tags-section">tags</h2>
+  <nav class="nav">
+    
+    <a href='/tags/vrealize/' class="nav-link">
+      vrealize
+      <span class="badge badge-pill badge-secondary">27</span>
+    </a>
+    
+    <a href='/tags/vra/' class="nav-link">
+      vra
+      <span class="badge badge-pill badge-secondary">22</span>
+    </a>
+    
+    <a href='/tags/vsphere/' class="nav-link">
+      vsphere
+      <span class="badge badge-pill badge-secondary">14</span>
+    </a>
+    
+    <a href='/tags/k8s/' class="nav-link">
+      k8s
+      <span class="badge badge-pill badge-secondary">9</span>
+    </a>
+    
+    <a href='/tags/sovlabs/' class="nav-link">
+      sovlabs
+      <span class="badge badge-pill badge-secondary">8</span>
+    </a>
+    
+    <a href='/tags/veeam/' class="nav-link">
+      veeam
+      <span class="badge badge-pill badge-secondary">7</span>
+    </a>
+    
+    <a href='/tags/powershell/' class="nav-link">
+      powershell
+      <span class="badge badge-pill badge-secondary">6</span>
+    </a>
+    
+    <a href='/tags/log-insight/' class="nav-link">
+      log-insight
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/pks/' class="nav-link">
+      pks
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/vrops/' class="nav-link">
+      vrops
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/vro/' class="nav-link">
+      vro
+      <span class="badge badge-pill badge-secondary">4</span>
+    </a>
+    
+    <a href='/tags/docker/' class="nav-link">
+      docker
+      <span class="badge badge-pill badge-secondary">3</span>
+    </a>
+    
+    <a href='/tags/vmworld/' class="nav-link">
+      vmworld
+      <span class="badge badge-pill badge-secondary">3</span>
+    </a>
+    
+    <a href='/tags/featured/' class="nav-link">
+      featured
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/nsx-t/' class="nav-link">
+      nsx-t
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/powercli/' class="nav-link">
+      powercli
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/rancher/' class="nav-link">
+      rancher
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/thoughts/' class="nav-link">
+      thoughts
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/ansible/' class="nav-link">
+      ansible
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/authentication/' class="nav-link">
+      authentication
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/forums/' class="nav-link">
+      forums
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/homelab/' class="nav-link">
+      homelab
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/networking/' class="nav-link">
+      networking
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/security/' class="nav-link">
+      security
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/vmtn/' class="nav-link">
+      vmtn
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+  </nav>
+  
+</div>
+
+
+  </div>
+  
+  <footer class="mt-auto footer d-print-none">
+    <a class="to-top" href="#" title="Back to top">
+      <i class="fa fa-caret-up"></i>
+    </a>
+    <div class="container-fluid">
+      <div class="row justify-content-center">
+        <div class="col-md-4 col-xl-3">
+          <h5>Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved.</h5>
+I&#39;m happy for you to share content on this site, but please provide attribution.
+        </div>
+        <div class="col-md-4 col-xl-3">
+          <h5>Disclaimer</h5>
+Opinions expressed here are my own and may not reflect those of the company I work for, or the people I work with.
+        </div>
+        <div class="col-md-4 col-xl-3">
+          <h5>About This Site</h5>
+This blog was created using the <a href="https://gohugo.io/">Hugo</a> static site generator, using
+<a href="https://getbootstrap.com/">Bootstrap</a>, using the Silhouette Hugo theme, created by
+<a href='https://www.mattbutton.com'>Matt Button</a>
+        </div>
+      </div>
+      
+      <hr />
+      
+      <div class="d-flex justify-content-center icons">
+        <a class="py-2 px-2" href="https://github.com/chipzoller"><i class="fab fa-github"></i></a>
+<a class="py-2 px-2" href="https://twitter.com/chipzoller"><i class="fab fa-twitter"></i></a>
+<a class="py-2 px-2" href="https://www.linkedin.com/in/chipzoller/"><i class="fab fa-linkedin"></i></a>
+<a class="py-2 px-2" href='https://neonmirrors.net/index.xml'><i class="fas fa-rss"></i></a>
+
+      </div>
+    </div>
+  </footer>
+  
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script src="/js/syntax.js"></script>
+  <script src = '/js/index.js'></script>
+  
+  
+</body>
+</html>

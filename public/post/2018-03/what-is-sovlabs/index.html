@@ -1,0 +1,546 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  <meta property="og:title" content="What is Sovlabs?" />
+<meta property="og:description" content="Explanation of the SovLabs integration for vRealize Automation." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://neonmirrors.net/post/2018-03/what-is-sovlabs/" />
+<meta property="article:published_time" content="2018-03-18T00:00:00+00:00" />
+<meta property="article:modified_time" content="2018-03-18T00:00:00+00:00" />
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="What is Sovlabs?"/>
+<meta name="twitter:description" content="Explanation of the SovLabs integration for vRealize Automation."/>
+<meta name="twitter:site" content="@chipzoller"/>
+
+  
+  <title>
+What is Sovlabs? | Neon Mirrors
+</title>
+  
+  <link rel="icon" type="image/png" href='https://neonmirrors.net/images/favicon-16x16.png' sizes="16x16">
+  <link rel="icon" type="image/png" href='https://neonmirrors.net/images/favicon-32x32.png' sizes="32x32">  
+  
+  <link href="https://fonts.googleapis.com/css?family=Oswald:400" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">      
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel = 'stylesheet' href = 'https://neonmirrors.net/css/main.703162b863e7e1a93ee98f24b75e329848a814522f2d9f5735d41fbc7f023b3772f177c6ef8dbafccee65cfa8c1b8bb57e73d49284b5a0fdbbe772b8b29b07cb.css' integrity = 'sha512-cDFiuGPn4ak&#43;6Y8kt14ymEioFFIvLZ9XNdQfvH8COzdy8XfG7426/M7mXPqMG4u1fnPUkoS1oP2753K4spsHyw=='>
+  
+  
+<link rel="me" type="text/html" href="https://twitter.com/chipzoller"/> 
+<link rel="me" type="text/html" href="https://www.linkedin.com/in/chipzoller/"/> 
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+
+<link rel="alternate" type="application/rss+xml" href='https://neonmirrors.net/index.xml' />
+
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<meta name="author" content="Chip Zoller" />
+<meta name="copyright" content="Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved." />
+
+
+<meta name="description" content="Explanation of the SovLabs integration for vRealize Automation.">
+
+
+
+
+<style type="text/css">
+  .feature-image {
+    background-image: url("https://neonmirrors.net/images/2018-03/what-is-sovlabs/featured.jpg");
+    height: 500px;
+  }
+  
+  @media (max-width: 992px) {
+    .feature-image {
+      height: 350px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .feature-image {
+      height: 250px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .feature-image {
+      height: 200px;
+    }
+  }
+</style>
+
+        
+</head>
+<body >
+  <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark py-1 top-nav">
+    <div class="container">
+      <span class="internal">
+  <a class="navbar-brand pr-2" href="/">NEON MIRRORS</a>
+</span>
+
+      <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="navbar-collapse collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/categories/technology/">Technology</a>
+  
+</li>
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/categories/music/">Music</a>
+  
+</li>
+<li class="nav-item internal">
+  
+  <div class="nav-link nav-hassubmenu">Links
+    <div class="nav-submenu" >
+    
+      <a class="nav-link" href="https://chipzoller.gitbook.io/vspheremigration/">Ultimate vSphere VM Migration Guide</a>
+    
+    </div>
+    </div>
+  
+</li>
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/about/">About</a>
+  
+</li>
+
+        </ul>
+        <div class="social-icons d-none d-lg-block">
+          <a class="py-2 px-2" href="https://github.com/chipzoller"><i class="fab fa-github"></i></a>
+<a class="py-2 px-2" href="https://twitter.com/chipzoller"><i class="fab fa-twitter"></i></a>
+<a class="py-2 px-2" href="https://www.linkedin.com/in/chipzoller/"><i class="fab fa-linkedin"></i></a>
+<a class="py-2 px-2" href='https://neonmirrors.net/index.xml'><i class="fas fa-rss"></i></a>
+
+        </div>
+      </div>
+    </div>
+  </nav>
+  
+  
+<header class="feature-image d-print-none">
+</header>
+
+  
+  <div class="main">
+    
+<div class="container mt-4 post">
+  <h1>What is Sovlabs?</h1>
+  <div class="mb-3 internal">
+  <small>
+    <strong>By Chip Zoller</strong>
+    | <i class="far fa-calendar-alt"></i>&nbsp;Mar 18, 2018&nbsp;
+    | <i class="fa fa-tags" title="Tags" aria-hidden="true"></i> <a href='/tags/vra/'>vra</a>, <a href='/tags/vro/'>vro</a>, <a href='/tags/vrealize/'>vrealize</a>, <a href='/tags/sovlabs/'>sovlabs</a><span class="d-lg-none">, <a href='#tags-section'>all tags</a></span>
+  </small>
+</div>
+
+  <div class="share-icons d-flex d-print-none">
+    <a href="https://twitter.com/intent/tweet?text=What%20is%20Sovlabs%3f&url=https%3a%2f%2fneonmirrors.net%2fpost%2f2018-03%2fwhat-is-sovlabs%2f&tw_p=tweetbutton" class="p-2" title="Share on Twitter" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Tweet</small></div>
+</a>
+
+<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fneonmirrors.net%2fpost%2f2018-03%2fwhat-is-sovlabs%2f&t=What%20is%20Sovlabs%3f" class="p-2" title="Share on Facebook" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+<script>
+  function shareViaLinkedin() {
+    window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent("https://neonmirrors.net/post/2018-03/what-is-sovlabs/"), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+  }
+</script>
+<a href="#linkedinshare" id = "linkedinshare" class="p-2" title="Share on LinkedIn" rel="nofollow" onclick="shareViaLinkedin()">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+
+<a href="javascript:window.print()" title="Print this article" class="p-2" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fa fa-print fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Print</small></div>
+</a>
+
+  </div>
+  
+  <div class="mt-4 mb-4 main-content">
+    <p>I realized that although I have covered several of the SovLabs modules already with some fine use cases, I might have jumped the gun a little and not fully explained what this SovLabs business is and how I got to those points. I often receive the question “is it a vRO plug-in?” and so realize a little introduction is in order. To answer that question, the answer is Yes* but also No*. The asterisks are quite necessary in order to provide a fair answer because, yes, while it’s a vRO plug-in it is far, far more than that and goes way beyond any other vRO plug-in. It’s also No because it is a vRA plug-in as well. If you’re confused and want to finally discover for yourself what the heck this thing is, then this article is for you so read on for the answer, because today we’re going to show how SovLabs works from absolute scratch starting with a clean vRealize Automation platform.</p>
+<p>Back to the question of whether SovLabs is merely a vRO plug-in, the clear answer is yes and no. It is true that SovLabs comes packaged as a vRO plug-in (in fact, the largest plug-in ever for vRO at over 100 MB for the 2018.1 release) in the VMOAPP format. Note that this is <strong>not</strong> a vRO package. This is a true plug-in that contains compiled Java code and not simply a tinker’s toolkit filled with a few actions and workflows. It’s hardcore stuff.</p>
+<p><img src="/images/2018-03/what-is-sovlabs/image1.png" alt="SovLabs 2018.1.1.2 plug-in for vRO"></p>
+<p>This is the sole artifact that is needed and it gets installed inside vRO. However, it is actually a vRA plug-in because of how it interfaces with vRA without any intervention on your side (minus an initial configuration workflow). And, actually, if you were to go to the <a href="https://marketplace.vmware.com/vsx/">Solution Exchange</a>, you wouldn’t even find SovLabs under the <a href="https://marketplace.vmware.com/vsx/?product=3458,1896,1895,1894,1893,1892,1891,1890,1889">vRealize Orchestrator category</a>. Instead, all their modules are found under the <a href="https://marketplace.vmware.com/vsx/?product=2077,2076,2075,2072">vRealize Automation category</a> and for good reason as you’ll soon see. So, “yes,” it is a vRO plug-in and “yes” it is a vRA plug-in. To see exactly what I mean, I’m going to go through the entire process of installing and setting up the SovLabs plug-in from a brand new, pristine install of vRealize Automation so you can understand why this designation is true.</p>
+<p>Right, so I just installed a fresh vRA 7.3.1 system consisting of a single appliance and a single Windows IaaS server. This is all we need for the minimal installation footprint. I’ve only done two things after the installer wizard completed: created one single tenant (called “demo”) and prep the internal vRO system for the installation of the SovLabs plug-in. There is actually a script prepared by SovLabs and available on their documentation page here which performs this task for you. It does a few things to vRO:</p>
+<ul>
+<li>Sets up krb5.conf to allow Kerberos authentication</li>
+<li>Allows access to local processes</li>
+<li>Configures js-io-rights.conf</li>
+<li>Increases Java heap size of Control Center</li>
+</ul>
+<p>The last bullet there is probably the most important as without increasing the heap size of Control Center, the plug-in—owing to its size—will not upload successfully. And, departing for a moment, on the matter of its size, I also get the question “why is this thing so big?” Not only does this one plug-in file contain dozens of different modules (i.e., <a href="http://docs.sovlabs.com/vRA7x/2018.1.x/">everything you see on their website</a>) but it encapsulates a number of different SDKs so SovLabs is entirely self-sufficient. Other than the vRA plug-ins built into vRO, it relies upon no other plug-ins to function. In this regard it is many, many plug-ins rolled into one. Even things like vCenter, mail, and other more core bits of functionality, it depends on nothing else to ensure the utmost of stability. Because they can “own” these SDKs, there isn’t risk or fear that upgrading the vRO-provided vCenter plug-in, for example, will break all your SovLabs integrations, and that’s a very important thing to ensure.</p>
+<p>Now that we have a basic tenant in vRA and we have prepped vRO, it’s time to install the plug-in. Head over to the Control Center (you must start the <code>vco-configurator</code> service on the appliance first) and go to Manage Plug-Ins. Browse and find the SovLabs plug-in.</p>
+<p><img src="/images/2018-03/what-is-sovlabs/image2.png" alt="Install plug-in in vRO"></p>
+<p>Install the plug-in and restart the vRO services over on the Startup Options page. It’ll take several minutes for the server to recover because this is one big boy. Once it shows the running state is good, go back and make sure you see the plug-in listed.</p>
+<p><img src="/images/2018-03/what-is-sovlabs/image3.png" alt="Installed plug-in"></p>
+<p>Now, if we’ve got that set up, it’s time to login to vRO which, for many, is the only time they’ll ever have to login again regardless of how many changes they want to make or new modules they want to use.</p>
+<p><img src="/images/2018-03/what-is-sovlabs/image4.png" alt="vRO login screen"></p>
+<p>If we flip over to the Workflows menu, we should see a new SovLabs folder with all the various things it imported. It’s quite a huge list as you can see.</p>
+<p><img src="/images/2018-03/what-is-sovlabs/image5.png" alt="SovLabs workflows in inventory"></p>
+<p>Although there is only one thing to run from the SovLabs side, there are two others that serve as prerequisites for doing so, and that is to add the vRA host and the vRA IaaS host into the configuration. These steps are required regardless, so you’d have to do them anyway.</p>
+<p><img src="/images/2018-03/what-is-sovlabs/image6.png" alt="Two worklows to run as prerequisites"></p>
+<p>I’ll spare the additional walk-through of these simple workflows as they can be found in numerous other blogs and articles. But, suffice to say, they’re very straightforward and ran without incident.</p>
+<p><img src="/images/2018-03/what-is-sovlabs/image7.png" alt="Two worklows completed successfully"></p>
+<p>I’ll expand the trees under the Inventory option just to make sure I can see things in the system after running those two workflows.</p>
+<p><img src="/images/2018-03/what-is-sovlabs/image8.png" alt="Inventory trees populated"></p>
+<p>Now I’ve got that, it’s time to run the sole SovLabs configuration workflow. Before doing so, I want to again stress the fact that I have done <em>zero</em> configuration inside of vRA aside from creating a bare-bones tenant called “demo” and giving it one business group. I have no catalog items, no entitlements, and no blueprints (“Azure machine” comes with vRA).</p>
+<p><img src="/images/2018-03/what-is-sovlabs/image9.png" alt="No catalog items"></p>
+<p><img src="/images/2018-03/what-is-sovlabs/image10.png" alt="No XaaS blueprints"></p>
+<p><img src="/images/2018-03/what-is-sovlabs/image11.png" alt="No entitlements"></p>
+<p>Let’s run this SovLabs configuration workflow now.</p>
+<p><img src="/images/2018-03/what-is-sovlabs/image12.png" alt="SovLabs configuration workflow"></p>
+<p>Start the workflow, and let’s fill out the few screens.</p>
+<p><img src="/images/2018-03/what-is-sovlabs/image13.png" alt="SovLabs configuration workflow presentation, EULA"></p>
+<p>Accept the license agreement (per always) and click Next.</p>
+<p><img src="/images/2018-03/what-is-sovlabs/image14.png" alt="SovLabs configuration workflow presentation, Service and Content"></p>
+<p>The vRA Tenant Name up top comes from the vRA config workflow we ran earlier, and we see the one and only business group I created in the second field there. Yes, we want to create the vRA Catalog Service, and we need to give it a group (which must already be synched) in order to create the entitlement. I’ve provided it my vCAC Admins group here, which I pulled in from my AD environment. And Yes we want to publish the license content. Click Next.</p>
+<p><img src="/images/2018-03/what-is-sovlabs/image15.png" alt="SovLabs configuration workflow presentation, Upgrade options"></p>
+<p>This is a new install so no upgrading of content is necessary, however if you did upgrade your plug-in, this is what you’d re-run and choose “Yes” here.</p>
+<p><img src="/images/2018-03/what-is-sovlabs/image16.png" alt="SovLabs configuration workflow presentation, Install/Update"></p>
+<p>Defaults to Yes but we do want to install the workflow (EBS) subscriptions. Click Submit and watch it run through its stuff.</p>
+<p>I actually made an error and said my group was “vCACAdmins@zoller.com” which it wasn’t. The actual group was “vraadmins@zoller.com” so I had to go back and fix that. Woops! But I want to be absolutely transparent about every single step in this process, so I have not edited out my boo-boo. I’ve redacted nothing in this process, including my errors, so you can truly see everything involved in going from zero to SovLabs.</p>
+<p><img src="/images/2018-03/what-is-sovlabs/image17.png" alt="SovLabs configuration workflow presentation, Service and Content take two"></p>
+<p>But after fixing that security group, the workflow ran right through.</p>
+<p><img src="/images/2018-03/what-is-sovlabs/image18.png" alt="SovLabs configuration workflow in progress"></p>
+<p><img src="/images/2018-03/what-is-sovlabs/image19.png" alt="SovLabs configuration workflow token failure"></p>
+<p>Now, that’s better :). Let me go into the catalog to see what happened.</p>
+<p><img src="/images/2018-03/what-is-sovlabs/image20.png" alt="New Add License catalog item appears"></p>
+<p>Whoa, what is this??</p>
+<p>The SovLabs plug-in created this automagically! If I go back and check those places in vRA that were previously empty, I now see stuff is there.</p>
+<p><img src="/images/2018-03/what-is-sovlabs/image21.png" alt="New catalog items"></p>
+<p><img src="/images/2018-03/what-is-sovlabs/image22.png" alt="New XaaS blueprints"></p>
+<p><img src="/images/2018-03/what-is-sovlabs/image23.png" alt="New entitlements"></p>
+<p>And, again, all this created by the plug-in as the result of that one configuration workflow.</p>
+<p>Ok, so now we have the ability to add a license. Where is the rest of the stuff?? “So far this isn’t very exciting,” I know you’re saying. Let’s add my license and see what happens next.</p>
+<p><img src="/images/2018-03/what-is-sovlabs/image24.png" alt="Pasting in SovLabs license"></p>
+<p><img src="/images/2018-03/what-is-sovlabs/image25.png" alt="Submit license request"></p>
+<p><img src="/images/2018-03/what-is-sovlabs/image26.png" alt="Licensing request submitted"></p>
+<p>If I flip over to the vRO client and expand License -&gt; vRA ASD, I see it running through the Add License workflow.</p>
+<p><img src="/images/2018-03/what-is-sovlabs/image27.png" alt="Licensing workflow in progress"></p>
+<p>Hmm, publish content? Interesting. Depending on what modules your license entitles you to use, this could be a quick or very long wait. Lots of complexity is happening behind the scenes, so be patient.</p>
+<p>After about 7 minutes (because I have everything licensed), it completes.</p>
+<p><img src="/images/2018-03/what-is-sovlabs/image28.png" alt="Licensing workflow token complete"></p>
+<p>Now, go back to the vRA catalog and have your mind blown away.</p>
+<p><img src="/images/2018-03/what-is-sovlabs/image29.png" alt="Service catalog full of items"></p>
+<p>WHOOOAAA. What the?? To employ some good ol’ Monty Python:</p>
+<p><img src="/images/2018-03/what-is-sovlabs/image30.jpeg" alt="What is this sorcery?"></p>
+<p>The plug-in decoded the license, found which modules were entitled, and published only that content for you, automatically, to the vRA catalog. If you now pause to take a tour through vRA, you’ll see a whole host of accompanying things like XaaS resource actions and mappings to facilitate these new things. How about check out the Subscriptions portion of vRA?</p>
+<p><img src="/images/2018-03/what-is-sovlabs/image31.png" alt="New subscriptions created"></p>
+<p>That’s TWO PAGES’ worth of brand new event broker subscriptions which you <em>didn’t</em> have to create yourself. And, remember, all we’ve done in this case is run a single vRO workflow. Everything else is self-published beginning with the Add License catalog item. This isn’t something a vRO plug-in does, which is why SovLabs isn’t just a vRO plug-in. It pushes things <strong>into</strong> vRA based on how you configure it. There is nothing you need to monkey with inside vRO, and nothing outside of the catalog in vRA. Everything from soup to nuts is instantiated and configured for you based on simple, easy-to-use catalog items.</p>
+<p>Folks, let me just be honest for a second, this is amazing. The fact that it does all the heavy lifting for you is remarkable. If you’ve ever tried to interface a regular vRO plug-in with vRA to actually get it to do stuff, you’d find it’s not a very quick or fun process and is fraught with peril and creates copious opportunity for human error. All of that is done for you with SovLabs. I really hate to use the term “game changing” because I feel it’s often employed to create artificial sales and marketing hype, but in this case it couldn’t be more appropriate. When you enable someone with absolutely zero vRO experience and minimal vRA experience to extend their own CMP out to other infrastructure in very advanced ways and in a simple fashion, you change the game of extensibility entirely.</p>
+<p>From this point, you can begin to configure and then consume the modules according to your extensibility needs. So, for example, if we wanted to configure Custom Naming (the most popular module and is amazingly flexible), we are now poised to do so. This process is shown quite well in Dailyhypervisor’s blog post <a href="https://dailyhypervisor.com/vra-7-3-configuring-sovlabs-custom-naming-module/">here</a> and in my article <a href="/post/2017-10/custom-naming-in-vra-with-zero-custom-coding/">here</a>. At the end, once both configuration catalog items are requested and run, out pops a Property Group which, again, is an entirely automated process and can be attached to a blueprint of your choosing. Rinse and repeat with other modules. You’re now up and running with SovLabs!</p>
+<p>I hope I’ve now finally answered the question “what is SovLabs?” And I hope that at this point you understand the answer that it is far more than just a vRO plug-in. It is, in fact, a vRA plug-in which is unmatched by anything else out there in the marketplace. You run one configuration workflow, and the rest is entirely driven by vRA. There may never be the need to return to vRO again after that point, and that’s not something you can say for any other plug-in in existence. Go forth and extend vRA to your heart’s content!</p>
+
+    
+    <div class="share-icons d-flex d-print-none">
+      <a href="https://twitter.com/intent/tweet?text=What%20is%20Sovlabs%3f&url=https%3a%2f%2fneonmirrors.net%2fpost%2f2018-03%2fwhat-is-sovlabs%2f&tw_p=tweetbutton" class="p-2" title="Share on Twitter" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Tweet</small></div>
+</a>
+
+<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fneonmirrors.net%2fpost%2f2018-03%2fwhat-is-sovlabs%2f&t=What%20is%20Sovlabs%3f" class="p-2" title="Share on Facebook" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+<script>
+  function shareViaLinkedin() {
+    window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent("https://neonmirrors.net/post/2018-03/what-is-sovlabs/"), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+  }
+</script>
+<a href="#linkedinshare" id = "linkedinshare" class="p-2" title="Share on LinkedIn" rel="nofollow" onclick="shareViaLinkedin()">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+
+<a href="javascript:window.print()" title="Print this article" class="p-2" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fa fa-print fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Print</small></div>
+</a>
+
+    </div>
+  </div>
+  
+  
+</div>
+<div class="sidebar d-print-none d-xl-block internal">
+  
+  <h2>Chip Zoller</h2>
+  <div>
+    Technologist, perpetual student, teacher, continual incremental improvement.
+  </div>
+  <a href="/about/" class="btn btn-outline-secondary mt-3" role="button">Read More...</a>
+  <h2 class="mt-4">Featured Posts</h2>
+  
+  
+  <a href="/post/2019-10/authentication-and-authorization-in-k8s/" class="nav-link">Authentication and Authorization in Kubernetes</a>
+  
+  <a href="/post/2018-12/how-to-ask-for-help-on-tech-forums/" class="nav-link">How to Ask for Help on Tech Forums</a>
+  
+  <h2 class="mt-4">Recent Posts</h2>
+  <nav class="nav flex-column">
+    
+    <a href="/post/2020-04/getting-started-with-tkg/" class="nav-link">Getting Started with Tanzu Kubernetes Grid</a>
+    
+    <a href="/post/2020-04/capv-overview/" class="nav-link">Behind the Scenes with Cluster API Provider vSphere</a>
+    
+    <a href="/post/2020-01/buy-dont-build/" class="nav-link">Buy Don&#39;t Build</a>
+    
+    <a href="/post/2020-01/why-k8s-on-vms/" class="nav-link">Why Kubernetes on Virtual Machines?</a>
+    
+    <a href="/post/2020-01/2020-public-domain-day/" class="nav-link">2020 Public Domain Day</a>
+    
+    <a href="/post/2019-10/authentication-and-authorization-in-k8s/" class="nav-link">Authentication and Authorization in Kubernetes</a>
+    
+    <a href="/post/2019-10/pks-rancher-reg/" class="nav-link">pks-rancher-reg: Automated PKS Cluster Registration For Rancher</a>
+    
+    <a href="/post/2019-09/rancher-ha-on-pks/" class="nav-link">Rancher HA on Enterprise PKS</a>
+    
+  </nav>
+  
+  <h2 class="mt-4 text-capitalize" id="categories-section">categories</h2>
+  <nav class="nav">
+    
+    <a href='/categories/technology/' class="nav-link">
+      technology
+      <span class="badge badge-pill badge-secondary">53</span>
+    </a>
+    
+    <a href='/categories/music/' class="nav-link">
+      music
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+  </nav>
+  
+  <h2 class="mt-4 text-capitalize" id="tags-section">tags</h2>
+  <nav class="nav">
+    
+    <a href='/tags/vrealize/' class="nav-link">
+      vrealize
+      <span class="badge badge-pill badge-secondary">27</span>
+    </a>
+    
+    <a href='/tags/vra/' class="nav-link">
+      vra
+      <span class="badge badge-pill badge-secondary">22</span>
+    </a>
+    
+    <a href='/tags/vsphere/' class="nav-link">
+      vsphere
+      <span class="badge badge-pill badge-secondary">14</span>
+    </a>
+    
+    <a href='/tags/k8s/' class="nav-link">
+      k8s
+      <span class="badge badge-pill badge-secondary">9</span>
+    </a>
+    
+    <a href='/tags/sovlabs/' class="nav-link">
+      sovlabs
+      <span class="badge badge-pill badge-secondary">8</span>
+    </a>
+    
+    <a href='/tags/veeam/' class="nav-link">
+      veeam
+      <span class="badge badge-pill badge-secondary">7</span>
+    </a>
+    
+    <a href='/tags/powershell/' class="nav-link">
+      powershell
+      <span class="badge badge-pill badge-secondary">6</span>
+    </a>
+    
+    <a href='/tags/log-insight/' class="nav-link">
+      log-insight
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/pks/' class="nav-link">
+      pks
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/vrops/' class="nav-link">
+      vrops
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/vro/' class="nav-link">
+      vro
+      <span class="badge badge-pill badge-secondary">4</span>
+    </a>
+    
+    <a href='/tags/docker/' class="nav-link">
+      docker
+      <span class="badge badge-pill badge-secondary">3</span>
+    </a>
+    
+    <a href='/tags/vmworld/' class="nav-link">
+      vmworld
+      <span class="badge badge-pill badge-secondary">3</span>
+    </a>
+    
+    <a href='/tags/featured/' class="nav-link">
+      featured
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/nsx-t/' class="nav-link">
+      nsx-t
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/powercli/' class="nav-link">
+      powercli
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/rancher/' class="nav-link">
+      rancher
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/thoughts/' class="nav-link">
+      thoughts
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/ansible/' class="nav-link">
+      ansible
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/authentication/' class="nav-link">
+      authentication
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/forums/' class="nav-link">
+      forums
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/homelab/' class="nav-link">
+      homelab
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/networking/' class="nav-link">
+      networking
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/security/' class="nav-link">
+      security
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/vmtn/' class="nav-link">
+      vmtn
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+  </nav>
+  
+</div>
+
+
+  </div>
+  
+  <footer class="mt-auto footer d-print-none">
+    <a class="to-top" href="#" title="Back to top">
+      <i class="fa fa-caret-up"></i>
+    </a>
+    <div class="container-fluid">
+      <div class="row justify-content-center">
+        <div class="col-md-4 col-xl-3">
+          <h5>Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved.</h5>
+I&#39;m happy for you to share content on this site, but please provide attribution.
+        </div>
+        <div class="col-md-4 col-xl-3">
+          <h5>Disclaimer</h5>
+Opinions expressed here are my own and may not reflect those of the company I work for, or the people I work with.
+        </div>
+        <div class="col-md-4 col-xl-3">
+          <h5>About This Site</h5>
+This blog was created using the <a href="https://gohugo.io/">Hugo</a> static site generator, using
+<a href="https://getbootstrap.com/">Bootstrap</a>, using the Silhouette Hugo theme, created by
+<a href='https://www.mattbutton.com'>Matt Button</a>
+        </div>
+      </div>
+      
+      <hr />
+      
+      <div class="d-flex justify-content-center icons">
+        <a class="py-2 px-2" href="https://github.com/chipzoller"><i class="fab fa-github"></i></a>
+<a class="py-2 px-2" href="https://twitter.com/chipzoller"><i class="fab fa-twitter"></i></a>
+<a class="py-2 px-2" href="https://www.linkedin.com/in/chipzoller/"><i class="fab fa-linkedin"></i></a>
+<a class="py-2 px-2" href='https://neonmirrors.net/index.xml'><i class="fas fa-rss"></i></a>
+
+      </div>
+    </div>
+  </footer>
+  
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script src="/js/syntax.js"></script>
+  <script src = '/js/index.js'></script>
+  
+  
+</body>
+</html>

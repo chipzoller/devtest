@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>powershell on Neon Mirrors</title>
+    <link>https://neonmirrors.net/tags/powershell/</link>
+    <description>Recent content in powershell on Neon Mirrors</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <copyright>Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved.</copyright>
+    <lastBuildDate>Wed, 03 Apr 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://neonmirrors.net/tags/powershell/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Optimize-VMwarePKS: A PowerShell script for all your VMware PKS deployment needs</title>
+      <link>https://neonmirrors.net/post/2019-04/optimize-vmwarepks/</link>
+      <pubDate>Wed, 03 Apr 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2019-04/optimize-vmwarepks/</guid>
+      <description>Ever since VMware PKS (now called Enterprise PKS) came onto the market over a year ago, it’s been a big hit. With it, you get upstream Kubernetes, NSX-T, an enterprise-class container registry, automation of the entire K8s cluster creation process, and lots more all on top of the de facto private cloud platform of vSphere. It’s truly becoming the way organizations are standardizing on K8s cluster instantiation, upgrade, and management on-premises.</description>
+    </item>
+    
+    <item>
+      <title>Installing vRealize Automation software components as a specific user</title>
+      <link>https://neonmirrors.net/post/2019-03/installing-vra-software-components-as-specific-user/</link>
+      <pubDate>Wed, 20 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2019-03/installing-vra-software-components-as-specific-user/</guid>
+      <description>Since I’ve been working with software components in vRealize Automation (vRA), one of the difficulties I see come up time and time again in Windows environments is the need to run a specific command or component with specific credentials. This is quite common even outside of the scope of vRA. There are multiple ways to go about doing this when talking about PowerShell and I won’t cover them all here. But sometimes, for one reason or not, those methods don’t work—especially when dealing with some specific programs that require elevation.</description>
+    </item>
+    
+    <item>
+      <title>Monitoring Windows disk space usage with vROps super metrics</title>
+      <link>https://neonmirrors.net/post/2017-10/monitoring-windows-disk-space-with-vrops-sm/</link>
+      <pubDate>Sun, 15 Oct 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2017-10/monitoring-windows-disk-space-with-vrops-sm/</guid>
+      <description>Although vRealize Operations Manager (vROps) is a great tool for a variety of reasons, one of the more useful abilities it brings to a datacenter is the ability to look inside the guest OS and tell you about its state. Back in 6.2 or maybe 6.3, VMware added the ability to look at guest OS metrics. One of the things they added was guest file system stats on a per-drive basis.</description>
+    </item>
+    
+    <item>
+      <title>4 Free Community Veeam Tools and Utilities</title>
+      <link>https://neonmirrors.net/post/2017-06/four-free-veeam-tools/</link>
+      <pubDate>Wed, 21 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2017-06/four-free-veeam-tools/</guid>
+      <description>I wrote last about attending VeeamON 2017 in New Orleans and you can view that here. As I was deep in various sessions or talking with peers and Veeam folks, several things stuck out in my mind as current gaps or “nice-to-haves” when it comes to Veeam. So after putting pen to paper, I identified four things I thought could really help other users out. I’m glad to say that all of these have been brought to fruition and have now been released to the community for all to use!</description>
+    </item>
+    
+    <item>
+      <title>PowerCLI Core on Mac or Linux made easy, with help!</title>
+      <link>https://neonmirrors.net/post/2016-10/powercli-core-with-help/</link>
+      <pubDate>Wed, 26 Oct 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2016-10/powercli-core-with-help/</guid>
+      <description>With the much-heralded release of Microsoft’s PowerShell, VMware’s PowerCLI Core in fling format was released on October 17th. This allows users of Mac and Linux to run PowerShell just like on Windows. While PowerCLI can be installed with instructions on the fling website, VMware also released a Docker container with the same. Containers are all the rage right now, and we at Sovereign are all over this technology to determine how to best leverage it for our customers, so in this blog post I’m going to illustrate how to get started with both Docker and PowerCLI Core.</description>
+    </item>
+    
+    <item>
+      <title>Fast Backup of vSphere Templates with Veeam</title>
+      <link>https://neonmirrors.net/post/2015-12/fast-backup-of-vsphere-templates-with-veeam/</link>
+      <pubDate>Thu, 17 Dec 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2015-12/fast-backup-of-vsphere-templates-with-veeam/</guid>
+      <description>Most organizations use vSphere templates for a quick way to roll out VMs manually through vCenter, via a clone workflow in vRealize Automation, or something else. Sometimes they’re just base OS with configuration, and sometimes they have complicated applications installed in the case of VDI. Very often, these would be time consuming to reproduce and are changing on a regular basis due to things like patching and updates. So, naturally, you probably want to back those templates up.</description>
+    </item>
+    
+  </channel>
+</rss>

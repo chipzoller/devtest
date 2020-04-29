@@ -1,0 +1,539 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  <meta property="og:title" content="Monitoring Windows disk space usage with vROps super metrics" />
+<meta property="og:description" content="Using vRealize Operations Manager Super Metrics to monitor disk space utilization in Windows VMs." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://neonmirrors.net/post/2017-10/monitoring-windows-disk-space-with-vrops-sm/" />
+<meta property="article:published_time" content="2017-10-15T00:00:00+00:00" />
+<meta property="article:modified_time" content="2017-10-15T00:00:00+00:00" />
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Monitoring Windows disk space usage with vROps super metrics"/>
+<meta name="twitter:description" content="Using vRealize Operations Manager Super Metrics to monitor disk space utilization in Windows VMs."/>
+<meta name="twitter:site" content="@chipzoller"/>
+
+  
+  <title>
+Monitoring Windows disk space usage with vROps super metrics | Neon Mirrors
+</title>
+  
+  <link rel="icon" type="image/png" href='https://neonmirrors.net/images/favicon-16x16.png' sizes="16x16">
+  <link rel="icon" type="image/png" href='https://neonmirrors.net/images/favicon-32x32.png' sizes="32x32">  
+  
+  <link href="https://fonts.googleapis.com/css?family=Oswald:400" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">      
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel = 'stylesheet' href = 'https://neonmirrors.net/css/main.703162b863e7e1a93ee98f24b75e329848a814522f2d9f5735d41fbc7f023b3772f177c6ef8dbafccee65cfa8c1b8bb57e73d49284b5a0fdbbe772b8b29b07cb.css' integrity = 'sha512-cDFiuGPn4ak&#43;6Y8kt14ymEioFFIvLZ9XNdQfvH8COzdy8XfG7426/M7mXPqMG4u1fnPUkoS1oP2753K4spsHyw=='>
+  
+  
+<link rel="me" type="text/html" href="https://twitter.com/chipzoller"/> 
+<link rel="me" type="text/html" href="https://www.linkedin.com/in/chipzoller/"/> 
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+
+<link rel="alternate" type="application/rss+xml" href='https://neonmirrors.net/index.xml' />
+
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<meta name="author" content="Chip Zoller" />
+<meta name="copyright" content="Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved." />
+
+
+<meta name="description" content="Using vRealize Operations Manager Super Metrics to monitor disk space utilization in Windows VMs.">
+
+
+
+
+<style type="text/css">
+  .feature-image {
+    background-image: url("https://neonmirrors.net/images/2017-10/monitoring-windows-disk-space-with-vrops-sm/featured.jpg");
+    height: 500px;
+  }
+  
+  @media (max-width: 992px) {
+    .feature-image {
+      height: 350px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .feature-image {
+      height: 250px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .feature-image {
+      height: 200px;
+    }
+  }
+</style>
+
+        
+</head>
+<body >
+  <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark py-1 top-nav">
+    <div class="container">
+      <span class="internal">
+  <a class="navbar-brand pr-2" href="/">NEON MIRRORS</a>
+</span>
+
+      <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="navbar-collapse collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/categories/technology/">Technology</a>
+  
+</li>
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/categories/music/">Music</a>
+  
+</li>
+<li class="nav-item internal">
+  
+  <div class="nav-link nav-hassubmenu">Links
+    <div class="nav-submenu" >
+    
+      <a class="nav-link" href="https://chipzoller.gitbook.io/vspheremigration/">Ultimate vSphere VM Migration Guide</a>
+    
+    </div>
+    </div>
+  
+</li>
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/about/">About</a>
+  
+</li>
+
+        </ul>
+        <div class="social-icons d-none d-lg-block">
+          <a class="py-2 px-2" href="https://github.com/chipzoller"><i class="fab fa-github"></i></a>
+<a class="py-2 px-2" href="https://twitter.com/chipzoller"><i class="fab fa-twitter"></i></a>
+<a class="py-2 px-2" href="https://www.linkedin.com/in/chipzoller/"><i class="fab fa-linkedin"></i></a>
+<a class="py-2 px-2" href='https://neonmirrors.net/index.xml'><i class="fas fa-rss"></i></a>
+
+        </div>
+      </div>
+    </div>
+  </nav>
+  
+  
+<header class="feature-image d-print-none">
+</header>
+
+  
+  <div class="main">
+    
+<div class="container mt-4 post">
+  <h1>Monitoring Windows disk space usage with vROps super metrics</h1>
+  <div class="mb-3 internal">
+  <small>
+    <strong>By Chip Zoller</strong>
+    | <i class="far fa-calendar-alt"></i>&nbsp;Oct 15, 2017&nbsp;
+    | <i class="fa fa-tags" title="Tags" aria-hidden="true"></i> <a href='/tags/vrops/'>vrops</a>, <a href='/tags/vrealize/'>vrealize</a>, <a href='/tags/powershell/'>powershell</a><span class="d-lg-none">, <a href='#tags-section'>all tags</a></span>
+  </small>
+</div>
+
+  <div class="share-icons d-flex d-print-none">
+    <a href="https://twitter.com/intent/tweet?text=Monitoring%20Windows%20disk%20space%20usage%20with%20vROps%20super%20metrics&url=https%3a%2f%2fneonmirrors.net%2fpost%2f2017-10%2fmonitoring-windows-disk-space-with-vrops-sm%2f&tw_p=tweetbutton" class="p-2" title="Share on Twitter" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Tweet</small></div>
+</a>
+
+<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fneonmirrors.net%2fpost%2f2017-10%2fmonitoring-windows-disk-space-with-vrops-sm%2f&t=Monitoring%20Windows%20disk%20space%20usage%20with%20vROps%20super%20metrics" class="p-2" title="Share on Facebook" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+<script>
+  function shareViaLinkedin() {
+    window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent("https://neonmirrors.net/post/2017-10/monitoring-windows-disk-space-with-vrops-sm/"), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+  }
+</script>
+<a href="#linkedinshare" id = "linkedinshare" class="p-2" title="Share on LinkedIn" rel="nofollow" onclick="shareViaLinkedin()">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+
+<a href="javascript:window.print()" title="Print this article" class="p-2" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fa fa-print fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Print</small></div>
+</a>
+
+  </div>
+  
+  <div class="mt-4 mb-4 main-content">
+    <p>Although vRealize Operations Manager (vROps) is a great tool for a variety of reasons, one of the more useful abilities it brings to a datacenter is the ability to look inside the guest OS and tell you about its state. Back in 6.2 or maybe 6.3, VMware added the ability to look at guest OS metrics. One of the things they added was guest file system stats on a per-drive basis. The available options as of vROps 6.6.1 look like this.</p>
+<p><img src="/images/2017-10/monitoring-windows-disk-space-with-vrops-sm/image1.png" alt="Available metrics in vROps 6.6.1 for guest file system stats"></p>
+<p>There is one that displays the usage in percentage, and two that show total capacity and usage in units of GB. What’s absent from this list is a metric that shows remaining disk space in terms of capacity (GB). Curiously, though, this metric was present back in 6.3 but has since been, for whatever odd reason, removed from later releases.</p>
+<p>Now, as far as alerting goes, there is already a preexisting alert in vROps that uses the Guest File System Usage (%) metric to inform you on a per-drive or file system basis when capacity is running low. This alert definition is called “One or more virtual machine guest file systems are running out of disk space” and is based on symptoms of a percentage starting at 85% and going to 95%. And this works perfectly well as you can see from the triggered alert below.</p>
+<p><img src="/images/2017-10/monitoring-windows-disk-space-with-vrops-sm/image2.png" alt="Out-of-the-box disk space alert"></p>
+<p>Looks good, right? What’s the problem with that? It’s not a problem per-se, but a limitation on the flexibility of the alerting. Consider this scenario for a moment: You have a number of file server VMs with drives in the multi-terabyte range. Space isn’t consumed on a terribly rapid basis, but you still want to know when you’re running low. If you have a, say, 5 TB drive, using the default alert I showed above at the critical level of 95% capacity still leaves you with over 250 GB free. Probably not deathly critical if you’re not consuming space in a rapid manner. What would be better in these cases is to craft an alert based on arbitrary remaining <em>capacity</em> figures rather than remaining <em>percentage</em>. Unfortunately, vROps no longer has the metric necessary for us to make this happen. Happily, though, we can get this ability back through the use of super metrics. Read on to learn how restore this ability.</p>
+<p>The goal here is to use the super metrics ability in vROps to create a new metric that tells us on a per-drive basis the remaining capacity in GB. Using that new metric, we can create new symptoms, and using those symptoms we can create a new alert. Although this is a mildly-involved process, you fortunately only need to endure it once and never again regardless of how many different drives you might eventually have on systems. In order to carry out these steps, we need a few prerequisites to move forward.</p>
+<ol>
+<li>A disposable Windows VM. Can be almost any OS. Best not to use an existing VM that you care about, although these steps should be perfectly safe if you can’t create a new VM from template.</li>
+<li>Latest VMware Tools installed on test VM.</li>
+<li>vRealize Operations Manager 6.6 or better.</li>
+<li>A Windows-based workstation with PowerCLI 6.5.2 installed. Earlier versions should work but have not been tested.</li>
+</ol>
+<p>In this tutorial, I have a disposable VM called “space-test” which I’ll use to set this up.</p>
+<p>I am providing you with a few resources in this blog to make the process easier including a pre-constructed super metric that needs to be imported, and two Powershell scripts which can be used to add some test drives to your VM and format them inside Windows.  Here’s the overall process we’ll follow.</p>
+<ol>
+<li>Deploy test Windows VM. Use PowerCLI script to add drives, and use Powershell script inside the guest to format them (both scripts provided).</li>
+<li>Import super metric provided here.</li>
+<li>Duplicate super metric enough times to cover all possible drive letters.</li>
+<li>Activate super metrics in your policy.</li>
+<li>Create a symptom definition using these super metrics.</li>
+<li>Create an alert using the new symptom definition.</li>
+</ol>
+<p>I’ve already deployed the test Windows VM, so now we need to add drives. The idea with this is to add a drive for every letter in the alphabet that covers all possibilities you might encounter. Since A, B, and C are reserved, and you’ll likely have D as a virtual optical disk drive, we just need the rest of the letters. A simple PowerCLI script I’m providing you does all this in just a couple of lines.</p>
+<div class="highlight"><pre class="chroma"><code class="language-ps1" data-lang="ps1"><span class="nb">Connect-VIServer</span> <span class="n">vcenter</span><span class="p">.</span><span class="n">domain</span><span class="p">.</span><span class="n">com</span> <span class="n">-User</span> <span class="n">myuser</span><span class="nv">@domain</span><span class="p">.</span><span class="n">com</span> <span class="n">-Password</span> <span class="s1">&#39;VMware1!&#39;</span>
+<span class="nv">$vm</span> <span class="p">=</span> <span class="nb">Get-VM</span> <span class="n">-Name</span> <span class="n">myvmname</span>
+<span class="k">ForEach</span> <span class="p">(</span><span class="nv">$HardDisk</span> <span class="k">in</span> <span class="p">(</span><span class="n">1</span><span class="p">..</span><span class="n">22</span><span class="p">)){</span>
+    <span class="nb">New-HardDisk</span> <span class="n">-VM</span> <span class="nv">$vm</span> <span class="n">-CapacityGB</span> <span class="n">1</span> <span class="n">-StorageFormat</span> <span class="n">Thin</span> <span class="p">|</span> <span class="nb">New-ScsiController</span>
+<span class="p">}</span>
+</code></pre></div><p>Be sure to edit the script accordingly to connect to your vCenter and provide your VM name. Also, ignore any errors you might warning that the VM must be in a powered off state as they’re false. If this is run successfully, you should have a bunch of 1 GB drives created on your test VM. After that, run the provided PS script inside the guest to bring them online and format them.</p>
+<div class="highlight"><pre class="chroma"><code class="language-ps1" data-lang="ps1"><span class="nb">Update-HostStorageCache</span>
+<span class="nv">$disknum</span> <span class="p">=</span> <span class="p">(</span><span class="nb">Get-Disk</span> <span class="p">|</span> <span class="nb">Where </span><span class="n">partitionstyle</span> <span class="o">-eq</span> <span class="s1">&#39;raw&#39;</span><span class="p">).</span><span class="n">Number</span>
+<span class="k">Foreach</span> <span class="p">(</span><span class="nv">$stuff</span> <span class="k">in</span> <span class="nv">$disknum</span><span class="p">){</span>
+  <span class="nb">Initialize-Disk</span> <span class="n">-Number</span> <span class="nv">$stuff</span> <span class="n">-PartitionStyle</span> <span class="n">MBR</span> <span class="n">-PassThru</span> <span class="p">|</span>
+  <span class="nb">New-Partition</span> <span class="n">-AssignDriveLetter</span> <span class="n">-UseMaximumSize</span> <span class="p">|</span>
+  <span class="nb">Format-Volume</span> <span class="n">-FileSystem</span> <span class="n">NTFS</span> <span class="n">-Confirm</span><span class="err">:</span><span class="nv">$false</span>
+<span class="p">}</span>
+</code></pre></div><p>Once complete, you should see this madness.</p>
+<p><img src="/images/2017-10/monitoring-windows-disk-space-with-vrops-sm/image3.png" alt="Tons of new disks now attached"></p>
+<p>Go into vROps under Administration -&gt; Configuration -&gt; Super Metrics and import the JSON file provided for you.</p>
+<p><img src="/images/2017-10/monitoring-windows-disk-space-with-vrops-sm/image4.png" alt="Import super metric window"></p>
+<p>The result should be this.</p>
+<p><img src="/images/2017-10/monitoring-windows-disk-space-with-vrops-sm/image5.png" alt="Imported super metrics"></p>
+<p>Next, duplicate that super metric for as many drive letters as you have (not counting D: if that’s your CD-ROM drive) and change the metric slightly so it references the drive letter. (Unfortunately, I don’t have a script that does this part for you.)</p>
+<p><img src="/images/2017-10/monitoring-windows-disk-space-with-vrops-sm/image6.png" alt="Duplicate the super metric"></p>
+<p>After creating the metrics, add the Virtual Machine as the object type.</p>
+<p><img src="/images/2017-10/monitoring-windows-disk-space-with-vrops-sm/image7.png" alt="Set object type to Virtual Machine"></p>
+<p>Go into your policy and activate these new super metrics. Save the policy.</p>
+<p><img src="/images/2017-10/monitoring-windows-disk-space-with-vrops-sm/image8.png" alt="Activate the new super metrics in your policy"></p>
+<p>After a couple collection cycles, you should see these new super metrics working and displaying data on your test VM. You can create a dummy file on a drive that occupies space to see if the super metric is reporting correctly. Something like <code>fsutil file createnew E:\200mb 209715200</code> will get the job done.</p>
+<p><img src="/images/2017-10/monitoring-windows-disk-space-with-vrops-sm/image9.png" alt="New super metrics collected for object"></p>
+<p><img src="/images/2017-10/monitoring-windows-disk-space-with-vrops-sm/image10.png" alt="Graph of one of the super metrics"></p>
+<p>The high value seen above is before the 200 MB file was created, and the low value is after, proving the super metric is collecting accurately.</p>
+<p>Next, we have to create a new symptom definition with these super metrics. Navigate to Alerts -&gt; Alert Settings -&gt; Symptom Definitions. In the metric explorer, change the object type to Virtual Machine. Click the strange button to the right of the “Metrics” drop-down menu and search for then select your test VM. The reason for this (and the whole reason why a test VM was necessary in the first place) is due to a rather unfortunate limitation in vROps to date, and that is you can’t select metrics from which to create a symptom definition just by virtue of them existing in the system. They have to be “active” on an object. If you were to expand the super metrics list there prior to selecting your test VM, you wouldn’t find them. Now that you’ve selected it, however, they appear. Drag-and-drop each of your super metrics into the symptom definition window. Change the definition to suit your needs.</p>
+<p><img src="/images/2017-10/monitoring-windows-disk-space-with-vrops-sm/image11.png" alt="New symptom definition creation options"></p>
+<p>If you expand the Advanced section, you’ll see by default the wait and cancel cycles are set to 3. When complete, save your symptom definition. Once saved, you’ll notice there are individual symptom definitions created for each one. This is intended and rather nice since we don’t have to create them individually ourselves.</p>
+<p><img src="/images/2017-10/monitoring-windows-disk-space-with-vrops-sm/image12.png" alt="New symptom definitions"></p>
+<p>We’re almost done. At this point, we have to create a new alert definition that will make use of these symptoms. Walk through the new alert creation wizard giving it a name, description, selecting the base object type of Virtual Machine, setting an alert impact, and then adding symptom definitions. Drag each of them onto the definition so they’re stacked together and not separately. Change the evaluator to be “any” as shown in my example.</p>
+<p><img src="/images/2017-10/monitoring-windows-disk-space-with-vrops-sm/image13.png" alt="New alert definition"></p>
+<p>This will ensure that you only need a single alert definition to catch any of those symptoms that become true. Once saved, it’s time to test it out. Since I created my symptom definition with the condition that those super metrics need to be less than 5 GB space remaining, I have to increase the size of a drive. After that, fill it up with some test stuff.</p>
+<p><img src="/images/2017-10/monitoring-windows-disk-space-with-vrops-sm/image14.png" alt="Drive in guest filling up"></p>
+<p>Wait a few collection cycles and check to see if the alert fires.</p>
+<p><img src="/images/2017-10/monitoring-windows-disk-space-with-vrops-sm/image15.png" alt="New alert being triggered"></p>
+<p>And there we go, we have an active alert on our test system. Since it’s a regular alert, we can do anything we want with it including sending to a CMDB, dispatching an email, generating a web hook, whatever.</p>
+<p>Although this process is, shall we say, uncouth (due to VMware’s redaction efforts), we only have to endure the pain once and all future Windows systems will be covered. But there you have it, we have a good use case for super metrics and have plumbed them all the way through from simple metric to functional alert. Now it’ll be easier for you to integrate this into your process and hopefully keep a closer eye on those drives in the future.</p>
+<h2 id="script-fileshttpsgithubcomchipzollerblogscriptstreemastermonitoringwindowsdisk"><a href="https://github.com/chipzoller/BlogScripts/tree/master/MonitoringWindowsDisk">SCRIPT FILES</a></h2>
+
+    
+    <div class="share-icons d-flex d-print-none">
+      <a href="https://twitter.com/intent/tweet?text=Monitoring%20Windows%20disk%20space%20usage%20with%20vROps%20super%20metrics&url=https%3a%2f%2fneonmirrors.net%2fpost%2f2017-10%2fmonitoring-windows-disk-space-with-vrops-sm%2f&tw_p=tweetbutton" class="p-2" title="Share on Twitter" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Tweet</small></div>
+</a>
+
+<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fneonmirrors.net%2fpost%2f2017-10%2fmonitoring-windows-disk-space-with-vrops-sm%2f&t=Monitoring%20Windows%20disk%20space%20usage%20with%20vROps%20super%20metrics" class="p-2" title="Share on Facebook" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+<script>
+  function shareViaLinkedin() {
+    window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent("https://neonmirrors.net/post/2017-10/monitoring-windows-disk-space-with-vrops-sm/"), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+  }
+</script>
+<a href="#linkedinshare" id = "linkedinshare" class="p-2" title="Share on LinkedIn" rel="nofollow" onclick="shareViaLinkedin()">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+
+<a href="javascript:window.print()" title="Print this article" class="p-2" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fa fa-print fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Print</small></div>
+</a>
+
+    </div>
+  </div>
+  
+  
+</div>
+<div class="sidebar d-print-none d-xl-block internal">
+  
+  <h2>Chip Zoller</h2>
+  <div>
+    Technologist, perpetual student, teacher, continual incremental improvement.
+  </div>
+  <a href="/about/" class="btn btn-outline-secondary mt-3" role="button">Read More...</a>
+  <h2 class="mt-4">Featured Posts</h2>
+  
+  
+  <a href="/post/2019-10/authentication-and-authorization-in-k8s/" class="nav-link">Authentication and Authorization in Kubernetes</a>
+  
+  <a href="/post/2018-12/how-to-ask-for-help-on-tech-forums/" class="nav-link">How to Ask for Help on Tech Forums</a>
+  
+  <h2 class="mt-4">Recent Posts</h2>
+  <nav class="nav flex-column">
+    
+    <a href="/post/2020-04/getting-started-with-tkg/" class="nav-link">Getting Started with Tanzu Kubernetes Grid</a>
+    
+    <a href="/post/2020-04/capv-overview/" class="nav-link">Behind the Scenes with Cluster API Provider vSphere</a>
+    
+    <a href="/post/2020-01/buy-dont-build/" class="nav-link">Buy Don&#39;t Build</a>
+    
+    <a href="/post/2020-01/why-k8s-on-vms/" class="nav-link">Why Kubernetes on Virtual Machines?</a>
+    
+    <a href="/post/2020-01/2020-public-domain-day/" class="nav-link">2020 Public Domain Day</a>
+    
+    <a href="/post/2019-10/authentication-and-authorization-in-k8s/" class="nav-link">Authentication and Authorization in Kubernetes</a>
+    
+    <a href="/post/2019-10/pks-rancher-reg/" class="nav-link">pks-rancher-reg: Automated PKS Cluster Registration For Rancher</a>
+    
+    <a href="/post/2019-09/rancher-ha-on-pks/" class="nav-link">Rancher HA on Enterprise PKS</a>
+    
+  </nav>
+  
+  <h2 class="mt-4 text-capitalize" id="categories-section">categories</h2>
+  <nav class="nav">
+    
+    <a href='/categories/technology/' class="nav-link">
+      technology
+      <span class="badge badge-pill badge-secondary">53</span>
+    </a>
+    
+    <a href='/categories/music/' class="nav-link">
+      music
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+  </nav>
+  
+  <h2 class="mt-4 text-capitalize" id="tags-section">tags</h2>
+  <nav class="nav">
+    
+    <a href='/tags/vrealize/' class="nav-link">
+      vrealize
+      <span class="badge badge-pill badge-secondary">27</span>
+    </a>
+    
+    <a href='/tags/vra/' class="nav-link">
+      vra
+      <span class="badge badge-pill badge-secondary">22</span>
+    </a>
+    
+    <a href='/tags/vsphere/' class="nav-link">
+      vsphere
+      <span class="badge badge-pill badge-secondary">14</span>
+    </a>
+    
+    <a href='/tags/k8s/' class="nav-link">
+      k8s
+      <span class="badge badge-pill badge-secondary">9</span>
+    </a>
+    
+    <a href='/tags/sovlabs/' class="nav-link">
+      sovlabs
+      <span class="badge badge-pill badge-secondary">8</span>
+    </a>
+    
+    <a href='/tags/veeam/' class="nav-link">
+      veeam
+      <span class="badge badge-pill badge-secondary">7</span>
+    </a>
+    
+    <a href='/tags/powershell/' class="nav-link">
+      powershell
+      <span class="badge badge-pill badge-secondary">6</span>
+    </a>
+    
+    <a href='/tags/log-insight/' class="nav-link">
+      log-insight
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/pks/' class="nav-link">
+      pks
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/vrops/' class="nav-link">
+      vrops
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/vro/' class="nav-link">
+      vro
+      <span class="badge badge-pill badge-secondary">4</span>
+    </a>
+    
+    <a href='/tags/docker/' class="nav-link">
+      docker
+      <span class="badge badge-pill badge-secondary">3</span>
+    </a>
+    
+    <a href='/tags/vmworld/' class="nav-link">
+      vmworld
+      <span class="badge badge-pill badge-secondary">3</span>
+    </a>
+    
+    <a href='/tags/featured/' class="nav-link">
+      featured
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/nsx-t/' class="nav-link">
+      nsx-t
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/powercli/' class="nav-link">
+      powercli
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/rancher/' class="nav-link">
+      rancher
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/thoughts/' class="nav-link">
+      thoughts
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/ansible/' class="nav-link">
+      ansible
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/authentication/' class="nav-link">
+      authentication
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/forums/' class="nav-link">
+      forums
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/homelab/' class="nav-link">
+      homelab
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/networking/' class="nav-link">
+      networking
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/security/' class="nav-link">
+      security
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/vmtn/' class="nav-link">
+      vmtn
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+  </nav>
+  
+</div>
+
+
+  </div>
+  
+  <footer class="mt-auto footer d-print-none">
+    <a class="to-top" href="#" title="Back to top">
+      <i class="fa fa-caret-up"></i>
+    </a>
+    <div class="container-fluid">
+      <div class="row justify-content-center">
+        <div class="col-md-4 col-xl-3">
+          <h5>Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved.</h5>
+I&#39;m happy for you to share content on this site, but please provide attribution.
+        </div>
+        <div class="col-md-4 col-xl-3">
+          <h5>Disclaimer</h5>
+Opinions expressed here are my own and may not reflect those of the company I work for, or the people I work with.
+        </div>
+        <div class="col-md-4 col-xl-3">
+          <h5>About This Site</h5>
+This blog was created using the <a href="https://gohugo.io/">Hugo</a> static site generator, using
+<a href="https://getbootstrap.com/">Bootstrap</a>, using the Silhouette Hugo theme, created by
+<a href='https://www.mattbutton.com'>Matt Button</a>
+        </div>
+      </div>
+      
+      <hr />
+      
+      <div class="d-flex justify-content-center icons">
+        <a class="py-2 px-2" href="https://github.com/chipzoller"><i class="fab fa-github"></i></a>
+<a class="py-2 px-2" href="https://twitter.com/chipzoller"><i class="fab fa-twitter"></i></a>
+<a class="py-2 px-2" href="https://www.linkedin.com/in/chipzoller/"><i class="fab fa-linkedin"></i></a>
+<a class="py-2 px-2" href='https://neonmirrors.net/index.xml'><i class="fas fa-rss"></i></a>
+
+      </div>
+    </div>
+  </footer>
+  
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script src="/js/syntax.js"></script>
+  <script src = '/js/index.js'></script>
+  
+  
+</body>
+</html>

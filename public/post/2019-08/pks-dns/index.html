@@ -1,0 +1,562 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  <meta property="og:title" content="pks-dns: Automated DNS registration for PKS Clusters" />
+<meta property="og:description" content="Automated registration for PKS clusters." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://neonmirrors.net/post/2019-08/pks-dns/" />
+<meta property="article:published_time" content="2019-08-09T00:00:00+00:00" />
+<meta property="article:modified_time" content="2019-08-09T00:00:00+00:00" />
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="pks-dns: Automated DNS registration for PKS Clusters"/>
+<meta name="twitter:description" content="Automated registration for PKS clusters."/>
+<meta name="twitter:site" content="@chipzoller"/>
+
+  
+  <title>
+pks-dns: Automated DNS registration for PKS Clusters | Neon Mirrors
+</title>
+  
+  <link rel="icon" type="image/png" href='https://neonmirrors.net/images/favicon-16x16.png' sizes="16x16">
+  <link rel="icon" type="image/png" href='https://neonmirrors.net/images/favicon-32x32.png' sizes="32x32">  
+  
+  <link href="https://fonts.googleapis.com/css?family=Oswald:400" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">      
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel = 'stylesheet' href = 'https://neonmirrors.net/css/main.703162b863e7e1a93ee98f24b75e329848a814522f2d9f5735d41fbc7f023b3772f177c6ef8dbafccee65cfa8c1b8bb57e73d49284b5a0fdbbe772b8b29b07cb.css' integrity = 'sha512-cDFiuGPn4ak&#43;6Y8kt14ymEioFFIvLZ9XNdQfvH8COzdy8XfG7426/M7mXPqMG4u1fnPUkoS1oP2753K4spsHyw=='>
+  
+  
+<link rel="me" type="text/html" href="https://twitter.com/chipzoller"/> 
+<link rel="me" type="text/html" href="https://www.linkedin.com/in/chipzoller/"/> 
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+
+<link rel="alternate" type="application/rss+xml" href='https://neonmirrors.net/index.xml' />
+
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<meta name="author" content="Chip Zoller" />
+<meta name="copyright" content="Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved." />
+
+
+<meta name="description" content="Automated registration for PKS clusters.">
+
+
+
+
+<style type="text/css">
+  .feature-image {
+    background-image: url("https://neonmirrors.net/images/2019-08/pks-dns/featured.jpg");
+    height: 500px;
+  }
+  
+  @media (max-width: 992px) {
+    .feature-image {
+      height: 350px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .feature-image {
+      height: 250px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .feature-image {
+      height: 200px;
+    }
+  }
+</style>
+
+        
+</head>
+<body >
+  <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark py-1 top-nav">
+    <div class="container">
+      <span class="internal">
+  <a class="navbar-brand pr-2" href="/">NEON MIRRORS</a>
+</span>
+
+      <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="navbar-collapse collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/categories/technology/">Technology</a>
+  
+</li>
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/categories/music/">Music</a>
+  
+</li>
+<li class="nav-item internal">
+  
+  <div class="nav-link nav-hassubmenu">Links
+    <div class="nav-submenu" >
+    
+      <a class="nav-link" href="https://chipzoller.gitbook.io/vspheremigration/">Ultimate vSphere VM Migration Guide</a>
+    
+    </div>
+    </div>
+  
+</li>
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/about/">About</a>
+  
+</li>
+
+        </ul>
+        <div class="social-icons d-none d-lg-block">
+          <a class="py-2 px-2" href="https://github.com/chipzoller"><i class="fab fa-github"></i></a>
+<a class="py-2 px-2" href="https://twitter.com/chipzoller"><i class="fab fa-twitter"></i></a>
+<a class="py-2 px-2" href="https://www.linkedin.com/in/chipzoller/"><i class="fab fa-linkedin"></i></a>
+<a class="py-2 px-2" href='https://neonmirrors.net/index.xml'><i class="fas fa-rss"></i></a>
+
+        </div>
+      </div>
+    </div>
+  </nav>
+  
+  
+<header class="feature-image d-print-none">
+</header>
+
+  
+  <div class="main">
+    
+<div class="container mt-4 post">
+  <h1>pks-dns: Automated DNS registration for PKS Clusters</h1>
+  <div class="mb-3 internal">
+  <small>
+    <strong>By Chip Zoller</strong>
+    | <i class="far fa-calendar-alt"></i>&nbsp;Aug 9, 2019&nbsp;
+    | <i class="fa fa-tags" title="Tags" aria-hidden="true"></i> <a href='/tags/pks/'>pks</a>, <a href='/tags/k8s/'>k8s</a>, <a href='/tags/docker/'>docker</a><span class="d-lg-none">, <a href='#tags-section'>all tags</a></span>
+  </small>
+</div>
+
+  <div class="share-icons d-flex d-print-none">
+    <a href="https://twitter.com/intent/tweet?text=pks-dns%3a%20Automated%20DNS%20registration%20for%20PKS%20Clusters&url=https%3a%2f%2fneonmirrors.net%2fpost%2f2019-08%2fpks-dns%2f&tw_p=tweetbutton" class="p-2" title="Share on Twitter" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Tweet</small></div>
+</a>
+
+<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fneonmirrors.net%2fpost%2f2019-08%2fpks-dns%2f&t=pks-dns%3a%20Automated%20DNS%20registration%20for%20PKS%20Clusters" class="p-2" title="Share on Facebook" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+<script>
+  function shareViaLinkedin() {
+    window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent("https://neonmirrors.net/post/2019-08/pks-dns/"), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+  }
+</script>
+<a href="#linkedinshare" id = "linkedinshare" class="p-2" title="Share on LinkedIn" rel="nofollow" onclick="shareViaLinkedin()">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+
+<a href="javascript:window.print()" title="Print this article" class="p-2" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fa fa-print fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Print</small></div>
+</a>
+
+  </div>
+  
+  <div class="mt-4 mb-4 main-content">
+    <p>VMware’s Enterprise PKS is a great solution for quickly and easily stamping out Kubernetes clusters. It really makes the process simple and repeatable while bringing additional benefits like scaling, upgrades, and auto-healing thanks to the likes of BOSH–PKS’ right-hand man. It also leverages (or can) NSX-T which provides tons of additional value. All of these pieces come together to form what is often touted as a “turnkey solution”. However, ever since I first started working with the product, something has always bugged me and remained in the back of my mind like a chime ringing in the distance. While the solution does a great job of spitting out Kubernetes clusters in a cookie cutter fashion, there is one final piece missing which is required for the requestor to begin using their cluster. This final piece is DNS registration. Like that itch that must be scratched, well, I scratched it–for all of us. Today, I’m glad to announce what I think is some slick automation that takes care of this incessant itch and completes that last piece of the puzzle for you. Read on for the full scoop.</p>
+<p>Creating a new Kubernetes cluster in PKS is a simple matter. From a CLI prompt, you issue a swift pks create-cluster command passing in the name of the cluster and the external host name (the -e flag) by which it should be accessible. But due to how Kubernetes issues certificates, the only way it can be accessed is via that fully-qualified domain name–which obviously means you have to have a DNS mapping for that to occur. Well, it’s up to you to figure out that last part. Until today, that is. After lots of time and even more trial and error, I’ve put together a system that handles this DNS record creation process for you in an automated fashion. The best part is, it accomplishes this on-cluster and requires no external automation platforms to “wrap” PKS. By combining a nifty PowerShell script, kubectl, and a remote host, we can actually get those DNS records added immediately after the cluster is built with a no-touch effort. Here’s how it works.</p>
+<h2 id="technical-overview">Technical Overview</h2>
+<p>Leveraging PowerShell Core, a custom script kicks into action. This script first calls kubectl to get the Kubernetes Node labels. PKS writes the name of the cluster into a label called pks-system/cluster.name and this is how the script identifies where it’s being run. It next calls out to the PKS REST API (first via UAAC) to watch for the publishing of the IP address associated with the load balancer fronting the master nodes. Once it has this, it then connects via SSH to a remote Windows box with the <a href="https://support.microsoft.com/en-us/help/2693643/remote-server-administration-tools-rsat-for-windows-operating-systems">RSAT</a> tools installed to perform the DNS record additions. And the best part is, this runs on-cluster in a Pod which can be applied to an entire plan. PKS 1.4 gives us the ability to specify a manifest that should be run for each plan, so you can simply paste in the manifest to your plan and pull everything down automatically. I provide you with all the pieces you need to run this however you choose.</p>
+<h2 id="connecting-the-dots">Connecting The Dots</h2>
+<p>Let’s start by showing what you need to have set up in order for this to work:</p>
+<ul>
+<li>
+<p><strong>Windows jump host with RSAT.</strong> Because I as well as many use Microsoft DNS, we need to use PowerShell to add DNS records, but these cmdlets are only available on Windows at this time (sad face). Hopefully Microsoft moves to port them to PS Core on .NET Core, but we’ll see. We therefore need the RSAT installed and working.</p>
+</li>
+<li>
+<p><strong>SSH server on the Windows jump host.</strong>  While we can use PS Remoting from the PS Core session, we get into authentication issues as well as the dreaded double-hop issues. In order to mitigate both of them, the simplest and quickest way is to install an SSH server on the jump host so we can interact with it via native SSH commands. There are a couple of options here. I used <a href="https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_overview">OpenSSH for Windows</a>, but if you prefer a commercial option with support, <a href="https://www.bitvise.com/ssh-server">BitVise has a good product</a> I’ve used for a couple years and is very solid. <strong>If you do use the OpenSSH package, ensure wherever you’ve unpacked it that you change the permissions on the folder to allow Everyone read-access. This is important, because otherwise your connection will fail.</strong></p>
+</li>
+<li>
+<p><strong>Connectivity to and credentials to add DNS.</strong> Kind of goes without saying, but we need network access from our K8s nodes to this jump host, and credentials to connect to said jump host that has permissions to add DNS records against a given DNS server. If you’ve configured PKS to work in NAT mode, this connection will be coming from your floating IP subnet. If in No-NAT mode, it’ll be coming from the real node IP. Keep this in mind if you need to open up firewall rules.</p>
+</li>
+<li>
+<p><strong>PKS robot account with <code>pks.clusters.admin</code> permissions.</strong> Because we need to read info about all clusters from the API, the only current permission that allows such ability is this one. As such, we need to protect those credentials (as well as those of the jump host). More on that later. Using a service account with PKS allows you to separate user concerns. Follow the guide <a href="https://docs.pivotal.io/pks/1-4/manage-users.html#uaa-client">here</a> to set one up.</p>
+</li>
+<li>
+<p><strong>Access to Docker Hub or private registry.</strong> You’ll be pulling a container image, and while you can use my pre-built one on Docker Hub, you can also build it and host it yourself. Either way, you need access to either Docker Hub (i.e., Internet access) from your K8s cluster, or another registry. I use <a href="https://goharbor.io/">Harbor</a> that comes with PKS, but any compatible registry works.</p>
+</li>
+</ul>
+<p>Now, with all this stuff taken care of, you’re ready to get started. Head over to my <a href="https://github.com/chipzoller/pks-dns">GitHub repo</a> and read the notes and grab, at the very minimum, the <code>pks-dns-manifests.yaml</code> file. Edit in your favorite IDE (mine is VS Code) and focus on lines 50–53 and 60–63.</p>
+<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>v1<span class="w">
+</span><span class="w"></span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>Secret<span class="w">
+</span><span class="w"></span><span class="k">metadata</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>pks-dns-secrets<span class="w">
+</span><span class="w"></span><span class="k">type</span><span class="p">:</span><span class="w"> </span>Opaque<span class="w">
+</span><span class="w"></span><span class="k">data</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="k">PKSUser</span><span class="p">:</span><span class="w"> </span>&lt;PKS_Username_base64<span class="sd">&gt;
+</span><span class="sd">  PKSPass: &lt;PKS_Password_base64&gt;</span><span class="w">
+</span><span class="w">  </span><span class="k">RemoteUser</span><span class="p">:</span><span class="w"> </span>&lt;Remote_Username_base64<span class="sd">&gt;
+</span><span class="sd">  RemotePass: &lt;Remote_Password_base64&gt;</span><span class="w">
+</span></code></pre></div><p>We’re going to use a Kubernetes <a href="https://kubernetes.io/docs/concepts/configuration/secret/">Secret</a> to store the credentials and a <a href="https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/">ConfigMap</a> to store the rest of the data (because it’s less sensitive). For the Secret (lines 50–53), you’ll need to convert your values for these variables to base64 format. If on Linux, you can do this easily with an <code>echo -n 'myvalue' | base64</code> command. Be aware of dreaded smart quotes if you copy-and-paste this. On Windows, an easy one-liner in PowerShell you can use is the following:</p>
+<div class="highlight"><pre class="chroma"><code class="language-ps1" data-lang="ps1"><span class="no">[System.Convert]</span><span class="p">::</span><span class="n">ToBase64String</span><span class="p">(</span><span class="no">[System.Text.Encoding]</span><span class="p">::</span><span class="n">UTF8</span><span class="p">.</span><span class="n">GetBytes</span><span class="p">(</span><span class="s2">&#34;myvalue&#34;</span><span class="p">))</span>
+</code></pre></div><p>Once you’ve converted your strings to base64, paste them in the appropriate place.</p>
+<p>For the ConfigMap, simply type your values in directly.</p>
+<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">kind</span><span class="p">:</span><span class="w"> </span>ConfigMap<span class="w">
+</span><span class="w"></span><span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>v1<span class="w">
+</span><span class="w"></span><span class="k">metadata</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>pks-dns-configs<span class="w">
+</span><span class="w"></span><span class="k">data</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="k">PKSServer</span><span class="p">:</span><span class="w"> </span>&lt;PKS_Server_FQDN<span class="sd">&gt;
+</span><span class="sd">  RemoteServer: &lt;Remote_Server_FQDN&gt;</span><span class="w">
+</span><span class="w">  </span><span class="k">DNSZoneName</span><span class="p">:</span><span class="w"> </span>&lt;DNS_Zone_Name<span class="sd">&gt;
+</span><span class="sd">  DNSServerName: &lt;DNS_Server_Name&gt;</span><span class="w">
+</span></code></pre></div><p>Lastly, see lines 74 and 136 that state:</p>
+<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">image</span><span class="p">:</span><span class="w"> </span>chipzoller/pks-dns<span class="p">:</span><span class="m">1.1</span><span class="w">
+</span></code></pre></div><p>This is where you declare the image location Kubernetes should direct the Kubelet to pull. I’ve input my own registry out on <a href="https://hub.docker.com/r/chipzoller/pks-dns">Docker Hub</a>, but if you elect to build this image yourself from my handy <a href="https://raw.githubusercontent.com/chipzoller/pks-dns/master/Dockerfile">Dockerfile</a> and host in your on-premises registry, you’ll need to replace both lines with the server, project (if on Harbor), image, and tag.</p>
+<p>So, from top to bottom, here’s what the Kubernetes manifest is doing inside your cluster when it runs:</p>
+<ol>
+<li>Creates a service account called pks-dns.</li>
+<li>Creates a ClusterRoleBinding that associates the service account with a ClusterRole.</li>
+<li>Creates a ClusterRole with permissions to list nodes and delete ConfigMaps and Secrets.</li>
+<li>Creates a Secret.</li>
+<li>Creates a ConfigMap.</li>
+<li>Creates a Job that runs a Pod with two containers:
+<ol>
+<li>First container that performs the DNS add is an InitContainer.</li>
+<li>Second container comes behind to scrub out the Secret and ConfigMap.</li>
+</ol>
+</li>
+</ol>
+<p>Using this approach, the DNS adds are accomplished first, and once complete the second container runs (based on the same image so as to minimize pulls) that deletes the ConfigMap and Secret removing any sensitive data. This way, the user who requested the cluster will not be able to view/recover those credentials and gain access to any other systems.</p>
+<p>After making the appropriate edits, go into OpsManager and the PKS tile. Select the plan(s) to which you want to apply these DNS adds and paste the full manifest in the Add-ons box.</p>
+<p><img src="/images/2019-08/pks-dns/image1.png" alt="Add-ons in plan"></p>
+<p>Save the plan and commit it with Review Pending Changes. If you have errands that you’ve enabled in the past, you can de-select all of them as they shouldn’t be relevant.</p>
+<p>All that’s left is to do a couple test deploys of your plan to ensure the automation works!</p>
+<h2 id="give-me-the-bits">Give Me The Bits!</h2>
+<p>Ok, if you’re chomping at the bit (pun intended) and ready to get started, here’s everything you need.</p>
+<ul>
+<li>
+<p><a href="https://github.com/chipzoller/pks-dns">pks-dns repo on GitHub</a></p>
+<ul>
+<li><code>Dockerfile</code> (for building your own image dynamically pulling from my repo)</li>
+<li><code>pks-dns.ps1</code> (PS script with the DNS adding logic)</li>
+<li><code>pks-dns-manifest.yaml</code> (paste into your PKS plan; replace values as needed)</li>
+</ul>
+</li>
+<li>
+<p><a href="https://hub.docker.com/r/chipzoller/pks-dns">pks-dns image on Docker Hub</a></p>
+<ul>
+<li>Pre-built image with everything included.</li>
+</ul>
+</li>
+</ul>
+<p>Once you drop the manifest in the desired PKS plan, deploy a new cluster with <code>pks create-cluster &lt;name&gt; -e &lt;FQDN&gt; -p &lt;plan_name&gt;</code> and let it go. Once the creation process is finished, an <code>nslookup</code> on your external name should return the IP of your master load balancer. If it does, great success!</p>
+<p>I hope this you find very useful, so do please give it a go. Any problems, concerns, or enhancements and you’re welcome to either open an incident on my repo or fork it and send me a PR. Either way, if you do try it, drop me a line on <a href="https://twitter.com/chipzoller">Twitter</a> and let me know how it turns out!</p>
+
+    
+    <div class="share-icons d-flex d-print-none">
+      <a href="https://twitter.com/intent/tweet?text=pks-dns%3a%20Automated%20DNS%20registration%20for%20PKS%20Clusters&url=https%3a%2f%2fneonmirrors.net%2fpost%2f2019-08%2fpks-dns%2f&tw_p=tweetbutton" class="p-2" title="Share on Twitter" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Tweet</small></div>
+</a>
+
+<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fneonmirrors.net%2fpost%2f2019-08%2fpks-dns%2f&t=pks-dns%3a%20Automated%20DNS%20registration%20for%20PKS%20Clusters" class="p-2" title="Share on Facebook" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+<script>
+  function shareViaLinkedin() {
+    window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent("https://neonmirrors.net/post/2019-08/pks-dns/"), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+  }
+</script>
+<a href="#linkedinshare" id = "linkedinshare" class="p-2" title="Share on LinkedIn" rel="nofollow" onclick="shareViaLinkedin()">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+
+<a href="javascript:window.print()" title="Print this article" class="p-2" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fa fa-print fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Print</small></div>
+</a>
+
+    </div>
+  </div>
+  
+  
+</div>
+<div class="sidebar d-print-none d-xl-block internal">
+  
+  <h2>Chip Zoller</h2>
+  <div>
+    Technologist, perpetual student, teacher, continual incremental improvement.
+  </div>
+  <a href="/about/" class="btn btn-outline-secondary mt-3" role="button">Read More...</a>
+  <h2 class="mt-4">Featured Posts</h2>
+  
+  
+  <a href="/post/2019-10/authentication-and-authorization-in-k8s/" class="nav-link">Authentication and Authorization in Kubernetes</a>
+  
+  <a href="/post/2018-12/how-to-ask-for-help-on-tech-forums/" class="nav-link">How to Ask for Help on Tech Forums</a>
+  
+  <h2 class="mt-4">Recent Posts</h2>
+  <nav class="nav flex-column">
+    
+    <a href="/post/2020-04/getting-started-with-tkg/" class="nav-link">Getting Started with Tanzu Kubernetes Grid</a>
+    
+    <a href="/post/2020-04/capv-overview/" class="nav-link">Behind the Scenes with Cluster API Provider vSphere</a>
+    
+    <a href="/post/2020-01/buy-dont-build/" class="nav-link">Buy Don&#39;t Build</a>
+    
+    <a href="/post/2020-01/why-k8s-on-vms/" class="nav-link">Why Kubernetes on Virtual Machines?</a>
+    
+    <a href="/post/2020-01/2020-public-domain-day/" class="nav-link">2020 Public Domain Day</a>
+    
+    <a href="/post/2019-10/authentication-and-authorization-in-k8s/" class="nav-link">Authentication and Authorization in Kubernetes</a>
+    
+    <a href="/post/2019-10/pks-rancher-reg/" class="nav-link">pks-rancher-reg: Automated PKS Cluster Registration For Rancher</a>
+    
+    <a href="/post/2019-09/rancher-ha-on-pks/" class="nav-link">Rancher HA on Enterprise PKS</a>
+    
+  </nav>
+  
+  <h2 class="mt-4 text-capitalize" id="categories-section">categories</h2>
+  <nav class="nav">
+    
+    <a href='/categories/technology/' class="nav-link">
+      technology
+      <span class="badge badge-pill badge-secondary">53</span>
+    </a>
+    
+    <a href='/categories/music/' class="nav-link">
+      music
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+  </nav>
+  
+  <h2 class="mt-4 text-capitalize" id="tags-section">tags</h2>
+  <nav class="nav">
+    
+    <a href='/tags/vrealize/' class="nav-link">
+      vrealize
+      <span class="badge badge-pill badge-secondary">27</span>
+    </a>
+    
+    <a href='/tags/vra/' class="nav-link">
+      vra
+      <span class="badge badge-pill badge-secondary">22</span>
+    </a>
+    
+    <a href='/tags/vsphere/' class="nav-link">
+      vsphere
+      <span class="badge badge-pill badge-secondary">14</span>
+    </a>
+    
+    <a href='/tags/k8s/' class="nav-link">
+      k8s
+      <span class="badge badge-pill badge-secondary">9</span>
+    </a>
+    
+    <a href='/tags/sovlabs/' class="nav-link">
+      sovlabs
+      <span class="badge badge-pill badge-secondary">8</span>
+    </a>
+    
+    <a href='/tags/veeam/' class="nav-link">
+      veeam
+      <span class="badge badge-pill badge-secondary">7</span>
+    </a>
+    
+    <a href='/tags/powershell/' class="nav-link">
+      powershell
+      <span class="badge badge-pill badge-secondary">6</span>
+    </a>
+    
+    <a href='/tags/log-insight/' class="nav-link">
+      log-insight
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/pks/' class="nav-link">
+      pks
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/vrops/' class="nav-link">
+      vrops
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/vro/' class="nav-link">
+      vro
+      <span class="badge badge-pill badge-secondary">4</span>
+    </a>
+    
+    <a href='/tags/docker/' class="nav-link">
+      docker
+      <span class="badge badge-pill badge-secondary">3</span>
+    </a>
+    
+    <a href='/tags/vmworld/' class="nav-link">
+      vmworld
+      <span class="badge badge-pill badge-secondary">3</span>
+    </a>
+    
+    <a href='/tags/featured/' class="nav-link">
+      featured
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/nsx-t/' class="nav-link">
+      nsx-t
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/powercli/' class="nav-link">
+      powercli
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/rancher/' class="nav-link">
+      rancher
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/thoughts/' class="nav-link">
+      thoughts
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/ansible/' class="nav-link">
+      ansible
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/authentication/' class="nav-link">
+      authentication
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/forums/' class="nav-link">
+      forums
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/homelab/' class="nav-link">
+      homelab
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/networking/' class="nav-link">
+      networking
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/security/' class="nav-link">
+      security
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/vmtn/' class="nav-link">
+      vmtn
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+  </nav>
+  
+</div>
+
+
+  </div>
+  
+  <footer class="mt-auto footer d-print-none">
+    <a class="to-top" href="#" title="Back to top">
+      <i class="fa fa-caret-up"></i>
+    </a>
+    <div class="container-fluid">
+      <div class="row justify-content-center">
+        <div class="col-md-4 col-xl-3">
+          <h5>Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved.</h5>
+I&#39;m happy for you to share content on this site, but please provide attribution.
+        </div>
+        <div class="col-md-4 col-xl-3">
+          <h5>Disclaimer</h5>
+Opinions expressed here are my own and may not reflect those of the company I work for, or the people I work with.
+        </div>
+        <div class="col-md-4 col-xl-3">
+          <h5>About This Site</h5>
+This blog was created using the <a href="https://gohugo.io/">Hugo</a> static site generator, using
+<a href="https://getbootstrap.com/">Bootstrap</a>, using the Silhouette Hugo theme, created by
+<a href='https://www.mattbutton.com'>Matt Button</a>
+        </div>
+      </div>
+      
+      <hr />
+      
+      <div class="d-flex justify-content-center icons">
+        <a class="py-2 px-2" href="https://github.com/chipzoller"><i class="fab fa-github"></i></a>
+<a class="py-2 px-2" href="https://twitter.com/chipzoller"><i class="fab fa-twitter"></i></a>
+<a class="py-2 px-2" href="https://www.linkedin.com/in/chipzoller/"><i class="fab fa-linkedin"></i></a>
+<a class="py-2 px-2" href='https://neonmirrors.net/index.xml'><i class="fas fa-rss"></i></a>
+
+      </div>
+    </div>
+  </footer>
+  
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script src="/js/syntax.js"></script>
+  <script src = '/js/index.js'></script>
+  
+  
+</body>
+</html>

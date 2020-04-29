@@ -1,0 +1,528 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  <meta property="og:title" content="Making vRA Email Easy with Custom Notifications" />
+<meta property="og:description" content="Using SovLabs Custom Notifications to simplify vRA emails." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://neonmirrors.net/post/2018-03/making-vra-email-easy-with-custom-notifications/" />
+<meta property="article:published_time" content="2018-03-21T00:00:00+00:00" />
+<meta property="article:modified_time" content="2018-03-21T00:00:00+00:00" />
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Making vRA Email Easy with Custom Notifications"/>
+<meta name="twitter:description" content="Using SovLabs Custom Notifications to simplify vRA emails."/>
+<meta name="twitter:site" content="@chipzoller"/>
+
+  
+  <title>
+Making vRA Email Easy with Custom Notifications | Neon Mirrors
+</title>
+  
+  <link rel="icon" type="image/png" href='https://neonmirrors.net/images/favicon-16x16.png' sizes="16x16">
+  <link rel="icon" type="image/png" href='https://neonmirrors.net/images/favicon-32x32.png' sizes="32x32">  
+  
+  <link href="https://fonts.googleapis.com/css?family=Oswald:400" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">      
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel = 'stylesheet' href = 'https://neonmirrors.net/css/main.703162b863e7e1a93ee98f24b75e329848a814522f2d9f5735d41fbc7f023b3772f177c6ef8dbafccee65cfa8c1b8bb57e73d49284b5a0fdbbe772b8b29b07cb.css' integrity = 'sha512-cDFiuGPn4ak&#43;6Y8kt14ymEioFFIvLZ9XNdQfvH8COzdy8XfG7426/M7mXPqMG4u1fnPUkoS1oP2753K4spsHyw=='>
+  
+  
+<link rel="me" type="text/html" href="https://twitter.com/chipzoller"/> 
+<link rel="me" type="text/html" href="https://www.linkedin.com/in/chipzoller/"/> 
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+
+<link rel="alternate" type="application/rss+xml" href='https://neonmirrors.net/index.xml' />
+
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<meta name="author" content="Chip Zoller" />
+<meta name="copyright" content="Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved." />
+
+
+<meta name="description" content="Using SovLabs Custom Notifications to simplify vRA emails.">
+
+
+
+
+<style type="text/css">
+  .feature-image {
+    background-image: url("https://neonmirrors.net/images/2018-03/making-vra-email-easy-with-custom-notifications/featured.jpg");
+    height: 500px;
+  }
+  
+  @media (max-width: 992px) {
+    .feature-image {
+      height: 350px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .feature-image {
+      height: 250px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .feature-image {
+      height: 200px;
+    }
+  }
+</style>
+
+        
+</head>
+<body >
+  <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark py-1 top-nav">
+    <div class="container">
+      <span class="internal">
+  <a class="navbar-brand pr-2" href="/">NEON MIRRORS</a>
+</span>
+
+      <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="navbar-collapse collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/categories/technology/">Technology</a>
+  
+</li>
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/categories/music/">Music</a>
+  
+</li>
+<li class="nav-item internal">
+  
+  <div class="nav-link nav-hassubmenu">Links
+    <div class="nav-submenu" >
+    
+      <a class="nav-link" href="https://chipzoller.gitbook.io/vspheremigration/">Ultimate vSphere VM Migration Guide</a>
+    
+    </div>
+    </div>
+  
+</li>
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/about/">About</a>
+  
+</li>
+
+        </ul>
+        <div class="social-icons d-none d-lg-block">
+          <a class="py-2 px-2" href="https://github.com/chipzoller"><i class="fab fa-github"></i></a>
+<a class="py-2 px-2" href="https://twitter.com/chipzoller"><i class="fab fa-twitter"></i></a>
+<a class="py-2 px-2" href="https://www.linkedin.com/in/chipzoller/"><i class="fab fa-linkedin"></i></a>
+<a class="py-2 px-2" href='https://neonmirrors.net/index.xml'><i class="fas fa-rss"></i></a>
+
+        </div>
+      </div>
+    </div>
+  </nav>
+  
+  
+<header class="feature-image d-print-none">
+</header>
+
+  
+  <div class="main">
+    
+<div class="container mt-4 post">
+  <h1>Making vRA Email Easy with Custom Notifications</h1>
+  <div class="mb-3 internal">
+  <small>
+    <strong>By Chip Zoller</strong>
+    | <i class="far fa-calendar-alt"></i>&nbsp;Mar 21, 2018&nbsp;
+    | <i class="fa fa-tags" title="Tags" aria-hidden="true"></i> <a href='/tags/vra/'>vra</a>, <a href='/tags/vrealize/'>vrealize</a>, <a href='/tags/sovlabs/'>sovlabs</a><span class="d-lg-none">, <a href='#tags-section'>all tags</a></span>
+  </small>
+</div>
+
+  <div class="share-icons d-flex d-print-none">
+    <a href="https://twitter.com/intent/tweet?text=Making%20vRA%20Email%20Easy%20with%20Custom%20Notifications&url=https%3a%2f%2fneonmirrors.net%2fpost%2f2018-03%2fmaking-vra-email-easy-with-custom-notifications%2f&tw_p=tweetbutton" class="p-2" title="Share on Twitter" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Tweet</small></div>
+</a>
+
+<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fneonmirrors.net%2fpost%2f2018-03%2fmaking-vra-email-easy-with-custom-notifications%2f&t=Making%20vRA%20Email%20Easy%20with%20Custom%20Notifications" class="p-2" title="Share on Facebook" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+<script>
+  function shareViaLinkedin() {
+    window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent("https://neonmirrors.net/post/2018-03/making-vra-email-easy-with-custom-notifications/"), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+  }
+</script>
+<a href="#linkedinshare" id = "linkedinshare" class="p-2" title="Share on LinkedIn" rel="nofollow" onclick="shareViaLinkedin()">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+
+<a href="javascript:window.print()" title="Print this article" class="p-2" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fa fa-print fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Print</small></div>
+</a>
+
+  </div>
+  
+  <div class="mt-4 mb-4 main-content">
+    <p>Email is one of those things that most of us take for granted these days. We just expect email works, that it is flexible, and that it’s adaptable to our situation. Within vRA, we can also get email in and out based on a variety of scenarios. But when it comes to customizing how that looks and works, it’s a little tricky. As a result, many folks don’t even bother mucking around with it because of how complex it is what with manually uploading new email templates to the appliance, restarting services, customizing XML files, or writing vRO code and event broker subscriptions and doing all the plumbing work yourself. But thanks to the godsend that is <a href="https://sovlabs.com/">SovLabs’</a> <a href="https://sovlabs.com/products/notifications-vra-module/">Custom Notifications module</a>, all this is now a thing of the past. It not only makes it super simple to create your own custom notifications, but it’s actually kind of fun to see how quickly and easily you can give your CMP that extra edge with rich emails that can be your own HTML, include whatever custom properties you want, and go to basically anyone you want. In this article, I want to bring this module to attention and show you exactly how you can use it to extend your vRealize Automation platform to send custom email notifications to recipients of your choosing.</p>
+<p>In order to get email out of vRA for basic things like knowing if your provisioning request was successful, you need to setup a few things. First, there’s the outbound email server (Administration -&gt; Notifications -&gt; Email Server) so that you can connect the appliance to the mail relay. Next, there’s ensuring you have the scenarios you wish activated (Administration -&gt; Notifications -&gt; Scenarios) of which there are a whole host. And there’s also ensuring the email address is present in your Active Directory user profile.</p>
+<p><img src="/images/2018-03/making-vra-email-easy-with-custom-notifications/image1.png" alt="Chip Zoller AD user object"></p>
+<p>Once you have all this, you should begin receiving some mail. But when you do, it comes to you only, and it’s just kind of bland.</p>
+<p><img src="/images/2018-03/making-vra-email-easy-with-custom-notifications/image2.png" alt="vRA stock email body"></p>
+<p>You can see all of the basic information, but you don’t have any extra metadata that’s in the request (I have a couple in this catalog item) and also what if you need this to go to an operations team instead of yourself? It’s not really possible without some heavy lifting and running around. Changing what you see above in vRA is not a trivial task although there are some templates available that can assist. The latter use case of sending email upon provision and destruction to arbitrary recipients is even trickier with only some community code out there in vRO. This approach requires much more massaging.</p>
+<p>Now, let’s see how to accomplish this using the SovLabs Custom Notifications module. What’s nice about this and other SovLabs functionality is that you never have to leave the comforts of your vRA portal, never have to write and manipulate your own JavaScript, and never have to monkey with system files and services.</p>
+<p>In this scenario, we will configure notifications to send successful build and destroy emails to an operations team so they can be notified and make the appropriate changes to external systems of record. First, we add a Notifications Configuration through a simple catalog item which was published automatically for you when you added the license.</p>
+<p><img src="/images/2018-03/making-vra-email-easy-with-custom-notifications/image3.png" alt="Add Notification Configuration catalog item"></p>
+<p>There’s a form we must fill out with all the conveniences you might expect, including which types of events we want to get (VMLIFECYCLE contains the provisioning aspects), but there are others including snapshot notifications and IPAM. We choose the states we want with simple check boxes. Then, we choose standard things like title and body. Oh, and as you can see, the HTML is already pre-built for you making it easy to copy and paste whatever you like!</p>
+<p><img src="/images/2018-03/making-vra-email-easy-with-custom-notifications/image4.png" alt="Add Notification Configuration request form, page 1"></p>
+<p>Over on the Message Server Configuration tab, we can use an existing mail server definition as well as an existing email group definition. Let’s create a new one to see what’s here.</p>
+<p><img src="/images/2018-03/making-vra-email-easy-with-custom-notifications/image5.png" alt="Add Notification Configuration request form, page 2"></p>
+<p>Everything you would expect to see, including the ability to set and save email server credentials if you enable authorization. And down on the Email Group configuration portion, here we can very easily add To, CC, and BCC addresses all in one profile! This ability makes it super simple to put whatever email(s) you like into a profile that can then be used on a per-blueprint basis if you like. Submit the configuration, check your requests to ensure it completes, and then go back to the SovLabs vRA Extensibility Modules service in the catalog. This time, select Add Notification Group.</p>
+<p><img src="/images/2018-03/making-vra-email-easy-with-custom-notifications/image6.png" alt="Add Notification Group catalog item"></p>
+<p>Here, we’ll choose the profile we just selected giving it a label and type.</p>
+<p><img src="/images/2018-03/making-vra-email-easy-with-custom-notifications/image7.png" alt="Notification Group request form"></p>
+<p>Once this is submitted and successful, you should now see a nifty new property group that was auto-created for you.</p>
+<p><img src="/images/2018-03/making-vra-email-easy-with-custom-notifications/image8.png" alt="vRA property groups"></p>
+<p>If you dive into this property group, you’ll see a number of system properties in addition to the main custom property called <code>SovLabs_NotificationGroup</code> and the value of which is the profile you created in the last step.</p>
+<p><img src="/images/2018-03/making-vra-email-easy-with-custom-notifications/image9.png" alt="SovLabs_NotificationGroup property group"></p>
+<p>The SovLabs Notification module essentially checks to see if this property exists and, when it does, it matches the profile to the value and uses that to know what, where, and to whom to send notifications. You can then use this property anywhere in vRA you see fit, but in this demonstration we’ll consume this property group simply by attaching it to a blueprint.</p>
+<p>In this blueprint, all I’ve done is found and attached this pre-created property group, then saved the blueprint. It’s really that simple and I’ve done absolutely nothing else.</p>
+<p><img src="/images/2018-03/making-vra-email-easy-with-custom-notifications/image10.png" alt="vRA blueprint properties"></p>
+<p>Now, I’ll go to the catalog and request this item to see what happens.</p>
+<p><img src="/images/2018-03/making-vra-email-easy-with-custom-notifications/image11.png" alt="vRA test catalog item"></p>
+<p><img src="/images/2018-03/making-vra-email-easy-with-custom-notifications/image12.png" alt="vRA test catalog item request form"></p>
+<p>You can see I have a couple of custom fields in the request. More on this in a second.</p>
+<p><img src="/images/2018-03/making-vra-email-easy-with-custom-notifications/image13.png" alt="Click submit"></p>
+<p>After the request succeeds, I check my email and find this.</p>
+<p><img src="/images/2018-03/making-vra-email-easy-with-custom-notifications/image14.png" alt="SovLabs custom notification email body"></p>
+<p>And, bam, there it is! What you see is an HTML-formatted email that comes entirely out-of-the-box. It’s important to stress that what you see above is stock and I’ve made absolutely no modifications whatsoever to the body of the message. It’s pretty detailed already, right? And easy to read? Certainly. They’ve done a great job of putting this together, but also in making it easy to extend into whatever you’d like to see.</p>
+<p>Now that we have a basic email, how do we customize this easily to add additional things like custom properties that I had on the request form? If you scroll up, you’ll see I had a drop-down called <code>CZAD.Users</code>. I supplied a value for this field at request time. I now want to see that in my email that came across. Maybe this is something like an application owner or backup retention policy or other metadata to go into an asset tracking system. Whatever it may be, it’s simple to drop into these custom notifications. So let’s see that process.</p>
+<p>From your Items tab, go over to SovLabs Notification and find this profile you created earlier. We need to edit the body of it. Open the item and click the Update action item.</p>
+<p><img src="/images/2018-03/making-vra-email-easy-with-custom-notifications/image15.png" alt="Notification Configuration day-2 actions"></p>
+<p>The body as well as the other fields become editable.</p>
+<p><img src="/images/2018-03/making-vra-email-easy-with-custom-notifications/image16.png" alt="Notification Configuration body"></p>
+<p>You have the choice of either editing it as-is here in the text area, or lifting it into an HTML editor of your choice. I’m going to choose the latter because I’m not a hardcore HTML programmer. I’ll just jump over to a <a href="https://html-online.com/editor/">simple online editor</a> for demo purposes and paste in the code.</p>
+<p><img src="/images/2018-03/making-vra-email-easy-with-custom-notifications/image17.png" alt="Raw HTML code (right); rendered HTML code (left)"></p>
+<p>This may be a little difficult to see depending on how it gets published, but on the right I have pasted in the raw HTML, and on the left I have it rendered out.</p>
+<p>I want to add a new row under the “Machine details” heading that shows my <code>CZAD.Users</code> custom property and its value. Now, you may notice I have a number of these words enclosed in double braces like <code>{{ something }}</code>. These are actually custom properties inside vRA that, thanks to the wonders of the SovLabs <a href="http://docs.sovlabs.com/vRA7x/2018.1.x/framework/sovlabs-template-engine/tags/">Template Engine</a>, we can easily pick up and translate. Yes, really, it’s as simple as enclosing whatever custom property we want in double braces and it gets automatically translated, and it can be <em>any</em> custom property as well—even system properties!</p>
+<p><img src="/images/2018-03/making-vra-email-easy-with-custom-notifications/image18.jpeg" alt="&ldquo;Engage&rdquo; those templates"></p>
+<p>Maybe it’s just me, but I find that AWESOME and <strong>waaay</strong> better than having to write any code to pick it up and interpret it myself.</p>
+<p>So, getting back, let’s add that line underneath “Network name” so our code and, thus, the HTML gets rendered as shown.</p>
+<p><img src="/images/2018-03/making-vra-email-easy-with-custom-notifications/image19.png" alt="Rendered HTML (left) with custom property"></p>
+<p>Again, maybe difficult to see, but I’ve made the code change in the editor on the right (highlighted), and I can see the editions rendered on the left. Let’s copy and paste this entire block back into our notification definition and update it.</p>
+<p><img src="/images/2018-03/making-vra-email-easy-with-custom-notifications/image20.png" alt="vRA catalog request details"></p>
+<p>That was successful, now let’s re-request the same item and see what we get.</p>
+<p><img src="/images/2018-03/making-vra-email-easy-with-custom-notifications/image21.png" alt="vRA catalog item request form with CZAD.Users specified"></p>
+<p>I’ve highlighted the field and its value, so we should hopefully see this now.</p>
+<p><img src="/images/2018-03/making-vra-email-easy-with-custom-notifications/image22.png" alt="Successful request"></p>
+<p><img src="/images/2018-03/making-vra-email-easy-with-custom-notifications/image23.png" alt="SovLabs custom notification with rendered property, provisioned"></p>
+<p>And, boom, there we go! The new email that came from the system has the custom property added and got the correct value. And, likewise, when we destroy this deployment, we get another email with the same information making it easy for an operations team to get all the info they need.</p>
+<p><img src="/images/2018-03/making-vra-email-easy-with-custom-notifications/image24.png" alt="SovLabs custom notification with rendered property, destroyed"></p>
+<p>Now, hopefully, you can see how huge this notification module is, how vastly powerful and flexible it can make your vRA infrastructure, and, above all else, how much easier it is to setup and administer versus everything else out there. This is a great way to add value to your CMP and can solve a whole variety of use cases. Now all that’s left is to go forth and see how you can use this in your organization!</p>
+
+    
+    <div class="share-icons d-flex d-print-none">
+      <a href="https://twitter.com/intent/tweet?text=Making%20vRA%20Email%20Easy%20with%20Custom%20Notifications&url=https%3a%2f%2fneonmirrors.net%2fpost%2f2018-03%2fmaking-vra-email-easy-with-custom-notifications%2f&tw_p=tweetbutton" class="p-2" title="Share on Twitter" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Tweet</small></div>
+</a>
+
+<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fneonmirrors.net%2fpost%2f2018-03%2fmaking-vra-email-easy-with-custom-notifications%2f&t=Making%20vRA%20Email%20Easy%20with%20Custom%20Notifications" class="p-2" title="Share on Facebook" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+<script>
+  function shareViaLinkedin() {
+    window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent("https://neonmirrors.net/post/2018-03/making-vra-email-easy-with-custom-notifications/"), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+  }
+</script>
+<a href="#linkedinshare" id = "linkedinshare" class="p-2" title="Share on LinkedIn" rel="nofollow" onclick="shareViaLinkedin()">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+
+<a href="javascript:window.print()" title="Print this article" class="p-2" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fa fa-print fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Print</small></div>
+</a>
+
+    </div>
+  </div>
+  
+  
+</div>
+<div class="sidebar d-print-none d-xl-block internal">
+  
+  <h2>Chip Zoller</h2>
+  <div>
+    Technologist, perpetual student, teacher, continual incremental improvement.
+  </div>
+  <a href="/about/" class="btn btn-outline-secondary mt-3" role="button">Read More...</a>
+  <h2 class="mt-4">Featured Posts</h2>
+  
+  
+  <a href="/post/2019-10/authentication-and-authorization-in-k8s/" class="nav-link">Authentication and Authorization in Kubernetes</a>
+  
+  <a href="/post/2018-12/how-to-ask-for-help-on-tech-forums/" class="nav-link">How to Ask for Help on Tech Forums</a>
+  
+  <h2 class="mt-4">Recent Posts</h2>
+  <nav class="nav flex-column">
+    
+    <a href="/post/2020-04/getting-started-with-tkg/" class="nav-link">Getting Started with Tanzu Kubernetes Grid</a>
+    
+    <a href="/post/2020-04/capv-overview/" class="nav-link">Behind the Scenes with Cluster API Provider vSphere</a>
+    
+    <a href="/post/2020-01/buy-dont-build/" class="nav-link">Buy Don&#39;t Build</a>
+    
+    <a href="/post/2020-01/why-k8s-on-vms/" class="nav-link">Why Kubernetes on Virtual Machines?</a>
+    
+    <a href="/post/2020-01/2020-public-domain-day/" class="nav-link">2020 Public Domain Day</a>
+    
+    <a href="/post/2019-10/authentication-and-authorization-in-k8s/" class="nav-link">Authentication and Authorization in Kubernetes</a>
+    
+    <a href="/post/2019-10/pks-rancher-reg/" class="nav-link">pks-rancher-reg: Automated PKS Cluster Registration For Rancher</a>
+    
+    <a href="/post/2019-09/rancher-ha-on-pks/" class="nav-link">Rancher HA on Enterprise PKS</a>
+    
+  </nav>
+  
+  <h2 class="mt-4 text-capitalize" id="categories-section">categories</h2>
+  <nav class="nav">
+    
+    <a href='/categories/technology/' class="nav-link">
+      technology
+      <span class="badge badge-pill badge-secondary">53</span>
+    </a>
+    
+    <a href='/categories/music/' class="nav-link">
+      music
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+  </nav>
+  
+  <h2 class="mt-4 text-capitalize" id="tags-section">tags</h2>
+  <nav class="nav">
+    
+    <a href='/tags/vrealize/' class="nav-link">
+      vrealize
+      <span class="badge badge-pill badge-secondary">27</span>
+    </a>
+    
+    <a href='/tags/vra/' class="nav-link">
+      vra
+      <span class="badge badge-pill badge-secondary">22</span>
+    </a>
+    
+    <a href='/tags/vsphere/' class="nav-link">
+      vsphere
+      <span class="badge badge-pill badge-secondary">14</span>
+    </a>
+    
+    <a href='/tags/k8s/' class="nav-link">
+      k8s
+      <span class="badge badge-pill badge-secondary">9</span>
+    </a>
+    
+    <a href='/tags/sovlabs/' class="nav-link">
+      sovlabs
+      <span class="badge badge-pill badge-secondary">8</span>
+    </a>
+    
+    <a href='/tags/veeam/' class="nav-link">
+      veeam
+      <span class="badge badge-pill badge-secondary">7</span>
+    </a>
+    
+    <a href='/tags/powershell/' class="nav-link">
+      powershell
+      <span class="badge badge-pill badge-secondary">6</span>
+    </a>
+    
+    <a href='/tags/log-insight/' class="nav-link">
+      log-insight
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/pks/' class="nav-link">
+      pks
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/vrops/' class="nav-link">
+      vrops
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/vro/' class="nav-link">
+      vro
+      <span class="badge badge-pill badge-secondary">4</span>
+    </a>
+    
+    <a href='/tags/docker/' class="nav-link">
+      docker
+      <span class="badge badge-pill badge-secondary">3</span>
+    </a>
+    
+    <a href='/tags/vmworld/' class="nav-link">
+      vmworld
+      <span class="badge badge-pill badge-secondary">3</span>
+    </a>
+    
+    <a href='/tags/featured/' class="nav-link">
+      featured
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/nsx-t/' class="nav-link">
+      nsx-t
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/powercli/' class="nav-link">
+      powercli
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/rancher/' class="nav-link">
+      rancher
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/thoughts/' class="nav-link">
+      thoughts
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/ansible/' class="nav-link">
+      ansible
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/authentication/' class="nav-link">
+      authentication
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/forums/' class="nav-link">
+      forums
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/homelab/' class="nav-link">
+      homelab
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/networking/' class="nav-link">
+      networking
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/security/' class="nav-link">
+      security
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/vmtn/' class="nav-link">
+      vmtn
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+  </nav>
+  
+</div>
+
+
+  </div>
+  
+  <footer class="mt-auto footer d-print-none">
+    <a class="to-top" href="#" title="Back to top">
+      <i class="fa fa-caret-up"></i>
+    </a>
+    <div class="container-fluid">
+      <div class="row justify-content-center">
+        <div class="col-md-4 col-xl-3">
+          <h5>Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved.</h5>
+I&#39;m happy for you to share content on this site, but please provide attribution.
+        </div>
+        <div class="col-md-4 col-xl-3">
+          <h5>Disclaimer</h5>
+Opinions expressed here are my own and may not reflect those of the company I work for, or the people I work with.
+        </div>
+        <div class="col-md-4 col-xl-3">
+          <h5>About This Site</h5>
+This blog was created using the <a href="https://gohugo.io/">Hugo</a> static site generator, using
+<a href="https://getbootstrap.com/">Bootstrap</a>, using the Silhouette Hugo theme, created by
+<a href='https://www.mattbutton.com'>Matt Button</a>
+        </div>
+      </div>
+      
+      <hr />
+      
+      <div class="d-flex justify-content-center icons">
+        <a class="py-2 px-2" href="https://github.com/chipzoller"><i class="fab fa-github"></i></a>
+<a class="py-2 px-2" href="https://twitter.com/chipzoller"><i class="fab fa-twitter"></i></a>
+<a class="py-2 px-2" href="https://www.linkedin.com/in/chipzoller/"><i class="fab fa-linkedin"></i></a>
+<a class="py-2 px-2" href='https://neonmirrors.net/index.xml'><i class="fas fa-rss"></i></a>
+
+      </div>
+    </div>
+  </footer>
+  
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script src="/js/syntax.js"></script>
+  <script src = '/js/index.js'></script>
+  
+  
+</body>
+</html>

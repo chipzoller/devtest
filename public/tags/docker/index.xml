@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>docker on Neon Mirrors</title>
+    <link>https://neonmirrors.net/tags/docker/</link>
+    <description>Recent content in docker on Neon Mirrors</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <copyright>Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved.</copyright>
+    <lastBuildDate>Fri, 09 Aug 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://neonmirrors.net/tags/docker/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>pks-dns: Automated DNS registration for PKS Clusters</title>
+      <link>https://neonmirrors.net/post/2019-08/pks-dns/</link>
+      <pubDate>Fri, 09 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2019-08/pks-dns/</guid>
+      <description>VMware’s Enterprise PKS is a great solution for quickly and easily stamping out Kubernetes clusters. It really makes the process simple and repeatable while bringing additional benefits like scaling, upgrades, and auto-healing thanks to the likes of BOSH–PKS’ right-hand man. It also leverages (or can) NSX-T which provides tons of additional value. All of these pieces come together to form what is often touted as a “turnkey solution”. However, ever since I first started working with the product, something has always bugged me and remained in the back of my mind like a chime ringing in the distance.</description>
+    </item>
+    
+    <item>
+      <title>Photon Docker Container Hosts in vRA 7.2</title>
+      <link>https://neonmirrors.net/post/2017-01/photon-docker-container-hosts-vra72/</link>
+      <pubDate>Tue, 10 Jan 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2017-01/photon-docker-container-hosts-vra72/</guid>
+      <description>vRealize Automation 7.2 was released in late November with the much-heralded release of container support. You can read about it in the official announcement blog here and a post from Jad here, but other features also accompanied containers including support for Azure, ServiceNow integration, and others. Since containers has been and continues to be such a hot topic, I wanted to explore this feature in depth and I’ll be writing several posts that cover all aspects of Docker and containers through vRA, so stay tuned here for more posts.</description>
+    </item>
+    
+    <item>
+      <title>Docker Engine on Windows and Linux through vRealize Automation</title>
+      <link>https://neonmirrors.net/post/2016-12/docker-engine-blueprints-for-vra/</link>
+      <pubDate>Tue, 06 Dec 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2016-12/docker-engine-blueprints-for-vra/</guid>
+      <description>Docker is a topic that seems all the rage today, and people and organizations are scrambling to understand the technology in order to power their next-generation apps with methodologies such as continuous delivery and micro-services. In order to make standing up Docker easier for those with vRealize Automation, I’ve made a couple of software blueprints that can be dropped on top of your existing machine blueprints which allow you to provision Docker hosts on both Linux and Windows!</description>
+    </item>
+    
+  </channel>
+</rss>

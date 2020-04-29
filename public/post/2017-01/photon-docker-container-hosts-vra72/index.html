@@ -1,0 +1,535 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  <meta property="og:title" content="Photon Docker Container Hosts in vRA 7.2" />
+<meta property="og:description" content="Building PhotonOS as a Docker container host for use in vRealize Automation 7.2." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://neonmirrors.net/post/2017-01/photon-docker-container-hosts-vra72/" />
+<meta property="article:published_time" content="2017-01-10T00:00:00+00:00" />
+<meta property="article:modified_time" content="2017-01-10T00:00:00+00:00" />
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Photon Docker Container Hosts in vRA 7.2"/>
+<meta name="twitter:description" content="Building PhotonOS as a Docker container host for use in vRealize Automation 7.2."/>
+<meta name="twitter:site" content="@chipzoller"/>
+
+  
+  <title>
+Photon Docker Container Hosts in vRA 7.2 | Neon Mirrors
+</title>
+  
+  <link rel="icon" type="image/png" href='https://neonmirrors.net/images/favicon-16x16.png' sizes="16x16">
+  <link rel="icon" type="image/png" href='https://neonmirrors.net/images/favicon-32x32.png' sizes="32x32">  
+  
+  <link href="https://fonts.googleapis.com/css?family=Oswald:400" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">      
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel = 'stylesheet' href = 'https://neonmirrors.net/css/main.703162b863e7e1a93ee98f24b75e329848a814522f2d9f5735d41fbc7f023b3772f177c6ef8dbafccee65cfa8c1b8bb57e73d49284b5a0fdbbe772b8b29b07cb.css' integrity = 'sha512-cDFiuGPn4ak&#43;6Y8kt14ymEioFFIvLZ9XNdQfvH8COzdy8XfG7426/M7mXPqMG4u1fnPUkoS1oP2753K4spsHyw=='>
+  
+  
+<link rel="me" type="text/html" href="https://twitter.com/chipzoller"/> 
+<link rel="me" type="text/html" href="https://www.linkedin.com/in/chipzoller/"/> 
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+
+<link rel="alternate" type="application/rss+xml" href='https://neonmirrors.net/index.xml' />
+
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<meta name="author" content="Chip Zoller" />
+<meta name="copyright" content="Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved." />
+
+
+<meta name="description" content="Building PhotonOS as a Docker container host for use in vRealize Automation 7.2.">
+
+
+
+
+<style type="text/css">
+  .feature-image {
+    background-image: url("https://neonmirrors.net/images/2017-01/photon-docker-container-hosts-vra72/featured.jpg");
+    height: 500px;
+  }
+  
+  @media (max-width: 992px) {
+    .feature-image {
+      height: 350px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .feature-image {
+      height: 250px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .feature-image {
+      height: 200px;
+    }
+  }
+</style>
+
+        
+</head>
+<body >
+  <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark py-1 top-nav">
+    <div class="container">
+      <span class="internal">
+  <a class="navbar-brand pr-2" href="/">NEON MIRRORS</a>
+</span>
+
+      <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="navbar-collapse collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/categories/technology/">Technology</a>
+  
+</li>
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/categories/music/">Music</a>
+  
+</li>
+<li class="nav-item internal">
+  
+  <div class="nav-link nav-hassubmenu">Links
+    <div class="nav-submenu" >
+    
+      <a class="nav-link" href="https://chipzoller.gitbook.io/vspheremigration/">Ultimate vSphere VM Migration Guide</a>
+    
+    </div>
+    </div>
+  
+</li>
+<li class="nav-item internal">
+  
+  <a class="nav-link" href="/about/">About</a>
+  
+</li>
+
+        </ul>
+        <div class="social-icons d-none d-lg-block">
+          <a class="py-2 px-2" href="https://github.com/chipzoller"><i class="fab fa-github"></i></a>
+<a class="py-2 px-2" href="https://twitter.com/chipzoller"><i class="fab fa-twitter"></i></a>
+<a class="py-2 px-2" href="https://www.linkedin.com/in/chipzoller/"><i class="fab fa-linkedin"></i></a>
+<a class="py-2 px-2" href='https://neonmirrors.net/index.xml'><i class="fas fa-rss"></i></a>
+
+        </div>
+      </div>
+    </div>
+  </nav>
+  
+  
+<header class="feature-image d-print-none">
+</header>
+
+  
+  <div class="main">
+    
+<div class="container mt-4 post">
+  <h1>Photon Docker Container Hosts in vRA 7.2</h1>
+  <div class="mb-3 internal">
+  <small>
+    <strong>By Chip Zoller</strong>
+    | <i class="far fa-calendar-alt"></i>&nbsp;Jan 10, 2017&nbsp;
+    | <i class="fa fa-tags" title="Tags" aria-hidden="true"></i> <a href='/tags/docker/'>docker</a>, <a href='/tags/vra/'>vra</a>, <a href='/tags/vrealize/'>vrealize</a><span class="d-lg-none">, <a href='#tags-section'>all tags</a></span>
+  </small>
+</div>
+
+  <div class="share-icons d-flex d-print-none">
+    <a href="https://twitter.com/intent/tweet?text=Photon%20Docker%20Container%20Hosts%20in%20vRA%207.2&url=https%3a%2f%2fneonmirrors.net%2fpost%2f2017-01%2fphoton-docker-container-hosts-vra72%2f&tw_p=tweetbutton" class="p-2" title="Share on Twitter" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Tweet</small></div>
+</a>
+
+<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fneonmirrors.net%2fpost%2f2017-01%2fphoton-docker-container-hosts-vra72%2f&t=Photon%20Docker%20Container%20Hosts%20in%20vRA%207.2" class="p-2" title="Share on Facebook" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+<script>
+  function shareViaLinkedin() {
+    window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent("https://neonmirrors.net/post/2017-01/photon-docker-container-hosts-vra72/"), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+  }
+</script>
+<a href="#linkedinshare" id = "linkedinshare" class="p-2" title="Share on LinkedIn" rel="nofollow" onclick="shareViaLinkedin()">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+
+<a href="javascript:window.print()" title="Print this article" class="p-2" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fa fa-print fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Print</small></div>
+</a>
+
+  </div>
+  
+  <div class="mt-4 mb-4 main-content">
+    <p>vRealize Automation 7.2 was released in late November with the much-heralded release of container support. You can read about it in the official announcement blog <a href="http://blogs.vmware.com/management/2016/11/vrealize-automation-7-2-arrived.html">here</a> and a post from Jad <a href="http://www.virtualjad.com/2016/11/scoop-vrealize-automation-7-2.html">here</a>, but other features also accompanied containers including support for Azure, ServiceNow integration, and others. Since containers has been and continues to be such a hot topic, I wanted to explore this feature in depth and I’ll be writing several posts that cover all aspects of Docker and containers through vRA, so stay tuned here for more posts.</p>
+<p>In this post, we’ll look at how to create and deploy Docker container hosts (called Engines) using VMware’s purpose-built Linux distribution for running containers called <a href="https://vmware.github.io/photon/">Photon OS</a>, and then how to make those container hosts managed by Admiral, the container orchestration system embedded within vRA. You will need an Enterprise license for the container management portion and the software authoring portion.</p>
+<p>To start, grab the latest OVA of PhotonOS <a href="https://vmware.github.io/photon/">here</a> and import it into your vSphere. If you’re on vSphere 6 and already have a Content Library created, you can import it there for safekeeping, just know it’ll show up in your “Other Types” since it’s an OVA and not an OVF.</p>
+<p><img src="/images/2017-01/photon-docker-container-hosts-vra72/image1.png" alt="OVAs in the content library show in Other Types"></p>
+<p>Deploy that to a new VM and power it up. The default password is ‘changeme’ and, well, you’ll have to change it. Once that’s done, it’s time to start templatizing Photon so we can consume it in vRA. To do so, let’s get everything up-to-date so we don’t have to do that after. Photon is a new Linux distribution that doesn’t use yum or apt, and instead uses tdnf. In order to update all packages, run <code>tdnf distro-sync</code> and see what it finds.</p>
+<p><img src="/images/2017-01/photon-docker-container-hosts-vra72/image2.png" alt="Docker engine updates available"></p>
+<p>As you can see, there are quite a few packages that can be upgraded at the time of this writing, but one of the most important ones we get by updating packages is Docker v1.12. This is the current major release and was significant advancement over the previous in that swarm mode is now built-in. We’ll save that for another article, however. Once you update all the packages, go ahead and reboot Photon. A simple <code>reboot</code> command will suffice.</p>
+<p>Now that Photon is current, we need to install the vRA guest/software agent. To do so, let’s install one more package manually to retrieve the installer script from the vRA appliance. From a command prompt, enter <code>tdnf install wget -y</code> and watch it download and install it. Once that’s done, let’s get our script. Enter <code>wget --no-check-certificate https://&lt;vraFQDN&gt;/software/download/prepare_vra_template.sh</code> to download the file locally. Make sure it is executable by setting the execute bit with <code>chmod +x prepare_vra_template.sh</code>. At this point, you could try to run it just like you would normally do, but in this instance the script will fail rather quickly. The reason being twofold: 1) We don’t have all the utilities installed in Photon that the script calls; and 2) The script hasn’t yet been updated to take into consideration Photon OS. Luckily, I’ve already figured out what it needs in the way of packages and parameters, so I’m here to save you some time. Enter the following to install five more packages:</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">tdnf install -y unzip gawk perl chkconfig dmidecode
+</code></pre></div><p>Next, we need to create some directories which are missing in Photon, so enter <code>mkdir /opt /opt/vmware-jre</code> to create them. After this, we must make some manual edits to the installer script to trick it into thinking it’s being installed on some other Linux distribution than Photon. Make the following adjustments at the lines indicated. It’s easiest to do so using the all-power vim since it has built-in line numbers.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">Line 31:  <span class="nv">arch</span><span class="o">=</span><span class="nv">$ARCH64</span>
+Line 33:  <span class="nv">archSoftwareAgentRPM</span><span class="o">=</span>rhel64
+Line 36:  <span class="nv">distro</span><span class="o">=</span>rhel64
+Line 42:  <span class="nv">use_rpm</span><span class="o">=</span><span class="nb">true</span>
+</code></pre></div><p><img src="/images/2017-01/photon-docker-container-hosts-vra72/image3.png" alt="The prepare script must be edited in these places"></p>
+<p>I tried to highlight the text as it should appear after editing, and place callouts in the above screenshot. Now that we have that done, we should be able to execute the script (finally) and put in the info as requested when prompted. If you followed the above instructions correctly, the script should install.</p>
+<p><img src="/images/2017-01/photon-docker-container-hosts-vra72/image4.png" alt="After manual edits, prepare script installs successfully"></p>
+<p>Once it installs successfully, you’re done, just shutdown Photon and convert it to a template.</p>
+<p>From within vRA, we need to run a data collection on the inventory so it sees your new template. From your compute resource where the template is registered, request an inventory collection.</p>
+<p><img src="/images/2017-01/photon-docker-container-hosts-vra72/image5.png" alt="Run a data collection in vRA"></p>
+<p><img src="/images/2017-01/photon-docker-container-hosts-vra72/image6.png" alt="Inventory is the only collection needed to pick up new templates"></p>
+<p>Once that completes, we should be able to make use of that new template. Next, we need to have a software blueprint that properly configures the Docker engine within Photon. Again, I’m here to help you having already done the heavy lifting. It just so happens I’ve been the exact software blueprint you’ll need in this case and have shared it with the community. Head over to the <a href="https://developercenter.vmware.com/web/dp/home">VMware Developer Center</a> to the portion called <a href="https://developercenter.vmware.com/samples">Samples Exhange</a> and <a href="https://developercenter.vmware.com/samples/1474/photon-docker-engine">download my blueprint</a>. If you’re not familiar with this site, it’s terrific. They provide a community marketplace where anyone can register and upload custom content including things like PowerShell scripts, vRO packages, and vRA blueprints.</p>
+<p><img src="/images/2017-01/photon-docker-container-hosts-vra72/image7.png" alt="Languge types available in the Samples Exchange"></p>
+<p>If you take a look at the page containing my Photon Docker Engine software blueprint, you’ll also find the same instructions there to successfully install the software agent inside Photon.</p>
+<p><img src="/images/2017-01/photon-docker-container-hosts-vra72/image8.png" alt="Sample page of Photon Docker Engine software blueprint"></p>
+<p>Once you have my blueprint, you’ll need to install the <a href="https://my.vmware.com/group/vmware/details?downloadGroup=CLOUDCLIENT_430&amp;productId=624">CloudClient</a> to import it into your vRA 7.2 environment. In the interest of brevity, I won’t cover extensively how to use CloudClient, except for the two main commands you’ll use. To login to your tenant, use <code>vra login userpass --tenant &lt;my_tenant&gt;</code>, and finally to import the blueprint use <code>vra content import --path &lt;my_path\my_blueprint.zip&gt; --resolution skip</code>. You should see a message similar to the following:</p>
+<p><img src="/images/2017-01/photon-docker-container-hosts-vra72/image9.png" alt="CloudClient import success"></p>
+<p>If so, you should see a “Photon Docker Engine” blueprint show up in your Software Components.</p>
+<p>Next, we need to create a machine blueprint for Photon that contains our Photon Docker Engine software component as well as set some parameters around what we will allow users to do when they request this. Drag a vSphere machine onto the canvas with an existing network, and finally the Docker Engine blueprint goes on the machine. In the Build Information tab for your machine, clone from and pick your Photon template you created earlier.</p>
+<p><img src="/images/2017-01/photon-docker-container-hosts-vra72/image10.png" alt="Build Information tab on a machine component"></p>
+<p>You must select a valid Linux customization spec in vCenter in order for the hostname and IP to be set properly. In the Machine Resources tab, select how large you’ll allow this machine to be when requested.</p>
+<p><img src="/images/2017-01/photon-docker-container-hosts-vra72/image11.png" alt="Set min and max resource sizes"></p>
+<p>And back in the General tab, crank up the maximum instances if you want more than just one.</p>
+<p><img src="/images/2017-01/photon-docker-container-hosts-vra72/image12.png" alt="Set min and max instance numbers"></p>
+<p>The resulting canvas should look something like this:</p>
+<p><img src="/images/2017-01/photon-docker-container-hosts-vra72/image13.png" alt="vSphere machine object with software component on design canvas"></p>
+<p>Now we have the blueprint built like we want. We can certainly deploy it as-is and out comes a Photon VM with Docker installed, running, and accessible, but we also want this to be a container host registered with Admiral under the Containers tab so we can deploy containers at a later step.</p>
+<p><img src="/images/2017-01/photon-docker-container-hosts-vra72/image14.png" alt="Admiral portal under Containers tab in vRA"></p>
+<p>While we could add the host manually, as shown above, once it was deployed, that wouldn’t be very automated of us. Fortunately, with vRA 7.2, they’ve made this possible via a yet-undocumented ability enabled through property groups.</p>
+<p>If you go to Administration -&gt; Property Dictionary -&gt; Property Groups, you’ll see two new property groups there.</p>
+<p><img src="/images/2017-01/photon-docker-container-hosts-vra72/image15.png" alt="Container host property groups"></p>
+<p>These property groups handle the container host registration process for us in Admiral. There is one for certificate authentication and another for user/pass authentication. My Docker blueprint exposes the Docker engine API on port 2375, which does not use certificates and should therefore be considered insecure. This may be fine for some but not all environments. Because both of these property groups assume a secured channel of communication, we need to make some changes. Clone the property group with user/pass combo to a new one and name it something you can find. Since the originals are visible in all tenants, so too will this clone unless you create a group anew. Edit the User, Password, Port, and Scheme custom properties within your clone to reflect the credentials set on your Photon template, port 2375, and HTTP. It’s important that you do NOT change the custom property named “Container” as doing so will cause it to not register with Admiral.</p>
+<p><img src="/images/2017-01/photon-docker-container-hosts-vra72/image16.png" alt="Edit shown custom properties with your values"></p>
+<p>If you don’t want to see any of these properties show up on the request form, edit them accordingly.</p>
+<p>Now edit your blueprint and attach this newly-cloned and edited property group to the deployment.</p>
+<p><img src="/images/2017-01/photon-docker-container-hosts-vra72/image17.png" alt="Attach property group to blueprint"></p>
+<p>Go through the usual steps of catalog and entitlement management so you can request your Photon machine.</p>
+<p><img src="/images/2017-01/photon-docker-container-hosts-vra72/image18.png" alt="Test PhotonOS catalog item"></p>
+<p>Fill out your form as necessary, add more instances if you wish, and then submit the request. Go check the status of your request and see the various lifecycle stages progress during the Docker engine configuration process.</p>
+<p><img src="/images/2017-01/photon-docker-container-hosts-vra72/image19.png" alt="Software component execution logs, Install phase"></p>
+<p><img src="/images/2017-01/photon-docker-container-hosts-vra72/image20.png" alt="Software component execution logs, Configure phase"></p>
+<p><img src="/images/2017-01/photon-docker-container-hosts-vra72/image21.png" alt="Software component execution logs, Start phase"></p>
+<p>If all that was successful, you should be able to go to the Containers tab and see this new host ready to be allocated.</p>
+<p><img src="/images/2017-01/photon-docker-container-hosts-vra72/image22.png" alt="Deployed PhotonOS VM now available as a container host"></p>
+<p>Cool! You can see it puts it in the default placement zone, but ultimately you’ll want to create your own and move container hosts into those as needed. At this point, the container host is registered, but it isn’t yet available to receive containers. We need to edit the host to set a Placement Zone and a Deployment Policy. Click the edit button in the top right and let’s set some of those things.</p>
+<p><img src="/images/2017-01/photon-docker-container-hosts-vra72/image23.png" alt="Edit the container host"></p>
+<p><img src="/images/2017-01/photon-docker-container-hosts-vra72/image24.png" alt="Modify container host properties as needed"></p>
+<p>Create a placement zone and a deployment policy of your choosing. I’ll go into those more later, but for now pick a name just to complete the host configuration and click Update. Now with that done, you’ll notice a couple things. Firstly, the memory and CPU usage bars will contain data. Secondly, if you login to Photon and inspect the running containers with <code>docker ps</code>, you’ll see a new container which is the Admiral agent.</p>
+<p><img src="/images/2017-01/photon-docker-container-hosts-vra72/image25.png" alt="Container host showing resource utilization"></p>
+<p><img src="/images/2017-01/photon-docker-container-hosts-vra72/image26.png" alt="admiral_agent running as a management container on the host"></p>
+<p>So there you have it. We’ve built a Photon template that will be used for our container infrastructure, installed and run a custom software blueprint which handles all the Docker configuration, and made it join Admiral as a managed host upon which we’ll later build to deploy our containerized applications.</p>
+<p>I hope you’ve found this informative and helpful so you can begin experimenting with the new containers feature in vRA 7.2. Keep an eye out for more articles covering Docker and containers in vRA!</p>
+
+    
+    <div class="share-icons d-flex d-print-none">
+      <a href="https://twitter.com/intent/tweet?text=Photon%20Docker%20Container%20Hosts%20in%20vRA%207.2&url=https%3a%2f%2fneonmirrors.net%2fpost%2f2017-01%2fphoton-docker-container-hosts-vra72%2f&tw_p=tweetbutton" class="p-2" title="Share on Twitter" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Tweet</small></div>
+</a>
+
+<a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fneonmirrors.net%2fpost%2f2017-01%2fphoton-docker-container-hosts-vra72%2f&t=Photon%20Docker%20Container%20Hosts%20in%20vRA%207.2" class="p-2" title="Share on Facebook" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+<script>
+  function shareViaLinkedin() {
+    window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent("https://neonmirrors.net/post/2017-01/photon-docker-container-hosts-vra72/"), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+  }
+</script>
+<a href="#linkedinshare" id = "linkedinshare" class="p-2" title="Share on LinkedIn" rel="nofollow" onclick="shareViaLinkedin()">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Share</small></div>
+</a>
+
+<a href="javascript:window.print()" title="Print this article" class="p-2" target="_blank" rel="nofollow">
+  <div>
+    <span class="fa-stack">
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fa fa-print fa-stack-1x fa-inverse"></i>
+    </span>
+  </div>
+  <div class="fa-inverse text-center"><small>Print</small></div>
+</a>
+
+    </div>
+  </div>
+  
+  
+</div>
+<div class="sidebar d-print-none d-xl-block internal">
+  
+  <h2>Chip Zoller</h2>
+  <div>
+    Technologist, perpetual student, teacher, continual incremental improvement.
+  </div>
+  <a href="/about/" class="btn btn-outline-secondary mt-3" role="button">Read More...</a>
+  <h2 class="mt-4">Featured Posts</h2>
+  
+  
+  <a href="/post/2019-10/authentication-and-authorization-in-k8s/" class="nav-link">Authentication and Authorization in Kubernetes</a>
+  
+  <a href="/post/2018-12/how-to-ask-for-help-on-tech-forums/" class="nav-link">How to Ask for Help on Tech Forums</a>
+  
+  <h2 class="mt-4">Recent Posts</h2>
+  <nav class="nav flex-column">
+    
+    <a href="/post/2020-04/getting-started-with-tkg/" class="nav-link">Getting Started with Tanzu Kubernetes Grid</a>
+    
+    <a href="/post/2020-04/capv-overview/" class="nav-link">Behind the Scenes with Cluster API Provider vSphere</a>
+    
+    <a href="/post/2020-01/buy-dont-build/" class="nav-link">Buy Don&#39;t Build</a>
+    
+    <a href="/post/2020-01/why-k8s-on-vms/" class="nav-link">Why Kubernetes on Virtual Machines?</a>
+    
+    <a href="/post/2020-01/2020-public-domain-day/" class="nav-link">2020 Public Domain Day</a>
+    
+    <a href="/post/2019-10/authentication-and-authorization-in-k8s/" class="nav-link">Authentication and Authorization in Kubernetes</a>
+    
+    <a href="/post/2019-10/pks-rancher-reg/" class="nav-link">pks-rancher-reg: Automated PKS Cluster Registration For Rancher</a>
+    
+    <a href="/post/2019-09/rancher-ha-on-pks/" class="nav-link">Rancher HA on Enterprise PKS</a>
+    
+  </nav>
+  
+  <h2 class="mt-4 text-capitalize" id="categories-section">categories</h2>
+  <nav class="nav">
+    
+    <a href='/categories/technology/' class="nav-link">
+      technology
+      <span class="badge badge-pill badge-secondary">53</span>
+    </a>
+    
+    <a href='/categories/music/' class="nav-link">
+      music
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+  </nav>
+  
+  <h2 class="mt-4 text-capitalize" id="tags-section">tags</h2>
+  <nav class="nav">
+    
+    <a href='/tags/vrealize/' class="nav-link">
+      vrealize
+      <span class="badge badge-pill badge-secondary">27</span>
+    </a>
+    
+    <a href='/tags/vra/' class="nav-link">
+      vra
+      <span class="badge badge-pill badge-secondary">22</span>
+    </a>
+    
+    <a href='/tags/vsphere/' class="nav-link">
+      vsphere
+      <span class="badge badge-pill badge-secondary">14</span>
+    </a>
+    
+    <a href='/tags/k8s/' class="nav-link">
+      k8s
+      <span class="badge badge-pill badge-secondary">9</span>
+    </a>
+    
+    <a href='/tags/sovlabs/' class="nav-link">
+      sovlabs
+      <span class="badge badge-pill badge-secondary">8</span>
+    </a>
+    
+    <a href='/tags/veeam/' class="nav-link">
+      veeam
+      <span class="badge badge-pill badge-secondary">7</span>
+    </a>
+    
+    <a href='/tags/powershell/' class="nav-link">
+      powershell
+      <span class="badge badge-pill badge-secondary">6</span>
+    </a>
+    
+    <a href='/tags/log-insight/' class="nav-link">
+      log-insight
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/pks/' class="nav-link">
+      pks
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/vrops/' class="nav-link">
+      vrops
+      <span class="badge badge-pill badge-secondary">5</span>
+    </a>
+    
+    <a href='/tags/vro/' class="nav-link">
+      vro
+      <span class="badge badge-pill badge-secondary">4</span>
+    </a>
+    
+    <a href='/tags/docker/' class="nav-link">
+      docker
+      <span class="badge badge-pill badge-secondary">3</span>
+    </a>
+    
+    <a href='/tags/vmworld/' class="nav-link">
+      vmworld
+      <span class="badge badge-pill badge-secondary">3</span>
+    </a>
+    
+    <a href='/tags/featured/' class="nav-link">
+      featured
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/nsx-t/' class="nav-link">
+      nsx-t
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/powercli/' class="nav-link">
+      powercli
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/rancher/' class="nav-link">
+      rancher
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/thoughts/' class="nav-link">
+      thoughts
+      <span class="badge badge-pill badge-secondary">2</span>
+    </a>
+    
+    <a href='/tags/ansible/' class="nav-link">
+      ansible
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/authentication/' class="nav-link">
+      authentication
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/forums/' class="nav-link">
+      forums
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/homelab/' class="nav-link">
+      homelab
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/networking/' class="nav-link">
+      networking
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/security/' class="nav-link">
+      security
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+    <a href='/tags/vmtn/' class="nav-link">
+      vmtn
+      <span class="badge badge-pill badge-secondary">1</span>
+    </a>
+    
+  </nav>
+  
+</div>
+
+
+  </div>
+  
+  <footer class="mt-auto footer d-print-none">
+    <a class="to-top" href="#" title="Back to top">
+      <i class="fa fa-caret-up"></i>
+    </a>
+    <div class="container-fluid">
+      <div class="row justify-content-center">
+        <div class="col-md-4 col-xl-3">
+          <h5>Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved.</h5>
+I&#39;m happy for you to share content on this site, but please provide attribution.
+        </div>
+        <div class="col-md-4 col-xl-3">
+          <h5>Disclaimer</h5>
+Opinions expressed here are my own and may not reflect those of the company I work for, or the people I work with.
+        </div>
+        <div class="col-md-4 col-xl-3">
+          <h5>About This Site</h5>
+This blog was created using the <a href="https://gohugo.io/">Hugo</a> static site generator, using
+<a href="https://getbootstrap.com/">Bootstrap</a>, using the Silhouette Hugo theme, created by
+<a href='https://www.mattbutton.com'>Matt Button</a>
+        </div>
+      </div>
+      
+      <hr />
+      
+      <div class="d-flex justify-content-center icons">
+        <a class="py-2 px-2" href="https://github.com/chipzoller"><i class="fab fa-github"></i></a>
+<a class="py-2 px-2" href="https://twitter.com/chipzoller"><i class="fab fa-twitter"></i></a>
+<a class="py-2 px-2" href="https://www.linkedin.com/in/chipzoller/"><i class="fab fa-linkedin"></i></a>
+<a class="py-2 px-2" href='https://neonmirrors.net/index.xml'><i class="fas fa-rss"></i></a>
+
+      </div>
+    </div>
+  </footer>
+  
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script src="/js/syntax.js"></script>
+  <script src = '/js/index.js'></script>
+  
+  
+</body>
+</html>

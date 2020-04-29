@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>vrops on Neon Mirrors</title>
+    <link>https://neonmirrors.net/tags/vrops/</link>
+    <description>Recent content in vrops on Neon Mirrors</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <copyright>Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved.</copyright>
+    <lastBuildDate>Thu, 03 Jan 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://neonmirrors.net/tags/vrops/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Deploying VMware Agents with Ansible</title>
+      <link>https://neonmirrors.net/post/2019-01/deploying-vmware-agents-with-ansible/</link>
+      <pubDate>Thu, 03 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2019-01/deploying-vmware-agents-with-ansible/</guid>
+      <description>Although there are numerous deployment and config management tools out there, none have had as much traction and continued success as Ansible. Purchased by Red Hat in October 2015, Ansible continues to gain steam in every corner. One of the great things about it and keys to its success is its agentless design. Rather that installing and maintaining a persistent agent inside your managed node, Ansible uses SSH/WinRM to conduct its operations.</description>
+    </item>
+    
+    <item>
+      <title>Deploying End Point Operations Agents through vRA</title>
+      <link>https://neonmirrors.net/post/2018-01/deploying-epops-agents-through-vra/</link>
+      <pubDate>Tue, 02 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2018-01/deploying-epops-agents-through-vra/</guid>
+      <description>vRealize Automation is useful for deploying a variety of different items as-a-service, from simple IaaS to databases to container hosts and, of course applications. And most of these have been demonstrated to date. One other piece that is often forgotten about is monitoring agents on these systems, or maybe it’s done as a manual process after the fact (which defeats the purpose of cloud automation). In the past, I’ve provided a few blueprints that automates this process for the Log Insight agents for Windows and Linux.</description>
+    </item>
+    
+    <item>
+      <title>Monitoring Windows disk space usage with vROps super metrics</title>
+      <link>https://neonmirrors.net/post/2017-10/monitoring-windows-disk-space-with-vrops-sm/</link>
+      <pubDate>Sun, 15 Oct 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2017-10/monitoring-windows-disk-space-with-vrops-sm/</guid>
+      <description>Although vRealize Operations Manager (vROps) is a great tool for a variety of reasons, one of the more useful abilities it brings to a datacenter is the ability to look inside the guest OS and tell you about its state. Back in 6.2 or maybe 6.3, VMware added the ability to look at guest OS metrics. One of the things they added was guest file system stats on a per-drive basis.</description>
+    </item>
+    
+    <item>
+      <title>Monitoring Veeam Backup &amp; Replication with vROps</title>
+      <link>https://neonmirrors.net/post/2017-09/monitoring-veeam-with-vrops/</link>
+      <pubDate>Mon, 25 Sep 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2017-09/monitoring-veeam-with-vrops/</guid>
+      <description>Backup servers, I think we can all agree, are of primary importance. We rely upon them for business continuity as much as we rely upon other systems of primary record like Active Directory or DNS. So why is it that we monitor the latter systems with such fervor and the former not at all? Often times, we don’t know that backup systems are impacted until we go to attempt a restore when it’s necessary only to find it doesn’t work or you don’t have the needed restore point.</description>
+    </item>
+    
+    <item>
+      <title>Log Insight and Alerting When There Are No More Logs for Insight</title>
+      <link>https://neonmirrors.net/post/2017-07/log-insight-and-alerting/</link>
+      <pubDate>Mon, 17 Jul 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2017-07/log-insight-and-alerting/</guid>
+      <description>Logging is an extremely important and, in some cases, essential part of a successful data center. That’s why you use a tool like Log Insight to aggregate, query, and alert on them. There are a variety of reasons why having your systems report their logs are crucial. They could be things like compliance: you are bound by law or maybe just company policy to keep log data for a certain period of time.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>networking on Neon Mirrors</title>
+    <link>https://neonmirrors.net/tags/networking/</link>
+    <description>Recent content in networking on Neon Mirrors</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <copyright>Copyright © 2020, Chip Zoller and the Hugo Authors; all rights reserved.</copyright>
+    <lastBuildDate>Tue, 03 Sep 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://neonmirrors.net/tags/networking/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>HTTPS Ingress with Enterprise PKS</title>
+      <link>https://neonmirrors.net/post/2019-09/https-ingress-with-pks/</link>
+      <pubDate>Tue, 03 Sep 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://neonmirrors.net/post/2019-09/https-ingress-with-pks/</guid>
+      <description>Kubernetes is an awesome technology, in my humble opinion, and one of the best ways to adopt it and begin to use it in a production-worthy manner is with VMware’s Enterprise PKS. By using Enterprise PKS, you get some truly great additional value by leveraging NSX-T for the networking and security components. One of those things that comes in so handy is the ingress controller capabilities of NSX-T in which you don’t need to go roll your own.</description>
+    </item>
+    
+  </channel>
+</rss>
