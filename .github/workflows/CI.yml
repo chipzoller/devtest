@@ -14,12 +14,13 @@ jobs:
       with:
         submodules: true  # Fetch Hugo themes
         fetch-depth: 0    # Fetch all history for .GitInfo and .Lastmod
+        ref: master
     # Ensure the site succeeds Hugo builds.
     - name: Build site with Hugo
       uses: lowply/build-hugo@v0.69.0
     - name: List files in "public"
       run: |
-        ls -lah public/
+        ls -lah public/post/2020-04/
     - name: Upload public dir as artifact
       uses: actions/upload-artifact@v1
       with:
