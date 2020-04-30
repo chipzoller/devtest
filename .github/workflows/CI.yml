@@ -1,6 +1,6 @@
 name: CI
-author: "Chip Zoller <github.com/chipzoller>"
-description: "Builds and publishes a Hugo static site to AWS S3 and invalidates CloudFront cache."
+# author: "Chip Zoller <github.com/chipzoller>"
+# description: "Builds and publishes a Hugo static site to AWS S3 and invalidates CloudFront cache."
 on:
   push:
     branches: 
