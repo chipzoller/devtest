@@ -1,2 +1,2 @@
 - name: CI
-  uses: chipzoller/action-hugo-publish-aws@1.0
+  uses: chipzoller/action-hugo-publish-aws@1.1
