@@ -1,2 +1,2 @@
-- name: Publish Hugo to AWS S3
-  uses: chipzoller/action-hugo-publish-aws@1.1
+- name: 'Publish Hugo to AWS S3'
+  uses: chipzoller/action-hugo-publish-aws@1.1.1
