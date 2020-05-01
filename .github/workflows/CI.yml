@@ -1,3 +1,10 @@
+# PREREQUISITES:
+# The following secrets must be stored in your repository where this Action runs:
+# AWS_ACCESS_KEY_ID
+# AWS_CLOUDFRONT_DISTRO_ID
+# AWS_S3_BUCKET_NAME
+# AWS_SECRET_ACCESS_KEY
+
 name: CI
 on:
   push:
@@ -7,12 +14,14 @@ on:
     branches: 
     - master
 env:
+  # Default AWS region where S3 pushes and CloudFront invalidations will occur.
   AWS-DEFAULT-REGION: us-east-2
+  # Name of the branch in your repository which will store your generated site.
   SITE-BRANCH: site
 
 jobs:
   build:
-  # In this phase, the code is pulled from master and the site rendered in hugo. The built site is stored as an artifact for other stages.
+  # In this phase, the code is pulled from master and the site rendered in Hugo. The built site is stored as an artifact for other stages.
     runs-on: ubuntu-18.04
     steps:
     # Check out master branch from the repo.
@@ -36,7 +45,7 @@ jobs:
     runs-on: ubuntu-18.04
     needs: build
     steps:
-    # We check out the "site" branch this time since we have to ultimately commit those changes there.
+    # Check out the site branch this time since we have to ultimately commit those changes there.
     - name: Checkout site branch
       uses: actions/checkout@v2
       with:
@@ -54,21 +63,21 @@ jobs:
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add -A public/
-        git commit -m "Publish neonmirrors to site" -a
-    # Push those changes back to the "site" branch.
+        git commit -m "Publish generated Hugo site." -a
+    # Push those changes back to the site branch.
     - name: Push to site branch
       uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         branch: ${{ env.SITE-BRANCH }}
-    # Since we're about to connect to AWS, we need to store the credentials on the runner.
+    # Store the AWS credentials on the runner.
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ env.AWS-DEFAULT-REGION }}
-    # Now we can connect, we use s5cmd to perform only a delta sync to the S3 bucket. This minimizes transfer traffic since it only uploads changed files.
+    # Use s5cmd to perform only a delta sync to the destination S3 bucket. This minimizes transfer traffic since it only uploads changed files.
     - name: Delta sync site to S3 bucket
       run: |
         curl -sLO https://github.com/peak/s5cmd/releases/download/v1.0.0/s5cmd_1.0.0_Linux-64bit.tar.gz
@@ -80,13 +89,13 @@ jobs:
         echo "****Running delta sync against S3.****"
         s5cmd cp -s public/ s3://${{ secrets.AWS_S3_BUCKET_NAME }}
   invalidate:
-  # In the invalidate phase, now the site has been uploaded to S3, we need to invalidate the CloudFront cache so the new site gets picked up and available to users.
+  # Now the site has been uploaded to S3, we need to invalidate the CloudFront cache so the new site gets picked up and available to users.
     runs-on: ubuntu-18.04
     needs:
       - build
       - publish
     steps:
-      # Like in the publish phase, since we're about to connect to AWS we need to store our creds.
+      # Store the AWS credentials on the runner.
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
