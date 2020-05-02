@@ -64,7 +64,7 @@ jobs:
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add -A public/
-        commit_message=$(git commit -m "Publish generated Hugo site." -a || true)
+        commit_message=$(git commit -m "Publish generated Hugo site." -a | tr -d '\n' || true)
         echo "::set-output name=commit_message::$commit_message"
     # Checks if previous stage had any valid commit..
     - name: echo commit message from last step
