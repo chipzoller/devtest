@@ -58,14 +58,12 @@ jobs:
       with:
         name: public
     # Add all the files/changes in public/ that were pulled down from the build stage and then commit them.
-    - name: Add all files in public
+    - name: Commit files
+      id: can_commit
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add -A public/
-    - name: Commit files
-      id: can_commit
-      run: |
         commit_message=$(git commit -m "Publish generated Hugo site." -a || true)
         echo "::set-output name=commit_message::$commit_message"
     # Checks if previous stage had any valid commit..
