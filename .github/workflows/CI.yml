@@ -104,7 +104,7 @@ jobs:
     needs:
       - build
       - publish
-    if: jobs.publish.steps.nothing_committed.conclusion == 'skipped'
+    if: publish.steps.nothing_committed.conclusion == 'skipped'
     steps:
       # Store the AWS credentials on the runner.
       - name: Configure AWS credentials
