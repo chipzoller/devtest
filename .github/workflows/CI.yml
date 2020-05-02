@@ -65,6 +65,7 @@ jobs:
         git config --local user.name "GitHub Action"
         git add -A public/
         commit_message=$(git commit -m "Publish generated Hugo site." -a || true)
+        echo "Commit message: $commit_message"
         echo "::set-output name=commit_message::$commit_message"
     # Checks if previous stage had any valid commit..
     - name: Nothing to commit
