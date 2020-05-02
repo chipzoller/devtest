@@ -58,6 +58,8 @@ jobs:
       with:
         name: public
     # Add all the files/changes in public/ that were pulled down from the build stage and then commit them.
+    # The final line sets a GitHub Action output value that can be read by other steps.
+    # This function cannot store mult-line values so newline chars must be stripped.
     - name: Commit files
       id: can_commit
       run: |
@@ -67,8 +69,6 @@ jobs:
         commit_message=$(git commit -m "Publish generated Hugo site." -a | tr -d '\n' || true)
         echo "::set-output name=commit_message::$commit_message"
     # Checks if previous stage had any valid commit..
-    - name: echo commit message from last step
-      run: echo ${{ steps.can_commit.outputs.commit_message }}
     - name: Nothing to commit
       id: nothing_committed
       if: contains(steps.can_commit.outputs.commit_message, 'nothing to commit')
@@ -101,5 +101,6 @@ jobs:
         echo "****Running delta sync against S3.****"
         s5cmd cp -s public/ s3://${{ secrets.AWS_S3_BUCKET_NAME }}
     # Use the aws cli tool to perform a glob invalidation of the entire site against CloudFront.
-    # - name: Invalidate cache on CloudFront
-    #   run: aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_CLOUDFRONT_DISTRO_ID }} --paths "/*"
+    - name: Invalidate cache on CloudFront
+      if: steps.nothing_committed.conclusion == 'skipped'
+      run: aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_CLOUDFRONT_DISTRO_ID }} --paths "/*"
