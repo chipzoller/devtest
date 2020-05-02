@@ -68,7 +68,7 @@ jobs:
         echo "::set-output name=commit_message::$commit_message"
     - name: Nothing to commit
       id: no_commit
-      if: contains(steps.can_commit.outputs.commit_message, "nothing to commit")
+      if: contains(steps.can_commit.outputs.commit_message, 'nothing to commit')
       run: echo "saw that no changes were made"
     # Push those changes back to the site branch.
     - name: Push to site branch
