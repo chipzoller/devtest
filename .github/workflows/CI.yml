@@ -59,11 +59,17 @@ jobs:
         name: public
     # Add all the files/changes in public/ that were pulled down from the build stage and then commit them.
     - name: Commit all files in public
+      id: can_commit
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add -A public/
-        git commit -m "Publish generated Hugo site." -a
+        commit_message=$(git commit -m "Publish generated Hugo site." -a || true)
+        echo "::set-output name=commit_message::$commit_message"
+    - name: Nothing to commit
+      id: no_commit
+      if: contains(${{ steps.can_commit.outputs.commit_message }}, "nothing to commit")
+      run: echo "saw that no changes were made"
     # Push those changes back to the site branch.
     - name: Push to site branch
       uses: ad-m/github-push-action@master
