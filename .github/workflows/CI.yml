@@ -69,6 +69,8 @@ jobs:
         commit_message=$(git commit -m "Publish generated Hugo site." -a || true)
         echo "::set-output name=commit_message::$commit_message"
     # Checks if previous stage had any valid commit..
+    - name: echo commit message from last step
+      run: echo ${{ steps.can_commit.outputs.commit_message }}
     - name: Nothing to commit
       id: nothing_committed
       if: contains(steps.can_commit.outputs.commit_message, 'nothing to commit')
