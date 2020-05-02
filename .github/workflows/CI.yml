@@ -66,10 +66,10 @@ jobs:
         git add -A public/
         commit_message=$(git commit -m "Publish generated Hugo site." -a || true)
         echo "::set-output name=commit_message::$commit_message"
-    # Checks if previous stage had any valid commit..
+    # Checks if previous stage had any valid commit.
     - name: Nothing to commit
       id: nothing_committed
-      if: contains(steps.can_commit.outputs.commit_message, "nothing")
+      if: contains(${{ steps.can_commit.outputs.commit_message }}, "nothing to commit")
       run: echo "Saw that no changes were made to Hugo site."
     # Push those changes back to the site branch.
     - name: Push to site branch
