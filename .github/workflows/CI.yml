@@ -71,7 +71,7 @@ jobs:
     # Checks if previous stage had any valid commit..
     - name: Nothing to commit
       id: nothing_committed
-      if: contains(steps.can_commit.outputs.commit_message, 'nothing to commit')
+      if: contains(steps.can_commit.outputs.commit_message, 'Your')
       run: echo "Saw that no changes were made to Hugo site."
     # Push those changes back to the site branch.
     - name: Push to site branch
