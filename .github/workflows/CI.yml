@@ -41,7 +41,7 @@ jobs:
         name: public
         path: public/
   publish:
-  # In the publish phase, the site is pushed up to a different branch called "site" and also delta synchronized to the S3 bucket.
+  # In the publish phase, the site is pushed up to a different branch which only stores the public/ folder ("site" branch) and is also delta synchronized to the S3 bucket. CloudFront invalidation happens last.
     runs-on: ubuntu-18.04
     needs: build
     steps:
@@ -68,7 +68,7 @@ jobs:
         git add -A public/
         commit_message=$(git commit -m "Publish generated Hugo site." -a | tr -d '\n' || true)
         echo "::set-output name=commit_message::$commit_message"
-    # Checks if previous stage had any valid commit..
+    # Checks if previous stage had any valid commit.
     - name: Nothing to commit
       id: nothing_committed
       if: contains(steps.can_commit.outputs.commit_message, 'nothing to commit')
